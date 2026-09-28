@@ -409,6 +409,48 @@ body[data-ch="1"]{--mote:#BFE8FF}
 .lite .motes i{box-shadow:none}
 .lite .tile{box-shadow:0 6px 0 rgba(0,0,0,.3)}
 
+
+/* ===== chapter 3 ===== */
+.qline{display:flex;align-items:flex-end;gap:clamp(4px,1.4vw,12px);flex-wrap:wrap;justify-content:center;padding:14px 12px;border-radius:24px;background:rgba(255,255,255,.06);border:2px dashed rgba(255,217,138,.35);max-width:96%}
+.booth{width:clamp(56px,10vw,90px)}.booth svg{width:100%;height:auto;display:block}
+.qp{position:relative;font-size:clamp(42px,min(8vw,9vh),76px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;transition:transform .2s}
+.qp.counted{transform:scale(1.12)}
+.qp[data-n]::after{content:attr(data-n);position:absolute;top:-10px;right:-8px;background:var(--gold2);color:var(--deep);font-family:var(--latin);font-weight:800;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:15px;padding-top:2px;box-sizing:border-box}
+.qslot{width:clamp(50px,9vw,80px);height:clamp(70px,12vw,110px);border-radius:18px;border:3px dashed var(--gold);color:var(--gold);font-family:var(--latin);font-weight:800;font-size:30px;display:grid;place-items:center;background:rgba(255,217,138,.08)}
+.qslot.me{border-style:solid;background:rgba(255,217,138,.18);padding:2px}
+.qslot.me svg{height:100%;width:auto}
+.tableset{display:flex;flex-direction:column;align-items:center;gap:10px}
+.mat{display:grid;grid-template-columns:repeat(3,clamp(76px,min(15vw,15vh),130px));grid-template-rows:repeat(2,clamp(76px,min(15vw,15vh),130px));gap:10px;padding:14px;border-radius:28px;background:linear-gradient(180deg,#F6C8DC,#E89AC0);box-shadow:0 0 24px rgba(255,160,200,.35)}
+.mat .tslot[data-v="top"]{grid-column:3;grid-row:1}.mat .tslot[data-v="left"]{grid-column:1;grid-row:2}.mat .plate{grid-column:2;grid-row:2}.mat .tslot[data-v="right"]{grid-column:3;grid-row:2}
+.tslot{border-radius:50%;border:3px dashed #8A3A6A;background:rgba(255,255,255,.35);display:grid;place-items:center;font-size:clamp(40px,7vw,64px)}
+.tslot.filled{border-style:solid;background:rgba(255,255,255,.6)}
+.tslot svg,.plate svg{width:80%;height:80%}
+.plate{display:grid;place-items:center}
+.thold{display:flex;flex-direction:column;align-items:center;min-height:90px}
+.thold .emo{font-size:clamp(50px,9vw,76px);line-height:1.1}.thold .emo svg{width:1.05em;height:1.05em}
+.thold .lbl{font-size:18px}
+.cookies{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:min(600px,92vw);min-height:60px}
+.cookie{width:clamp(44px,8vw,64px);aspect-ratio:1;animation:drop .5s cubic-bezier(.3,1.4,.5,1) backwards;animation-delay:var(--dl)}
+.cookie svg{width:100%;height:100%}.cookie.gone{visibility:hidden}
+.plates{display:flex;gap:clamp(8px,2vw,18px);flex-wrap:wrap;justify-content:center}
+.fplate{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 10px;border-radius:22px;background:rgba(255,255,255,.08);border:2px solid var(--goldline);min-width:clamp(80px,14vw,120px)}
+.ff{font-size:clamp(36px,6vw,50px);line-height:1}
+.pl{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;min-height:30px;max-width:130px}
+.pl i{display:inline-block}.pl i svg{width:32px;height:32px;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.dfloor{position:relative;height:clamp(150px,28vh,260px);width:min(90%,420px);display:flex;justify-content:center;align-items:flex-end;border-radius:50% 50% 20px 20px/30% 30% 20px 20px;background:radial-gradient(ellipse at 50% 100%,rgba(255,217,138,.35),transparent 70%)}
+.dancer{height:100%}.dancer svg{height:100%;width:auto}
+.mv-clap{animation:mvclap .9s ease}.mv-up{animation:mvup .9s ease}.mv-stomp{animation:mvstomp .9s ease}.mv-spin{animation:mvspin .9s ease}
+@keyframes mvclap{20%,60%{transform:scale(1.06,.96)}40%,80%{transform:scale(.96,1.04)}}
+@keyframes mvup{40%{transform:translateY(-26px) scale(1.04)}}
+@keyframes mvstomp{25%,75%{transform:translateY(6px) scale(1.05,.92)}50%{transform:translateY(-8px)}}
+@keyframes mvspin{50%{transform:scaleX(-1)}}
+.moves{display:flex;gap:clamp(8px,2vw,18px);flex-wrap:wrap;justify-content:center}
+.mv{width:clamp(96px,min(17vw,19vh),150px)!important}
+.mv[disabled]{opacity:.55}
+.mv.lit{opacity:1;border-color:#fff;box-shadow:0 0 28px rgba(255,230,150,.9);transform:scale(1.08)}
+.pin{font:inherit;font-size:22px;width:120px;padding:8px 14px;border-radius:14px;border:2px solid var(--goldline);background:var(--glass2);color:var(--text);text-align:center}
+.bk{width:100%;box-sizing:border-box;min-height:70px;font-size:12px;font-family:monospace;border-radius:12px;border:2px solid var(--goldline);background:var(--glass2);color:var(--text2);padding:8px;word-break:break-all}
+
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
@@ -912,6 +954,19 @@ function petAcc(acc,g){
 function petSVG(kind,acc,a=''){const g=nid();
  const defs=`<defs><linearGradient id="${g}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DCD2FF"/></linearGradient><linearGradient id="${g}o" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB36B"/><stop offset="1" stop-color="#F07A2E"/></linearGradient><linearGradient id="${g}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4B8"/><stop offset="1" stop-color="#FFB33A"/></linearGradient><filter id="${g}f" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
 
+
+ if(kind==='swan')return `<svg viewBox="0 0 120 110" ${a} aria-hidden="true">${defs}
+  <ellipse cx="58" cy="98" rx="46" ry="6" fill="#9FD8FF" opacity=".35"/>
+  <g class="tail" style="transform-origin:26px 70px"><path d="M26 74 Q8 58 14 48 Q22 60 34 64Z" fill="#FFFFFF"/></g>
+  <path d="M20 72 Q24 96 58 96 Q92 96 96 74 Q80 82 60 76 Q40 62 20 72Z" fill="url(#${g}b)"/><path d="M32 72 Q52 58 78 74 Q60 86 36 82Z" fill="#EEE8FF"/><path d="M40 74 Q54 66 70 76" stroke="#D9CCFF" stroke-width="2" fill="none"/>
+  ${acc==='pcape'?petAcc(acc,g):''}
+  <g class="nod" style="transform-origin:90px 76px"><path d="M84 78 Q74 52 84 36 Q92 24 102 30 Q92 38 92 52 Q94 66 96 76Z" fill="#FFFFFF"/>
+  <circle cx="96" cy="30" r="12" fill="#FFFFFF"/><path d="M105 26 L118 31 L105 36Z" fill="#FFA43A"/><path d="M103 25 Q106 31 103 37" stroke="#3A2A3A" stroke-width="2.4" fill="none"/>
+  <g class="blink" style="transform-origin:98px 28px"><ellipse cx="98" cy="27" rx="2.4" ry="3.2" fill="#3A2A5C"/><circle cx="98.8" cy="26" r="1" fill="#fff"/></g>
+  <ellipse cx="92" cy="34" rx="3.4" ry="2.2" fill="#FF8FAB" opacity=".55"/>
+  <path d="M88 20 L90 11 L94 17 L97 9 L100 17 L104 11 L105 20Z" fill="url(#${g}g)"/>
+  ${acc&&acc!=='pcape'?`<g transform="translate(16 2)">${petAcc(acc,g)}</g>`:''}</g>
+  <path class="tw" d="${sparkD(112,14,3.4)}" fill="#FFF6D0"/><path class="tw" style="animation-delay:1s" d="${sparkD(64,40,2.6)}" fill="#FFF6D0"/></svg>`;
  if(kind==='moonrabbit')return `<svg viewBox="0 0 120 110" ${a} aria-hidden="true">${defs}
   <g class="tail" style="transform-origin:26px 80px"><circle cx="22" cy="80" r="10" fill="#FFFFFF"/></g>
   <ellipse cx="56" cy="80" rx="31" ry="22" fill="url(#${g}b)"/><ellipse cx="42" cy="100" rx="13" ry="6" fill="#F4F0FF"/><ellipse cx="72" cy="100" rx="13" ry="6" fill="#F4F0FF"/>
@@ -1315,9 +1370,15 @@ story(){
   {bg:'lake',actors:()=>`<div class="bob">${owlLetter()}</div>`,text:'貓頭鷹說：第二封信，藏在小鎮裡。跟著公主的一天，把事情一件一件做好，就能找到它！'},
   {bg:'lake',actors:()=>`${myPet('class="small"')}${princess(S.look)}`,text:'新的一天開始了！先換上漂亮的衣服吧！'}
  ];
+ const P3=[
+  {bg:'hall',actors:()=>`<span class="bob">${myPet('class="small"')}</span>${princess(S.look)}`,text:'拿著第二封信，公主來到了王子的城堡。今天晚上，有一場好盛大的舞會！'},
+  {bg:'hall',actors:()=>`<div class="bob">${owlLetter()}</div>`,text:'貓頭鷹說：舞會上要當一個有禮貌的小公主。表現得好，就能拿到第三封信喔！'},
+  {bg:'hall',actors:()=>`${myPet('class="small"')}${princess(S.look)}`,text:'舞會要開始了，先換上最漂亮的衣服吧！'}
+ ];
  if(S.ch===1)P.splice(0,P.length,...P2);
+ if(S.ch===2)P.splice(0,P.length,...P3);
  let i=0;
- const bgSVG=k=>k==='castle'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${Array.from({length:40},(_,j)=>`<circle class="tw" style="animation-delay:${(j*.23%2.4).toFixed(2)}s" cx="${(j*97)%800}" cy="${(j*53)%260}" r="${1+(j%3)*.6}" fill="#FFF6D8"/>`).join('')}${castle('x="270" y="60" width="260" height="224" opacity=".55"')}<path d="M0 330 Q200 290 400 330 T800 320 V400 H0Z" fill="#262B6C"/></svg>`:k==='lake'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${lakeBg(800,400)}</svg>`:`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${forestBg(800,400,{flies:24})}</svg>`;
+ const bgSVG=k=>k==='hall'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${hallBg(800,400)}</svg>`:k==='castle'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${Array.from({length:40},(_,j)=>`<circle class="tw" style="animation-delay:${(j*.23%2.4).toFixed(2)}s" cx="${(j*97)%800}" cy="${(j*53)%260}" r="${1+(j%3)*.6}" fill="#FFF6D8"/>`).join('')}${castle('x="270" y="60" width="260" height="224" opacity=".55"')}<path d="M0 330 Q200 290 400 330 T800 320 V400 H0Z" fill="#262B6C"/></svg>`:k==='lake'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${lakeBg(800,400)}</svg>`:`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${forestBg(800,400,{flies:24})}</svg>`;
  function render(){const p=P[i];
   screen.innerHTML=`<div class="story"><button class="skip" id="skip">跳過</button><div class="scard">
    ${p.scroll?`<div class="scroll">${p.text}<span class="sign">—— 王子</span>${sealSVG()}</div>`:`<div class="scene">${bgSVG(p.bg)}<div class="actors">${p.actors()}</div></div><p class="stext">${p.text}</p>`}
@@ -1391,7 +1452,7 @@ map(first){
  for(let i=1;i<P.length;i++){const[a,b]=[P[i-1],P[i]];if(Math.abs(b[0]-a[0])>=Math.abs(b[1]-a[1])){const mx=(a[0]+b[0])/2;d+=` C${mx} ${a[1]} ${mx} ${b[1]} ${b[0]} ${b[1]}`}else{const my=(a[1]+b[1])/2,bx=Math.max(a[0],b[0])+60;d+=` C${bx} ${a[1]} ${bx} ${b[1]} ${b[0]} ${b[1]}`}}
  const g=nid();
  let svg=`<defs><radialGradient id="${g}n" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#4A40A0"/><stop offset="1" stop-color="#241E68"/></radialGradient><filter id="${g}f" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="${g}r" x1="0" x2="1"><stop offset="0" stop-color="#FF7FB8"/><stop offset="1" stop-color="#A98BF0"/></linearGradient></defs>
-  ${CHAPTERS[S.ch].bg==='lake'?lakeBg(W,H):`<g transform="translate(-400 0)">${forestBg(W+800,H,{flies:30})}</g>`}
+  ${CHAPTERS[S.ch].bg==='hall'?hallBg(W,H):CHAPTERS[S.ch].bg==='lake'?lakeBg(W,H):`<g transform="translate(-400 0)">${forestBg(W+800,H,{flies:30})}</g>`}
   <path id="mpath" d="${d}" fill="none" stroke="rgba(255,217,138,.16)" stroke-width="30" stroke-linecap="round"/>
   <path class="trail" d="${d}" fill="none" stroke="#FFD98A" stroke-width="7" stroke-dasharray="2 19" stroke-linecap="round" filter="url(#${g}f)"/>
   <g transform="translate(${W/2} ${port?60:52})"><rect x="-150" y="-26" width="300" height="52" rx="14" fill="url(#${g}r)"/><text class="banner" text-anchor="middle" y="12">${CHAPTERS[S.ch].title}</text></g>`;
@@ -1461,7 +1522,9 @@ function parentPanel(){
   <div><span class="lab">休息提醒</span><div class="seg">${[0,10,15,20].map(m=>`<button data-rest="${m}" aria-pressed="${S.rest===m}">${m?m+' 分鐘':'關閉'}</button>`).join('')}</div></div>
   <div><span class="lab">流暢模式（舊平板建議開啟）</span><div class="seg"><button data-lite="1" aria-pressed="${!!S.lite}">開</button><button data-lite="0" aria-pressed="${!S.lite}">關</button></div></div>
   <div><span class="lab">學習小報告</span>${reportHTML()}<button class="btn2 small" id="rreset" style="margin-top:8px">清除紀錄</button></div>
+  <div><span class="lab">家長模式</span><div class="vrow"><button class="btn2 small" id="pmode">跳關・寶石・備份存檔</button></div></div>
   <button class="btn" id="pdone">好了</button></div>`);
+ $('#pmode',ov).onclick=()=>{ov.remove();parentGate(parentTools)};
  $$('[data-rest]',ov).forEach(b=>b.onclick=()=>{S.rest=+b.dataset.rest;save();$$('[data-rest]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $$('[data-lite]',ov).forEach(b=>b.onclick=()=>{S.lite=b.dataset.lite==='1';save();applyLite();$$('[data-lite]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $('#rreset',ov).onclick=()=>{S.stats={types:{},weak:{}};save();ov.remove();parentPanel()};
@@ -1847,7 +1910,7 @@ story(play,sp){
 
 /* ================= chapter select ================= */
 SCREENS.chapters=function(){
- const CH=[...CHAPTERS.map((c,i)=>({...c,i})),{name:'城堡舞會',lock:1},{name:'魔法博物館',lock:1},{name:'彩虹城堡',lock:1}];
+ const CH=[...CHAPTERS.map((c,i)=>({...c,i})),...[{name:'城堡舞會',lock:1},{name:'魔法博物館',lock:1},{name:'彩虹城堡',lock:1}].slice(CHAPTERS.length-2)];
  screen.innerHTML=`<div class="chsel"><h2 class="gtitle">選一個章節</h2><div class="chgrid">${CH.map((c,i)=>{const open=!c.lock&&i<=S.chDone;const p=S.progs[i]||0;
   return `<button class="chcard${open?'':' lockd'}" data-i="${i}" ${open?'':'aria-disabled="true"'}><span class="chn">第${'一二三四五'[i]}章</span><b>${c.name}</b><span class="chp">${c.lock?'即將推出':open?(p>=10?'已完成 ✓':`${p} / 10 關`):'完成上一章就能打開'}</span>${open?'':`<span class="lk">${ICON.lock('#FFD98A')}</span>`}</button>`}).join('')}</div>
   <button class="btn2" id="back">回首頁</button></div>`;
@@ -1941,6 +2004,159 @@ function starsRow(x,y,n){return [0,1,2].map(k=>`<path d="${starD(x+(k-1)*17,y,8)
 function reportHTML(){const T=S.stats.types;const rows=Object.entries(T).filter(([k,v])=>v.n>0).map(([k,v])=>{const p=Math.round(v.first/v.n*100);return `<div class="rrow"><span>${TNAME[k]||k}</span><span class="rbar"><i style="width:${p}%"></i></span><b>${p}%</b></div>`}).join('');
  const weak=Object.entries(S.stats.weak).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,n])=>`<span class="wchip">${k}<b>×${n}</b></span>`).join('');
  return rows?`<div class="report">${rows}</div><p class="small">一次就答對的比例</p>${weak?`<div class="wlist"><span class="lab">常答錯</span>${weak}</div>`:''}`:'<p class="small">還沒有紀錄，玩幾關之後再來看看。</p>'}
+
+
+/* ================= chapter 3 ================= */
+const MANNER=[
+ ['greet','☀️','早上見到老師，要說什麼？',['🙋','老師早！'],[['🙈','假裝沒看到'],['😝','做鬼臉']],'見到人要有禮貌地打招呼。'],
+ ['greet','👵','奶奶來家裡玩，要說什麼？',['👋','奶奶好！'],[['🏃','跑去躲起來'],['📺','繼續看電視']],'有客人來，要大聲說你好。'],
+ ['greet','🌙','晚上要睡覺了，要跟爸媽說什麼？',['😴','晚安！'],[['☀️','早安！'],['👋','再見！']],'睡覺前要說晚安。'],
+ ['greet','🚪','朋友要回家了，要說什麼？',['👋','再見，下次見！'],[['😤','哼！'],['🤐','不說話']],'朋友要走了，揮揮手說再見。'],
+ ['greet','🚪','別人幫你開門，要說什麼？',['🙏','謝謝！'],[['😠','走開！'],['🤐','不說話']],'別人幫忙，要說謝謝。'],
+ ['greet','🙋','想借朋友的色筆，要怎麼說？',['🖍️','可以借我嗎？'],[['✊','直接搶過來'],['😭','大哭']],'想借東西，要先問「可以借我嗎」。'],
+ ['care','🤕','朋友跌倒哭了，你可以怎麼做？',['🤗','扶他起來，問他痛不痛'],[['😆','在旁邊笑'],['🏃','跑走不管他']],'朋友跌倒了要關心他，也可以請大人幫忙。'],
+ ['care','😢','好朋友很難過，你可以怎麼做？',['🤗','抱抱他、陪陪他'],[['😝','取笑他'],['🙉','不理他']],'朋友難過的時候，陪在他身邊就是最好的幫忙。'],
+ ['care','🤒','媽媽生病了，你可以怎麼做？',['🥛','倒一杯水給她'],[['📢','在旁邊大叫'],['🧸','吵著要玩']],'家人生病了，要安靜，讓他好好休息。'],
+ ['care','🐱','看到小貓咪，要怎麼對待牠？',['🤲','輕輕地摸'],[['🦶','用腳踢'],['🪨','丟石頭']],'對小動物要溫柔喔。'],
+ ['care','🧒','新朋友一個人站在旁邊，你可以怎麼做？',['🙌','邀請他一起玩'],[['🙈','假裝沒看到'],['😠','叫他走開']],'邀請新朋友一起玩，大家都會很開心。'],
+ ['gift','🎁','收到禮物的時候，要說什麼？',['🙏','謝謝你！'],[['😒','我不喜歡'],['🤐','不說話']],'收到禮物要說謝謝。'],
+ ['gift','🎁','收到不太喜歡的禮物，要怎麼做？',['😊','還是說謝謝'],[['😭','大哭'],['🗑️','丟掉']],'送禮物的人很用心，還是要說謝謝喔。'],
+ ['gift','🎂','朋友生日，你可以怎麼做？',['🎉','祝他生日快樂'],[['🍰','偷吃他的蛋糕'],['😤','生氣']],'朋友生日，要祝他生日快樂！'],
+ ['gift','🎲','玩遊戲輸了，要怎麼做？',['🤝','跟贏的人說恭喜'],[['😡','生氣摔東西'],['😭','一直哭鬧']],'輸了也沒關係，下次再加油！'],
+ ['gift','🍬','只有一顆糖，兩個人都想要，可以怎麼做？',['✂️','分一半或輪流'],[['😤','搶過來'],['🤫','偷偷吃掉']],'一起分享或輪流，大家都開心。'],
+ ['public','📚','在圖書館裡要怎麼說話？',['🤫','小小聲'],[['📢','大聲叫'],['🎤','唱歌']],'圖書館要小小聲，才不會吵到別人看書。'],
+ ['public','🍽️','在餐廳吃飯時要怎麼做？',['🪑','坐好慢慢吃'],[['🏃','跑來跑去'],['📢','大聲吵鬧']],'在餐廳要坐好，跑來跑去很危險。'],
+ ['public','🚌','在公車上要怎麼做？',['🧍','坐好或抓好扶手'],[['🤸','跳來跳去'],['🍔','亂丟垃圾']],'在車上要坐好或抓好，才安全。'],
+ ['public','🎬','看表演的時候要怎麼做？',['🤫','安靜地看'],[['📢','大聲聊天'],['🦶','踢前面的椅子']],'看表演要安靜，大家才看得清楚、聽得清楚。'],
+ ['public','👂','別人在說話的時候，要怎麼做？',['👂','安靜聽他說完'],[['🗣️','插嘴大聲說'],['🙉','摀住耳朵']],'等別人說完，再輪到你說。'],
+ ['help','🧸','玩完玩具要怎麼做？',['📦','收好放回去'],[['🌪️','丟在地上'],['🙈','假裝沒看到']],'玩完要收好，玩具才不會不見。'],
+ ['help','🍽️','吃完飯可以幫什麼忙？',['🙌','把碗盤拿到廚房'],[['📺','跑去看電視'],['🛋️','躺在沙發']],'幫忙做家事，家人會很開心。'],
+ ['help','👕','換下來的衣服要放哪裡？',['🧺','放進洗衣籃'],[['🛋️','丟在沙發'],['🚪','丟在門口']],'髒衣服要放進洗衣籃。'],
+ ['help','🌱','家裡的花乾乾的，可以怎麼幫忙？',['💧','幫它澆水'],[['✂️','把它剪掉'],['🙈','不理它']],'植物口渴了，要幫它澆水。'],
+ ['help','👟','進家門後，鞋子要怎麼放？',['👟','排整齊'],[['🌪️','亂踢'],['🛏️','放床上']],'鞋子排整齊，家裡就好乾淨。']
+];
+ROUTINE.tidy=['收拾餐桌',[['🍽️','收盤子'],['🧽','擦桌子'],['🪑','把椅子靠好'],['🧼','洗洗手']]];
+QTAG['禮儀']='#D9C8FF';
+Object.assign(TNAME,{manner:'禮儀',queue:'排隊',table:'左右方位',share:'平分',dance:'記憶順序'});
+DRESS.royal={shape:'ball',c:'#E0508A',l:'#FFD0E4',pat:'spark',pc:'#FFE27A',dk:'#8A1F54'};
+ITEMS.push({id:'royal',slot:'dress',name:'皇家舞會禮服',price:0,chapter:3},{id:'swan',slot:'pet',name:'小天鵝',price:0,chapter:3});
+ITEMS.forEach(i=>{ITEM[i.id]=i});
+Object.assign(ICONART,{
+ '🍪':IA(`<circle cx="32" cy="32" r="24" fill="#E0A565"/><circle cx="32" cy="32" r="20" fill="#EDB878"/>${[[24,24],[38,22],[30,36],[42,38],[22,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.4" fill="#6B3E2A"/>`).join('')}`),
+ '🍽️':IA(`<ellipse cx="32" cy="34" rx="28" ry="24" fill="#E8E4F6"/><ellipse cx="32" cy="34" rx="19" ry="16" fill="#FFFFFF"/><ellipse cx="26" cy="28" rx="6" ry="3" fill="#fff" opacity=".8"/>`),
+ '🎟️':IA(`<rect x="6" y="18" width="52" height="30" rx="6" fill="#FF8FC8"/><circle cx="6" cy="33" r="6" fill="#241C5E"/><circle cx="58" cy="33" r="6" fill="#241C5E"/><path d="M40 20 V46" stroke="#fff" stroke-dasharray="3 3" stroke-width="2"/><path d="${starD(24,33,8)}" fill="#FFE07A"/>`)
+});
+const CH3=[
+ {name:'迎賓大廳',helper:'kitten',decor:'hall',qs:['manner:greet','manner:greet','letter'],reward:'pick',intro:'歡迎來到城堡！我是小貓咪。舞會的客人都到了，見到大家要怎麼打招呼呢？'},
+ {name:'排隊領卡',helper:'duck',decor:'hall',qs:['queue','queue','quiz:生活'],reward:'box',intro:'嘎嘎！大家在排隊領舞會邀請卡。排隊要守規矩喔！'},
+ {name:'擺餐具',helper:'pig',decor:'hall',qs:['table','table','count'],reward:'chest',intro:'嗯嗯，舞會的晚餐要開始了！我們一起把餐具擺整齊，順便學學左邊和右邊！'},
+ {name:'分享點心',helper:'bear',decor:'hall',qs:['share','share','add'],reward:'petgift',intro:'點心好香喔！好東西要和朋友一起分享，我們來平分吧！'},
+ {name:'關心朋友',helper:'bunny',decor:'hall',qs:['manner:care','manner:care','zhuyin'],reward:'pick',intro:'哎呀，有朋友跌倒了！我是小兔子，我們一起學怎麼關心朋友。'},
+ {name:'收到禮物',helper:'squirrel',decor:'hall',qs:['manner:gift','manner:gift','sub'],reward:'rain',intro:'舞會上大家交換禮物！收到禮物、玩遊戲的時候，要怎麼做才有禮貌呢？'},
+ {name:'舞會跳舞',helper:'deer',decor:'hall',qs:['dance','dance','dance'],reward:'box',intro:'音樂響起來了！我是小鹿，看公主跳舞，記住動作，再跟著跳一次！'},
+ {name:'小聲說話',helper:'owl',decor:'hall',qs:['manner:public','manner:public','quiz:安全'],reward:'chest',intro:'咕咕，在圖書館、餐廳和表演廳裡，要怎麼做才不會吵到別人呢？'},
+ {name:'幫忙收拾',helper:'dog',decor:'hall',qs:['sort:toy','routine:tidy','manner:help'],reward:'petgift',intro:'汪！舞會快結束了，我們一起幫忙收拾，讓城堡變得乾乾淨淨！'},
+ {name:'王子的舞會',helper:'owl',decor:'hall',qs:['manner','dance','share','mix'],reward:'chapter',intro:'最後一關！貓頭鷹要看看你學會了多少禮儀。答對了，就能拿到王子的第三封信！'}
+];
+CHAPTERS.push({name:'城堡舞會',title:'第三章・城堡舞會',levels:CH3,bg:'hall',mix:['letter','zhuyin','count','add','sub','quiz','manner','queue','table'],firstSay:'第三章，城堡舞會。今天晚上的舞會，要當一個有禮貌的小公主喔！點一下發光的小貓咪出發。',
+ letter:'親愛的公主：<br>你在舞會上好有禮貌，會打招呼、會排隊、會分享，還會關心朋友，大家都好喜歡你！<br>送你一件皇家舞會禮服，還有一隻小天鵝。<br>下一封信，藏在魔法博物館裡。',prize:['swan','royal'],prizeName:'小天鵝和皇家舞會禮服',endText:'你找到了王子的第三封信。<br>第四章「魔法博物館」快要開放囉！'});
+try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(typeof sv.ch==='number')setCh(sv.ch)}catch(e){}
+
+function hallBg(W,H){let d=`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="#221A5A"/>`;
+ const n=7;for(let i=-1;i<=n;i++){const x=i*W/n+W/(2*n);
+  d+=`<path d="M${x-W/(2*n)+16} ${H*.72} V${H*.3} Q${x} ${H*.12} ${x+W/(2*n)-16} ${H*.3} V${H*.72}Z" fill="#2E2474"/><path d="M${x-W/(4*n)} ${H*.62} V${H*.34} Q${x} ${H*.24} ${x+W/(4*n)} ${H*.34} V${H*.62}Z" fill="#3E3290" opacity=".9"/>`;
+  d+=`<rect x="${x+W/(2*n)-10}" y="${H*.2}" width="20" height="${H*.56}" fill="#4A3C9A"/>`}
+ d+=`<g opacity=".9"><circle cx="${W/2}" cy="${H*.1}" r="${Math.min(W,H)*.06}" fill="#FFE9A0" opacity=".35"/><circle cx="${W/2}" cy="${H*.1}" r="${Math.min(W,H)*.025}" fill="#FFE9A0"/>${[-2,-1,0,1,2].map(k=>`<circle class="tw" style="animation-delay:${Math.abs(k)*.4}s" cx="${W/2+k*22}" cy="${H*.1+16+Math.abs(k)*-3}" r="3.5" fill="#FFF6D0"/>`).join('')}</g>`;
+ d+=`<rect x="-400" y="${H*.72}" width="${W+800}" height="${H*.28}" fill="#2A2070"/>`;
+ for(let i=-6;i<16;i++)d+=`<path d="M${i*W/10} ${H*.72} L${i*W/10+W/5} ${H}" stroke="#3A2E88" stroke-width="2"/><path d="M${i*W/10} ${H*.72} L${i*W/10-W/5} ${H}" stroke="#3A2E88" stroke-width="2"/>`;
+ return d}
+const _decor2=decor2;
+decor2=function(id){if(id!=='hall')return _decor2(id);const g=nid();
+ let d=`<defs><filter id="${g}" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+ [60,190,810,940].forEach(x=>d+=`<rect x="${x-14}" y="20" width="28" height="180" fill="#2E2474"/><rect x="${x-20}" y="20" width="40" height="10" fill="#3E3290"/><rect x="${x-20}" y="190" width="40" height="10" fill="#3E3290"/>`);
+ [300,500,700].forEach((x,i)=>d+=`<path d="M${x} 0 V30" stroke="#8A7AD8" stroke-width="2"/><circle class="tw" style="animation-delay:${i*.5}s" cx="${x}" cy="40" r="9" fill="#FFE9A0" filter="url(#${g})"/>`);
+ d+=`<path d="M0 170 H1000 V200 H0Z" fill="#2A2070"/>`;
+ return `<svg class="decor" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${d}</svg>`};
+const princessMini=()=>princess(S.look);
+
+Object.assign(BUILD,{
+manner(play,sp,cat){const pool=MANNER.filter(m=>!cat||m[0]===cat);let av=pool.filter(m=>!S.usedQ.includes(m[2]));if(!av.length)av=pool;const m=pick(av);S.usedQ.push(m[2]);
+ const [,scene,q,ans,wr,why]=m;const n=S.diff==='easy'?2:3;const opts=shuffle([ans,...shuffle(wr).slice(0,n-1)]);
+ renderChoice(play,{cat:'禮儀',q,opts,ans,why,sp,visual:`<div class="qhead">${art(scene)}</div>`});
+},
+queue(play,sp){const ppl=shuffle(['🐰','🐻','🐱','🐶','🐷','🦊','🐼']).slice(0,S.diff==='easy'?3:S.diff==='mid'?4:5);
+ if(S.q%2===0){S.ans='end';setPrompt('公主要排在<b class="kw">哪裡</b>？',['大家在排隊領舞會邀請卡。公主要排在哪裡呢？點一個問號！'],sp);
+  const mid=Math.floor(ppl.length/2);const slot=k=>`<button class="qslot" data-v="${k}" aria-label="排這裡">?</button>`;
+  let row=`<div class="booth">${art('🎟️')}</div>`;ppl.forEach((a,i)=>{if(i===0)row+=slot('front');if(i===mid)row+=slot('mid');row+=`<span class="qp"><span class="emoji">${a}</span></span>`});row+=slot('end');
+  play.innerHTML=`<div class="qline">${row}</div>`;
+  S.hint=m=>{petSay(m===1?'插隊的話，排在後面的人會不開心喔！':'要排在最後面！');if(m>1)glow($('.qslot[data-v="end"]',play))};
+  $$('.qslot',play).forEach(b=>b.onclick=()=>{if(S.lock)return;if(b.dataset.v==='end'){b.classList.add('me');b.innerHTML=princessMini();right(b,[praise(),'排隊要排在最後面，不插隊，好棒！'])}else wrong(b)});
+ }else{const n=ppl.length;S.ans=n;setPrompt('公主前面有<b class="kw">幾個</b>人？',['公主排好隊了。她的前面，有幾個人呢？'],sp);
+  play.innerHTML=`<div class="qline"><div class="booth">${art('🎟️')}</div>${ppl.map(a=>`<span class="qp cnt"><span class="emoji">${a}</span></span>`).join('')}<span class="qslot me">${princessMini()}</span></div>${tilesHTML(options(n,1,8),.3)}`;
+  S.hint=m=>{clearCount(play);if(m===1)petSay('從公主前面開始，一個一個數！');else{petSay('我陪你數！');countAlong($$('.qp.cnt',play))}};
+  $$('.tile',play).forEach(t=>t.onclick=()=>{if(+t.dataset.v===n)right(t,[praise(),`前面有${n}個人！`]);else wrong(t)});
+ }
+},
+table(play,sp){const T=[['🍴','叉子','left','左邊'],['🥄','湯匙','right','右邊'],['🥛','杯子','top','上面']];
+ const order=shuffle(T).slice(0,S.diff==='easy'?2:3);S.ans=order.map(o=>o[2]).join('|');let idx=0;
+ play.innerHTML=`<div class="tableset"><div class="mat"><button class="tslot" data-v="top" aria-label="上面"></button><button class="tslot" data-v="left" aria-label="左邊"></button><div class="plate">${art('🍽️')}</div><button class="tslot" data-v="right" aria-label="右邊"></button></div><div class="thold" id="thold"></div></div>`;
+ const ask=sayIt=>{const o=order[idx];$('#thold',play).innerHTML=`<span class="emo pop2">${art(o[0])}</span><span class="lbl">${o[1]}</span>`;setPrompt(`${o[1]}放在盤子的<b class="kw">${o[3]}</b>`,[`${o[1]}要放在盤子的${o[3]}。點一下${o[3]}的位置！`],sayIt)};
+ ask(sp);
+ S.hint=m=>{const o=order[idx];petSay(m===1?(o[2]==='top'?'上面，就是盤子的上方喔！':o[2]==='left'?'舉起兩隻手，左手在哪一邊呢？':'舉起兩隻手，右手在哪一邊呢？'):'放在發光的地方！');if(m>1)glow($(`.tslot[data-v="${o[2]}"]`,play))};
+ $$('.tslot',play).forEach(b=>b.onclick=()=>{if(S.lock||b.classList.contains('filled'))return;const o=order[idx];
+  if(b.dataset.v===o[2]){petHide();b.classList.add('filled');b.innerHTML=art(o[0]);tone(620+idx*120,0,.2,'triangle',.1);burstEl(b,12);idx++;
+   if(idx===order.length){$('#thold',play).innerHTML='';right($('.mat',play),[praise(),'餐具擺得好整齊！'])}else{say([o[3]+'！'],{pitch:S.hp});setTimeout(()=>{if(!S.lock)ask(true)},700)}}
+  else wrong(b)});
+},
+share(play,sp){const k=S.diff==='easy'?2:rand(2,S.diff==='mid'?3:4);const each=S.diff==='easy'?rand(1,3):S.diff==='mid'?rand(1,4):rand(2,5);const T=k*each;S.ans=each;
+ const fr=shuffle(['🐰','🐻','🐱','🐶','🦊','🐼']).slice(0,k);
+ setPrompt(`${T} 塊餅乾分給 ${k} 個朋友，每人幾塊？`,[`有${T}塊餅乾，要平分給${k}個好朋友。點餅乾，一塊一塊分給大家。每個人可以拿到幾塊呢？`],sp);
+ play.innerHTML=`<div class="cookies">${Array.from({length:T},(_,i)=>`<button class="cookie" style="--dl:${(i*.05).toFixed(2)}s" aria-label="餅乾">${art('🍪')}</button>`).join('')}</div><div class="plates">${fr.map((f,i)=>`<div class="fplate"><span class="ff emoji">${f}</span><div class="pl" id="pl${i}"></div></div>`).join('')}</div>${tilesHTML(options(each,1,S.diff==='hard'?8:6),.4)}`;
+ let dealt=0;const deal=c=>{if(!c||c.classList.contains('gone'))return;const pl=$('#pl'+(dealt%k),play);c.classList.add('gone');pl.insertAdjacentHTML('beforeend',`<i>${art('🍪')}</i>`);dealt++;tone(560+dealt*25,0,.1,'triangle',.07)};
+ $$('.cookie',play).forEach(c=>c.onclick=()=>{if(!S.lock)deal(c)});
+ S.hint=async m=>{if(m===1)petSay('點餅乾，一塊一塊輪流分，再看看每個盤子有幾塊！');else{petSay('我幫你分！');for(const c of $$('.cookie:not(.gone)',play)){if(S.lock)return;deal(c);await wait(220)}glow($$('.tile',play).find(t=>+t.dataset.v===each))}};
+ $$('.tile',play).forEach(t=>t.onclick=()=>{if(+t.dataset.v===each){$$('.cookie:not(.gone)',play).forEach(deal);right(t,[praise(),`每個人${each}塊，大家一樣多！`])}else wrong(t)});
+},
+dance(play,sp){const MV=[['👏','拍拍手','clap'],['🙌','舉高手','up'],['🦶','跺跺腳','stomp'],['🔄','轉個圈','spin']];
+ const len=S.diff==='easy'?2:S.diff==='mid'?3:4;const seq=[];for(let i=0;i<len;i++){let r;do{r=rand(0,3)}while(r===seq[i-1]);seq.push(r)}S.ans=seq.join('|');
+ setPrompt('看公主跳舞，<b class="kw">記住順序</b>！',['看公主跳舞，記住她的動作順序喔！'],sp);
+ play.innerHTML=`<div class="dfloor"><div class="dancer" id="dancer">${princessMini()}</div></div><div class="moves">${MV.map((m,i)=>`<button class="qcard mv" data-v="${i}" disabled><span class="emo">${art(m[0])}</span><span class="lbl">${m[1]}</span></button>`).join('')}</div>`;
+ const dn=$('#dancer',play),btns=$$('.mv',play);let idx=0,phase='show',run=0;
+ const act=i=>{dn.className='dancer';void dn.offsetWidth;dn.classList.add('mv-'+MV[i][2]);tone(660+i*110,0,.25,'triangle',.1)};
+ async function demo(first){const my=++run;phase='show';btns.forEach(b=>b.disabled=true);await wait(first&&sp?2600:700);
+  for(const i of seq){if(my!==run||!dn.isConnected)return;btns[i].classList.add('lit');act(i);say([MV[i][1]],{pitch:S.hp});await wait(1150);btns[i].classList.remove('lit')}
+  if(my!==run)return;dn.className='dancer';phase='play';btns.forEach(b=>b.disabled=false);setPrompt('換你了！<b class="kw">照順序點</b>',['換你了！照剛剛的順序，點點看！'],true)}
+ demo(true);
+ S.hint=m=>{if(m===1){petSay('我們再看一次！');idx=0;demo(false)}else{petSay('下一個是發光的這個！');glow(btns[seq[idx]])}};
+ btns.forEach(b=>b.onclick=()=>{if(S.lock||phase!=='play')return;const i=+b.dataset.v;
+  if(i===seq[idx]){petHide();act(i);idx++;if(idx===seq.length)right(dn,[praise(),'跳得好漂亮！']);}else wrong(b)});
+}
+});
+
+/* ================= parent mode ================= */
+function parentGate(then){const a=rand(6,9),b=rand(3,9);
+ const ov=overlay(screen,`<div class="card"><h2>家長確認</h2><p>請輸入答案：<b class="gold">${a} × ${b}</b></p><input id="pg" class="pin" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="答案"><div class="row"><button class="btn" id="pgok">確定</button><button class="btn2" id="pgno">取消</button></div></div>`);
+ const inp=$('#pg',ov);setTimeout(()=>inp.focus(),120);
+ const ok=()=>{if(+inp.value===a*b){ov.remove();then()}else{inp.value='';inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake')}};
+ $('#pgok',ov).onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter')ok()};$('#pgno',ov).onclick=()=>ov.remove()}
+function saveCode(){try{save();return btoa(unescape(encodeURIComponent(localStorage.getItem('pp4')||'{}')))}catch(e){return ''}}
+function parentTools(){
+ const ov=overlay(screen,`<div class="card left"><h2>家長模式</h2>
+  <div><span class="lab">寶石數量</span><div class="vrow"><input id="pgem" class="pin" inputmode="numeric" value="${S.wallet}" aria-label="寶石數量"><button class="btn2 small" id="setgem">設定</button><button class="btn2 small" id="add10">＋10</button></div></div>
+  <div><span class="lab">跳關</span><div class="vrow"><select id="pch" class="vsel" aria-label="章節">${CHAPTERS.map((c,i)=>`<option value="${i}" ${i===S.ch?'selected':''}>${c.title}</option>`).join('')}</select><select id="plv" class="vsel" aria-label="關卡">${Array.from({length:11},(_,i)=>`<option value="${i}">${i===10?'整章完成':'從第 '+(i+1)+' 關開始'}</option>`).join('')}</select><button class="btn2 small" id="setlv">設定</button></div><p class="small">前面的關卡會設成已完成；選「整章完成」會打開下一章，但不會送章節大獎。</p></div>
+  <div><span class="lab">衣服與寵物</span><div class="vrow"><button class="btn2 small" id="unlockall">全部解鎖</button></div></div>
+  <div><span class="lab">備份存檔</span><p class="small">把這串文字複製起來，存到備忘錄。換平板或存檔不見時，貼到下面就能還原。</p><textarea id="bk" class="bk" readonly aria-label="備份文字">${saveCode()}</textarea><div class="vrow"><button class="btn2 small" id="copy">複製</button></div></div>
+  <div><span class="lab">還原存檔</span><textarea id="rs" class="bk" placeholder="把備份文字貼在這裡" aria-label="還原文字"></textarea><div class="vrow"><button class="btn2 small" id="restore">還原</button></div></div>
+  <button class="btn" id="pdone2">完成</button></div>`);
+ const upd=()=>{$('#bk',ov).value=saveCode();renderBar()};
+ $('#setgem',ov).onclick=()=>{S.wallet=Math.max(0,parseInt($('#pgem',ov).value)||0);save();upd();toast(`寶石設定為 ${S.wallet} 顆`)};
+ $('#add10',ov).onclick=()=>{S.wallet+=10;$('#pgem',ov).value=S.wallet;save();upd();toast(`寶石現在有 ${S.wallet} 顆`)};
+ $('#setlv',ov).onclick=()=>{const ch=+$('#pch',ov).value,lv=+$('#plv',ov).value;S.progs[ch]=lv;S.chDone=Math.max(S.chDone,ch);if(lv>=10)S.chDone=Math.max(S.chDone,ch+1);setCh(ch);S.walkFrom=null;save();upd();toast(lv>=10?`${CHAPTERS[ch].title} 設為完成`:`${CHAPTERS[ch].title} 從第 ${lv+1} 關開始`)};
+ $('#unlockall',ov).onclick=()=>{S.owned=ITEMS.map(i=>i.id);save();upd();toast('全部衣服和寵物都解鎖了')};
+ $('#copy',ov).onclick=()=>{const t=$('#bk',ov);t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('已複製，貼到備忘錄保存吧')).catch(()=>toast('已選取，請按「拷貝」'))}catch(e){toast('已選取，請按「拷貝」')}};
+ $('#restore',ov).onclick=()=>{try{const js=decodeURIComponent(escape(atob($('#rs',ov).value.trim())));const o=JSON.parse(js);if(!o||typeof o!=='object'||!o.look)throw 0;localStorage.setItem('pp4',js);toast('還原成功，重新載入中…');setTimeout(()=>location.reload(),900)}catch(e){toast('這段文字不對，請再確認一次')}};
+ $('#pdone2',ov).onclick=()=>{ov.remove();SCREENS.title()};
+}
 
 let rt=0;
 addEventListener('resize',()=>{sizeFx();clearTimeout(rt);rt=setTimeout(()=>{if(S.screen==='map')SCREENS.map('quiet')},200)});
