@@ -457,6 +457,12 @@ body[data-ch="1"]{--mote:#BFE8FF}
  #app{padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:calc(16px + env(safe-area-inset-left,0px));padding-right:calc(16px + env(safe-area-inset-right,0px))}
  #toast{top:calc(70px + env(safe-area-inset-top,0px))}
 }
+
+.overlay .card{max-height:100%;overflow:auto;box-sizing:border-box}
+.rainfield{height:min(40vh,320px)}
+@keyframes fall{to{transform:translateY(calc(min(40vh,320px) + 80px)) rotate(200deg)}}
+.rcd{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--latin);font-weight:800;font-size:80px;color:var(--gold);text-shadow:0 0 20px rgba(255,210,110,.7)}
+@media (max-height:760px){.rainfield{height:min(34vh,260px)}@keyframes fall{to{transform:translateY(calc(min(34vh,260px) + 80px)) rotate(200deg)}}}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
@@ -1653,13 +1659,16 @@ const REWARD={
   $('#rbox',card).onclick=()=>wearShow(card,it,finish,`${petName()}戴上${it.name}了！`);
  },
  rain(card,finish){
-  card.innerHTML=`<h2>寶石雨！</h2><p>寶石從天上掉下來了，快點接住！</p><div class="rainfield" id="rf"></div><p>接到 <span class="rcount" id="rc">0</span> 顆</p><button class="btn" id="startr">開始</button>`;
-  say(['寶石雨！寶石從天上掉下來了，看你能接住幾顆！']);
-  $('#startr',card).onclick=()=>{$('#startr',card).remove();let caught=0;const rf=$('#rf',card);
-   const iv=setInterval(()=>{if(!rf.isConnected)return clearInterval(iv);const g=document.createElement('button');g.className='fgem';g.setAttribute('aria-label','寶石');g.style.left=(5+Math.random()*80)+'%';g.style.animationDuration=(2.2+Math.random()*1.2)+'s';g.innerHTML=gem(pick(GEMC));
-    g.onpointerdown=e=>{e.stopPropagation();caught++;$('#rc',card).textContent=caught;sfx('coin');const r=g.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,10,true);g.remove()};g.onclick=g.onpointerdown;
+  card.innerHTML=`<h2>寶石雨！</h2><p class="small">寶石掉下來了，快點接住！</p><div class="rainfield" id="rf"><div class="rcd" id="rcd">3</div></div><p>接到 <span class="rcount" id="rc">0</span> 顆</p>`;
+  say(['寶石雨！寶石從天上掉下來了，看你能接住幾顆！準備好了嗎？']);
+  const rf=$('#rf',card),cd=$('#rcd',card);let n=3;
+  const tick=setInterval(()=>{if(!rf.isConnected)return clearInterval(tick);n--;if(n>0){cd.textContent=n;tone(660,0,.15,'sine',.08);cd.classList.remove('pop2');void cd.offsetWidth;cd.classList.add('pop2')}else{clearInterval(tick);cd.remove();tone(990,0,.25,'triangle',.1);start()}},900);
+  function start(){let caught=0;
+   const iv=setInterval(()=>{if(!rf.isConnected)return clearInterval(iv);const g=document.createElement('button');g.className='fgem';g.setAttribute('aria-label','寶石');g.style.left=(5+Math.random()*78)+'%';g.style.animationDuration=(2.2+Math.random()*1.2)+'s';g.innerHTML=gem(pick(GEMC));
+    const hit=e=>{e.stopPropagation();if(g.dataset.hit)return;g.dataset.hit=1;caught++;$('#rc',card).textContent=caught;sfx('coin');const r=g.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,10,true);g.remove()};
+    g.addEventListener('pointerdown',hit);g.addEventListener('click',hit);
     g.addEventListener('animationend',()=>g.remove());rf.appendChild(g)},reduced?700:430);
-   setTimeout(()=>{clearInterval(iv);setTimeout(()=>gemsShow(card,Math.max(1,Math.min(caught,12)),finish,`接到 ${Math.max(1,Math.min(caught,12))} 顆寶石！`),900)},7000)};
+   setTimeout(()=>{clearInterval(iv);setTimeout(()=>{if(card.isConnected)gemsShow(card,Math.max(1,Math.min(caught,12)),finish,`接到 ${Math.max(1,Math.min(caught,12))} 顆寶石！`)},900)},7000)}
  },
  chapter(card,finish){const C=CHAPTERS[S.ch];
   card.innerHTML=`<div class="scroll">${C.letter}<span class="sign">—— 王子</span>${sealSVG()}</div><button class="btn" id="next">看看禮物</button>`;
