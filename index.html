@@ -1384,21 +1384,30 @@ const SONGS=[
  {t:400,w:'soft',m:'E5 D5 C5 D5 E5 E5 E5 - D5 D5 D5 - E5 G5 G5 - E5 D5 C5 D5 E5 E5 E5 E5 D5 D5 E5 D5 C5 - - -'},
  {t:270,w:'waltz',m:'D5 - G4 A4 B4 C5 D5 - G4 - G4 - E5 - C5 D5 E5 F#5 G5 - G4 - G4 - C5 - D5 C5 B4 A4 B4 - C5 B4 A4 G4 F#4 - G4 A4 B4 G4 A4 - - - - -'},
  {t:380,w:'pluck',m:'C5 D5 E5 C5 C5 D5 E5 C5 E5 F5 G5 - E5 F5 G5 - G5 A5 G5 F5 E5 - C5 - G5 A5 G5 F5 E5 - C5 - C5 G4 C5 - C5 G4 C5 - - - - -'},
- {t:420,w:'bell',m:'E5 E5 F5 G5 G5 F5 E5 D5 C5 C5 D5 E5 E5 - D5 D5 E5 E5 F5 G5 G5 F5 E5 D5 C5 C5 D5 E5 D5 - C5 C5 - - - -'}
+ {t:420,w:'bell',m:'E5 E5 F5 G5 G5 F5 E5 D5 C5 C5 D5 E5 E5 - D5 D5 - - E5 E5 F5 G5 G5 F5 E5 D5 C5 C5 D5 E5 D5 - C5 C5 - - - -'}
 ].map(x=>({...x,n:x.m.split(' ')}));
 let beat=0,musicTimer=0,curSong=-1;
 const musicWanted=()=>S.music&&['title','wardrobe','map','story','guide','chend'].includes(S.screen);
-function playNote(f,w){const d=duck();
- if(w==='box'){tone(f,0,1.1,'sine',.035*d,true);tone(f*2,0,.5,'sine',.012*d,true)}
- else if(w==='soft'){tone(f,0,.9,'triangle',.032*d,true);tone(f/2,0,.9,'sine',.012*d,true)}
- else if(w==='waltz'){tone(f,0,.7,'sine',.036*d,true);tone(f*2,0,.3,'triangle',.008*d,true)}
- else if(w==='pluck'){tone(f,0,.45,'triangle',.042*d,true);tone(f*3,0,.15,'sine',.006*d,true)}
- else{tone(f,0,1.4,'sine',.03*d,true);tone(f*2.76,0,.6,'sine',.008*d,true);tone(f*5.4,0,.25,'sine',.004*d,true)}}
-function musicTick(){const si=Math.min(S.ch,SONGS.length-1);if(si!==curSong){curSong=si;beat=0;clearInterval(musicTimer);musicTimer=setInterval(musicTick,SONGS[si].t)}
- if(!musicWanted())return;const sg=SONGS[si],n=sg.n[beat%sg.n.length],bt=beat;beat++;
- if(sg.w==='waltz'){if(bt%6===0)tone(NOTE(bt%12?'D3':'G3'),0,1.3,'triangle',.022*duck(),true)}
- if(n!=='-'){const f=NOTE(n);playNote(f,sg.w);if(sg.w!=='waltz'&&bt%8===0)tone(f/2,0,1.4,'triangle',.02*duck(),true)}}
-function startMusic(){if(!musicTimer){curSong=Math.min(S.ch,SONGS.length-1);musicTimer=setInterval(musicTick,SONGS[curSong].t)}}
+let mbus=null;
+function musBus(){const a=audio();if(!a)return null;if(!mbus){mbus=a.createGain();mbus.gain.value=.8;mbus.connect(a.destination)}return mbus}
+function musDuck(on){const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.45:.8,a.currentTime,on?.25:.6)}
+function mtone(f,t,d,type,v){const a=audio();const bus=musBus();if(!a||!bus)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+Math.max(0,t);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.02);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(bus);o.start(t0);o.stop(t0+d+.05)}
+function playNote(f,w,t){
+ if(w==='box'){mtone(f,t,1.1,'sine',.034);mtone(f*2,t,.5,'sine',.01)}
+ else if(w==='soft'){mtone(f,t,.9,'triangle',.034);mtone(f/2,t,.9,'sine',.012)}
+ else if(w==='waltz'){mtone(f,t,.7,'sine',.036);mtone(f*2,t,.3,'sine',.008)}
+ else if(w==='pluck'){mtone(f,t,.5,'triangle',.04);mtone(f*2,t,.2,'sine',.008)}
+ else{mtone(f,t,1.3,'sine',.032);mtone(f*2,t,.6,'sine',.009);mtone(f*4,t,.25,'sine',.003)}}
+let mNext=0;
+function musicTick(){const a=audio();if(!a)return;const si=Math.min(S.ch,SONGS.length-1);
+ if(si!==curSong){curSong=si;beat=0;mNext=a.currentTime+.1}
+ if(!musicWanted()||a.state!=='running'){mNext=a.currentTime+.1;return}
+ const sg=SONGS[si],step=sg.t/1000;if(mNext<a.currentTime)mNext=a.currentTime+.05;
+ while(mNext<a.currentTime+.4){const n=sg.n[beat%sg.n.length],bt=beat,off=mNext-a.currentTime;beat++;
+  if(sg.w==='waltz'){if(bt%6===0)mtone(NOTE(bt%12?'D3':'G3'),off,1.3,'triangle',.02)}
+  if(n!=='-'){const f=NOTE(n);playNote(f,sg.w,off);if(sg.w!=='waltz'&&bt%8===0)mtone(f/2,off,1.4,'triangle',.016)}
+  mNext+=step}}
+function startMusic(){if(!musicTimer){musicTimer=setInterval(musicTick,100)}}
 
 /* voice */
 let voices=[];
@@ -1827,7 +1836,7 @@ map(first){
    <g class="nbody"><circle cx="${x}" cy="${y}" r="${rr}" fill="url(#${g}n)" stroke="${done?GEMC[i]:'#FFD98A'}" stroke-width="4" ${now||done?`filter="url(#${g}f)"`:''}/>
    ${animal(L.helper,`x="${x-rr*.72}" y="${y-rr*.78}" width="${rr*1.44}" height="${rr*1.44}"`)}</g>
    <circle cx="${x-rr*.72}" cy="${y-rr*.72}" r="15" fill="#FFD98A"/><text class="nnum" x="${x-rr*.72}" y="${y-rr*.72+8}" text-anchor="middle">${i+1}</text>
-   ${done?gem(GEMC[i],false,`x="${x+rr*.4}" y="${y-rr*1.25}" width="38" height="38"`):''}${done&&S.stars[S.ch+'-'+i]?starsRow(x,y+rr-4,S.stars[S.ch+'-'+i]):''}${now?`<g class="marrow"><path d="M${x+rr+14} ${y} l24 -16 v9 h20 v14 h-20 v9z" fill="#FFD24D" stroke="#1A1648" stroke-width="2"/></g>`:''}
+   ${done?gem(GEMC[i],false,`x="${x+rr*.4}" y="${y-rr*1.25}" width="38" height="38"`):''}${done&&S.stars[S.ch+'-'+i]?starsRow(x,y+rr-4,S.stars[S.ch+'-'+i]):''}${now?(()=>{const [px,py]=i?P[i-1]:[x-200,y];const ang=Math.atan2(y-py,x-px),ux=Math.cos(ang),uy=Math.sin(ang),d=rr+16;return `<g transform="translate(${(x-ux*d).toFixed(1)} ${(y-uy*d).toFixed(1)}) rotate(${(ang*180/Math.PI).toFixed(1)})"><g class="marrow"><path d="M0 0 l-24 -16 v9 h-20 v14 h20 v9z" fill="#FFD24D" stroke="#1A1648" stroke-width="2"/></g></g>`})():''}
    <text class="nlab" x="${x}" y="${y+rr+(port?30:34)}" text-anchor="middle" style="font-size:${port?26:28}px">${L.name}</text></g>`});
  svg+=`<g id="token">${petSVG(S.look.pet,S.look.petacc,`x="-92" y="-108" width="58" height="54"`)}${princess(S.look,`x="-40" y="-150" width="60" height="86"`)}</g>`;
  screen.innerHTML=`<div class="map"><svg class="mapsvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${svg}</svg>
@@ -1879,8 +1888,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.5.9';
-const VLOG=[['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.5.10';
+const VLOG=[['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2388,7 +2397,7 @@ const ICONART={
 function art(e){return ICONART[e]||`<span class="emoji">${e}</span>`}
 
 /* ================= polish: speaking, idle, stats, rest ================= */
-let SPK=0;function spkOn(){SPK++;document.body.classList.add('speaking')}function spkOff(){SPK=Math.max(0,SPK-1);if(!SPK)document.body.classList.remove('speaking')}
+let SPK=0;function spkOn(){SPK++;document.body.classList.add('speaking');if(SPK===1)musDuck(true)}function spkOff(){SPK=Math.max(0,SPK-1);if(!SPK){document.body.classList.remove('speaking');musDuck(false)}}
 const duck=()=>SPK?0.3:1;
 const PITCH={bunny:1.35,frog:1.1,bear:.85,deer:1.2,kitten:1.4,hedgehog:1.25,squirrel:1.3,owl:.9,dog:1.15,pig:1,duck:1.3};
 let idleT=0;
