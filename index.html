@@ -669,6 +669,11 @@ body[data-ch="1"]{--mote:#BFE8FF}
 .chand svg{width:100%;height:100%}
 @keyframes handtap{0%,100%{transform:translate(8px,14px)}50%{transform:translate(0,0) scale(.92)}}
 .chand.nudge{animation:nudge .6s ease}
+.nmkid{margin:0;font-size:16px!important;color:#FFE9A8;background:rgba(255,217,138,.12);border-radius:14px;padding:6px 12px;line-height:1.5}
+.cpulse{animation:cpulse 1.2s ease-in-out infinite;position:relative}
+@keyframes cpulse{50%{box-shadow:0 0 0 6px rgba(255,226,122,.55),0 0 22px rgba(255,226,122,.8)}}
+.nmhand{position:absolute;right:-18px;bottom:-26px;width:44px;height:44px;pointer-events:none;animation:handtap 1.1s ease-in-out infinite}
+.nmhand svg{width:100%;height:100%}
 /* ===== fit small screens ===== */
 .play{justify-content:flex-start}.play>:first-child{margin-top:auto}.play>:last-child{margin-bottom:auto}
 .play>.catchwrap{margin:0}
@@ -778,6 +783,7 @@ body[data-ch="2"] .stage{background:rgba(40,16,80,.45)}body[data-ch="3"] .stage{
 @keyframes fallDown{from{transform:translateY(0)}to{transform:translateY(var(--fh,560px))}}
 @keyframes wob{from{transform:rotate(-10deg)}to{transform:rotate(10deg)}}
 .catchbar{display:flex;gap:10px;justify-content:center}
+.clisten{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}.clisten b{font-weight:400;font-size:clamp(22px,4vw,32px);color:var(--gold);background:rgba(20,14,60,.6);padding:8px 22px;border-radius:999px;animation:lpulse 1.4s ease-in-out infinite}@keyframes lpulse{50%{opacity:.55}}
 .catchbar i{width:34px;height:34px;border-radius:50%;border:2px dashed var(--goldline)}
 .catchbar i.on{background:radial-gradient(#FFF4B8,#FFB33A);border-style:solid;box-shadow:0 0 14px #FFD24D;animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
 .feedwrap{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,2vh,16px);width:100%}
@@ -1410,12 +1416,15 @@ function fillVoiceSel(){const sel=$('#vsel');if(!sel)return;const list=zhVoices(
  sel.innerHTML=`<option value="">自動（挑最自然的）</option>`+list.map(v=>`<option value="${v.name.replace(/"/g,'&quot;')}" ${v.name===S.voice?'selected':''}>${v.name.replace(/^(Microsoft|Google) /,'').replace(/ - .*$/,'').slice(0,28)}${vscore(v,1)>=70?'（推薦）':''}</option>`).join('')}
 const loadVoices=()=>{try{voices=speechSynthesis.getVoices()}catch(e){}fillVoiceSel()};
 if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
-function say(parts,opt={}){return new Promise(res=>{
+let sayGen=0;
+function speakOne(p,opt){return new Promise(r=>{try{const ob=typeof p==='object';const en=ob&&p.en!=null;const txt=en?p.en:ob?p.zh:p;const u=new SpeechSynthesisUtterance(txt);const v=pickVoice(!en);u.lang=v?v.lang:(en?'en-US':'zh-TW');if(v)u.voice=v;
+ u.rate=(en?.85:.92)*(opt.rate||1)*(ob&&p.slow?(p.slow===2?.38:.6):1);u.pitch=opt.pitch||1.05;let d=0;const f=()=>{if(d)return;d=1;clearTimeout(t);r()};const t=setTimeout(f,2500+String(txt).length*(ob&&p.slow?420:260));u.onend=u.onerror=f;speechSynthesis.speak(u)}catch(e){r()}})}
+function say(parts,opt={}){return new Promise(async res=>{
  if(!S.sound||!parts||!('speechSynthesis' in window))return res();
- const merged=[];parts.forEach(p=>{if(typeof p==='string'&&typeof merged[merged.length-1]==='string')merged[merged.length-1]+=p;else merged.push(p)});
- try{if(!opt.queue)speechSynthesis.cancel();let last;merged.forEach(p=>{const ob=typeof p==='object';const en=ob&&p.en!=null;const u=new SpeechSynthesisUtterance(en?p.en:ob?p.zh:p);const v=pickVoice(!en);u.lang=v?v.lang:(en?'en-US':'zh-TW');if(v)u.voice=v;u.rate=(en?.85:.92)*(opt.rate||1)*(ob&&p.slow?(p.slow===2?.48:.6):1);u.pitch=opt.pitch||1.05;speechSynthesis.speak(u);last=u});
-  spkOn();let done=0;const fin=()=>{if(done)return;done=1;clearTimeout(to);spkOff();res()};const to=setTimeout(fin,8000);last.onend=last.onerror=fin}catch(e){res()}})}
-const hush=()=>{try{speechSynthesis.cancel()}catch(e){}};
+ const merged=[];parts.forEach(p=>{if(p==null||p==='')return;if(typeof p==='string'&&typeof merged[merged.length-1]==='string')merged[merged.length-1]+=p;else if(p&&p.slow===2){merged.push(p,{pause:650},p)}else merged.push(p)});
+ const gen=++sayGen;try{speechSynthesis.cancel()}catch(e){}
+ spkOn();try{for(const p of merged){if(gen!==sayGen)break;if(p&&p.pause){await wait(p.pause);continue}await speakOne(p,opt)}}catch(e){}spkOff();res()})}
+const hush=()=>{sayGen++;try{speechSynthesis.cancel()}catch(e){}};
 
 /* ================= fx ================= */
 const fx=$('#fx'),ctx=fx.getContext('2d');let parts=[],emit=[],raf=0;
@@ -1870,21 +1879,24 @@ chend(){
 }
 };
 
-const APP_VERSION='1.5.4';
-const VLOG=[['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.5.8';
+const VLOG=[['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
   <p>幫小公主取一個名字吧！<br>遊戲裡會用名字叫她，例如「小美公主，好棒喔！」</p>
   <input id="nmin" class="nameinp" maxlength="6" placeholder="例如：小美" aria-label="公主的名字">
   <div class="row"><button class="btn" id="nmok">好了</button><button class="btn2" id="nmno">之後再說</button></div>
+  <p class="nmkid">爸爸媽媽不在旁邊嗎？<br>小公主可以先按「<b>之後再說</b>」喔！</p>
   <p class="small">之後也可以到「換裝間 → 我的公主」修改。</p></div>`);
- say(['爸爸媽媽，可以幫小公主取一個名字嗎？']);
- const inp=$('#nmin',ov);if(manual)setTimeout(()=>inp.focus(),300);
+ const nmno=$('#nmno',ov);
+ say(['爸爸媽媽，可以幫小公主取一個名字嗎？輸入名字，再按「好了」。','如果爸爸媽媽不在旁邊，小公主可以先按「之後再說」喔！']).then(()=>{if(ov.isConnected&&nmno){nmno.classList.add('cpulse');const h=document.createElement('span');h.className='nmhand';h.innerHTML='<svg viewBox="0 0 48 48"><path d="M18 44 Q10 34 8 28 Q7 24 11 24 Q14 24 17 29 L17 8 Q17 4 21 4 Q25 4 25 8 L25 20 Q25 17 29 17 Q33 17 33 21 Q33 18 37 18 Q41 19 41 23 L41 32 Q41 40 36 44Z" fill="#FFF6E8" stroke="#3A2A6A" stroke-width="2.4" stroke-linejoin="round"/></svg>';nmno.appendChild(h)}});
+ let nmT=setTimeout(function rep(){if(!ov.isConnected||document.activeElement===inp||inp.value)return;say(['小公主，爸爸媽媽不在的話，就按「之後再說」喔！']);nmT=setTimeout(rep,15000)},14000);
+ const inp=$('#nmin',ov);if(manual)setTimeout(()=>inp.focus(),300);inp.addEventListener('focus',()=>{if(nmno){nmno.classList.remove('cpulse');const h=$('.nmhand',nmno);if(h)h.remove()}});
  const ok=()=>{const v=inp.value.trim().replace(/[<>&"']/g,'').slice(0,6);if(!v){inp.focus();inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');return}
-  S.name=v;save();ov.remove();sfx('gem');say([`你好，${v}公主！`]);SCREENS.title();toast(`你好，${v}公主！`)};
+  clearTimeout(nmT);S.name=v;save();ov.remove();sfx('gem');say([`你好，${v}公主！`]);SCREENS.title();toast(`你好，${v}公主！`)};
  $('#nmok',ov).onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();ok()}};
- $('#nmno',ov).onclick=()=>{ov.remove();hush()};
+ $('#nmno',ov).onclick=()=>{clearTimeout(nmT);ov.remove();hush();say(['好喔！我們先去冒險吧！'])};
 }
 function coach(steps,end){let i=0;const el=document.createElement('div');el.className='coach';document.body.appendChild(el);
  const HAND=`<svg viewBox="0 0 48 48"><path d="M18 44 Q10 34 8 28 Q7 24 11 24 Q14 24 17 29 L17 8 Q17 4 21 4 Q25 4 25 8 L25 20 Q25 17 29 17 Q33 17 33 21 Q33 18 37 18 Q41 19 41 23 L41 32 Q41 40 36 44Z" fill="#FFF6E8" stroke="#3A2A6A" stroke-width="2.4" stroke-linejoin="round"/></svg>`;
@@ -2064,9 +2076,9 @@ const REWARD={
  },
  rain(card,finish){
   card.innerHTML=`<h2>寶石雨！</h2><p class="small">寶石掉下來了，快點接住！</p><div class="rainfield" id="rf"><div class="rcd" id="rcd">3</div></div><p>接到 <span class="rcount" id="rc">0</span> 顆</p>`;
-  say(['寶石雨！寶石從天上掉下來了，看你能接住幾顆！準備好了嗎？']);
+  const intro=say(['寶石雨！寶石從天上掉下來了，看你能接住幾顆！準備好了嗎？']);
   const rf=$('#rf',card),cd=$('#rcd',card);let n=3;
-  const tick=setInterval(()=>{if(!rf.isConnected)return clearInterval(tick);n--;if(n>0){cd.textContent=n;tone(660,0,.15,'sine',.08);cd.classList.remove('pop2');void cd.offsetWidth;cd.classList.add('pop2')}else{clearInterval(tick);cd.remove();tone(990,0,.25,'triangle',.1);start()}},900);
+  intro.then(()=>wait(300)).then(()=>{if(!rf.isConnected)return;tone(660,0,.15,'sine',.08);const tick=setInterval(()=>{if(!rf.isConnected)return clearInterval(tick);n--;if(n>0){cd.textContent=n;tone(660,0,.15,'sine',.08);cd.classList.remove('pop2');void cd.offsetWidth;cd.classList.add('pop2')}else{clearInterval(tick);cd.remove();tone(990,0,.25,'triangle',.1);start()}},900)});
   function start(){let caught=0;
    const iv=setInterval(()=>{if(!rf.isConnected)return clearInterval(iv);const g=document.createElement('button');g.className='fgem';g.setAttribute('aria-label','寶石');g.style.left=(5+Math.random()*78)+'%';g.style.animationDuration=(2.2+Math.random()*1.2)+'s';g.innerHTML=gem(pick(GEMC));
     const hit=e=>{e.stopPropagation();if(g.dataset.hit)return;g.dataset.hit=1;caught++;$('#rc',card).textContent=caught;sfx('coin');const r=g.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,10,true);g.remove()};
@@ -2307,12 +2319,12 @@ money(play,sp){
 },
 traffic(play,sp){
  S.ans='green';
- setPrompt('<b class="kw">綠燈</b>亮了，再按「過馬路」',['紅燈要停下來，綠燈亮了，看看左右，再按過馬路喔！'],sp);
+ const ip=['紅燈要停下來，綠燈亮了，看看左右，再按過馬路喔！'];setPrompt('<b class="kw">綠燈</b>亮了，再按「過馬路」',ip,false);const intro=sp?say(ip,{pitch:S.hp||1.05}):wait(300);
  play.innerHTML=`<div class="road"><div class="tlight" id="tl"><i class="r on"></i><i class="g"></i></div><div class="zebra">${'<i></i>'.repeat(6)}</div><div class="walker" id="wk">${princess(S.look)}</div><div class="car" id="car">🚗</div></div><button class="btn" id="cross">過馬路！</button>`;
  const tl=$('#tl',play);let green=false,timers=[];const T=(ms,f)=>timers.push(setTimeout(f,ms));
  const setG=g=>{green=g;tl.classList.toggle('green',g);$('.r',tl).classList.toggle('on',!g);$('.g',tl).classList.toggle('on',g);if(g){tone(880,0,.15,'sine',.06);tone(880,.25,.15,'sine',.06)}};
  const cycle=()=>{setG(false);const car=$('#car',play);if(car){car.classList.remove('drive');void car.offsetWidth;car.classList.add('drive')}T(rand(2200,3800),()=>{if(!tl.isConnected)return;setG(true);T(3600,()=>{if(tl.isConnected&&!S.lock)cycle()})})};
- cycle();
+ setG(false);intro.then(()=>{if(tl.isConnected&&S.screen==='stage')cycle()});
  S.hint=m=>petSay(m===1?'紅燈要停下來等喔！等綠燈亮了再走。':'看！綠色的小人亮了，才可以走喔！');
  $('#cross',play).onclick=()=>{if(S.lock)return;
   if(green){timers.forEach(clearTimeout);const wk=$('#wk',play);wk.classList.add('go');say(['看看左邊，看看右邊，沒有車，走！']);setTimeout(()=>right(wk,[praise(),'綠燈才過馬路，好安全！']),1200)}
@@ -2539,11 +2551,11 @@ share(play,sp){const k=S.diff==='easy'?2:rand(2,S.diff==='mid'?3:4);const each=S
 },
 dance(play,sp){const MV=[['👏','拍拍手','clap'],['🙌','舉高手','up'],['🦶','跺跺腳','stomp'],['🔄','轉個圈','spin']];
  const len=S.diff==='easy'?2:S.diff==='mid'?3:4;const seq=[];for(let i=0;i<len;i++){let r;do{r=rand(0,3)}while(r===seq[i-1]);seq.push(r)}S.ans=seq.join('|');
- setPrompt('看公主跳舞，<b class="kw">記住順序</b>！',['看公主跳舞，記住她的動作順序喔！'],sp);
+ const ip=['看公主跳舞，記住她的動作順序喔！'];setPrompt('看公主跳舞，<b class="kw">記住順序</b>！',ip,false);const intro=sp?say(ip,{pitch:S.hp||1.05}):wait(300);
  play.innerHTML=`<div class="dfloor"><div class="dancer" id="dancer">${princessMini()}</div></div><div class="moves">${MV.map((m,i)=>`<button class="qcard mv" data-v="${i}" disabled><span class="emo">${art(m[0])}</span><span class="lbl">${m[1]}</span></button>`).join('')}</div>`;
  const dn=$('#dancer',play),btns=$$('.mv',play);let idx=0,phase='show',run=0;
  const act=i=>{dn.className='dancer';void dn.offsetWidth;dn.classList.add('mv-'+MV[i][2]);tone(660+i*110,0,.25,'triangle',.1)};
- async function demo(first){const my=++run;phase='show';btns.forEach(b=>b.disabled=true);await wait(first&&sp?2600:700);
+ async function demo(first){const my=++run;phase='show';btns.forEach(b=>b.disabled=true);if(first){await intro;await wait(400)}else await wait(700);
   for(const i of seq){if(my!==run||!dn.isConnected)return;btns[i].classList.add('lit');act(i);say([MV[i][1]],{pitch:S.hp});await wait(1150);btns[i].classList.remove('lit')}
   if(my!==run)return;dn.className='dancer';phase='play';btns.forEach(b=>b.disabled=false);setPrompt('換你了！<b class="kw">照順序點</b>',['換你了！照剛剛的順序，點點看！'],true)}
  demo(true);
@@ -2937,7 +2949,7 @@ catch(play,sp,kind){
  if(kind==='zhuyin'){pool=zyPool().split('')}else if(kind==='num'){const hi=S.diff==='easy'?9:S.diff==='mid'?20:99;pool=Array.from({length:hi+1},(_,i)=>String(i))}else{pool=letterPool();if(S.diff!=='easy'&&Math.random()<.5)pool=pool.map(x=>x.toLowerCase())}
  let t;do{t=pick(pool)}while(t===S.last&&pool.length>1);S.last=t;S.ans=t;
  sayT=kind==='zhuyin'?{zh:ZREAD[t],slow:2}:kind==='num'?{zh:String(t),slow:2}:{en:`${t.toUpperCase()}.`,slow:2};
- setPrompt(`接住 <b class="ear">?</b> 的星星`,['天上掉下好多星星！仔細聽，只接住這個的星星：',sayT],sp);
+ const introP=['天上掉下好多星星！仔細聽，只接住這個的星星：',sayT];setPrompt(`接住 <b class="ear">?</b> 的星星`,introP,false);const intro=sp?say(introP,{pitch:S.hp||1.05}):wait(300);
  play.innerHTML=`<div class="catchwrap"><div class="catchfield${kind==='zhuyin'?' zy':''}" id="cf"></div><div class="catchbar">${Array.from({length:need},()=>'<i></i>').join('')}</div></div>`;
  const cf=$('#cf',play),dur=S.diff==='easy'?6.5:S.diff==='mid'?5.4:4.6,cols=['#FFE27A','#FF9FC8','#9FE8FF','#B9F5A0','#D9C2FF'];let got=0,alive=true,sn=0,glowOn=false,lastLane=-1;
  const others=pool.filter(x=>x!==t);
@@ -2952,7 +2964,8 @@ catch(play,sp,kind){
     if(got>=need){alive=false;clearInterval(iv);setTimeout(()=>$$('.fall',cf).forEach(x=>x.classList.add('fade')),200);right($('.catchbar',play),[praise(),'全部接到了！這是',sayT])}}
    else{b.classList.add('miss');sfx('wrong');S.miss++;S.lvMiss++;statWrong();const tm=$('#team');if(tm){tm.classList.remove('think');void tm.offsetWidth;tm.classList.add('think')}if(S.hint)setTimeout(()=>{if(!S.lock&&S.hint)S.hint(S.miss)},300)}};
   cf.appendChild(b)};
- const iv=setInterval(spawn,S.diff==='easy'?1200:950);setTimeout(spawn,500);
+ let iv=0;const lis=document.createElement('div');lis.className='clisten';lis.innerHTML='<b>仔細聽…</b>';cf.appendChild(lis);
+ intro.then(()=>wait(400)).then(()=>{lis.remove();if(!alive||!cf.isConnected||S.screen!=='stage')return;spawn();iv=setInterval(spawn,S.diff==='easy'?1200:950)});
  S.hint=m=>{if(m===1)petSay('再聽一次喔！',['再聽一次：',sayT]);else{glowOn=true;petSay('會發光的星星就對了！');$$('.fall',cf).filter(x=>x.dataset.v===t).forEach(x=>x.classList.add('tglow'))}};
 },
 feed(play,sp){const [ak,name,e,food,mw]=pick(FEEDS);const hard=S.diff==='hard';let n,a,b;
@@ -3064,7 +3077,8 @@ function meOpts(el,done){
  $$('[data-sk]',el).forEach(b=>b.onclick=()=>upd('skin',b.dataset.sk));
  $$('[data-ey]',el).forEach(b=>b.onclick=()=>{upd('eye',b.dataset.ey);say([EYN[b.dataset.ey]+'的眼睛'])});
  const ok=()=>{const v=$('#pname',el).value.trim().replace(/[<>&"']/g,'').slice(0,6);S.name=v;save();if(v){say([`你好，${v}公主！`]);toast(`你好，${v}公主！`)}else toast('名字清掉了');done()};
- $('#pnok',el).onclick=ok;$('#pname',el).onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();ok();e.target.blur()}};
+ $('#pnok',el).onclick=ok;
+ if(!S.name&&!meOpts.told){meOpts.told=1;const pi=$('#pname',el);pi.classList.add('cpulse');say(['這裡可以幫公主取名字，請爸爸媽媽幫忙輸入喔！也可以換髮型、膚色和眼睛的顏色。'])}$('#pname',el).onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();ok();e.target.blur()}};
 }
 
 let rt=0;
