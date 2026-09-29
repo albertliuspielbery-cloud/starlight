@@ -256,8 +256,8 @@ h1{margin:0;white-space:nowrap;font-size:clamp(40px,6.6vw,74px);letter-spacing:.
 @keyframes jig{to{transform:translateY(-12px) rotate(2deg)}}
 .endh{margin:0;font-size:clamp(32px,6vw,54px);position:relative;z-index:1;letter-spacing:.06em;font-weight:400;color:var(--gold);text-shadow:0 0 18px rgba(255,200,80,.6);animation:pop .6s cubic-bezier(.3,1.6,.5,1) backwards 3.6s}
 .endbtns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;animation:pop .6s ease backwards 4.2s}
-.heart{position:absolute;bottom:20%;z-index:2;pointer-events:none;animation:rise 4s ease-in forwards}
-@keyframes rise{from{transform:translateY(0) scale(.5);opacity:0}15%{opacity:1}to{transform:translateY(-55vh) scale(1.1);opacity:0}}
+.heart{position:absolute;bottom:20%;z-index:2;pointer-events:none;animation:hrise 4s ease-in forwards}
+@keyframes hrise{from{transform:translateY(0) scale(.5);opacity:0}15%{opacity:1}to{transform:translateY(-55vh) scale(1.1);opacity:0}}
 
 /* svg internal animation */
 .tw{animation:tw 2.4s ease-in-out infinite}
@@ -1389,8 +1389,8 @@ const SONGS=[
 let beat=0,musicTimer=0,curSong=-1;
 const musicWanted=()=>S.music&&['title','wardrobe','map','story','guide','chend'].includes(S.screen);
 let mbus=null;
-function musBus(){const a=audio();if(!a)return null;if(!mbus){mbus=a.createGain();mbus.gain.value=.8;mbus.connect(a.destination)}return mbus}
-function musDuck(on){const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.45:.8,a.currentTime,on?.25:.6)}
+function musBus(){const a=audio();if(!a)return null;if(!mbus){mbus=a.createGain();mbus.gain.value=.75;mbus.connect(a.destination)}return mbus}
+function musDuck(on){const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.62:.75,a.currentTime,on?.4:.8)}
 function mtone(f,t,d,type,v){const a=audio();const bus=musBus();if(!a||!bus)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+Math.max(0,t);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.02);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(bus);o.start(t0);o.stop(t0+d+.05)}
 function playNote(f,w,t){
  if(w==='box'){mtone(f,t,1.1,'sine',.034);mtone(f*2,t,.5,'sine',.01)}
@@ -1888,8 +1888,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.5.10';
-const VLOG=[['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.5.12';
+const VLOG=[['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -3100,6 +3100,6 @@ show('title');
 
 </script>
 
-<script>if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;let rl=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}});addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{window.__swreg=r;document.addEventListener('visibilitychange',()=>{if(!document.hidden)r.update().catch(()=>{})})}).catch(()=>{}))}</script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{window.__swreg=r}).catch(()=>{}))}</script>
 </body>
 </html>
