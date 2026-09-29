@@ -653,6 +653,27 @@ body[data-ch="1"]{--mote:#BFE8FF}
 .chcard.lockd{opacity:.5;border-color:rgba(255,217,138,.3)}
 .chcard .lk{position:absolute;right:14px;top:14px;width:24px;height:24px}
 
+/* ===== fit small screens ===== */
+.play{justify-content:flex-start}.play>:first-child{margin-top:auto}.play>:last-child{margin-bottom:auto}
+.play>.catchwrap{margin:0}
+@media (max-height:760px){
+ .play{gap:clamp(8px,1.6vh,16px)}
+ .qcard{width:clamp(80px,min(20vw,18vh),150px)}
+ .qcard .emo{font-size:clamp(38px,min(9vw,8vh),76px)}
+ .qhead{font-size:clamp(46px,min(10vw,9vh),80px)}
+ .tile{width:clamp(62px,min(14vw,12vh),120px);font-size:clamp(34px,min(7vw,6.4vh),64px)}
+ .clockw{width:min(40vw,22vh,220px)}
+ .rslot{width:clamp(62px,min(12vw,11vh),100px)}
+ .blob{width:clamp(52px,min(11vw,10vh),90px)}
+ .patrow span{width:clamp(38px,min(8vw,7.4vh),70px);font-size:clamp(26px,min(5vw,5vh),46px)}
+ .pz{width:min(70vw,36vh,340px)}
+ .book{padding:8px 12px}.book p{font-size:clamp(15px,2.2vw,19px);line-height:1.45}
+ .tens{transform:scale(.85);transform-origin:center}
+ .road{height:clamp(140px,26vh,220px)}
+ .mazewrap{width:min(84vw,46vh,500px)}
+ .pzref{width:min(16vw,9vh,80px)}
+}
+
 /* ===== perf ===== */
 .opt *,.face *,.gopts *,.meo *{animation:none!important}
 .opts .opt{content-visibility:auto;contain-intrinsic-size:110px 140px}
@@ -728,12 +749,12 @@ body[data-ch="2"] .stage{background:rgba(40,16,80,.45)}body[data-ch="3"] .stage{
 .cmpbox i{font-style:normal;position:relative;width:clamp(36px,min(7vw,7vh),56px);aspect-ratio:1;display:grid;place-items:center;font-size:clamp(28px,min(5.4vw,5.4vh),44px)}
 .cmpbox i svg{width:100%;height:100%}
 .cmpbox i[data-n]::after{content:attr(data-n);position:absolute;top:-6px;right:-6px;background:var(--gold2);color:var(--deep);font-family:var(--latin);font-weight:800;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:13px}
-.catchwrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px}
-.catchfield{position:relative;width:min(96%,760px);height:clamp(250px,48vh,460px);overflow:hidden;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.1));border:2px solid var(--goldline)}
+.catchwrap{width:100%;flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;gap:8px}
+.catchfield{position:relative;width:min(96%,760px);flex:1;min-height:170px;max-height:460px;overflow:hidden;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.1));border:2px solid var(--goldline)}
 .fall{position:absolute;top:-100px;will-change:transform;width:clamp(66px,min(14vw,12vh),100px);aspect-ratio:1;display:grid;place-items:center;animation:fallDown var(--dur,5s) linear forwards}
 .fall svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 0 8px rgba(255,230,140,.55));animation:wob 1.6s ease-in-out infinite alternate}
 .fall span{position:relative;font-family:var(--latin);font-weight:800;font-size:clamp(24px,min(4.6vw,4.4vh),38px);color:#3A2A6A;padding-top:8px}
-.catchfield.zy .fall span{font-family:var(--cjk);font-weight:400}
+.catchfield.zy .fall span{font-family:var(--cjk);font-weight:700;font-size:clamp(28px,min(5.4vw,5vh),42px);padding-top:4px}
 .fall.got{animation-play-state:paused;transition:opacity .35s;opacity:0}.fall.got svg{transform:scale(1.5);transition:transform .35s}
 .fall.miss{opacity:.35;filter:grayscale(.8)}
 .fall.fade{opacity:0;transition:opacity .4s}
@@ -1830,8 +1851,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.5.1';
-const VLOG=[['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.5.2';
+const VLOG=[['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 function aboutPanel(){
  const ov=overlay(screen,`<div class="card left about"><h2>星光公主大冒險</h2>
   <p class="small">給 4–6 歲小朋友的學習冒險遊戲：英文字母、注音、數字加減，還有生活、禮儀、安全和節日小知識。</p>
@@ -2851,7 +2872,7 @@ catch(play,sp,kind){
  if(kind==='zhuyin'){pool=zyPool().split('')}else if(kind==='num'){const hi=S.diff==='easy'?9:S.diff==='mid'?20:99;pool=Array.from({length:hi+1},(_,i)=>String(i))}else{pool=letterPool();if(S.diff!=='easy'&&Math.random()<.5)pool=pool.map(x=>x.toLowerCase())}
  let t;do{t=pick(pool)}while(t===S.last&&pool.length>1);S.last=t;S.ans=t;
  sayT=kind==='zhuyin'?{zh:`${ZREAD[t]}。　${ZREAD[t]}。`,slow:1}:kind==='num'?{zh:`${t}。　${t}。`,slow:1}:{en:`${t}.  ${t}.`,slow:1};
- setPrompt(`接住 <b class="ear">?</b> 的星星！接 ${need} 顆`,['天上掉下好多星星！仔細聽，只接住這個的星星：',sayT],sp);
+ setPrompt(`接住 <b class="ear">?</b> 的星星`,['天上掉下好多星星！仔細聽，只接住這個的星星：',sayT],sp);
  play.innerHTML=`<div class="catchwrap"><div class="catchfield${kind==='zhuyin'?' zy':''}" id="cf"></div><div class="catchbar">${Array.from({length:need},()=>'<i></i>').join('')}</div></div>`;
  const cf=$('#cf',play),dur=S.diff==='easy'?6.5:S.diff==='mid'?5.4:4.6,cols=['#FFE27A','#FF9FC8','#9FE8FF','#B9F5A0','#D9C2FF'];let got=0,alive=true,sn=0,glowOn=false,lastLane=-1;
  const others=pool.filter(x=>x!==t);
@@ -2983,7 +3004,7 @@ function meOpts(el,done){
 
 let rt=0;
 addEventListener('resize',()=>{sizeFx();clearTimeout(rt);rt=setTimeout(()=>{if(S.screen==='map')SCREENS.map('quiet')},200)});
-window.__game={S,go,show,ITEMS,get LEVELS(){return LEVELS},setCh};
+window.__game={S,go,show,ITEMS,get LEVELS(){return LEVELS},setCh,rq:renderQ};
 show('title');
 })();
 
