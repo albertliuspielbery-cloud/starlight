@@ -12,8 +12,9 @@
 <meta name="apple-mobile-web-app-title" content="星光公主">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <style>
 [hidden]{display:none!important}
 :root{
@@ -674,6 +675,11 @@ body[data-ch="1"]{--mote:#BFE8FF}
 @keyframes cpulse{50%{box-shadow:0 0 0 6px rgba(255,226,122,.55),0 0 22px rgba(255,226,122,.8)}}
 .nmhand{position:absolute;right:-18px;bottom:-26px;width:44px;height:44px;pointer-events:none;animation:handtap 1.1s ease-in-out infinite}
 .nmhand svg{width:100%;height:100%}
+body[data-ch="5"]{--sky1:#061A38;--sky2:#0E3A5E;--sky3:#1A5A7A}body[data-ch="6"]{--sky1:#161C58;--sky2:#3A3A8A;--sky3:#7A6AC0}
+body[data-ch="7"]{--sky1:#0A1440;--sky2:#1E3A78;--sky3:#4A78B0}body[data-ch="8"]{--sky1:#2A1248;--sky2:#6A2A70;--sky3:#B04A88}body[data-ch="9"]{--sky1:#05061C;--sky2:#140E40;--sky3:#2E1A60}
+body[data-ch="5"] .stage{background:rgba(8,40,70,.45)}body[data-ch="7"] .stage{background:rgba(20,40,90,.45)}body[data-ch="8"] .stage{background:rgba(60,20,70,.42)}body[data-ch="9"] .stage{background:rgba(10,8,40,.5)}
+body[data-ch="5"]{--mote:#9FF3FF}body[data-ch="6"]{--mote:#FFFFFF}body[data-ch="7"]{--mote:#E8F8FF}body[data-ch="8"]{--mote:#FFB3D9}body[data-ch="9"]{--mote:#FFE27A}
+.thph{display:block;width:100%;aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,.08)}
 /* ===== fit small screens ===== */
 .play{justify-content:flex-start}.play>:first-child{margin-top:auto}.play>:last-child{margin-bottom:auto}
 .play>.catchwrap{margin:0}
@@ -1364,7 +1370,8 @@ Object.assign(ICON,{
 
 /* ================= audio ================= */
 let ac=null;
-function audio(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac}
+let OFFCTX=null;
+function audio(){if(OFFCTX)return OFFCTX;if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac}
 function tone(f,t,d,type='sine',v=.12,force){const a=audio();if(!a||(!S.sound&&!force))return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+t;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.015);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+d+.05)}
 function sfx(k){
  if(k==='right')[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.08,.4,'triangle',.11));
@@ -1390,24 +1397,33 @@ let beat=0,musicTimer=0,curSong=-1;
 const musicWanted=()=>S.music&&['title','wardrobe','map','story','guide','chend'].includes(S.screen);
 let mbus=null;
 function musBus(){const a=audio();if(!a)return null;if(!mbus){mbus=a.createGain();mbus.gain.value=.75;mbus.connect(a.destination)}return mbus}
-function musDuck(on){const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.62:.75,a.currentTime,on?.4:.8)}
+function musDuck(on){if(!ac)return;const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.62:.75,a.currentTime,on?.4:.8)}
 function mtone(f,t,d,type,v){const a=audio();const bus=musBus();if(!a||!bus)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+Math.max(0,t);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.02);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(bus);o.start(t0);o.stop(t0+d+.05)}
-function playNote(f,w,t){
- if(w==='box'){mtone(f,t,1.1,'sine',.034);mtone(f*2,t,.5,'sine',.01)}
- else if(w==='soft'){mtone(f,t,.9,'triangle',.034);mtone(f/2,t,.9,'sine',.012)}
- else if(w==='waltz'){mtone(f,t,.7,'sine',.036);mtone(f*2,t,.3,'sine',.008)}
- else if(w==='pluck'){mtone(f,t,.5,'triangle',.04);mtone(f*2,t,.2,'sine',.008)}
- else{mtone(f,t,1.3,'sine',.032);mtone(f*2,t,.6,'sine',.009);mtone(f*4,t,.25,'sine',.003)}}
-let mNext=0;
-function musicTick(){const a=audio();if(!a)return;const si=Math.min(S.ch,SONGS.length-1);
- if(si!==curSong){curSong=si;beat=0;mNext=a.currentTime+.1}
- if(!musicWanted()||a.state!=='running'){mNext=a.currentTime+.1;return}
- const sg=SONGS[si],step=sg.t/1000;if(mNext<a.currentTime)mNext=a.currentTime+.05;
- while(mNext<a.currentTime+.4){const n=sg.n[beat%sg.n.length],bt=beat,off=mNext-a.currentTime;beat++;
-  if(sg.w==='waltz'){if(bt%6===0)mtone(NOTE(bt%12?'D3':'G3'),off,1.3,'triangle',.02)}
-  if(n!=='-'){const f=NOTE(n);playNote(f,sg.w,off);if(sg.w!=='waltz'&&bt%8===0)mtone(f/2,off,1.4,'triangle',.016)}
-  mNext+=step}}
-function startMusic(){if(!musicTimer){musicTimer=setInterval(musicTick,100)}}
+// 背景音樂：整首先「預先錄好」成一段音檔再循環播放，節奏和音量都固定，不受平板忙不忙影響
+const songCache={};
+function songBuffer(si){if(songCache[si])return songCache[si];
+ const OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OAC)return Promise.resolve(null);
+ const sg=SONGS[si],step=sg.t/1000,len=sg.n.length*step,sr=22050,tail=2,N=Math.ceil(len*sr);
+ const oc=new OAC(1,Math.ceil((len+tail)*sr),sr);
+ const ot=(f,t,d,type,v)=>{const o=oc.createOscillator(),g=oc.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(oc.destination);o.start(t);o.stop(t+d+.05)};
+ const pn=(f,w,t)=>{
+  if(w==='box'){ot(f,t,1.1,'sine',.034);ot(f*2,t,.5,'sine',.01)}
+  else if(w==='soft'){ot(f,t,.9,'triangle',.034);ot(f/2,t,.9,'sine',.012)}
+  else if(w==='waltz'){ot(f,t,.7,'sine',.036);ot(f*2,t,.3,'sine',.008)}
+  else if(w==='pluck'){ot(f,t,.5,'triangle',.04);ot(f*2,t,.2,'sine',.008)}
+  else{ot(f,t,1.3,'sine',.032);ot(f*2,t,.6,'sine',.009);ot(f*4,t,.25,'sine',.003)}};
+ sg.n.forEach((n,bt)=>{const t=bt*step+.01;
+  if(sg.w==='waltz'&&bt%6===0)ot(NOTE(bt%12?'D3':'G3'),t,1.3,'triangle',.02);
+  if(n!=='-'){const f=NOTE(n);pn(f,sg.w,t);if(sg.w!=='waltz'&&bt%8===0)ot(f/2,t,1.4,'triangle',.016)}});
+ const pr=new Promise(res=>{const done=buf=>{try{const d=buf.getChannelData(0);for(let i=N;i<d.length;i++)d[i-N]+=d[i];const out=(audio()||oc).createBuffer(1,N,sr);out.getChannelData(0).set(d.subarray(0,N));res(out)}catch(e){res(null)}};
+  const r=oc.startRendering();if(r&&r.then)r.then(done,()=>res(null));else oc.oncomplete=e=>done(e.renderedBuffer)});
+ songCache[si]=pr;return pr}
+let songSrc=null,songGain=null,songOn=-1,songBusy=false;
+function stopSong(){const a=audio();if(songSrc&&a){const g=songGain,sN=songSrc;g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(0,a.currentTime,.15);setTimeout(()=>{try{sN.stop()}catch(e){}},800)}songSrc=null;songGain=null;songOn=-1}
+async function musicTick(){const a=audio();if(!a||songBusy)return;const want=(musicWanted()&&a.state==='running')?Math.min(S.ch,SONGS.length-1):-1;
+ if(want===songOn)return;if(want<0){stopSong();return}
+ songBusy=true;try{const buf=await songBuffer(want);stopSong();if(buf&&musicWanted()){const bus=musBus();const g=a.createGain();g.gain.value=0;g.connect(bus);const src=a.createBufferSource();src.buffer=buf;src.loop=true;src.connect(g);src.start();g.gain.setTargetAtTime(1,a.currentTime,.3);songSrc=src;songGain=g;songOn=want}}catch(e){}songBusy=false}
+function startMusic(){if(!musicTimer){musicTimer=setInterval(musicTick,300)}}
 
 /* voice */
 let voices=[];
@@ -1639,7 +1655,7 @@ function drawP(p){
  if(p.kind==='note'){ctx.font=`${p.r*4}px sans-serif`;ctx.fillText(p.t||'♪',p.x,p.y);return}
  if(p.star)star(p.x,p.y,p.r*1.6);else{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7)}ctx.fill();
 }
-function confetti(){const n=reduced?12:90;for(let i=0;i<n;i++)parts.push({kind:'conf',x:Math.random()*innerWidth,y:-20-Math.random()*120,vx:(Math.random()-.5)*1.5,vy:2+Math.random()*2.5,g:.03,life:1,dec:.006,c:PAL[i%PAL.length],r:5+Math.random()*4,rot:Math.random()*6,vr:(Math.random()-.5)*.3});kick()}
+function confetti(){const n=reduced?12:S.lite?35:90;for(let i=0;i<n;i++)parts.push({kind:'conf',x:Math.random()*innerWidth,y:-20-Math.random()*120,vx:(Math.random()-.5)*1.5,vy:2+Math.random()*2.5,g:.03,life:1,dec:.006,c:PAL[i%PAL.length],r:5+Math.random()*4,rot:Math.random()*6,vr:(Math.random()-.5)*.3});kick()}
 function heartsUp(x,y){for(let i=0;i<(reduced?5:22);i++)parts.push({kind:'heart',x:x+(Math.random()-.5)*80,y,vx:(Math.random()-.5)*1.6,vy:-1.5-Math.random()*2.5,g:-.01,life:1,dec:.012,c:['#FF8FC8','#FF5FA6','#FFB3D9','#FFE07A'][i%4],r:5+Math.random()*6});kick()}
 function bubblesUp(x,y){for(let i=0;i<(reduced?5:24);i++)parts.push({kind:'bubble',x:x+(Math.random()-.5)*140,y:y+40,vx:(Math.random()-.5)*.8,vy:-1-Math.random()*2.2,g:-.008,life:1,dec:.011,c:PAL[i%PAL.length],r:6+Math.random()*12});kick()}
 function notesUp(el){if(!el)return;const r=el.getBoundingClientRect();for(let i=0;i<10;i++)parts.push({kind:'note',t:pick(['♪','♫','♬']),x:r.left+r.width*Math.random(),y:r.top+r.height*.3,vx:(Math.random()-.5)*1.2,vy:-1.2-Math.random()*1.5,g:-.005,life:1,dec:.014,c:pick(PAL),r:6+Math.random()*3});kick()}
@@ -1710,7 +1726,7 @@ title(){clearEnd();
   <div class="art">${castle('class="castleback"')}<div class="glowstage"></div><span class="petw">${myPet()}</span>${princess(S.look,'class="pr"')}</div>
   <div class="panel">
    <div class="logo"><span class="en">STARLIGHT PRINCESS</span><h1>星光公主</h1><span class="rib">大冒險</span></div>
-   <p class="sub">${S.name?`<b class="gold">${S.name}公主</b>，`:''}${cont()?`${CHAPTERS[S.ch].title}・已經走了 ${S.prog} 關`:S.chDone>=1?`已經找到 ${S.chDone} 封王子的信，<br>繼續冒險吧！`:'和寵物一起穿過星光森林，<br>找回王子留下的魔法信'}</p>
+   <p class="sub">${S.name?`<b class="gold">${S.name}公主</b>，`:''}${cont()?`${CHAPTERS[S.ch].title}・已經走了 ${S.prog} 關`:S.chDone>=6?`已經收集 ${S.chDone-5} 顆星星寶石，<br>繼續冒險吧！`:S.chDone>=1?`已經找到 ${S.chDone} 封王子的信，<br>繼續冒險吧！`:'和寵物一起穿過星光森林，<br>找回王子留下的魔法信'}</p>
    <div class="row"><button class="btn" id="go"><span class="ic">${ICON.star('#3A2A6A')}</span>${cont()?'繼續冒險':'開始冒險'}</button><button class="btn2" id="dress"><span class="ic">${ICON.shirt('#FFD98A')}</span>換裝間</button></div>
    <div class="row"><span class="pill">${gem(WALLET_GEM)}寶石袋 <b>${S.wallet}</b></span><button class="pill pbtn" id="parent">家長設定・${DIFF[S.diff].name}</button>${cont()?'<button class="pill pbtn" id="restart">重新開始</button>':''}${S.name?'':'<button class="pill pbtn namebtn" id="nameit">幫公主取名字</button>'}<button class="pill pbtn" id="about">關於・v${APP_VERSION}</button></div>
   </div></div>`;
@@ -1745,12 +1761,21 @@ story(){
   {bg:'museum',actors:()=>`<span class="bob">${myPet('class="small"')}</span>${princess(S.look)}`,text:'帶著三封信，公主來到了魔法博物館。這裡有恐龍、星星、動物，還有好多好多知識！'},
   {bg:'museum',actors:()=>`<div class="bob">${owlLetter()}</div>`,text:'貓頭鷹說：每個展廳都有一個問題。學會越多，就越快找到第四封信喔！'},
   {bg:'museum',actors:()=>`${myPet('class="small"')}${princess(S.look)}`,text:'博物館要開門了，先換上漂亮的衣服吧！'});
+ const SP={5:['sea','找到王子以後，大家一起開舞會。可是，天上的星星一顆一顆變暗了……','王子說：星光王國需要五顆星星寶石，才能重新亮起來。第一顆掉進了海底王國！','海底王國好美喔！穿上漂亮的衣服，出發吧！'],
+  6:['cloud','拿著第一顆星星寶石，公主坐上雲朵，飛到了天空城。','小鳥說：第二顆星星寶石，藏在雲朵的最上面！','天空好高好藍，換上衣服，一起飛上去吧！'],
+  7:['ice','第三顆星星寶石，在又冷又漂亮的冰雪城堡。','雪人先生說：冰雪女王在等你喔！要穿得暖暖的！','換上暖暖的衣服，出發去冰雪城堡！'],
+  8:['candy','第四顆星星寶石，掉進了甜甜的糖果王國。','小老鼠說：糖果雖然好吃，但也要吃得健康、記得刷牙喔！','換上可愛的衣服，一起去糖果王國！'],
+  9:['space','只剩最後一顆星星寶石了！它在最高最高的星空神殿。','貓頭鷹說：找到它，星光王國就會重新亮起來！','最後的冒險，穿上最美的衣服出發吧！']};
+ if(SP[S.ch]){const [bg,a,b,c]=SP[S.ch];P.splice(0,P.length,
+  {bg,actors:()=>`<span class="bob">${myPet('class="small"')}</span>${princess(S.look)}`,text:a},
+  {bg,actors:()=>`<div class="bob">${owlLetter()}</div>`,text:b},
+  {bg,actors:()=>`${myPet('class="small"')}${princess(S.look)}`,text:c})}
  if(S.ch===4)P.splice(0,P.length,
   {bg:'rainbow',actors:()=>`<span class="bob">${myPet('class="small"')}</span>${princess(S.look)}`,text:'四封信一起發光，天空出現了一道好大的彩虹。彩虹的盡頭，就是彩虹城堡！'},
   {bg:'rainbow',actors:()=>`<div class="bob">${owlLetter()}</div>`,text:'貓頭鷹說：走過七道彩虹橋，打開彩虹之門，王子就在城堡裡等你！'},
   {bg:'rainbow',actors:()=>`${myPet('class="small"')}${princess(S.look)}`,text:'最後一段旅程了，穿上最美的衣服出發吧！'});
  let i=0;
- const bgSVG=k=>k==='museum'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${museumBg(800,400)}</svg>`:k==='rainbow'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${rainbowBg(800,400)}</svg>`:k==='hall'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${hallBg(800,400)}</svg>`:k==='castle'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${Array.from({length:40},(_,j)=>`<circle class="tw" style="animation-delay:${(j*.23%2.4).toFixed(2)}s" cx="${(j*97)%800}" cy="${(j*53)%260}" r="${1+(j%3)*.6}" fill="#FFF6D8"/>`).join('')}${castle('x="270" y="60" width="260" height="224" opacity=".55"')}<path d="M0 330 Q200 290 400 330 T800 320 V400 H0Z" fill="#262B6C"/></svg>`:k==='lake'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${lakeBg(800,400)}</svg>`:`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${forestBg(800,400,{flies:24})}</svg>`;
+ const bgSVG=k=>CHBG[k]?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${CHBG[k](800,400)}</svg>`:k==='museum'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${museumBg(800,400)}</svg>`:k==='rainbow'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${rainbowBg(800,400)}</svg>`:k==='hall'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${hallBg(800,400)}</svg>`:k==='castle'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${Array.from({length:40},(_,j)=>`<circle class="tw" style="animation-delay:${(j*.23%2.4).toFixed(2)}s" cx="${(j*97)%800}" cy="${(j*53)%260}" r="${1+(j%3)*.6}" fill="#FFF6D8"/>`).join('')}${castle('x="270" y="60" width="260" height="224" opacity=".55"')}<path d="M0 330 Q200 290 400 330 T800 320 V400 H0Z" fill="#262B6C"/></svg>`:k==='lake'?`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${lakeBg(800,400)}</svg>`:`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${forestBg(800,400,{flies:24})}</svg>`;
  function render(){const p=P[i];
   screen.innerHTML=`<div class="story"><button class="skip" id="skip">跳過</button><div class="scard">
    ${p.scroll?`<div class="scroll">${p.text}<span class="sign">—— 王子</span>${sealSVG()}</div>`:`<div class="scene">${bgSVG(p.bg)}<div class="actors">${p.actors()}</div></div><p class="stext">${p.text}</p>`}
@@ -1792,18 +1817,21 @@ wardrobe(){
  function refresh(spin){$('#pv').innerHTML=teamHTML();if(spin){const pr=$('#pv .pr');if(pr)pr.classList.add('spin','happy');magicRing($('#pv'))}$('#wbag').innerHTML=`${gem(WALLET_GEM)}寶石袋 <b>${S.wallet}</b>`}
  refresh();
  const list=()=>tab==='acc'?ITEMS.filter(i=>['neck','ear','clip','back','wrist'].includes(i.slot)):tab==='pets'?ITEMS.filter(i=>PETSLOTS.includes(i.slot)):ITEMS.filter(i=>i.slot===tab);
- const thumb=it=>still(PETSLOTS.includes(it.slot)?petSVG(it.slot==='pet'?it.id:(PETANI[S.look.pet]?'unicorn':S.look.pet),it.slot==='petacc'?it.id:S.look.petacc):princess({...S.look,[it.slot]:it.id},'',VB[it.slot]));
+ const TC=new Map();const thumb=it=>{const k=it.id+'|'+JSON.stringify(S.look);if(TC.has(k))return TC.get(k);if(TC.size>400)TC.clear();const v=thumb0(it);TC.set(k,v);return v};
+ const thumb0=it=>still(PETSLOTS.includes(it.slot)?petSVG(it.slot==='pet'?it.id:(PETANI[S.look.pet]?'unicorn':S.look.pet),it.slot==='petacc'?it.id:S.look.petacc):princess({...S.look,[it.slot]:it.id},'',VB[it.slot]));
  function opts(){
   if(tab==='me')return meOpts($('#opts'),()=>{refresh(true);burstEl($('#pv'),22)});
-  $('#opts').innerHTML=list().map(it=>{const have=owns(it.id),worn=S.look[it.slot]===it.id;
-   return `<button class="opt${have?'':' locked'}${it.premium?' prem':''}" data-id="${it.id}" aria-pressed="${worn}">${it.premium?'<i class="badge">高級</i>':''}${thumb(it)}<span>${it.name}</span>${have||it.chapter?'':`<em class="price">${gem(WALLET_GEM)}${it.price}</em>`}${!have&&it.chapter?`<small>第${'一二三四五'[it.chapter-1]}章大獎</small>`:!have&&(it.reward||it.petgift||it.box)?'<small>闖關禮物</small>':''}</button>`}).join('');
+  const LI=list(),tok=(opts.tok=(opts.tok||0)+1);
+  $('#opts').innerHTML=LI.map((it,ix)=>{const have=owns(it.id),worn=S.look[it.slot]===it.id;
+   return `<button class="opt${have?'':' locked'}${it.premium?' prem':''}" data-id="${it.id}" aria-pressed="${worn}">${it.premium?'<i class="badge">高級</i>':''}${ix<12?thumb(it):'<i class="thph"></i>'}<span>${it.name}</span>${have||it.chapter?'':`<em class="price">${gem(WALLET_GEM)}${it.price}</em>`}${!have&&it.chapter?`<small>第${'一二三四五六七八九十'[it.chapter-1]}章大獎</small>`:!have&&(it.reward||it.petgift||it.box)?'<small>闖關禮物</small>':''}</button>`}).join('');
+  {const btns=$$('#opts .opt');let j=12;const fill=()=>{if(tok!==opts.tok)return;const end=Math.min(j+6,btns.length);for(;j<end;j++){const ph=btns[j].querySelector('.thph');if(ph)ph.outerHTML=thumb(ITEM[btns[j].dataset.id])}if(j<btns.length)setTimeout(fill,20)};if(btns.length>12)setTimeout(fill,40)}
   $$('.opt').forEach(b=>b.onclick=()=>{const it=ITEM[b.dataset.id];
    if(!owns(it.id))return buy(it);
    if(OPTIONAL.includes(it.slot)&&S.look[it.slot]===it.id)S.look[it.slot]='';else S.look[it.slot]=it.id;
    save();opts();refresh(true);burstEl($('#pv'),22);tone(880,0,.15,'triangle',.08);tone(1320,.08,.2,'triangle',.06);
    say([S.look[it.slot]?it.name:'拿下來了'])})}
  function buy(it){
-  if(it.chapter){const ov=overlay(wardEl,`<div class="card"><div class="face big">${thumb(it)}</div><h2>${it.name}</h2><p>完成第${'一二三四五'[it.chapter-1]}章「${CHAPTERS[it.chapter-1].name}」，就能得到喔！</p><button class="btn" id="no">好</button></div>`);say([`${it.name}，完成第${'一二三四五'[it.chapter-1]}章就能得到喔！`]);$('#no',ov).onclick=()=>ov.remove();return}
+  if(it.chapter){const ov=overlay(wardEl,`<div class="card"><div class="face big">${thumb(it)}</div><h2>${it.name}</h2><p>完成第${'一二三四五六七八九十'[it.chapter-1]}章「${CHAPTERS[it.chapter-1].name}」，就能得到喔！</p><button class="btn" id="no">好</button></div>`);say([`${it.name}，完成第${'一二三四五六七八九十'[it.chapter-1]}章就能得到喔！`]);$('#no',ov).onclick=()=>ov.remove();return}
   const enough=S.wallet>=it.price;
   const ov=overlay(wardEl,`<div class="card"><div class="face big">${thumb(it)}</div><h2>${it.name}</h2>
    <p>${enough?`要用 <b class="gold">${it.price}</b> 顆寶石換嗎？`:`還差 <b class="gold">${it.price-S.wallet}</b> 顆寶石。去闖關收集寶石吧！`}</p>
@@ -1816,7 +1844,7 @@ wardrobe(){
  opts();
  $('#done').onclick=()=>go(S.from==='map'?'map':'title',S.from==='map'?'quiet':undefined);
  $('#wardhelp').onclick=()=>wardTour();
- if(!S.tutWard)setTimeout(()=>{if(S.screen==='wardrobe'&&!$('.overlay'))wardTour()},600);else say(['歡迎來到換裝間！有鎖頭的東西，可以用寶石換喔。']);
+ if(!S.tutWard)setTimeout(()=>{if(S.screen==='wardrobe'&&!$('.overlay'))wardTour(S.newPrize?prizeTour:null)},600);else if(S.newPrize)setTimeout(()=>{if(S.screen==='wardrobe')prizeTour()},600);else say(['歡迎來到換裝間！有鎖頭的東西，可以用寶石換喔。']);
 },
 map(first){
  const box=screen.getBoundingClientRect();const port=box.width/Math.max(box.height,1)<1.05;
@@ -1826,7 +1854,7 @@ map(first){
  for(let i=1;i<P.length;i++){const[a,b]=[P[i-1],P[i]];if(Math.abs(b[0]-a[0])>=Math.abs(b[1]-a[1])){const mx=(a[0]+b[0])/2;d+=` C${mx} ${a[1]} ${mx} ${b[1]} ${b[0]} ${b[1]}`}else{const my=(a[1]+b[1])/2,bx=Math.max(a[0],b[0])+60;d+=` C${bx} ${a[1]} ${bx} ${b[1]} ${b[0]} ${b[1]}`}}
  const g=nid();
  let svg=`<defs><radialGradient id="${g}n" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#4A40A0"/><stop offset="1" stop-color="#241E68"/></radialGradient><filter id="${g}f" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="${g}r" x1="0" x2="1"><stop offset="0" stop-color="#FF7FB8"/><stop offset="1" stop-color="#A98BF0"/></linearGradient></defs>
-  ${CHAPTERS[S.ch].bg==='museum'?museumBg(W,H):CHAPTERS[S.ch].bg==='rainbow'?rainbowBg(W,H):CHAPTERS[S.ch].bg==='hall'?hallBg(W,H):CHAPTERS[S.ch].bg==='lake'?lakeBg(W,H):`<g transform="translate(-400 0)">${forestBg(W+800,H,{flies:S.lite?8:30})}</g>`}
+  ${CHBG[CHAPTERS[S.ch].bg]?CHBG[CHAPTERS[S.ch].bg](W,H):CHAPTERS[S.ch].bg==='museum'?museumBg(W,H):CHAPTERS[S.ch].bg==='rainbow'?rainbowBg(W,H):CHAPTERS[S.ch].bg==='hall'?hallBg(W,H):CHAPTERS[S.ch].bg==='lake'?lakeBg(W,H):`<g transform="translate(-400 0)">${forestBg(W+800,H,{flies:S.lite?8:30})}</g>`}
   <path id="mpath" d="${d}" fill="none" stroke="rgba(255,217,138,.16)" stroke-width="30" stroke-linecap="round"/>
   <path d="${d}" fill="none" stroke="rgba(255,217,138,.22)" stroke-width="15" stroke-dasharray="2 19" stroke-linecap="round"/><path class="trail" d="${d}" fill="none" stroke="#FFD98A" stroke-width="7" stroke-dasharray="2 19" stroke-linecap="round"/>
   <g transform="translate(${W/2} ${port?60:52})"><rect x="-150" y="-26" width="300" height="52" rx="14" fill="url(#${g}r)"/><text class="banner" text-anchor="middle" y="12">${CHAPTERS[S.ch].title}</text></g>`;
@@ -1880,7 +1908,7 @@ chend(){
  T(1900,()=>{$$('.trio > div').forEach(d=>d.firstElementChild&&d.firstElementChild.classList.add('jig'))});
  for(let k=0;k<7;k++)T(600+k*650,()=>burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.12+Math.random()*.35),42));
  T(800,confetti);
- say([`${CHAPTERS[S.ch].title.split('・')[0]}完成了！`,CHAPTERS[S.ch].endText.replace(/<br>/g,'')]);
+ say([`${CHAPTERS[S.ch].title.split('・')[0]}完成了！`,CHAPTERS[S.ch].endText.replace(/<br>/g,'')]).then(()=>{if(!S.newPrize||S.screen!=='chend')return;const w=$('#ward2');if(!w)return;w.classList.add('cpulse');const h=document.createElement('span');h.className='nmhand';h.innerHTML=CHAND;w.appendChild(h);say(['你得到新的衣服和寵物了！點「換裝間」，可以換上新衣服喔！'])});
  $('#again').onclick=()=>{clearEnd();S.prog=0;S.walkFrom=null;save();go('guide')};
  const nc=$('#nextch');if(nc)nc.onclick=()=>{clearEnd();setCh(S.ch+1);if(S.prog>=NL)S.prog=0;S.walkFrom=null;save();go(S.prog===0?'story':'guide')};
  $('#ward2').onclick=()=>{clearEnd();S.from='title';go('wardrobe')};
@@ -1888,8 +1916,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.5.12';
-const VLOG=[['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.6.1';
+const VLOG=[['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -1907,6 +1935,7 @@ function nameAsk(manual){nameAsked=true;
  $('#nmok',ov).onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();ok()}};
  $('#nmno',ov).onclick=()=>{clearTimeout(nmT);ov.remove();hush();say(['好喔！我們先去冒險吧！'])};
 }
+const CHAND='<svg viewBox="0 0 48 48"><path d="M18 44 Q10 34 8 28 Q7 24 11 24 Q14 24 17 29 L17 8 Q17 4 21 4 Q25 4 25 8 L25 20 Q25 17 29 17 Q33 17 33 21 Q33 18 37 18 Q41 19 41 23 L41 32 Q41 40 36 44Z" fill="#FFF6E8" stroke="#3A2A6A" stroke-width="2.4" stroke-linejoin="round"/></svg>';
 function coach(steps,end){let i=0;const el=document.createElement('div');el.className='coach';document.body.appendChild(el);
  const HAND=`<svg viewBox="0 0 48 48"><path d="M18 44 Q10 34 8 28 Q7 24 11 24 Q14 24 17 29 L17 8 Q17 4 21 4 Q25 4 25 8 L25 20 Q25 17 29 17 Q33 17 33 21 Q33 18 37 18 Q41 19 41 23 L41 32 Q41 40 36 44Z" fill="#FFF6E8" stroke="#3A2A6A" stroke-width="2.4" stroke-linejoin="round"/></svg>`;
  function finish(){el.remove();removeEventListener('resize',draw);hush();end&&end()}
@@ -1927,7 +1956,7 @@ function coach(steps,end){let i=0;const el=document.createElement('div');el.clas
  function show(){draw();const st=steps[i];if(st.say!==false)say([st.voice||st.text.replace(/<[^>]+>/g,'')])}
  addEventListener('resize',draw);show();
 }
-function wardTour(){S.tutWard=1;save();
+function wardTour(next){S.tutWard=1;save();
  const firstTab=$$('.tab').find(t=>t.dataset.t==='dress');if(firstTab&&firstTab.getAttribute('aria-selected')!=='true')firstTab.click();
  coach([
   {sel:'.ward .tabs',text:'這裡是衣櫃的抽屜。<br>有裙子、頭飾、道具、飾品、鞋子、頭髮，還有寵物！'},
@@ -1937,7 +1966,16 @@ function wardTour(){S.tutWard=1;save();
   {sel:'#wbag',text:'這裡是你的寶石袋，看看有幾顆寶石。'},
   {sel:'.tab[data-t="me"]',text:'「我的公主」可以換髮型、膚色、眼睛，還可以取名字！'},
   {sel:'#done',text:'換好了，就按「穿好了！」出發去冒險吧！'}
- ],()=>say(['好了！開始打扮吧！']));
+ ],()=>{if(next)next();else say(['好了！開始打扮吧！'])});
+}
+function prizeTour(){const pz=S.newPrize;S.newPrize=null;if(!pz)return;const [pet,dress]=pz;
+ const dt=$('.tab[data-t="dress"]');if(dt)dt.click();
+ coach([
+  {sel:()=>$(`#opts .opt[data-id="${dress}"]`),tap:true,text:'這是你剛得到的新衣服！點一下穿上吧！'},
+  {sel:'.tab[data-t="pets"]',tap:true,text:'還有新的寵物朋友！點「寵物」看看。',wait:700},
+  {sel:()=>$(`#opts .opt[data-id="${pet}"]`),tap:true,text:'點一下，讓新朋友陪你去冒險！'},
+  {sel:'#done',text:'換好了！按「穿好了！」，就會回到主畫面喔！'}
+ ],()=>{const d=$('#done');if(d)d.classList.add('cpulse')});
 }
 function aboutPanel(){
  const ov=overlay(screen,`<div class="card left about"><h2>星光公主大冒險</h2>
@@ -2035,7 +2073,7 @@ function levelDone(){
  say([pick(['過關了！好厲害！','太棒了，這一關完成了！','過關囉！']),`寶石袋多了${earn}顆寶石。`,perfect?'全部答對，拿到三顆星！':'']);
  const card=$('.rbody',ov);
  const finish=async()=>{
-  if(L.reward==='chapter'){S.prog=NL;S.chDone=Math.max(S.chDone,S.ch+1);save();go(S.ch===CHAPTERS.length-1?'finale':'chend');return}
+  if(L.reward==='chapter'){S.prog=NL;S.chDone=Math.max(S.chDone,S.ch+1);save();go(S.ch===4||S.ch===CHAPTERS.length-1?'finale':'chend');return}
   if(isNew){
    const src=card.getBoundingClientRect();const dst=$('#prog').getBoundingClientRect();
    const sz=90,sx=src.left+src.width/2-sz/2,sy=src.top+src.height/2-sz/2;
@@ -2100,7 +2138,7 @@ const REWARD={
  chapter(card,finish){const C=CHAPTERS[S.ch];
   card.innerHTML=`<div class="scroll">${C.letter}<span class="sign">—— 王子</span>${sealSVG()}</div><button class="btn" id="next">看看禮物</button>`;
   say([C.letter.replace(/<br>/g,'')]);
-  $('#next',card).onclick=()=>{C.prize.forEach(id=>{if(!owns(id))S.owned.push(id)});S.look.dress=C.prize[1];save();
+  $('#next',card).onclick=()=>{C.prize.forEach(id=>{if(!owns(id))S.owned.push(id)});S.newPrize=C.prize.slice();S.look.dress=C.prize[1];save();
    card.innerHTML=`<div class="petshow"><span class="bob">${petSVG(C.prize[0],'')}</span>${princess(S.look)}</div><h2>得到${C.prizeName}！</h2><p class="small">在換裝間可以選新的寵物喔</p><button class="btn" id="cont">太棒了！</button>`;
    sfx('gem');confetti();say([`得到${C.prizeName}了！在換裝間，可以選新的寵物喔！`]);$('#cont',card).onclick=finish};
  }
@@ -2354,7 +2392,7 @@ story(play,sp){
 SCREENS.chapters=function(){
  const CH=[...CHAPTERS.map((c,i)=>({...c,i})),...FUTURE];
  screen.innerHTML=`<div class="chsel"><h2 class="gtitle">選一個章節</h2><div class="chgrid">${CH.map((c,i)=>{const open=!c.lock&&i<=S.chDone;const p=S.progs[i]||0;
-  return `<button class="chcard${open?'':' lockd'}" data-i="${i}" ${open?'':'aria-disabled="true"'}><span class="chn">第${'一二三四五六七八'[i]}章</span><b>${c.name}</b><span class="chp">${c.soon?'敬請期待・10 關':c.lock?'即將推出':open?(p>=10?'已完成 ✓':`${p} / 10 關`):'完成上一章就能打開'}</span>${open?'':`<span class="lk">${ICON.lock('#FFD98A')}</span>`}</button>`}).join('')}</div>
+  return `<button class="chcard${open?'':' lockd'}" data-i="${i}" ${open?'':'aria-disabled="true"'}><span class="chn">第${'一二三四五六七八九十'[i]}章</span><b>${c.name}</b><span class="chp">${c.soon?'敬請期待・10 關':c.lock?'即將推出':open?(p>=10?'已完成 ✓':`${p} / 10 關`):'完成上一章就能打開'}</span>${open?'':`<span class="lk">${ICON.lock('#FFD98A')}</span>`}</button>`}).join('')}</div>
   <button class="btn2" id="back">回首頁</button></div>`;
  say(['要去哪一個章節冒險呢？']);
  $$('.chcard',screen).forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(b.classList.contains('lockd')){say(['這一章還沒打開喔！']);b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
@@ -2802,12 +2840,13 @@ BUILD.routine=function(play,sp,key){if(!key||!ROUTINE[key])key=pick(Object.keys(
 SCREENS.finale=function(){clearEnd();
  screen.innerHTML=`<div class="ending">${castle('class="endcastle" id="ecastle"',true)}
   <div class="trio"><div class="walkin">${princess(S.look)}</div><div class="fromdoor">${prince()}</div><div class="walkin u" style="animation-delay:.3s">${myPet()}</div></div>
-  <h2 class="endh">找到王子了！</h2><p class="endp">五封信都找到了！謝謝你，勇敢又有禮貌的小公主。<br>更多冒險，敬請期待！</p>
-  <div class="endbtns"><button class="btn" id="again">再玩一次</button><button class="btn2" id="ward2">換裝間</button><button class="btn2" id="home">回首頁</button></div></div>`;
+  <h2 class="endh">${S.ch===4?'找到王子了！':'星光王國亮起來了！'}</h2><p class="endp">${S.ch===4?'五封信都找到了！謝謝你，勇敢又有禮貌的小公主。<br>可是天上的星星變暗了……新的冒險在海底王國等著你！':'五顆星星寶石都找到了！100 關全部完成！<br>你是全世界最棒的星光公主！'}</p>
+  <div class="endbtns">${S.ch===4?'<button class="btn" id="nextch2">前往第六章</button>':''}<button class="${S.ch===4?'btn2':'btn'}" id="again">再玩一次</button><button class="btn2" id="ward2">換裝間</button><button class="btn2" id="home">回首頁</button></div></div>`;
  const T=(ms,f)=>endTimers.push(setTimeout(f,reduced?0:ms));
- say(['五封信發出好亮的光……彩虹城堡的大門，打開了！']);
+ say([S.ch===4?'五封信發出好亮的光……彩虹城堡的大門，打開了！':'五顆星星寶石飛上天空……星光王國，重新亮起來了！']);
+ {const n2=$('#nextch2');if(n2)n2.onclick=()=>{clearEnd();setCh(5);if(S.prog>=NL)S.prog=0;S.walkFrom=null;save();go(S.prog===0?'story':'guide')}}
  T(1700,()=>{const c=$('#ecastle');if(!c)return;$('.dl',c).style.transform='scaleX(.08)';$('.dr',c).style.transform='scaleX(.08)';sfx('gem');burstEl(c,40)});
- T(3500,()=>{say(['你找到王子了！','王子說：謝謝你，勇敢又有禮貌的小公主！',{en:'You did it!'}]);$$('.trio > div').forEach(d=>d.firstElementChild&&d.firstElementChild.classList.add('jig'))});
+ T(3500,()=>{say(S.ch===4?['你找到王子了！','王子說：謝謝你，勇敢又有禮貌的小公主！',{en:'You did it!'}]:['你把星光王國點亮了！','謝謝你，最棒的星光公主！',{en:'You are a star!'}]);$$('.trio > div').forEach(d=>d.firstElementChild&&d.firstElementChild.classList.add('jig'))});
  for(let k=0;k<9;k++)T(3600+k*700,()=>burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.12+Math.random()*.35),42));
  T(3600,confetti);
  for(let k=0;k<14;k++)T(3400+k*350,()=>{const e=$('.ending');if(!e)return;const h=document.createElement('div');h.className='heart';h.style.left=(10+Math.random()*80)+'%';h.style.width=(18+Math.random()*18)+'px';h.innerHTML=`<svg viewBox="0 0 20 20"><path d="${heartD(10,11,5.5)}" fill="${['#FF8FC8','#FFB3D9','#FF5FA6','#FFE07A'][k%4]}"/></svg>`;e.appendChild(h);setTimeout(()=>h.remove(),4200)});
@@ -3092,9 +3131,230 @@ function meOpts(el,done){
  if(!S.name&&!meOpts.told){meOpts.told=1;const pi=$('#pname',el);pi.classList.add('cpulse');say(['這裡可以幫公主取名字，請爸爸媽媽幫忙輸入喔！也可以換髮型、膚色和眼睛的顏色。'])}$('#pname',el).onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();ok();e.target.blur()}};
 }
 
+
+/* ================= v1.6: chapters 6–10 (100 levels) ================= */
+// new helper animals from the unified icon set
+[['dolphin','🐬'],['fish','🐟'],['octopus','🐙'],['turtle','🐢'],['crab','🦀'],['bird','🐦'],['butterfly','🦋'],['bee','🐝'],['penguin','🐧'],['snowman','⛄'],['mouse','🐭'],['elephant','🐘'],['giraffe','🦒'],['lion','🦁']].forEach(([k,e])=>{const s=ICONART[e];if(s&&!AN[k])AN[k]=`<g transform="translate(4 4) scale(1.44)">${s.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'')}</g>`});
+Object.assign(PITCH,{dolphin:1.1,fish:1.1,octopus:1.02,turtle:.95,crab:1.05,bird:1.12,butterfly:1.12,bee:1.1,penguin:1.08,snowman:1.0,mouse:1.12,elephant:.95,giraffe:1.0,lion:.95});
+Object.assign(QTAG,{'海洋':'#7FD8FF','天空':'#BFD8FF','冬天':'#DDEEFF','健康':'#A8F0C0','宇宙':'#D9C2FF'});
+
+QUIZ.push(
+ ['海洋','海水喝起來是什麼味道？',['🧂','鹹鹹的'],[['🍯','甜甜的'],['🍋','酸酸的']],'海水裡有鹽，所以鹹鹹的，不能喝喔。'],
+ ['海洋','哪一個住在海裡？',['🐙','章魚'],[['🐔','雞'],['🐫','駱駝']],'章魚住在海裡，有八隻腳。'],
+ ['海洋','章魚有幾隻腳？',['#8','八隻'],[['#4','四隻'],['#6','六隻']],'章魚有八隻腳，可以抓好多東西。'],
+ ['海洋','在海邊玩水，要記得什麼？',['👨‍👩‍👧','跟大人在一起'],[['🏊','自己游到很遠'],['🌊','跑去大浪裡']],'玩水一定要有大人在旁邊。'],
+ ['海洋','沙灘上的垃圾要怎麼辦？',['🗑️','撿起來丟進垃圾桶'],[['🌊','丟進海裡'],['🙈','假裝沒看到']],'垃圾丟進海裡，海龜吃到會生病喔。'],
+ ['海洋','誰有硬硬的殼，走路橫著走？',['🦀','螃蟹'],[['🐟','魚'],['🐬','海豚']],'螃蟹橫著走，還有兩隻大鉗子。'],
+ ['海洋','海龜媽媽在哪裡生蛋？',['🏖️','沙灘上'],[['🌳','樹上'],['☁️','雲上']],'海龜媽媽會爬到沙灘上挖洞生蛋。'],
+ ['海洋','哪一個可以在水裡游泳？',['🐟','魚'],[['🐔','雞'],['🐌','蝸牛']],'魚在水裡游來游去。'],
+ ['海洋','潛水艇在哪裡開？',['🌊','海底'],[['☁️','天上'],['🚗','馬路上']],'潛水艇可以潛到深深的海底。'],
+ ['海洋','海星長得像什麼形狀？',['⭐','星星'],[['🔺','三角形'],['⚫','圓形']],'海星有五隻手，像一顆星星。'],
+ ['海洋','珍珠是從哪裡來的？',['🦪','貝殼裡'],[['🐟','魚肚子'],['🌳','樹上']],'有些貝殼裡面，會長出亮亮的珍珠。'],
+ ['天空','打雷的時候，可以躲在大樹下嗎？',['🏠','不可以，要進屋子'],[['🌳','可以'],['🏃','在外面跑']],'打雷時躲在大樹下很危險，要進到屋子裡。'],
+ ['天空','天空為什麼會下雨？',['☁️','雲裡的水滴太重了'],[['🚿','有人在灑水'],['😢','天空在哭']],'雲裡的小水滴變大變重，就會掉下來變成雨。'],
+ ['天空','有風的時候，適合玩什麼？',['🪁','放風箏'],[['⛄','堆雪人'],['🏊','游泳']],'有風的時候，風箏可以飛得好高。'],
+ ['天空','太陽下山以後，天空會怎麼樣？',['🌙','變黑，月亮出來'],[['🌈','出現彩虹'],['☀️','變得更亮']],'太陽下山，天黑了，就可以看到月亮。'],
+ ['天空','可以直接看太陽嗎？',['🙅','不可以，會傷眼睛'],[['👀','可以一直看'],['🔭','用望遠鏡看']],'直接看太陽會傷害眼睛。'],
+ ['天空','彩虹有幾種顏色？',['#7','七種'],[['#3','三種'],['#10','十種']],'彩虹有紅橙黃綠藍靛紫七種顏色。'],
+ ['天空','晴天的天空是什麼顏色？',['💙','藍色'],[['💚','綠色'],['💜','紫色']],'晴天的天空藍藍的。'],
+ ['天空','下雪的時候，天氣怎麼樣？',['🥶','很冷'],[['🥵','很熱'],['😐','不冷不熱']],'下雪的時候好冷，要穿暖暖的。'],
+ ['天空','颱風來了，要怎麼做？',['🏠','待在家裡'],[['🏖️','去海邊玩'],['🪁','去放風箏']],'颱風天風雨很大，待在家裡最安全。'],
+ ['天空','晚上天上最亮的是什麼？',['🌕','月亮'],[['☀️','太陽'],['🌈','彩虹']],'晚上最亮的是月亮。'],
+ ['冬天','冬天出門要戴什麼保暖？',['🧣','圍巾和手套'],[['🕶️','太陽眼鏡'],['👙','泳衣']],'戴上圍巾和手套，就不會冷冰冰。'],
+ ['冬天','雪人的鼻子常常用什麼做？',['🥕','紅蘿蔔'],[['🍌','香蕉'],['🍇','葡萄']],'雪人的鼻子常常是一根紅蘿蔔。'],
+ ['冬天','企鵝住在很冷還是很熱的地方？',['🧊','很冷的地方'],[['🏜️','很熱的沙漠'],['🌋','火山']],'企鵝住在冰天雪地的南極。'],
+ ['冬天','冬天手冰冰的，可以怎麼做？',['🙌','搓搓手、戴手套'],[['🧊','去摸冰塊'],['💧','泡冷水']],'搓搓手、戴手套，手就暖暖的。'],
+ ['冬天','雪摸起來怎麼樣？',['❄️','冰冰涼涼的'],[['🔥','熱熱的'],['🍯','黏黏甜甜的']],'雪是冰冰涼涼的。'],
+ ['冬天','冬天很多熊會做什麼？',['🐻','冬眠睡大覺'],[['🏊','去游泳'],['🍦','吃冰淇淋']],'有些熊冬天會躲在洞裡睡很久，叫做冬眠。'],
+ ['冬天','冰塊放進熱湯裡會怎麼樣？',['💧','融化不見'],[['🧊','變更大'],['🔥','燒起來']],'冰塊遇到熱，就會融化成水。'],
+ ['冬天','冬天洗完澡要怎麼做？',['🧴','趕快擦乾穿衣服'],[['🏃','光著身體跑'],['❄️','開窗吹冷風']],'洗完澡趕快擦乾穿衣服，才不會感冒。'],
+ ['冬天','冬至常常會吃什麼？',['🍡','湯圓'],[['🥮','月餅'],['🍉','西瓜']],'冬至吃湯圓，是台灣的習俗。'],
+ ['冬天','哪一個動物身上有厚厚的毛，不怕冷？',['🐑','綿羊'],[['🐸','青蛙'],['🐟','魚']],'綿羊的毛厚厚的，好溫暖。'],
+ ['健康','哪一個是健康的點心？',['🍎','水果'],[['🍭','棒棒糖'],['🥤','汽水']],'水果又甜又健康。'],
+ ['健康','吃太多糖果，牙齒會怎麼樣？',['🦷','蛀牙'],[['💪','變強壯'],['✨','變亮亮']],'糖果吃太多會蛀牙，要記得刷牙喔。'],
+ ['健康','想要長高長壯，晚上要怎麼做？',['🛏️','早點睡覺'],[['📺','看電視到很晚'],['🎮','一直玩遊戲']],'早點睡覺，身體才會長高長壯。'],
+ ['健康','喝牛奶可以讓什麼變強壯？',['🦴','骨頭和牙齒'],[['💇','頭髮變長'],['👂','耳朵變大']],'牛奶可以讓骨頭和牙齒變強壯。'],
+ ['健康','吃飯的時候要怎麼做？',['🍚','坐好慢慢吃'],[['🏃','邊跑邊吃'],['📺','邊看電視邊吃']],'坐好慢慢吃，才不會噎到。'],
+ ['健康','紅蘿蔔對什麼很好？',['👀','眼睛'],[['👂','耳朵'],['🦶','腳']],'多吃紅蘿蔔，對眼睛很好。'],
+ ['健康','運動完流汗了，最好喝什麼？',['💧','白開水'],[['🥤','汽水'],['🧃','很甜的飲料']],'流汗了，喝白開水最好。'],
+ ['健康','每天要做什麼，身體才會健康？',['🤸','運動跑跑跳跳'],[['🛋️','一直躺著'],['🍩','一直吃甜甜圈']],'每天動一動，身體好健康。'],
+ ['健康','生病的時候要怎麼做？',['🛌','多休息、多喝水'],[['🏃','出去跑來跑去'],['🍦','吃冰淇淋']],'生病要多休息、多喝水，才會快快好。'],
+ ['健康','吃完東西要做什麼？',['🪥','刷牙或漱口'],[['🛏️','馬上睡覺'],['🍬','再吃糖果']],'吃完東西刷牙漱口，牙齒亮晶晶。'],
+ ['宇宙','太陽其實是什麼？',['⭐','一顆好大好熱的星星'],[['💡','一個大燈泡'],['🍊','一顆大橘子']],'太陽是一顆又大又熱的星星。'],
+ ['宇宙','月亮上面有什麼？',['🪨','石頭和坑洞'],[['🏠','很多房子'],['🌳','大森林']],'月亮上有很多石頭和坑洞，沒有空氣。'],
+ ['宇宙','太空人去太空要穿什麼？',['👩‍🚀','太空衣'],[['👙','泳衣'],['🧥','一般外套']],'太空衣可以保護太空人。'],
+ ['宇宙','在太空裡，東西會怎麼樣？',['🎈','飄起來'],[['🪨','掉下去'],['🔥','燒起來']],'太空裡東西會飄來飄去。'],
+ ['宇宙','地球是什麼形狀？',['⚽','圓圓的球形'],[['📄','平平的'],['🔺','三角形']],'地球是一顆圓圓的大球。'],
+ ['宇宙','哪一顆行星有漂亮的光環？',['🪐','土星'],[['🌍','地球'],['🌙','月亮']],'土星的外面有一圈漂亮的光環。'],
+ ['宇宙','天上的星星看起來怎麼樣？',['✨','一閃一閃'],[['🔊','會發出聲音'],['🍭','甜甜的']],'一閃一閃亮晶晶，滿天都是小星星。'],
+ ['宇宙','看星星要用什麼，才看得更清楚？',['🔭','望遠鏡'],[['🔍','放大鏡'],['🕶️','太陽眼鏡']],'望遠鏡可以把遠遠的星星看清楚。'],
+ ['宇宙','月亮每天的形狀都一樣嗎？',['🌙','不一樣，會變'],[['🌕','一樣都是圓的'],['⭐','會變成星星']],'月亮有時圓圓的，有時彎彎的。'],
+ ['宇宙','太陽下山、天黑了，是什麼時候？',['🌃','晚上'],[['🌅','早上'],['☀️','中午']],'天黑了，就是晚上。']
+);
+
+/* ----- backgrounds ----- */
+function _grad(a,b){const g=nid();return [g,`<defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>`]}
+function _dots(W,H,n,col,seed,maxY=.7,r0=.8,r1=2){let x=seed;const r=()=>{x=(x*9301+49297)%233280;return x/233280};let d='';for(let i=0;i<n;i++)d+=`<circle cx="${(-100+r()*(W+200)).toFixed(0)}" cy="${(r()*H*maxY).toFixed(0)}" r="${(r0+r()*(r1-r0)).toFixed(1)}" fill="${col}" opacity="${(.4+r()*.6).toFixed(2)}"/>`;return d}
+function seaBg(W,H){const [g,df]=_grad('#0A2248','#15507A');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`;
+ [.15,.4,.7,.9].forEach((f,i)=>{d+=`<path d="M${W*f-30} 0 L${W*f+30} 0 L${W*f+120+i*20} ${H*.8} L${W*f+40} ${H*.8}Z" fill="#BFF3FF" opacity=".05"/>`});
+ d+=_dots(W,H,26,'#BFF3FF',7,.8,2,6).replace(/fill="#BFF3FF"/g,'fill="none" stroke="#BFF3FF" stroke-width="1.5"');
+ d+=`<path d="M-400 ${H*.84} Q${W*.25} ${H*.78} ${W*.5} ${H*.84} T${W+400} ${H*.82} V${H} H-400Z" fill="#2A3F6A"/>`;
+ for(let i=0;i<9;i++){const x=W*(i/8),h=H*(.12+(i%3)*.05);d+=`<path d="M${x} ${H*.86} Q${x-14} ${H*.86-h/2} ${x} ${H*.86-h} Q${x+14} ${H*.86-h*1.3} ${x+4} ${H*.86-h*1.5}" stroke="${i%2?'#3FA07A':'#5CC98A'}" stroke-width="6" fill="none" stroke-linecap="round" opacity=".8"/>`}
+ [[.22,'#FF8FAB'],[.63,'#FFB36B'],[.85,'#C99CFF']].forEach(([f,c])=>{const x=W*f,y=H*.86;d+=`<circle cx="${x}" cy="${y-14}" r="14" fill="${c}"/><circle cx="${x-14}" cy="${y-4}" r="10" fill="${c}"/><circle cx="${x+14}" cy="${y-4}" r="10" fill="${c}"/>`});
+ return d}
+function cloudBg(W,H){const [g,df]=_grad('#1E2466','#6A5AB8');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`+_dots(W,H,30,'#FFF6D8',11,.5);
+ const cl=(x,y,s,o)=>`<g opacity="${o}"><ellipse cx="${x}" cy="${y}" rx="${70*s}" ry="${24*s}" fill="#F4EEFF"/><circle cx="${x-30*s}" cy="${y-14*s}" r="${26*s}" fill="#F4EEFF"/><circle cx="${x+18*s}" cy="${y-22*s}" r="${32*s}" fill="#F4EEFF"/></g>`;
+ d+=cl(W*.15,H*.25,1,.35)+cl(W*.8,H*.2,1.3,.3)+cl(W*.5,H*.4,.8,.25);
+ d+=`<path d="M-400 ${H*.82} Q${W*.1} ${H*.7} ${W*.3} ${H*.8} Q${W*.5} ${H*.68} ${W*.7} ${H*.8} Q${W*.9} ${H*.7} ${W+400} ${H*.8} V${H} H-400Z" fill="#E8E0FF" opacity=".35"/>`;
+ d+=`<path d="M-400 ${H*.9} Q${W*.2} ${H*.82} ${W*.45} ${H*.9} Q${W*.7} ${H*.8} ${W+400} ${H*.9} V${H} H-400Z" fill="#F4EEFF" opacity=".5"/>`;
+ return d}
+function iceBg(W,H){const [g,df]=_grad('#0B1640','#2A4A8A');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`+_dots(W,H,36,'#FFFFFF',21,.85,.8,2.2);
+ d+=`<path d="M-400 ${H*.25} Q${W*.3} ${H*.1} ${W*.6} ${H*.22} T${W+400} ${H*.18}" stroke="#7FF0C8" stroke-width="${H*.06}" fill="none" opacity=".12"/>`;
+ [[.12,.62],[.3,.55],[.72,.58],[.9,.64]].forEach(([fx,fy],i)=>{const x=W*fx,y=H*fy,s=40+i*8;d+=`<path d="M${x} ${y-s} L${x+s*.35} ${y} L${x} ${y+s*.25} L${x-s*.35} ${y}Z" fill="#BFE8FF" opacity=".35"/>`});
+ d+=`<path d="M-400 ${H*.8} Q${W*.2} ${H*.7} ${W*.45} ${H*.8} Q${W*.75} ${H*.7} ${W+400} ${H*.78} V${H} H-400Z" fill="#DDEEFF" opacity=".55"/>`;
+ d+=`<path d="M-400 ${H*.9} Q${W*.4} ${H*.82} ${W+400} ${H*.9} V${H} H-400Z" fill="#F4FAFF" opacity=".7"/>`;
+ return d}
+function candyBg(W,H){const [g,df]=_grad('#2E1650','#8A3A7A');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`+_dots(W,H,26,'#FFE6F2',31,.5);
+ d+=`<path d="M-400 ${H*.8} Q${W*.15} ${H*.68} ${W*.35} ${H*.8} Q${W*.6} ${H*.7} ${W*.8} ${H*.8} T${W+400} ${H*.78} V${H} H-400Z" fill="#FF9FC8" opacity=".45"/>`;
+ d+=`<path d="M-400 ${H*.9} Q${W*.3} ${H*.82} ${W*.6} ${H*.9} T${W+400} ${H*.88} V${H} H-400Z" fill="#9FF3D8" opacity=".45"/>`;
+ [[.1,'#FF6FA8'],[.35,'#FFD24D'],[.68,'#7FE3F0'],[.9,'#B99CFF']].forEach(([f,c],i)=>{const x=W*f,y=H*(.62+(i%2)*.06);d+=`<path d="M${x} ${y} V${H*.86}" stroke="#FFF6E8" stroke-width="5" opacity=".8"/><circle cx="${x}" cy="${y}" r="22" fill="${c}" opacity=".85"/><path d="M${x-12} ${y} A12 12 0 0 1 ${x+12} ${y} A7 7 0 0 1 ${x-2} ${y} A3 3 0 0 1 ${x+4} ${y}" stroke="#fff" stroke-width="3" fill="none" opacity=".8"/>`});
+ return d}
+function spaceBg(W,H){const [g,df]=_grad('#070A24','#1E1450');const n=nid();let d=df+`<defs><radialGradient id="${n}"><stop offset="0" stop-color="#B98CFF" stop-opacity=".35"/><stop offset="1" stop-color="#B98CFF" stop-opacity="0"/></radialGradient></defs><rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`;
+ d+=`<ellipse cx="${W*.3}" cy="${H*.35}" rx="${W*.35}" ry="${H*.18}" fill="url(#${n})"/><ellipse cx="${W*.8}" cy="${H*.6}" rx="${W*.3}" ry="${H*.16}" fill="url(#${n})"/>`+_dots(W,H,70,'#FFF6D8',41,1,.6,2);
+ d+=`<circle cx="${W*.82}" cy="${H*.22}" r="${Math.min(W,H)*.07}" fill="#FFB36B"/><ellipse cx="${W*.82}" cy="${H*.22}" rx="${Math.min(W,H)*.12}" ry="${Math.min(W,H)*.025}" fill="none" stroke="#FFE0A8" stroke-width="4" opacity=".8"/>`;
+ d+=`<circle cx="${W*.12}" cy="${H*.7}" r="${Math.min(W,H)*.05}" fill="#7FB8FF"/><circle cx="${W*.12-6}" cy="${H*.7-6}" r="${Math.min(W,H)*.015}" fill="#fff" opacity=".4"/>`;
+ return d}
+const CHBG={sea:seaBg,cloud:cloudBg,ice:iceBg,candy:candyBg,space:spaceBg};
+const _decor2c=decor2;
+decor2=function(id){if(!CHBG[id])return _decor2c(id);let d='';
+ if(id==='sea'){for(let i=0;i<12;i++){const x=40+i*84;d+=`<path d="M${x} 200 Q${x-12} 170 ${x} 140 Q${x+12} 115 ${x+4} ${100+(i%3)*10}" stroke="${i%2?'#3FA07A':'#5CC98A'}" stroke-width="7" fill="none" stroke-linecap="round" opacity=".6"/>`}d+=`<path d="M0 185 Q500 165 1000 185 V200 H0Z" fill="#2A3F6A"/>`}
+ if(id==='cloud'){[[120,150,1],[500,165,1.4],[880,150,1.1]].forEach(([x,y,s])=>{d+=`<g opacity=".45"><ellipse cx="${x}" cy="${y}" rx="${90*s}" ry="${30*s}" fill="#F4EEFF"/><circle cx="${x-30*s}" cy="${y-18*s}" r="${30*s}" fill="#F4EEFF"/><circle cx="${x+25*s}" cy="${y-26*s}" r="${36*s}" fill="#F4EEFF"/></g>`})}
+ if(id==='ice'){d+=`<path d="M0 170 Q250 140 500 168 T1000 160 V200 H0Z" fill="#DDEEFF" opacity=".55"/>`;[80,300,720,930].forEach((x,i)=>{d+=`<path d="M${x} ${110+i%2*14} L${x+22} 160 L${x} 176 L${x-22} 160Z" fill="#BFE8FF" opacity=".5"/>`})}
+ if(id==='candy'){[90,320,690,910].forEach((x,i)=>{const c=['#FF6FA8','#FFD24D','#7FE3F0','#B99CFF'][i];d+=`<path d="M${x} 110 V200" stroke="#FFF6E8" stroke-width="6" opacity=".7"/><circle cx="${x}" cy="105" r="26" fill="${c}" opacity=".75"/>`});d+=`<path d="M0 180 Q500 160 1000 180 V200 H0Z" fill="#FF9FC8" opacity=".35"/>`}
+ if(id==='space'){d+=`<circle cx="110" cy="120" r="30" fill="#7FB8FF" opacity=".6"/><circle cx="640" cy="90" r="30" fill="#FFB36B" opacity=".55"/><ellipse cx="640" cy="90" rx="52" ry="10" fill="none" stroke="#FFE0A8" stroke-width="4" opacity=".6"/>`}
+ return `<svg class="decor" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${d}</svg>`};
+
+/* ----- items & pets ----- */
+Object.assign(DRESS,{
+ pearlmaid:{shape:'mermaid',c:'#FFB3D9',l:'#FFF0F8',pat:'dot',pc:'#FFFFFF',dk:'#C8609A'},
+ cloudgown:{shape:'tier',c:'#BFD8FF',l:'#FFFFFF',pat:'star',pc:'#FFE27A',tiers:['#9FB8F0','#BFD8FF','#E8F0FF']},
+ snowqueen:{shape:'train',c:'#9FD8FF',l:'#F0FAFF',pat:'snow',pc:'#FFFFFF',dk:'#3A6ABF'},
+ candygown:{shape:'ball',c:'#FF8FC8',l:'#C8FFF0',pat:'dot',pc:'#FFE27A'},
+ starqueen:{shape:'train',c:'#3A2A8A',l:'#C9B8FF',pat:'star',pc:'#FFE27A',dk:'#150E40'}
+});
+const _pi=ITEMS.findIndex(i=>i.id==='penguin');if(_pi>=0)Object.assign(ITEMS[_pi],{price:0,premium:0,chapter:8});
+ITEMS.push(
+ {id:'pearlmaid',slot:'dress',name:'珍珠人魚裙',price:0,chapter:6},{id:'dolphin',slot:'pet',name:'小海豚',price:0,chapter:6},
+ {id:'cloudgown',slot:'dress',name:'雲朵仙子裙',price:0,chapter:7},{id:'bluebird',slot:'pet',name:'青鳥',price:0,chapter:7},
+ {id:'snowqueen',slot:'dress',name:'冰雪女王禮服',price:0,chapter:8},
+ {id:'candygown',slot:'dress',name:'糖果公主裙',price:0,chapter:9},{id:'teddy',slot:'pet',name:'泰迪熊',price:0,chapter:9},
+ {id:'starqueen',slot:'dress',name:'星光女王禮服',price:0,chapter:10},{id:'frogprince',slot:'pet',name:'青蛙王子',price:0,chapter:10}
+);
+ITEMS.forEach(i=>{ITEM[i.id]=i});
+Object.assign(PETANI,{teddy:'bear',frogprince:'frog'});
+const ICONPET={dolphin:'🐬',bluebird:'🐦'};
+const _petSVG4=petSVG;
+petSVG=function(kind,acc,a=''){if(ICONPET[kind])return ICONART[ICONPET[kind]].replace('<svg ',`<svg ${a} `);return _petSVG4(kind,acc,a)};
+
+/* ----- levels ----- */
+const L_=(name,helper,decor,qs,reward,intro)=>({name,helper,decor,qs,reward,intro});
+const CH6=[
+ L_('珊瑚花園','dolphin','sea',['habitat','count','quiz:海洋'],'pick','嗨！我是小海豚。歡迎來到海底王國！先來看看海裡的朋友都住在哪裡吧！'),
+ L_('小丑魚的家','fish','sea',['letter','catch:letter','quiz:海洋'],'box','咕嚕咕嚕，我是小魚。海底也有英文字母喔，仔細聽，把它找出來！'),
+ L_('章魚躲貓貓','octopus','sea',['shadow','odd','count'],'chest','我是小章魚，我最會躲貓貓了！看看影子，找找看是誰？'),
+ L_('海龜回家','turtle','sea',['maze','maze','quiz:海洋'],'petgift','我是海龜爺爺，我要回沙灘的家。可以帶我走出海底迷宮嗎？'),
+ L_('貝殼數一數','crab','sea',['feed','add','compare'],'pick','喀嚓喀嚓，我是小螃蟹！我撿了好多貝殼，我們一起來數一數！'),
+ L_('海底音樂會','dolphin','sea',['dance','pattern','zhuyin'],'rain','海底音樂會開始囉！跟著音樂跳舞，還要找找看規律！'),
+ L_('沉船寶箱','octopus','sea',['puzzle','money','sub'],'box','沉船裡有一個寶箱！把拼圖拼好，數數寶箱裡的錢幣吧！'),
+ L_('海洋小清潔','turtle','sea',['quiz:海洋','memory','word'],'chest','海洋好漂亮，我們要一起保護它。你知道怎麼愛護海洋嗎？'),
+ L_('美人魚的歌','fish','sea',['spell','story','colormix'],'petgift','美人魚唱著好聽的歌，仔細聽故事，還有注音和顏色的魔法！'),
+ L_('海王的考驗','dolphin','sea',['mix','mix','mix','mix'],'chapter','最後一關！答對海王的四個問題，就能拿到第一顆星星寶石！')
+];
+const CH7=[
+ L_('彩虹滑梯','bird','cloud',['sky','colormix','letter'],'pick','啾啾！我是小鳥。歡迎來到雲朵天空城，我們從彩虹滑梯滑下去吧！'),
+ L_('雲朵形狀','butterfly','cloud',['shape','shadow','quiz:天空'],'box','我是小蝴蝶。天上的雲朵，有好多不同的形狀喔！'),
+ L_('風箏比賽','bee','cloud',['compare','count','catch:num'],'chest','嗡嗡！我是小蜜蜂。今天有風箏比賽，一起來數一數、比一比！'),
+ L_('天氣預報','owl','cloud',['weather','weather','quiz:天空'],'petgift','咕咕，我是天氣播報員。晴天、雨天、下雪天，要穿什麼呢？'),
+ L_('雲上市場','bunny','cloud',['money','money','add'],'pick','雲上市場開張囉！我們來買東西，數數要多少錢吧！'),
+ L_('星星燈塔','bird','cloud',['clock','clock','sub'],'rain','燈塔的時鐘要調好，星星才會準時亮起來！'),
+ L_('天空郵差','butterfly','cloud',['word','spell','queue'],'box','我是天空郵差，要送信給大家！先來認識英文和注音吧！'),
+ L_('熱氣球之旅','bee','cloud',['maze','feed','pattern'],'chest','坐上熱氣球！穿過雲朵迷宮，還要餵餵肚子餓的朋友！'),
+ L_('雷公公的鼓','owl','cloud',['dance','seq','quiz:安全'],'petgift','轟隆隆，雷公公在打鼓！跟著節奏跳舞，也要記得打雷時的安全喔！'),
+ L_('雲朵女王','bird','cloud',['mix','mix','mix','mix'],'chapter','最後一關！雲朵女王有四個問題，答對就能拿到第二顆星星寶石！')
+];
+const CH8=[
+ L_('雪地腳印','penguin','ice',['animal','habitat','count'],'pick','嗨，我是小企鵝！歡迎來到冰雪城堡。雪地上有好多腳印，是誰留下的呢？'),
+ L_('堆雪人','snowman','ice',['season','quiz:冬天','feed'],'box','我是雪人先生！冬天到了，我們一起認識冬天吧！'),
+ L_('冰上溜冰','penguin','ice',['maze','catch:zhuyin','sub'],'chest','咻～一起去溜冰！小心，冰上有好多注音星星喔！'),
+ L_('暖暖小屋','bear','ice',['quiz:冬天','manner:care','weather'],'petgift','外面好冷，快進來暖暖小屋。我們要怎麼照顧自己和朋友呢？'),
+ L_('雪花數數','deer','ice',['count','compare','add'],'pick','雪花一片一片飄下來，我們來數一數、比一比！'),
+ L_('冰晶拼圖','snowman','ice',['puzzle','shape','pattern'],'rain','冰晶閃閃發光，拼一拼、看一看它們的形狀！'),
+ L_('冬天的點心','bear','ice',['share','table','quiz:健康'],'box','冬天來一碗熱熱的點心！記得和朋友分享，還要吃得健康喔！'),
+ L_('極光之夜','deer','ice',['sky','spell','word'],'chest','天上出現了好漂亮的極光！我們一邊看，一邊學英文和注音。'),
+ L_('冰雪舞會','penguin','ice',['dance','memory','manner:greet'],'petgift','冰雪舞會開始囉！見到朋友要打招呼，再一起跳支舞！'),
+ L_('冰雪女王','snowman','ice',['mix','mix','mix','mix'],'chapter','最後一關！冰雪女王的四個問題，答對就能拿到第三顆星星寶石！')
+];
+const CH9=[
+ L_('餅乾小屋','mouse','candy',['shape','count','letter'],'pick','吱吱！我是小老鼠。歡迎來到糖果王國，這間餅乾小屋是什麼形狀呢？'),
+ L_('糖果分一分','pig','candy',['share','share','sort:food'],'box','嗯嗯，糖果好多喔！我們來平分，大家都有！'),
+ L_('顏色棒棒糖','bee','candy',['colormix','pattern','zhuyin'],'chest','嗡嗡！棒棒糖有好多顏色，混一混會變出什麼顏色呢？'),
+ L_('甜點店','kitten','candy',['money','money','add'],'petgift','喵～歡迎光臨甜點店！買蛋糕要付多少錢呢？'),
+ L_('健康小餐盤','bunny','candy',['quiz:健康','quiz:健康','odd'],'pick','糖果好好吃，可是也要吃得健康喔！一起來學學看！'),
+ L_('蛋糕裝飾','pig','candy',['pattern','feed','compare'],'rain','我們來裝飾蛋糕！照規律擺好水果，再比一比誰的多！'),
+ L_('刷牙守護隊','mouse','candy',['routine:brush','quiz:健康','sub'],'box','吃完甜點，要記得刷牙！刷牙守護隊出動！'),
+ L_('糖果迷宮','bee','candy',['maze','maze','catch:letter'],'chest','糖果迷宮彎彎曲曲，帶公主走出去，還要接住字母星星！'),
+ L_('下午茶禮儀','kitten','candy',['table','manner:gift','manner:public'],'petgift','下午茶時間到了！擺好餐具，當一個有禮貌的小公主。'),
+ L_('糖果女王','pig','candy',['mix','mix','mix','mix'],'chapter','最後一關！答對糖果女王的四個問題，就能拿到第四顆星星寶石！')
+];
+const CH10=[
+ L_('星座動物','owl','space',['shadow','animal','quiz:宇宙'],'pick','咕咕，歡迎來到星空神殿！天上的星星連起來，變成好多動物喔！'),
+ L_('月亮上的兔子','bunny','space',['sky','quiz:宇宙','count'],'box','我是月亮上的小兔子！我們來認識月亮和星星吧！'),
+ L_('行星排排站','elephant','space',['seq','compare','quiz:宇宙'],'chest','我是大象太空人！行星們要排好隊，我們一起來幫忙！'),
+ L_('流星許願','giraffe','space',['catch:letter','catch:zhuyin','word'],'petgift','流星來了！快接住星星，許一個願望吧！'),
+ L_('太空站','lion','space',['clock','money','add'],'pick','我是獅子船長！太空站要準時出發，也要算好補給的錢喔！'),
+ L_('星星拼圖','owl','space',['puzzle','memory','pattern'],'rain','星星碎片散落了！拼好拼圖，找出一模一樣的星星！'),
+ L_('銀河之橋','bunny','space',['maze','sub','spell'],'box','走過銀河之橋，要算減法，還要拼注音！'),
+ L_('星光合唱團','elephant','space',['dance','story','manner'],'chest','星光合唱團要表演囉！跟著跳舞，聽故事，也別忘了禮貌！'),
+ L_('守護星星','giraffe','space',['quiz','quiz:安全','quiz:健康'],'petgift','要當星星的守護者，就要知道好多好多生活知識喔！'),
+ L_('星光女王','lion','space',['mix','mix','mix','mix'],'chapter','最後一關！答對四個問題，拿到第五顆星星寶石，星光王國就會重新亮起來！')
+];
+const ALLMIX=['letter','zhuyin','count','add','sub','quiz','shadow','pattern','compare','feed','catch:letter','catch:zhuyin','word','spell'];
+CHAPTERS.push(
+ {name:'海底王國',title:'第六章・海底王國',levels:CH6,bg:'sea',mix:[...ALLMIX,'quiz:海洋','habitat'],firstSay:'第六章，海底王國。天上的星星變暗了，我們要找回五顆星星寶石！第一顆就藏在海底。點一下發光的小海豚出發！',
+  letter:'親愛的公主：<br>你在海底王國好勇敢！海底的朋友們都謝謝你。<br>送你一件珍珠人魚裙，還有一隻小海豚。<br>第二顆星星寶石，在雲朵天空城。',prize:['dolphin','pearlmaid'],prizeName:'小海豚和珍珠人魚裙',endText:'你找到了第一顆星星寶石！<br>下一站：雲朵天空城！'},
+ {name:'雲朵天空城',title:'第七章・雲朵天空城',levels:CH7,bg:'cloud',mix:[...ALLMIX,'quiz:天空','sky','weather'],firstSay:'第七章，雲朵天空城！坐上雲朵，去找第二顆星星寶石吧！點一下發光的小鳥出發！',
+  letter:'親愛的公主：<br>你認識了好多天空的秘密，好厲害！<br>送你一件雲朵仙子裙，還有一隻青鳥。<br>第三顆星星寶石，在冰雪城堡。',prize:['bluebird','cloudgown'],prizeName:'青鳥和雲朵仙子裙',endText:'你找到了第二顆星星寶石！<br>下一站：冰雪城堡！'},
+ {name:'冰雪城堡',title:'第八章・冰雪城堡',levels:CH8,bg:'ice',mix:[...ALLMIX,'quiz:冬天','season'],firstSay:'第八章，冰雪城堡。外面好冷，穿暖一點，去找第三顆星星寶石！點一下發光的小企鵝出發！',
+  letter:'親愛的公主：<br>冰雪城堡的朋友們都好喜歡你！<br>送你一件冰雪女王禮服，還有一隻小企鵝。<br>第四顆星星寶石，在糖果王國。',prize:['penguin','snowqueen'],prizeName:'小企鵝和冰雪女王禮服',endText:'你找到了第三顆星星寶石！<br>下一站：糖果王國！'},
+ {name:'糖果王國',title:'第九章・糖果王國',levels:CH9,bg:'candy',mix:[...ALLMIX,'quiz:健康','share','money'],firstSay:'第九章，糖果王國！到處都是甜甜的糖果，但是也要吃得健康喔！點一下發光的小老鼠出發！',
+  letter:'親愛的公主：<br>你知道怎麼吃得健康，還會分享和刷牙，真棒！<br>送你一件糖果公主裙，還有一隻泰迪熊。<br>最後一顆星星寶石，在星空神殿。',prize:['teddy','candygown'],prizeName:'泰迪熊和糖果公主裙',endText:'你找到了第四顆星星寶石！<br>最後一站：星空神殿！'},
+ {name:'星空神殿',title:'第十章・星空神殿',levels:CH10,bg:'space',mix:[...ALLMIX,'quiz:宇宙','sky','clock'],firstSay:'第十章，星空神殿！這是最後的冒險了，找到第五顆星星寶石，讓星光王國重新亮起來！點一下發光的貓頭鷹出發！',
+  letter:'親愛的公主：<br>五顆星星寶石都找到了！星光王國又亮起來了！<br>送你一件星光女王禮服，還有一位青蛙王子朋友。<br>你是全世界最棒的星光公主！',prize:['frogprince','starqueen'],prizeName:'青蛙王子和星光女王禮服',endText:'星光王國重新亮起來了！<br>100 關全部完成！'}
+);
+FUTURE.length=0;
+SONGS.push(...[
+ {t:230,w:'soft',m:'C5 - - C5 - - C5 - D5 E5 - - E5 - D5 E5 - F5 G5 - - - - - C6 C6 C6 G5 G5 G5 E5 E5 E5 C5 C5 C5 G5 - F5 E5 - D5 C5 - - - - -'},
+ {t:330,w:'box',m:'G5 A5 G5 F5 E5 F5 G5 - D5 E5 F5 - E5 F5 G5 - G5 A5 G5 F5 E5 F5 G5 - D5 - G5 - E5 C5 - - - -'},
+ {t:260,w:'bell',m:'E5 E5 E5 - E5 E5 E5 - E5 G5 C5 D5 E5 - - - F5 F5 F5 F5 F5 E5 E5 E5 E5 D5 D5 E5 D5 - G5 - - - - -'},
+ {t:260,w:'pluck',m:'C5 C5 D5 D5 E5 G5 E5 C5 - C5 C5 D5 D5 E5 - C5 - C5 C5 D5 D5 E5 G5 E5 C5 - A5 - D5 - F5 E5 C5 - - -'},
+ {t:320,w:'box',m:'E5 E5 G5 - - E5 E5 G5 - - E5 G5 C6 B5 - A5 A5 G5 - D5 E5 F5 - D5 D5 E5 F5 - - D5 F5 B5 A5 - G5 B5 C6 - - - - -'}
+].map(x=>({...x,n:x.m.split(' ')})));
+
+try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(typeof sv.ch==='number')setCh(sv.ch)}catch(e){}
+
+/* ----- pre-rendered sound effects ----- */
+const SFXPRE=['right','wrong','gem','coin','hint','hop','splash','whoosh'],sfxBuf={};
+const _sfx0=sfx;
+function renderSfx(k){const OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OAC||!ac)return Promise.resolve(null);
+ const oc=new OAC(1,Math.ceil(1.6*22050),22050);OFFCTX=oc;try{_sfx0(k)}catch(e){}finally{OFFCTX=null}
+ return new Promise(res=>{const r=oc.startRendering();const done=b=>res(b||null);if(r&&r.then)r.then(done,()=>res(null));else oc.oncomplete=e=>done(e.renderedBuffer)})}
+sfx=function(k){const a=ac;if(!S.sound)return;const b=sfxBuf[k];
+ if(a&&a.state==='running'&&b&&b!=='p'){try{const s=a.createBufferSource();s.buffer=b;s.connect(a.destination);s.start();return}catch(e){}}
+ _sfx0(k);if(SFXPRE.includes(k)&&!b&&a){sfxBuf[k]='p';renderSfx(k).then(x=>{sfxBuf[k]=x||undefined})}};
+
 let rt=0;
 addEventListener('resize',()=>{sizeFx();clearTimeout(rt);rt=setTimeout(()=>{if(S.screen==='map')SCREENS.map('quiet')},200)});
-window.__game={S,go,show,ITEMS,get LEVELS(){return LEVELS},setCh,rq:renderQ};
+window.__game={S,go,show,ITEMS,get LEVELS(){return LEVELS},setCh,rq:renderQ,sb:i=>songBuffer(i)};
 show('title');
 })();
 
