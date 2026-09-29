@@ -1879,8 +1879,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.5.8';
-const VLOG=[['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.5.9';
+const VLOG=[['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -1951,8 +1951,10 @@ function parentPanel(){
   <div><span class="lab">流暢模式（舊平板建議開啟）</span><div class="seg"><button data-lite="1" aria-pressed="${!!S.lite}">開</button><button data-lite="0" aria-pressed="${!S.lite}">關</button></div></div>
   <div><span class="lab">學習小報告</span>${reportHTML()}<button class="btn2 small" id="rreset" style="margin-top:8px">清除紀錄</button></div>
   <div><span class="lab">家長模式</span><div class="vrow"><button class="btn2 small" id="pmode">跳關・寶石・備份存檔</button></div></div>
+  <div><span class="lab">目前版本 v${APP_VERSION}</span><div class="vrow"><button class="btn2 small" id="pupd">檢查更新</button></div></div>
   <button class="btn" id="pdone">好了</button></div>`);
  $('#pmode',ov).onclick=()=>{ov.remove();parentGate(parentTools)};
+ $('#pupd',ov).onclick=()=>{toast('檢查更新中…');const r=window.__swreg;Promise.resolve(r&&r.update()).catch(()=>{}).then(()=>setTimeout(()=>location.reload(),1500))};
  $$('[data-rest]',ov).forEach(b=>b.onclick=()=>{S.rest=+b.dataset.rest;save();$$('[data-rest]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $$('[data-lite]',ov).forEach(b=>b.onclick=()=>{S.lite=b.dataset.lite==='1';S.liteUser=true;save();applyLite();$$('[data-lite]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $('#rreset',ov).onclick=()=>{S.stats={types:{},weak:{}};save();ov.remove();parentPanel()};
@@ -3089,6 +3091,6 @@ show('title');
 
 </script>
 
-<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script>
+<script>if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;let rl=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}});addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{window.__swreg=r;document.addEventListener('visibilitychange',()=>{if(!document.hidden)r.update().catch(()=>{})})}).catch(()=>{}))}</script>
 </body>
 </html>
