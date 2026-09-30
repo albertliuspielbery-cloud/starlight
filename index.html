@@ -750,6 +750,13 @@ body[data-ch="5"]{--mote:#9FF3FF}body[data-ch="6"]{--mote:#FFFFFF}body[data-ch="
 body[data-scr="park"] #prog,body[data-scr="storyhouse"] #prog,body[data-scr="pethouse"] #prog,body[data-scr="room"] #prog,body[data-scr="coloring"] #prog,body[data-scr="practice"] #prog{visibility:hidden}
 body[data-scr="park"] #btnMap,body[data-scr="storyhouse"] #btnMap,body[data-scr="pethouse"] #btnMap,body[data-scr="room"] #btnMap,body[data-scr="coloring"] #btnMap,body[data-scr="practice"] #btnMap{display:none}
 
+.cstack{position:relative;width:100%;aspect-ratio:1}
+.cstack>svg,.cstack>canvas{position:absolute;inset:0;width:100%;height:100%}
+.cpaint{touch-action:none;cursor:crosshair}
+.cline{pointer-events:none}
+.ctools{display:flex;gap:8px;flex-wrap:wrap}.ctool{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:2px solid var(--goldline);font-size:17px}.ctool.on{background:var(--gold);color:var(--deep);border-color:var(--gold)}
+.csizes{display:flex;gap:10px}.csz{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid var(--goldline);display:grid;place-items:center}.csz i{display:block;border-radius:50%;background:#fff}.csz.on{border-color:var(--gold);box-shadow:0 0 12px #FFE27A}
+
 /* ===== fit small screens ===== */
 .play{justify-content:flex-start}.play>:first-child{margin-top:auto}.play>:last-child{margin-bottom:auto}
 .play>.catchwrap{margin:0}
@@ -1807,7 +1814,7 @@ title(){clearEnd();
  $('#about').onclick=()=>aboutPanel();
  const nb=$('#nameit');if(nb)nb.onclick=()=>nameAsk(true);
  if(!S.name&&!nameAsked)setTimeout(()=>{if(S.screen==='title'&&!$('.overlay'))nameAsk()},700);
- const rs=$('#restart');if(rs)rs.onclick=()=>{S.prog=0;save();SCREENS.title()};
+ const rs=$('#restart');if(rs)rs.onclick=()=>{say(['重新開始要請爸爸媽媽幫忙喔！']);parentGate(()=>{const ov=overlay(screen,`<div class="card"><h2>重新開始這一章？</h2><p>「${CHAPTERS[S.ch].name}」會回到第 1 關。<br>寶石、衣服和其他章節都會保留。</p><div class="row"><button class="btn" id="rsy">重新開始</button><button class="btn2" id="rsn">取消</button></div></div>`);$('#rsn',ov).onclick=()=>ov.remove();$('#rsy',ov).onclick=()=>{ov.remove();S.prog=0;S.walkFrom=null;save();SCREENS.title();toast('已經從第 1 關重新開始')}})};
 },
 story(){
  const P=[
@@ -1987,8 +1994,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.7';
-const VLOG=[['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.7.1';
+const VLOG=[['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -3649,18 +3656,42 @@ SCREENS.coloring=function(){
  bindBack();say(['塗色本！選一張圖來塗顏色吧！']);
  $$('.ccard').forEach(b=>b.onclick=()=>colorPic(+b.dataset.i));
 };
-function picSVG(i,thumb){const P=PICS[i],C=S.colors[i]||{};return `<svg viewBox="0 0 200 200" class="${thumb?'cthumb':'cpic'}">${thumb?'':'<rect width="200" height="200" fill="#fff"/>'}${P.r.map(([t,a],k)=>`<${t} ${a} data-k="${k}" class="cr" fill="${C[k]||'#FFFFFF'}" stroke="#3A2A5C" stroke-width="2.5" stroke-linejoin="round"/>`).join('')}</svg>`}
-function colorPic(i){let cur=PALETTE[0];const P=PICS[i];
- screen.innerHTML=`<div class="park">${parkHead(P.n,'coloring')}<div class="cwrap"><div class="cboard">${picSVG(i)}</div>
-  <div class="cside"><div class="pal">${PALETTE.map((c,k)=>`<button class="pc${k?'':' on'}" data-c="${c}" style="background:${c}" aria-label="顏色"></button>`).join('')}</div>
-  <div class="row"><button class="btn2 small" id="cclear">全部擦掉</button><button class="btn" id="cdone">塗好了</button></div><p class="small">選一個顏色，再點圖上的地方就能塗色</p></div></div></div>`;
- bindBack('coloring');say(['選一個顏色，再點圖上的地方，就可以塗色喔！']);
- $$('.pc').forEach(b=>b.onclick=()=>{cur=b.dataset.c;$$('.pc').forEach(x=>x.classList.toggle('on',x===b));tone(800,0,.08,'sine',.05)});
- const svg=$('.cpic');
- svg.addEventListener('click',e=>{const t=e.target.closest('.cr');if(!t)return;const k=t.dataset.k;t.setAttribute('fill',cur);(S.colors[i]=S.colors[i]||{})[k]=cur;saveP();tone(600+Math.random()*400,0,.1,'triangle',.06)});
- $('#cclear').onclick=()=>{S.colors[i]={};saveP();colorPic(i)};
- $('#cdone').onclick=()=>{const C=S.colors[i]||{};const filled=P.r.filter((_,k)=>C[k]&&C[k]!=='#FFFFFF').length;
-  if(filled<Math.ceil(P.r.length*.6)){say(['還有好多地方是白色的，再塗一塗吧！']);toast('再多塗幾個地方吧！');return}
+const PAINTKEY='pp4paint';let PAINT=null;
+const paintGet=()=>{if(!PAINT){try{PAINT=JSON.parse(localStorage.getItem(PAINTKEY)||'{}')}catch(e){PAINT={}}}return PAINT};
+const paintSave=()=>{try{localStorage.setItem(PAINTKEY,JSON.stringify(PAINT||{}))}catch(e){toast('空間不夠，畫作存不下來')}};
+function picSVG(i,thumb,mode){const P=PICS[i],C=S.colors[i]||{};const img=thumb&&paintGet()[i];
+ if(mode==='line')return `<svg viewBox="0 0 200 200" class="cline">${P.r.map(([t,a])=>`<${t} ${a} fill="none" stroke="#3A2A5C" stroke-width="2.5" stroke-linejoin="round"/>`).join('')}</svg>`;
+ return `<svg viewBox="0 0 200 200" class="${thumb?'cthumb':'cpic'}">${thumb?'<rect width="200" height="200" fill="#fff"/>':'<rect width="200" height="200" fill="#fff"/>'}${P.r.map(([t,a],k)=>`<${t} ${a} data-k="${k}" class="cr" fill="${C[k]||'#FFFFFF'}" stroke="#3A2A5C" stroke-width="2.5" stroke-linejoin="round"/>`).join('')}${img?`<image href="${img}" x="0" y="0" width="200" height="200"/>${P.r.map(([t,a])=>`<${t} ${a} fill="none" stroke="#3A2A5C" stroke-width="2.5"/>`).join('')}`:''}</svg>`}
+function colorPic(i){let cur=PALETTE[0],tool='brush',size=16;const P=PICS[i];
+ screen.innerHTML=`<div class="park">${parkHead(P.n,'coloring')}<div class="cwrap"><div class="cboard"><div class="cstack">${picSVG(i)}<canvas class="cpaint" width="600" height="600"></canvas>${picSVG(i,false,'line')}</div></div>
+  <div class="cside"><div class="ctools"><button class="ctool on" data-t="brush">🖌️ 畫筆</button><button class="ctool" data-t="fill">🪣 倒顏料</button><button class="ctool" data-t="erase">🧽 橡皮擦</button></div>
+  <div class="csizes"><button class="csz" data-z="8" aria-label="細"><i style="width:8px;height:8px"></i></button><button class="csz on" data-z="16" aria-label="中"><i style="width:14px;height:14px"></i></button><button class="csz" data-z="30" aria-label="粗"><i style="width:22px;height:22px"></i></button></div>
+  <div class="pal">${PALETTE.map((c,k)=>`<button class="pc${k?'':' on'}" data-c="${c}" style="background:${c}" aria-label="顏色"></button>`).join('')}</div>
+  <div class="row"><button class="btn2 small" id="cclear">全部擦掉</button><button class="btn" id="cdone">畫好了</button></div><p class="small">用手指在圖上塗顏色！也可以用「倒顏料」一次塗滿一塊。</p></div></div></div>`;
+ bindBack('coloring');say(['選一個顏色，用手指在圖上塗一塗吧！']);
+ const cv=$('.cpaint'),ctx=cv.getContext('2d');const saved=paintGet()[i];
+ if(saved){const im=new Image();im.onload=()=>ctx.drawImage(im,0,0,600,600);im.src=saved}
+ let strokes=0,drawing=false,last=null,dirty=false,saveT=0;
+ const pos=e=>{const r=cv.getBoundingClientRect();return [(e.clientX-r.left)/r.width*600,(e.clientY-r.top)/r.height*600]};
+ const persist=()=>{clearTimeout(saveT);saveT=setTimeout(()=>{if(!dirty)return;dirty=false;paintGet()[i]=cv.toDataURL('image/png');paintSave()},400)};
+ const dot=(a,b)=>{ctx.globalCompositeOperation=tool==='erase'?'destination-out':'source-over';ctx.strokeStyle=cur;ctx.fillStyle=cur;ctx.lineWidth=tool==='erase'?size*1.6:size;ctx.lineCap='round';ctx.lineJoin='round';
+  if(!a){ctx.beginPath();ctx.arc(b[0],b[1],ctx.lineWidth/2,0,Math.PI*2);ctx.fill();return}ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke()};
+ cv.addEventListener('pointerdown',e=>{e.preventDefault();
+  if(tool==='fill'){cv.style.pointerEvents='none';const el=document.elementFromPoint(e.clientX,e.clientY);cv.style.pointerEvents='';const t=el&&el.closest&&el.closest('.cr');
+   if(t){t.setAttribute('fill',cur);(S.colors[i]=S.colors[i]||{})[t.dataset.k]=cur;saveP();strokes++;tone(600+Math.random()*400,0,.1,'triangle',.06)}return}
+  drawing=true;last=null;try{cv.setPointerCapture(e.pointerId)}catch(_){}const p=pos(e);dot(null,p);last=p;dirty=true});
+ cv.addEventListener('pointermove',e=>{if(!drawing)return;e.preventDefault();const p=pos(e);dot(last,p);last=p});
+ const end=()=>{if(!drawing)return;drawing=false;strokes++;persist()};
+ cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);cv.addEventListener('pointerleave',end);
+ $$('.ctool').forEach(b=>b.onclick=()=>{tool=b.dataset.t;$$('.ctool').forEach(x=>x.classList.toggle('on',x===b));tone(700,0,.08,'sine',.05);say([{brush:'畫筆',fill:'倒顏料，點一下就塗滿一塊',erase:'橡皮擦'}[tool]])});
+ $$('.csz').forEach(b=>b.onclick=()=>{size=+b.dataset.z;$$('.csz').forEach(x=>x.classList.toggle('on',x===b))});
+ $$('.pc').forEach(b=>b.onclick=()=>{cur=b.dataset.c;if(tool==='erase'){tool='brush';$$('.ctool').forEach(x=>x.classList.toggle('on',x.dataset.t==='brush'))}$$('.pc').forEach(x=>x.classList.toggle('on',x===b));tone(800,0,.08,'sine',.05)});
+ $('#cclear').onclick=()=>{S.colors[i]={};saveP();delete paintGet()[i];paintSave();colorPic(i)};
+ $('#cdone').onclick=()=>{clearTimeout(saveT);if(dirty){dirty=false;paintGet()[i]=cv.toDataURL('image/png');paintSave()}
+  const C=S.colors[i]||{};const fills=P.r.filter((_,k)=>C[k]&&C[k]!=='#FFFFFF').length;
+  let painted=0;try{const d=ctx.getImageData(0,0,600,600).data;for(let k=3;k<d.length;k+=64)if(d[k]>0)painted++}catch(_){}
+  const cover=painted/(600*600/16);
+  if(fills<Math.ceil(P.r.length*.5)&&cover<.12&&strokes<6){say(['再多塗一些顏色吧！']);toast('再多塗一些顏色吧！');return}
   const first=!S.colorDone[i];S.colorDone[i]=1;if(first)addGems(2);else saveP();confetti();
   const ov=overlay(screen,`<div class="card"><h2>好漂亮的畫！</h2><div class="cfin">${picSVG(i,true)}</div><p>${first?'第一次完成這張圖，得到 2 顆寶石！':'又畫了一張漂亮的畫！'}</p><div class="row"><button class="btn" id="cok">好</button></div></div>`);
   say([first?'好漂亮的畫！送你兩顆寶石！':'好漂亮的畫！']);$('#cok',ov).onclick=()=>go('coloring')};
