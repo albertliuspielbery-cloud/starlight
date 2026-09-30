@@ -68,7 +68,7 @@ button:focus-visible,.node:focus-visible{outline:3px solid var(--gold);outline-o
 .btn2.small{font-size:16px;padding:.3em 1em}
 
 /* title */
-.title{height:100%;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:20px}
+.title{height:100%;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:20px}
 .art{position:relative;display:flex;align-items:flex-end;justify-content:center;height:min(66vh,480px)}
 .art::after{content:"";position:absolute;bottom:-2%;left:15%;right:15%;height:12%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,220,140,.35),transparent);z-index:-1}
 .art .pr{height:100%;width:auto}
@@ -77,7 +77,8 @@ button:focus-visible,.node:focus-visible{outline:3px solid var(--gold);outline-o
 h1{margin:0;white-space:nowrap;font-size:clamp(40px,6.6vw,74px);letter-spacing:.06em;line-height:1.15;font-weight:400;background:linear-gradient(180deg,#FFF6CC,#FFC24D);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(255,200,90,.45))}
 .sub{font-size:clamp(17px,2.3vw,21px);margin:.4em 0 0;color:var(--text2);line-height:1.6}
 .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-@media (max-width:720px){.title{grid-template-columns:1fr;align-content:center;gap:8px}.art{height:34vh}.panel{align-items:center;text-align:center;gap:14px}.row{justify-content:center}}
+@media (max-width:720px),(orientation:portrait) and (max-width:1100px){.title{grid-template-columns:minmax(0,1fr);align-content:center;gap:8px}.art{height:34vh}.panel{align-items:center;text-align:center;gap:14px}.row{justify-content:center}}
+@media (orientation:portrait) and (min-width:721px) and (max-width:1100px){.art{height:42vh}}
 
 /* wardrobe */
 .ward{height:100%;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;align-items:stretch}
@@ -348,7 +349,7 @@ button:active{transform:scale(.96)}
 .bfly span{font-size:clamp(34px,min(6.6vw,8vh),72px)}
 .bal{width:clamp(84px,min(17vw,21vh),170px)}
 .bal span{font-size:clamp(40px,min(7.6vw,9vh),84px)}
-.mazewrap{width:min(84vw,54vh,540px)}
+.mazewrap{width:min(84vw,51vh,540px)}
 .basket{width:clamp(140px,min(28vw,30vh),260px)}
 .clockw{width:min(44vw,32vh,280px)}
 /* speak button */
@@ -547,7 +548,7 @@ body[data-ch="1"]{--mote:#BFE8FF}
 .qhead{font-size:clamp(56px,10vw,90px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;filter:drop-shadow(0 0 16px rgba(255,255,255,.35));animation:bob2 2.4s ease-in-out infinite}
 
 /* maze */
-.mazewrap{position:relative;width:min(84vw,50vh,430px);aspect-ratio:1}
+.mazewrap{position:relative;width:min(84vw,48vh,430px);aspect-ratio:1}
 .maze{position:absolute;inset:0;display:grid;gap:6px}
 .cell{border-radius:14px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.08);position:relative;display:grid;place-items:center;transition:background .3s}
 .cell.tree{background:transparent;border-color:transparent}
@@ -911,6 +912,7 @@ body[data-ch="3"]{--mote:#CFE0FF}body[data-ch="4"]{--mote:#FFC9F0}
 .about .dedic{margin:10px 0 6px;padding:10px 12px;border-radius:14px;background:rgba(255,217,138,.12);border:1px dashed rgba(255,217,138,.55);color:#FFE7B0;text-align:center;line-height:1.6;font-size:15px}
 .nexthint{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:60;padding:10px 20px;border-radius:999px;background:rgba(255,217,138,.95);color:#4A2A7A;font-weight:900;font-size:17px;box-shadow:0 4px 14px rgba(0,0,0,.35);pointer-events:none;animation:nhpulse 1.2s ease-in-out infinite}
 @keyframes nhpulse{50%{transform:translateX(-50%) scale(1.07)}}
+.card .xclose{position:sticky;top:-8px;align-self:flex-end;margin:-8px -12px -46px 0;z-index:6;width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);background:rgba(34,28,94,.95);color:#FFE7B0;font-size:20px;font-weight:900;line-height:1;cursor:pointer;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 </style>
 </head>
 <body>
@@ -1997,8 +1999,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.9.9';
-const VLOG=[['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回平板聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用平板聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用平板聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回平板內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.10';
+const VLOG=[['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、平板橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回平板聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用平板聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用平板聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回平板內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2059,7 +2061,7 @@ function prizeTour(){const pz=S.newPrize;S.newPrize=null;if(!pz)return;const [pe
  ],()=>{const d=$('#done');if(d)d.classList.add('cpulse')});
 }
 function aboutPanel(){
- const ov=overlay(screen,`<div class="card left about"><h2>星光公主大冒險</h2>
+ const ov=overlay(screen,`<div class="card left about"><button class="xclose" aria-label="關閉">✕</button><h2>星光公主大冒險</h2>
   <p class="small">給 4–6 歲小朋友的學習冒險遊戲：英文字母、注音、數字加減，還有生活、禮儀、安全和節日小知識。</p>
   <div class="arow"><span class="lab">版本</span><b>v${APP_VERSION}</b></div>
   <div class="arow"><span class="lab">作者</span><b>Albert Liu</b></div>
@@ -2069,10 +2071,11 @@ function aboutPanel(){
   <div><span class="lab">版本紀錄</span><div class="vlog">${VLOG.map(([v,d,t])=>`<div><b>v${v}</b><i>${d}</i><span>${t}</span></div>`).join('')}</div></div>
   <p class="small">© 2026 Albert Liu・台灣製造 Made in the Republic of China (Taiwan)</p>
   <button class="btn" id="adone">好</button></div>`);
- $('#adone',ov).onclick=()=>ov.remove();
+ $('#adone',ov).onclick=()=>ov.remove();$('.xclose',ov).onclick=()=>ov.remove();
 }
 function parentPanel(){
- const ov=overlay(screen,`<div class="card left"><h2>家長設定</h2>
+ const ov=overlay(screen,`<div class="card left"><button class="xclose" aria-label="關閉">✕</button><h2>家長設定</h2>
+  <div><span class="lab">公主的名字</span><div class="vrow"><input id="pnm" class="pin" maxlength="6" value="${(S.name||'').replace(/"/g,'')}" placeholder="例如：Anita" aria-label="公主的名字"><button class="btn2 small" id="pnmok">儲存</button></div></div>
   <div><span class="lab">難度</span><div class="seg">${Object.entries(DIFF).map(([k,v])=>`<button data-d="${k}" aria-pressed="${S.diff===k}">${v.name}</button>`).join('')}</div><p class="small" id="ddesc">${DIFF[S.diff].desc}</p></div>
   <div><span class="lab">語音</span><div class="seg"><button data-vo="1" aria-pressed="${!!S.vo}">真人錄音（推薦）</button><button data-vo="0" aria-pressed="${!S.vo}">平板內建</button></div><small id="vostat" class="small" style="display:block;margin-top:4px;opacity:.85"></small><button class="btn2 small" id="vore" style="margin-top:6px">重新下載語音包</button></div>
   <div><span class="lab">說故事的聲音（平板內建時使用）</span><div class="vrow"><select id="vsel" class="vsel" aria-label="選擇語音"></select><button class="btn2 small" id="vtest">試聽</button></div></div>
@@ -2096,7 +2099,8 @@ function parentPanel(){
  $$('[data-m]',ov).forEach(b=>b.onclick=()=>{S.music=b.dataset.m==='1';save();$$('[data-m]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $('#vsel',ov).onchange=e=>{S.voice=e.target.value;save();say(['你好，我是說故事的聲音。'])};
  $('#vtest',ov).onclick=()=>say(['準備好了嗎？','答對了！你好厲害喔！',{en:'Great job!'}]);
- $('#pdone',ov).onclick=()=>{ov.remove();SCREENS.title()};
+ $('#pdone',ov).onclick=()=>{ov.remove();SCREENS.title()};$('.xclose',ov).onclick=()=>{ov.remove();SCREENS.title()};
+ $('#pnmok',ov).onclick=()=>{const v=$('#pnm',ov).value.trim().replace(/[<>&"']/g,'').slice(0,6);S.name=v;save();if(v){say([`你好，${v}公主！`]);toast(`名字改成「${v}」了`)}else toast('名字清掉了')};
 }
 
 /* ================= question engine ================= */
@@ -3558,7 +3562,7 @@ SCREENS.pethouse=function(){
  const P=pc(),it=ITEM[S.look.pet]||{name:'寵物'};const lv=plv(P.love);const nxt=LVL[lv]||null;
  const pets=ITEMS.filter(x=>x.slot==='pet'&&owns(x.id));
  screen.innerHTML=`<div class="park petpark">${parkHead('寵物小屋')}
-  <div class="phouse"><div class="pscene" id="pscene"><svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice"><rect width="800" height="400" fill="#3A2E7A"/><rect y="290" width="800" height="110" fill="#5A3E8A"/><rect x="560" y="60" width="150" height="120" rx="10" fill="#1E2466" stroke="#FFD98A" stroke-width="6"/><circle cx="660" cy="100" r="18" fill="#FFF3C4"/><ellipse cx="400" cy="330" rx="150" ry="26" fill="#FF9FC8" opacity=".5"/></svg>
+  <div class="phouse"><div class="pscene" id="pscene"><svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice"><rect width="800" height="400" fill="#3A2E7A"/><rect y="290" width="800" height="110" fill="#5A3E8A"/><rect x="235" y="40" width="130" height="100" rx="10" fill="#1E2466" stroke="#FFD98A" stroke-width="6"/><circle cx="325" cy="75" r="16" fill="#FFF3C4"/><path d="M300 62 l3 7 7 1 -5 5 1 7 -6 -3 -6 3 1 -7 -5 -5 7 -1z" fill="#FFE79A" opacity=".7" transform="translate(-40 20) scale(.6)"/><ellipse cx="400" cy="330" rx="150" ry="26" fill="#FF9FC8" opacity=".5"/></svg>
    <div class="pbig" id="pbig" style="--sc:${(1+(lv-1)*.07).toFixed(2)}">${myPet()}</div><div class="pfx" id="pfx"></div></div>
    <div class="pside"><div class="pname"><b>${it.name}</b><span class="plv">Lv.${lv}</span></div>
     <div class="love"><span>${'💗'.repeat(lv)}${'🤍'.repeat(5-lv)}</span><small>${nxt?`好感度 ${P.love} / ${nxt}`:'好感度滿滿！'}</small></div>
