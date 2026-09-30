@@ -1,5 +1,5 @@
 // 星光公主大冒險 — offline cache. Change VERSION when updating the game.
-const VERSION='starlight-v45';
+const VERSION='starlight-v46';
 const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>Promise.all(CORE.map(u=>fetch(new Request(u,{cache:'reload'})).then(r=>{if(r.ok)return c.put(u,r)}).catch(()=>{})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==VERSION&&k!=='starlight-voice').map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
@@ -16,7 +16,7 @@ self.addEventListener('fetch',e=>{
   }
   if(/\/voice\//.test(new URL(req.url).pathname)){
     // 語音包：檔名有版本，存在獨立快取，更新遊戲時不用重新下載
-    e.respondWith(caches.open('starlight-voice').then(c=>c.match(req).then(hit=>hit||fetch(req).then(res=>{if(res&&res.ok)c.put(req,res.clone());return res}))));
+    // 語音包由遊戲自己下載和保存（不經過這裡，避免 iPad Safari 大檔案卡住）
     return;
   }
   e.respondWith(caches.match(req,{ignoreSearch:true}).then(hit=>hit||fetch(req).then(res=>{
