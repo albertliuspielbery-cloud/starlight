@@ -680,6 +680,76 @@ body[data-ch="7"]{--sky1:#0A1440;--sky2:#1E3A78;--sky3:#4A78B0}body[data-ch="8"]
 body[data-ch="5"] .stage{background:rgba(8,40,70,.45)}body[data-ch="7"] .stage{background:rgba(20,40,90,.45)}body[data-ch="8"] .stage{background:rgba(60,20,70,.42)}body[data-ch="9"] .stage{background:rgba(10,8,40,.5)}
 body[data-ch="5"]{--mote:#9FF3FF}body[data-ch="6"]{--mote:#FFFFFF}body[data-ch="7"]{--mote:#E8F8FF}body[data-ch="8"]{--mote:#FFB3D9}body[data-ch="9"]{--mote:#FFE27A}
 .thph{display:block;width:100%;aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,.08)}
+/* ===== v1.7 park ===== */
+.park{height:100%;display:flex;flex-direction:column;gap:12px;overflow:auto;padding:4px 2px 10px;box-sizing:border-box}
+.phead{display:flex;align-items:center;gap:12px}.phsp{width:92px}.phead .gtitle{flex:1;text-align:center}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;width:min(100%,900px);margin:auto}
+.pcard,.tcard,.scover,.ccard{position:relative;border-radius:24px;padding:16px;background:linear-gradient(160deg,rgba(90,70,180,.88),rgba(38,32,94,.92));border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 6px 0 rgba(0,0,0,.25);animation:pop .45s cubic-bezier(.3,1.6,.5,1) backwards var(--dl)}
+.pcard .pic,.tcard .pic{width:clamp(56px,9vw,84px);height:clamp(56px,9vw,84px);display:grid;place-items:center;font-size:clamp(44px,7vw,64px);line-height:1}
+.pcard .pic svg,.tcard .pic svg{width:100%;height:100%}
+.pcard b,.tcard b,.scover b,.ccard b{font-weight:400;font-size:clamp(19px,2.6vw,24px)}
+.pcard span:last-child{font-size:14px;color:var(--text2)}
+.sgrid,.cgrid,.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;width:min(100%,960px);margin:0 auto}
+.scover .sc-art{width:90px;height:90px;display:grid;place-items:center;font-size:64px}.scover .sc-art svg{width:100%;height:100%}
+.scover i,.ccard i{font-style:normal;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:3px}.scover i svg,.ccard i svg{width:18px;height:18px}
+.reader{align-items:center}
+.rscene{position:relative;width:min(100%,820px);aspect-ratio:2/1;max-height:48vh;border-radius:22px;overflow:hidden;border:2px solid var(--goldline)}
+.rscene .bg{position:absolute;inset:0;width:100%;height:100%}
+.ractors{position:absolute;inset:auto 0 6% 0;display:flex;justify-content:center;align-items:flex-end;gap:3%;height:62%}
+.ra{height:70%;display:flex;align-items:flex-end;animation:pop .5s cubic-bezier(.3,1.6,.5,1) backwards var(--dl);font-size:clamp(48px,9vw,90px);line-height:1}
+.ra.big{height:100%}.ra svg{height:100%;width:auto;max-width:28vw}
+.rtext{margin:0;max-width:min(92vw,760px);background:#FFF9FC;color:#3A2A6A;border-radius:18px;padding:12px 18px;font-size:clamp(20px,2.8vw,26px);line-height:1.6;box-shadow:0 6px 0 rgba(16,10,56,.35)}
+.rnav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}.rpg{font-family:var(--latin);color:var(--text2)}
+.rnav button:disabled{opacity:.4}
+.phouse{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;flex:1;min-height:0}
+@media (max-aspect-ratio:1/1){.phouse,.rwrap,.cwrap{grid-template-columns:1fr!important}}
+.pscene{position:relative;border-radius:22px;overflow:hidden;border:2px solid var(--goldline);min-height:260px}
+.pscene .bg,.rscene2 .bg{position:absolute;inset:0;width:100%;height:100%}
+.pbig{position:absolute;left:50%;bottom:12%;width:min(46%,260px);transform:translateX(-50%) scale(var(--sc,1));transform-origin:50% 100%}
+.pbig svg{width:100%;height:auto;display:block}
+.pbig.happy2{animation:phappy .8s ease}.pbig.chomp{animation:pchomp .3s ease 3}.pbig.jumpy{animation:pjump .5s ease}
+@keyframes phappy{30%{transform:translateX(-50%) scale(calc(var(--sc,1)*1.12)) rotate(-4deg)}60%{transform:translateX(-50%) scale(var(--sc,1)) rotate(4deg)}}
+@keyframes pchomp{50%{transform:translateX(-50%) scale(calc(var(--sc,1)*1.08),calc(var(--sc,1)*.92))}}
+@keyframes pjump{50%{transform:translateX(-50%) translateY(-30px) scale(var(--sc,1))}}
+.pfx{position:absolute;inset:0;pointer-events:none}.pfx>*{pointer-events:auto}
+.pfood{position:absolute;left:0;right:0;top:8%;display:flex;justify-content:center;gap:12px}
+.pfood button{background:#FFF9FC;border:2px solid #FFD98A;border-radius:18px;padding:8px 12px;display:flex;flex-direction:column;align-items:center;color:#4A2E7A;font-size:14px;animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.pfood svg,.pfood .emoji{width:48px;height:48px;font-size:40px}
+.bub{position:absolute;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 12%,rgba(191,243,255,.55) 14% 60%,rgba(159,216,255,.25) 62%);border:2px solid rgba(255,255,255,.8);animation:pop .4s backwards var(--d),bob2 2s ease-in-out infinite}
+.brushhint{position:absolute;top:6%;left:50%;transform:translateX(-50%);background:rgba(20,14,60,.7);padding:6px 16px;border-radius:999px;color:var(--gold);white-space:nowrap}
+.pball{position:absolute;right:10%;bottom:14%;font-size:48px;line-height:1;border-radius:50%}
+.pball.throw{animation:pthrow .6s ease}
+@keyframes pthrow{40%{transform:translate(-120px,-120px)}100%{transform:none}}
+.pside{display:flex;flex-direction:column;gap:10px}
+.pname{display:flex;align-items:center;gap:10px}.pname b{font-weight:400;font-size:26px;color:var(--gold)}.plv{background:var(--gold);color:var(--deep);border-radius:999px;padding:2px 10px;font-family:var(--latin);font-weight:800}
+.love{display:flex;flex-direction:column;gap:2px;font-size:22px}.love small{font-size:13px;color:var(--text2)}
+.pbar2{display:grid;grid-template-columns:3em 1fr;gap:8px;align-items:center;font-size:15px}.pbar2 i{height:14px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}.pbar2 b{display:block;height:100%;background:linear-gradient(90deg,#FF8FC8,#FFD98A)}
+.pacts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pacts .btn2{font-size:18px}
+.pswitch{display:flex;gap:6px;flex-wrap:wrap}.psw{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.1);border:2px solid transparent;padding:3px}.psw.on{border-color:var(--gold)}.psw svg{width:100%;height:100%}
+.rwrap{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;flex:1;min-height:0}
+.rscene2{position:relative;border-radius:22px;overflow:hidden;border:2px solid var(--goldline);aspect-ratio:2/1;align-self:start}
+.rtoy{position:absolute;left:62%;bottom:8%;width:13%}.rtoy svg,.rtoy .emoji{width:100%;height:auto;display:block;font-size:48px}
+.rpr{position:absolute;left:38%;bottom:4%;height:62%}.rpr svg{height:100%;width:auto}
+.rpet{position:absolute;left:80%;bottom:5%;width:15%}.rpet svg{width:100%;height:auto}
+.rside{display:flex;flex-direction:column;gap:10px}
+.ropts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.ropt{border-radius:16px;padding:12px;background:rgba(255,255,255,.1);border:2px solid var(--goldline);display:flex;flex-direction:column;gap:4px;align-items:center}
+.ropt b{font-weight:400;font-size:17px}.ropt i{font-style:normal;font-size:13px;color:var(--text2)}.ropt em{font-style:normal;display:flex;align-items:center;gap:3px;color:var(--gold)}.ropt em svg{width:18px;height:18px}
+.ropt.on{border-color:var(--gold);background:rgba(255,217,138,.18)}.ropt.locked{opacity:.8}
+.ccard .cthumb{width:100%;max-width:130px;aspect-ratio:1;background:#fff;border-radius:14px}
+.cwrap{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;flex:1;min-height:0}
+.cboard{background:#fff;border-radius:22px;padding:8px;align-self:start;max-width:min(100%,62vh);width:100%;margin:0 auto;box-sizing:border-box}
+.cpic{width:100%;height:auto;display:block;touch-action:manipulation}.cpic .cr{cursor:pointer}
+.cside{display:flex;flex-direction:column;gap:12px}
+.pal{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;max-width:360px}
+.pc{aspect-ratio:1;border-radius:50%;border:3px solid rgba(255,255,255,.6);box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.pc.on{border-color:#FFD24D;transform:scale(1.15);box-shadow:0 0 14px #FFE27A}
+.cfin svg{width:140px;height:140px;background:#fff;border-radius:14px}
+.psub{margin:0;text-align:center;color:var(--text2)}
+.tcard .rstars{font-size:18px}
+body[data-scr="park"] #prog,body[data-scr="storyhouse"] #prog,body[data-scr="pethouse"] #prog,body[data-scr="room"] #prog,body[data-scr="coloring"] #prog,body[data-scr="practice"] #prog{visibility:hidden}
+body[data-scr="park"] #btnMap,body[data-scr="storyhouse"] #btnMap,body[data-scr="pethouse"] #btnMap,body[data-scr="room"] #btnMap,body[data-scr="coloring"] #btnMap,body[data-scr="practice"] #btnMap{display:none}
+
 /* ===== fit small screens ===== */
 .play{justify-content:flex-start}.play>:first-child{margin-top:auto}.play>:last-child{margin-bottom:auto}
 .play>.catchwrap{margin:0}
@@ -1015,7 +1085,7 @@ try{const s=JSON.parse(localStorage.getItem('pp4')||'{}');
  if(s.look)Object.assign(S.look,s.look);if(s.owned)S.owned=[...new Set([...S.owned,...s.owned])];
  ['wallet','ch','chDone'].forEach(k=>{if(typeof s[k]==='number')S[k]=s[k]});if(Array.isArray(s.progs))s.progs.forEach((v,i)=>S.progs[i]=v);else if(typeof s.prog==='number')S.progs[0]=s.prog;
  if(s.diff)S.diff=s.diff;if(s.sound===false)S.sound=false;if(s.music===false)S.music=false;if(s.voice)S.voice=s.voice;if(typeof s.name==='string')S.name=s.name.slice(0,8)}catch(e){}
-const save=()=>{try{localStorage.setItem('pp4',JSON.stringify({look:S.look,owned:S.owned,wallet:S.wallet,progs:S.progs,ch:S.ch,chDone:S.chDone,diff:S.diff,sound:S.sound,music:S.music,voice:S.voice,name:S.name,stats:S.stats,stars:S.stars,rest:S.rest,lite:S.lite,liteUser:S.liteUser,tutWard:S.tutWard}))}catch(e){}};
+const save=()=>{try{localStorage.setItem('pp4',JSON.stringify({look:S.look,owned:S.owned,wallet:S.wallet,progs:S.progs,ch:S.ch,chDone:S.chDone,diff:S.diff,sound:S.sound,music:S.music,voice:S.voice,name:S.name,stats:S.stats,stars:S.stars,rest:S.rest,lite:S.lite,liteUser:S.liteUser,tutWard:S.tutWard,pcare:S.pcare,room:S.room,roomOwned:S.roomOwned,colors:S.colors,pstars:S.pstars,storyDay:S.storyDay,colorDone:S.colorDone}))}catch(e){}};
 const owns=id=>S.owned.includes(id);
 Object.defineProperty(S,'prog',{get(){return S.progs[S.ch]||0},set(v){S.progs[S.ch]=v}});
 /* ================= drawings ================= */
@@ -1394,7 +1464,7 @@ const SONGS=[
  {t:420,w:'bell',m:'E5 E5 F5 G5 G5 F5 E5 D5 C5 C5 D5 E5 E5 - D5 D5 - - E5 E5 F5 G5 G5 F5 E5 D5 C5 C5 D5 E5 D5 - C5 C5 - - - -'}
 ].map(x=>({...x,n:x.m.split(' ')}));
 let beat=0,musicTimer=0,curSong=-1;
-const musicWanted=()=>S.music&&['title','wardrobe','map','story','guide','chend'].includes(S.screen);
+const musicWanted=()=>S.music&&['title','wardrobe','map','story','guide','chend','chapters','park','pethouse','room','coloring','practice'].includes(S.screen);
 let mbus=null;
 function musBus(){const a=audio();if(!a)return null;if(!mbus){mbus=a.createGain();mbus.gain.value=.75;mbus.connect(a.destination)}return mbus}
 function musDuck(on){if(!ac)return;const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.62:.75,a.currentTime,on?.4:.8)}
@@ -1727,11 +1797,12 @@ title(){clearEnd();
   <div class="panel">
    <div class="logo"><span class="en">STARLIGHT PRINCESS</span><h1>星光公主</h1><span class="rib">大冒險</span></div>
    <p class="sub">${S.name?`<b class="gold">${S.name}公主</b>，`:''}${cont()?`${CHAPTERS[S.ch].title}・已經走了 ${S.prog} 關`:S.chDone>=6?`已經收集 ${S.chDone-5} 顆星星寶石，<br>繼續冒險吧！`:S.chDone>=1?`已經找到 ${S.chDone} 封王子的信，<br>繼續冒險吧！`:'和寵物一起穿過星光森林，<br>找回王子留下的魔法信'}</p>
-   <div class="row"><button class="btn" id="go"><span class="ic">${ICON.star('#3A2A6A')}</span>${cont()?'繼續冒險':'開始冒險'}</button><button class="btn2" id="dress"><span class="ic">${ICON.shirt('#FFD98A')}</span>換裝間</button></div>
+   <div class="row"><button class="btn" id="go"><span class="ic">${ICON.star('#3A2A6A')}</span>${cont()?'繼續冒險':'開始冒險'}</button><button class="btn2" id="dress"><span class="ic">${ICON.shirt('#FFD98A')}</span>換裝間</button><button class="btn2" id="parkbtn"><span class="ic">${ICON.star('#FFD98A')}</span>遊樂園</button></div>
    <div class="row"><span class="pill">${gem(WALLET_GEM)}寶石袋 <b>${S.wallet}</b></span><button class="pill pbtn" id="parent">家長設定・${DIFF[S.diff].name}</button>${cont()?'<button class="pill pbtn" id="restart">重新開始</button>':''}${S.name?'':'<button class="pill pbtn namebtn" id="nameit">幫公主取名字</button>'}<button class="pill pbtn" id="about">關於・v${APP_VERSION}</button></div>
   </div></div>`;
  $('#go').onclick=()=>{audio();startMusic();if(S.chDone>=1&&!cont()){go('chapters');return}if(S.prog>=NL)S.prog=0;S.walkFrom=null;go(S.prog===0?'story':'guide')};
  $('#dress').onclick=()=>{audio();startMusic();S.from='title';go('wardrobe')};
+ $('#parkbtn').onclick=()=>{audio();startMusic();go('park')};
  $('#parent').onclick=()=>parentPanel();
  $('#about').onclick=()=>aboutPanel();
  const nb=$('#nameit');if(nb)nb.onclick=()=>nameAsk(true);
@@ -1916,8 +1987,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.6.1';
-const VLOG=[['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.7';
+const VLOG=[['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -3351,6 +3422,282 @@ function renderSfx(k){const OAC=window.OfflineAudioContext||window.webkitOffline
 sfx=function(k){const a=ac;if(!S.sound)return;const b=sfxBuf[k];
  if(a&&a.state==='running'&&b&&b!=='p'){try{const s=a.createBufferSource();s.buffer=b;s.connect(a.destination);s.start();return}catch(e){}}
  _sfx0(k);if(SFXPRE.includes(k)&&!b&&a){sfxBuf[k]='p';renderSfx(k).then(x=>{sfxBuf[k]=x||undefined})}};
+
+
+Object.assign(ICONART,{
+ '🎨':IA(`<path d="M32 6 C14 6 4 20 6 34 C8 48 22 58 34 56 C42 55 40 48 36 45 C32 42 34 36 40 37 C48 38 58 36 58 26 C58 14 46 6 32 6Z" fill="#FFE9C8"/><circle cx="20" cy="24" r="5" fill="#FF4F6F"/><circle cx="32" cy="16" r="5" fill="#FFD24D"/><circle cx="45" cy="20" r="5" fill="#6FD39A"/><circle cx="17" cy="38" r="5" fill="#7FB8FF"/><circle cx="26" cy="48" r="4.5" fill="#B99CFF"/>${hl(22,14,4,6)}`),
+ '✏️':IA(`<g transform="rotate(45 32 32)"><rect x="24" y="4" width="16" height="40" rx="2" fill="#FFD24D"/><rect x="24" y="4" width="16" height="7" rx="2" fill="#FF8FC8"/><rect x="24" y="10" width="16" height="3" fill="#C9C9D8"/><path d="M24 44 H40 L32 58Z" fill="#F2D6BC"/><path d="M29.5 52 H34.5 L32 58Z" fill="#3A2A5C"/><rect x="29" y="12" width="3" height="32" fill="#fff" opacity=".35"/></g>`)
+});
+
+/* ================= v1.7: 星光遊樂園 ================= */
+const PARKS=['park','storyhouse','pethouse','room','coloring','practice'];
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');['pcare','room','roomOwned','colors','pstars','storyDay','colorDone'].forEach(k=>{if(sv[k])S[k]=sv[k]})}catch(e){}
+S.pcare=S.pcare||{};S.room=S.room||{};S.roomOwned=S.roomOwned||[];S.colors=S.colors||{};S.pstars=S.pstars||{};S.storyDay=S.storyDay||{};S.colorDone=S.colorDone||{};
+const saveP=()=>save();
+const addGems=n=>{S.wallet+=n;saveP();renderBar();sfx('coin')};
+const parkHead=(title,back='park')=>`<div class="phead"><button class="btn2 small" id="pback">${back==='title'?'回首頁':'回遊樂園'}</button><h2 class="gtitle">${title}</h2><span class="phsp"></span></div>`;
+const bindBack=(back='park')=>{const b=$('#pback');if(b)b.onclick=()=>{hush();go(back)}};
+const updGems=()=>{const g=$('#pgems');if(g)g.textContent=S.wallet};
+
+/* ----- hub ----- */
+SCREENS.park=function(){
+ const C=[['storyhouse','故事屋','聽好聽的故事','📖'],['pethouse','寵物小屋','照顧你的寵物朋友','🏠'],['room','公主房間','佈置自己的房間','🛏️'],['coloring','塗色本','幫圖畫塗上顏色','🎨'],['practice','自由練習','想練什麼就練什麼','✏️']];
+ screen.innerHTML=`<div class="park">${parkHead('星光遊樂園','title')}<div class="pgrid">${C.map(([k,n,d,e],i)=>`<button class="pcard" data-k="${k}" style="--dl:${(i*.08).toFixed(2)}s"><span class="pic">${art(e)}</span><b>${n}</b><span>${d}</span></button>`).join('')}</div></div>`;
+ bindBack('title');say(['歡迎來到星光遊樂園！想玩什麼呢？']);
+ $$('.pcard').forEach(b=>b.onclick=()=>{sfx('pop');go(b.dataset.k)});
+};
+
+/* ----- 故事屋 ----- */
+const STORYBOOK=[
+ {t:'小兔子的大紅蘿蔔',c:'bunny',p:[
+  ['forest',['bunny'],'小兔子在森林裡，找到一根好大好大的紅蘿蔔。'],
+  ['forest',['bunny','🥕'],'「哇！這是我的！」小兔子好開心，抱著紅蘿蔔跳來跳去。'],
+  ['forest',['squirrel','hedgehog'],'這時候，小松鼠和小刺蝟走過來，肚子咕嚕咕嚕叫。'],
+  ['forest',['bunny','🥕','squirrel','hedgehog'],'小兔子想了想，說：「我們一起吃吧！」'],
+  ['forest',['bunny','squirrel','hedgehog'],'大家一起吃紅蘿蔔，吃得好開心。分享，讓快樂變得更多了！']]},
+ {t:'怕黑的小熊',c:'bear',p:[
+  ['lake',['bear','🌙'],'晚上到了，小熊躲在被子裡：「好黑喔，我好怕。」'],
+  ['lake',['bear','owl'],'貓頭鷹飛過來說：「別怕，我們一起看看窗外。」'],
+  ['lake',['⭐','🌙','⭐'],'窗外有亮亮的月亮，還有好多一閃一閃的星星。'],
+  ['lake',['bear','⭐'],'「原來晚上也好漂亮！」小熊笑了。'],
+  ['lake',['bear','🌙'],'小熊抱著小被子，說聲晚安，甜甜地睡著了。']]},
+ {t:'不刷牙的小獅子',c:'lion',p:[
+  ['forest',['lion','🍭'],'小獅子最愛吃糖果，可是牠不喜歡刷牙。'],
+  ['forest',['lion','🦷'],'有一天，小獅子的牙齒好痛好痛，吼不出聲音了。'],
+  ['forest',['lion','owl'],'貓頭鷹醫生說：「吃完東西要刷牙，牙齒才不會蛀掉喔。」'],
+  ['forest',['lion','🪥'],'小獅子每天早上、晚上都認真刷牙。'],
+  ['forest',['lion','✨'],'現在，小獅子的牙齒白白亮亮，又可以大聲吼吼吼了！']]},
+ {t:'再試一次的小鳥',c:'bird',p:[
+  ['cloud',['bird','🌳'],'小鳥想學飛，牠拍拍翅膀，咚！掉到草地上。'],
+  ['cloud',['bird'],'小鳥有點難過：「我是不是飛不起來？」'],
+  ['cloud',['bird','butterfly'],'蝴蝶說：「沒關係，再試一次！我第一次也飛不好喔。」'],
+  ['cloud',['bird','☁️'],'小鳥深呼吸，用力拍拍翅膀……飛起來了！'],
+  ['cloud',['bird','butterfly','🌈'],'小鳥在天空飛來飛去。原來，多試幾次就會成功！']]},
+ {t:'誠實的小松鼠',c:'squirrel',p:[
+  ['forest',['squirrel','🏠'],'小松鼠在家裡玩球，砰！不小心打破了媽媽的花瓶。'],
+  ['forest',['squirrel'],'小松鼠好害怕，想把碎片藏起來。'],
+  ['forest',['squirrel','🌸'],'可是牠想了想，還是去找媽媽：「媽媽，對不起，是我打破的。」'],
+  ['forest',['squirrel','🤗'],'媽媽抱抱小松鼠：「謝謝你說實話，你好勇敢。」'],
+  ['forest',['squirrel','🌻'],'她們一起把花種在新的花盆裡。說實話，心裡就輕鬆了！']]},
+ {t:'迷路的小鴨子',c:'duck',p:[
+  ['lake',['duck','🛒'],'小鴨子跟媽媽去市場，看到好多好玩的東西。'],
+  ['lake',['duck'],'咦？媽媽不見了！小鴨子好緊張。'],
+  ['lake',['duck','👮'],'小鴨子記得：迷路了要站在原地，請警察或店員幫忙。'],
+  ['lake',['duck','👮','📞'],'警察叔叔用廣播幫忙找媽媽。'],
+  ['lake',['duck','🦆'],'「寶貝！」鴨媽媽跑過來抱住小鴨子。小鴨子好聰明，好勇敢！']]},
+ {t:'公主的晚安時間',c:'P',p:[
+  ['hall',['P','🛁'],'天黑了，公主先洗個香香的澡。'],
+  ['hall',['P','🪥'],'接著，把牙齒刷得乾乾淨淨。'],
+  ['hall',['P','👗'],'換上軟軟的睡衣，好舒服。'],
+  ['hall',['P','📖','pet'],'寵物朋友陪公主一起看一本故事書。'],
+  ['hall',['P','🌙','pet'],'「晚安，明天見！」公主閉上眼睛，做了一個甜甜的夢。']]},
+ {t:'海豚的新朋友',c:'dolphin',p:[
+  ['sea',['dolphin','🐟','🐟'],'小海豚和朋友們在海裡玩追追看。'],
+  ['sea',['fish'],'牠看到一條小魚，一個人躲在珊瑚後面。'],
+  ['sea',['dolphin','fish'],'小海豚游過去說：「你好！要不要一起玩？」'],
+  ['sea',['fish','🙂'],'小魚好開心：「好啊！我叫小藍。」'],
+  ['sea',['dolphin','fish','octopus'],'現在大家都是好朋友了。主動打招呼，就能交到新朋友！']]},
+ {t:'慢慢走的小蝸牛',c:'🐌',p:[
+  ['forest',['🐌','bunny','turtle'],'森林要開派對了，大家一起出發。'],
+  ['forest',['🐌'],'小蝸牛走得好慢好慢，落在最後面。'],
+  ['forest',['bunny','turtle','🐌'],'小兔子說：「我們等等小蝸牛吧！」'],
+  ['forest',['turtle','🐌'],'小烏龜陪著小蝸牛，一步一步慢慢走。'],
+  ['forest',['🐌','bunny','turtle','🎂'],'大家一起到了派對。等一等朋友，大家一起才最快樂！']]},
+ {t:'雪人和春天',c:'snowman',p:[
+  ['ice',['snowman','penguin'],'冬天，小朋友堆了一個胖胖的雪人。'],
+  ['ice',['snowman','❄️'],'雪人每天看著雪花飄，和企鵝一起玩。'],
+  ['ice',['snowman','☀️'],'春天來了，太陽暖暖的，雪人慢慢變小了。'],
+  ['forest',['💧','🌱'],'雪人變成了水，流進泥土裡。'],
+  ['forest',['🌷','🦋'],'泥土裡長出了一朵漂亮的小花。春夏秋冬，每個季節都有驚喜！']]}
+];
+function sbg(k){return k==='forest'?`<g transform="translate(-400 0)">${forestBg(1600,400,{flies:8})}</g>`:k==='lake'?lakeBg(800,400):k==='hall'?hallBg(800,400):CHBG[k]?CHBG[k](800,400):lakeBg(800,400)}
+function actor(a){if(a==='P')return princess(S.look);if(a==='pet')return myPet();if(AN[a])return animal(a);return art(a)}
+SCREENS.storyhouse=function(){
+ screen.innerHTML=`<div class="park">${parkHead('故事屋')}<div class="sgrid">${STORYBOOK.map((b,i)=>{const done=S.storyDay[i]===today();return `<button class="scover" data-i="${i}" style="--dl:${(i*.05).toFixed(2)}s"><span class="sc-art">${actor(b.c)}</span><b>${b.t}</b>${done?'<i>今天聽過了 ✓</i>':`<i class="sg">${gem(WALLET_GEM)}+1</i>`}</button>`}).join('')}</div></div>`;
+ bindBack();say(['故事屋到了！想聽哪一個故事呢？']);
+ $$('.scover').forEach(b=>b.onclick=()=>readStory(+b.dataset.i));
+};
+function readStory(i){const B=STORYBOOK[i];let pg=0;
+ const render=()=>{const [bg,acts,txt]=B.p[pg];
+  screen.innerHTML=`<div class="park reader">${parkHead(B.t,'storyhouse')}<div class="rscene"><svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${sbg(bg)}</svg><div class="ractors">${acts.map((a,k)=>`<span class="ra${a==='P'?' big':''}" style="--dl:${(k*.12).toFixed(2)}s">${actor(a)}</span>`).join('')}</div></div>
+   <p class="rtext">${txt}</p><div class="rnav"><button class="btn2" id="rprev" ${pg?'':'disabled'}>上一頁</button><span class="rpg">${pg+1} / ${B.p.length}</span><button class="btn2" id="ragain">再聽一次</button><button class="btn" id="rnext">${pg<B.p.length-1?'下一頁':'讀完了'}</button></div></div>`;
+  bindBack('storyhouse');say([{zh:txt,slow:1}]);
+  $('#rprev').onclick=()=>{if(pg){pg--;sfx('pop');render()}};
+  $('#ragain').onclick=()=>say([{zh:txt,slow:1}]);
+  $('#rnext').onclick=()=>{if(pg<B.p.length-1){pg++;sfx('pop');render()}else finishStory()};
+ };
+ const finishStory=()=>{const first=S.storyDay[i]!==today();S.storyDay[i]=today();if(first)addGems(1);else saveP();
+  const ov=overlay(screen,`<div class="card"><h2>故事說完了！</h2><div class="face">${actor(B.c)}</div><p>${first?'認真聽完故事，得到 1 顆寶石！':'今天已經聽過這個故事囉，明天再聽可以再拿寶石！'}</p><div class="row"><button class="btn" id="sok">好</button></div></div>`);
+  confetti();say([first?'故事說完了！送你一顆寶石！':'故事說完了！']);$('#sok',ov).onclick=()=>go('storyhouse')};
+ render()}
+
+/* ----- 寵物小屋 ----- */
+const LVL=[0,6,16,30,50];
+function pc(){const id=S.look.pet;if(!S.pcare[id]){const t=Date.now()-5*3600e3;S.pcare[id]={h:t,c:t,j:t,love:0,day:'',dl:0}}return S.pcare[id]}
+const stat=ts=>Math.max(0,Math.min(100,Math.round(100-(Date.now()-ts)/3600e3*10)));
+const plv=l=>{let v=1;LVL.forEach((t,i)=>{if(l>=t)v=i+1});return v};
+const PFOOD=[['🍎','蘋果'],['🥕','紅蘿蔔'],['🍪','餅乾'],['🐟','小魚'],['🍓','草莓'],['🍯','蜂蜜']];
+SCREENS.pethouse=function(){
+ const P=pc(),it=ITEM[S.look.pet]||{name:'寵物'};const lv=plv(P.love);const nxt=LVL[lv]||null;
+ const pets=ITEMS.filter(x=>x.slot==='pet'&&owns(x.id));
+ screen.innerHTML=`<div class="park petpark">${parkHead('寵物小屋')}
+  <div class="phouse"><div class="pscene" id="pscene"><svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice"><rect width="800" height="400" fill="#3A2E7A"/><rect y="290" width="800" height="110" fill="#5A3E8A"/><rect x="560" y="60" width="150" height="120" rx="10" fill="#1E2466" stroke="#FFD98A" stroke-width="6"/><circle cx="660" cy="100" r="18" fill="#FFF3C4"/><ellipse cx="400" cy="330" rx="150" ry="26" fill="#FF9FC8" opacity=".5"/></svg>
+   <div class="pbig" id="pbig" style="--sc:${(1+(lv-1)*.07).toFixed(2)}">${myPet()}</div><div class="pfx" id="pfx"></div></div>
+   <div class="pside"><div class="pname"><b>${it.name}</b><span class="plv">Lv.${lv}</span></div>
+    <div class="love"><span>${'💗'.repeat(lv)}${'🤍'.repeat(5-lv)}</span><small>${nxt?`好感度 ${P.love} / ${nxt}`:'好感度滿滿！'}</small></div>
+    ${[['h','肚子','🍽️'],['c','乾淨','🫧'],['j','開心','🎾']].map(([k,n,e])=>`<div class="pbar2"><span>${n}</span><i><b style="width:${stat(P[k])}%"></b></i></div>`).join('')}
+    <div class="pacts"><button class="btn2" data-a="feed">🍎 餵食</button><button class="btn2" data-a="bath">🫧 洗澡</button><button class="btn2" data-a="brush">✨ 梳毛</button><button class="btn2" data-a="play">🎾 玩球</button></div>
+    ${pets.length>1?`<div class="pswitch">${pets.map(x=>`<button class="psw${x.id===S.look.pet?' on':''}" data-id="${x.id}" aria-label="${x.name}">${petSVG(x.id,'')}</button>`).join('')}</div>`:''}
+   </div></div></div>`;
+ bindBack();
+ const P0=P;say([`${it.name}在等你喔！`,stat(P0.h)<40?'牠肚子餓了，餵牠吃東西吧！':stat(P0.c)<40?'牠髒髒的，幫牠洗個澡吧！':stat(P0.j)<40?'牠想玩，陪牠玩球吧！':'要幫牠做什麼呢？']);
+ $$('.psw').forEach(b=>b.onclick=()=>{S.look.pet=b.dataset.id;saveP();SCREENS.pethouse()});
+ $$('[data-a]').forEach(b=>b.onclick=()=>petAct(b.dataset.a));
+};
+function petGain(k){const P=pc();const before=stat(P[k]);P[k]=Date.now();const d=today();if(P.day!==d){P.day=d;P.dl=0}
+ let msg='';if(before<85&&P.dl<12){const lv0=plv(P.love);P.love++;P.dl++;const lv1=plv(P.love);if(lv1>lv0){addGems(3*lv1);msg=`好感度升到 Lv.${lv1}！寵物長大了一點，送你 ${3*lv1} 顆寶石！`}}
+ saveP();return msg}
+function petAct(a){const pb=$('#pbig'),fx=$('#pfx');if(!pb)return;$$('[data-a]').forEach(b=>b.disabled=true);
+ const done=(k,line)=>{const m=petGain(k);pb.classList.remove('happy2');void pb.offsetWidth;pb.classList.add('happy2');burstEl(pb,24);sfx('right');
+  say([line,m].filter(Boolean)).then(()=>{if(S.screen==='pethouse')SCREENS.pethouse()});if(m){confetti();toast(m)}};
+ if(a==='feed'){fx.innerHTML=`<div class="pfood">${shuffle(PFOOD).slice(0,3).map(([e,n])=>`<button data-n="${n}">${art(e)}<span>${n}</span></button>`).join('')}</div>`;say(['要餵牠吃什麼呢？']);
+  $$('.pfood button',fx).forEach(b=>b.onclick=()=>{fx.innerHTML='';pb.classList.add('chomp');sfx('crunch');setTimeout(()=>{pb.classList.remove('chomp');done('h',`好好吃的${b.dataset.n}！謝謝你！`)},900)})}
+ if(a==='bath'){let n=0;const N=6;fx.innerHTML=Array.from({length:N},(_,i)=>`<button class="bub" style="left:${20+Math.random()*60}%;top:${15+Math.random()*55}%;--d:${(i*.1).toFixed(1)}s"></button>`).join('');say(['點破泡泡，幫牠洗得香香的！']);
+  $$('.bub',fx).forEach(b=>b.onclick=()=>{b.remove();n++;tone(700+n*80,0,.12,'sine',.08);if(n>=N)done('c','洗得好乾淨，香香的！')})}
+ if(a==='brush'){let n=0;fx.innerHTML='<div class="brushhint">在寵物身上點一點，幫牠梳毛！</div>';say(['在寵物身上點一點，幫牠梳毛！']);
+  pb.onclick=e=>{n++;const r=pb.getBoundingClientRect();burst(e.clientX||r.left+r.width/2,e.clientY||r.top+r.height/2,6,true);tone(900+n*60,0,.1,'triangle',.07);if(n>=5){pb.onclick=null;fx.innerHTML='';done('c','毛毛好柔順，亮晶晶！')}}}
+ if(a==='play'){let n=0;fx.innerHTML='<button class="pball">⚽</button>';say(['點一下球，丟給牠！丟三次喔！']);const ball=$('.pball',fx);
+  ball.onclick=()=>{n++;ball.classList.remove('throw');void ball.offsetWidth;ball.classList.add('throw');pb.classList.remove('jumpy');void pb.offsetWidth;pb.classList.add('jumpy');sfx('hop');if(n>=3){ball.onclick=null;setTimeout(()=>{fx.innerHTML='';done('j','好好玩！再陪我玩喔！')},700)}}}
+}
+
+/* ----- 公主房間 ----- */
+const ROOMSLOTS=[['wall','牆壁'],['bed','床'],['rug','地毯'],['lamp','檯燈'],['curtain','窗簾'],['toy','玩具']];
+const ROOMITEMS={
+ wall:[['pink','粉紅點點',0],['blue','星星藍',4],['mint','薄荷條紋',4],['purple','夢幻紫',6]],
+ bed:[['basic','小床',0],['canopy','公主紗帳床',8],['star','星星床',6]],
+ rug:[['round','圓地毯',0],['rainbow','彩虹地毯',5],['heart','愛心地毯',4]],
+ lamp:[['desk','檯燈',0],['moon','月亮燈',5],['flower','花朵燈',4]],
+ curtain:[['pink','粉紅窗簾',0],['lace','蕾絲窗簾',4],['star','星空窗簾',5]],
+ toy:[['bear','泰迪熊',0],['balloon','氣球',3],['castle','城堡玩具',6]]
+};
+const roomGet=k=>S.room[k]||ROOMITEMS[k][0][0];
+const rOwn=(k,v)=>ROOMITEMS[k].find(x=>x[0]===v)[2]===0||S.roomOwned.includes(k+':'+v);
+function roomSVG(){const W={pink:['#FFD6E8','#FFB3D9','dot'],blue:['#BFD8FF','#FFF6D0','star'],mint:['#CFF5E6','#A8E8CF','stripe'],purple:['#D9C8FF','#B99CFF','dot']}[roomGet('wall')];
+ let d=`<rect width="800" height="400" fill="${W[0]}"/>`;
+ if(W[2]==='dot')for(let i=0;i<60;i++)d+=`<circle cx="${(i*83)%800}" cy="${(i*47)%280}" r="5" fill="${W[1]}"/>`;
+ if(W[2]==='star')for(let i=0;i<40;i++)d+=`<path d="${starD((i*97)%800,(i*53)%280,6)}" fill="${W[1]}"/>`;
+ if(W[2]==='stripe')for(let x=0;x<800;x+=40)d+=`<rect x="${x}" width="20" height="290" fill="${W[1]}" opacity=".6"/>`;
+ d+=`<rect y="290" width="800" height="110" fill="#C99A6A"/><rect y="290" width="800" height="8" fill="#A87A4A"/>`;
+ // window + curtain
+ d+=`<rect x="540" y="50" width="180" height="140" rx="8" fill="#2A3A8A" stroke="#fff" stroke-width="8"/><circle cx="660" cy="95" r="18" fill="#FFF3C4"/><path d="${starD(590,90,6)}" fill="#fff"/><path d="${starD(620,150,4)}" fill="#fff"/>`;
+ const cu=roomGet('curtain'),cc={pink:'#FF8FC8',lace:'#FFFFFF',star:'#3A3A9A'}[cu];
+ d+=`<path d="M520 40 H580 Q570 120 590 200 H520Z" fill="${cc}" opacity=".95"/><path d="M740 40 H680 Q690 120 670 200 H740Z" fill="${cc}" opacity=".95"/><rect x="512" y="34" width="236" height="10" rx="5" fill="#C99A6A"/>`;
+ if(cu==='star')d+=[[545,90],[555,150],[715,100],[705,160]].map(([x,y])=>`<path d="${starD(x,y,5)}" fill="#FFE27A"/>`).join('');
+ if(cu==='lace')d+=`<path d="M520 200 Q535 210 550 200 Q565 210 580 200 M680 200 Q695 210 710 200 Q725 210 740 200" stroke="#E8D8F8" stroke-width="3" fill="none"/>`;
+ // rug
+ const rg=roomGet('rug');
+ if(rg==='round')d+=`<ellipse cx="400" cy="345" rx="190" ry="36" fill="#FF9FC8"/><ellipse cx="400" cy="345" rx="150" ry="26" fill="#FFC9E0"/>`;
+ if(rg==='rainbow')['#FF6F91','#FFB84D','#FFE07A','#6FE3A8','#7FB8FF','#B99CFF'].forEach((c,i)=>{d+=`<ellipse cx="400" cy="345" rx="${200-i*28}" ry="${38-i*5}" fill="${c}"/>`});
+ if(rg==='heart')d+=`<path d="M400 385 Q260 330 300 305 Q340 285 400 320 Q460 285 500 305 Q540 330 400 385Z" fill="#FF6FA8"/>`;
+ // bed
+ const bd=roomGet('bed');
+ const bc={basic:['#FFB3D9','#FFFFFF'],canopy:['#C9A8FF','#FFF0F8'],star:['#3A3A9A','#FFE27A']}[bd];
+ if(bd==='canopy')d+=`<path d="M40 60 Q120 20 200 60 L210 290 H30Z" fill="#FFE6F2" opacity=".75"/><path d="M40 60 Q120 20 200 60" stroke="#C9A8FF" stroke-width="8" fill="none"/>`;
+ d+=`<rect x="30" y="200" width="200" height="90" rx="14" fill="${bc[0]}"/><rect x="40" y="186" width="70" height="36" rx="16" fill="${bc[1]}"/><rect x="30" y="170" width="18" height="130" rx="8" fill="#C99A6A"/><rect x="212" y="200" width="18" height="100" rx="8" fill="#C99A6A"/>`;
+ if(bd==='star')d+=[[120,240],[170,260],[80,265]].map(([x,y])=>`<path d="${starD(x,y,7)}" fill="#FFE27A"/>`).join('');
+ // lamp
+ const lp=roomGet('lamp');
+ if(lp==='desk')d+=`<rect x="262" y="230" width="60" height="60" rx="6" fill="#C99A6A"/><path d="M278 180 H306 L314 214 H270Z" fill="#FFE27A"/><rect x="289" y="214" width="6" height="18" fill="#8A5A3A"/><circle cx="292" cy="200" r="40" fill="#FFF3C4" opacity=".25"/>`;
+ if(lp==='moon')d+=`<rect x="262" y="230" width="60" height="60" rx="6" fill="#C99A6A"/><path d="M300 170 A24 24 0 1 0 300 218 A18 18 0 1 1 300 170Z" fill="#FFE27A"/><circle cx="292" cy="195" r="44" fill="#FFF3C4" opacity=".25"/>`;
+ if(lp==='flower')d+=`<rect x="262" y="230" width="60" height="60" rx="6" fill="#C99A6A"/>${flowerDots(292,196,12,'#FF8FC8','#FFE27A')}<rect x="289" y="208" width="6" height="24" fill="#5CC98A"/><circle cx="292" cy="196" r="44" fill="#FFF3C4" opacity=".2"/>`;
+ // toy
+ const ty=roomGet('toy');const toy=ty==='bear'?art('🧸'):ty==='balloon'?art('🎈'):castle('');
+ return {bg:d,toy}}
+SCREENS.room=function(sel){sel=sel||'bed';
+ const R=roomSVG();
+ screen.innerHTML=`<div class="park">${parkHead('公主房間')}
+  <div class="rwrap"><div class="rscene2"><svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">${R.bg}</svg><div class="rtoy">${R.toy}</div><div class="rpr">${princess(S.look)}</div><div class="rpet">${myPet()}</div></div>
+  <div class="rside"><div class="tabs">${ROOMSLOTS.map(([k,n])=>`<button class="tab" data-s="${k}" aria-selected="${k===sel}">${n}</button>`).join('')}</div>
+   <div class="ropts">${ROOMITEMS[sel].map(([v,n,pr])=>{const have=rOwn(sel,v),on=roomGet(sel)===v;return `<button class="ropt${on?' on':''}${have?'':' locked'}" data-v="${v}"><b>${n}</b>${have?(on?'<i>使用中</i>':'<i>點一下換上</i>'):`<em>${gem(WALLET_GEM)}${pr}</em>`}</button>`}).join('')}</div>
+   <p class="small">用闖關得到的寶石，把房間佈置得漂漂亮亮！</p></div></div></div>`;
+ bindBack();
+ $$('.tab[data-s]').forEach(b=>b.onclick=()=>{sfx('pop');SCREENS.room(b.dataset.s)});
+ $$('.ropt').forEach(b=>b.onclick=()=>{const v=b.dataset.v,it=ROOMITEMS[sel].find(x=>x[0]===v);
+  if(rOwn(sel,v)){S.room[sel]=v;saveP();sfx('gem');SCREENS.room(sel);say([`換上${it[1]}了！`]);return}
+  if(S.wallet<it[2]){say([`還差${it[2]-S.wallet}顆寶石喔，去闖關收集寶石吧！`]);toast(`還差 ${it[2]-S.wallet} 顆寶石`);b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
+  const ov=overlay(screen,`<div class="card"><h2>${it[1]}</h2><p>要用 <b class="gold">${it[2]}</b> 顆寶石換嗎？</p><div class="row"><button class="btn" id="ry">換！</button><button class="btn2" id="rn">先不要</button></div></div>`);say([`${it[1]}，要用${it[2]}顆寶石換嗎？`]);
+  $('#rn',ov).onclick=()=>ov.remove();$('#ry',ov).onclick=()=>{S.wallet-=it[2];S.roomOwned.push(sel+':'+v);S.room[sel]=v;saveP();renderBar();ov.remove();confetti();SCREENS.room(sel);say([`換到${it[1]}了！房間變得好漂亮！`])}});
+ if(!SCREENS.room.told){SCREENS.room.told=1;say(['這是公主的房間！點上面的分類，換換看床、地毯和檯燈吧！'])}
+};
+
+/* ----- 塗色本 ----- */
+const CR=(tag,attr)=>[tag,attr];
+const PICS=[
+ {n:'小花',r:[CR('rect','x="88" y="110" width="24" height="60" rx="6"'),CR('ellipse','cx="72" cy="140" rx="22" ry="10" transform="rotate(-30 72 140)"'),CR('ellipse','cx="128" cy="135" rx="22" ry="10" transform="rotate(30 128 135)"'),...[0,1,2,3,4].map(k=>{const t=k*1.2566-1.5708;return CR('circle',`cx="${(100+34*Math.cos(t)).toFixed(1)}" cy="${(75+34*Math.sin(t)).toFixed(1)}" r="24"`)}),CR('circle','cx="100" cy="75" r="18"'),CR('path','d="M60 165 H140 L130 195 H70Z"')]},
+ {n:'小房子',r:[CR('rect','x="0" y="170" width="200" height="30"'),CR('rect','x="45" y="95" width="110" height="80"'),CR('path','d="M35 100 L100 45 L165 100Z"'),CR('rect','x="125" y="50" width="16" height="30"'),CR('rect','x="88" y="125" width="26" height="50" rx="4"'),CR('rect','x="55" y="110" width="24" height="22"'),CR('rect','x="122" y="110" width="24" height="22"'),CR('circle','cx="170" cy="30" r="16"')]},
+ {n:'小魚',r:[CR('path','d="M140 100 L185 70 L180 130Z"'),CR('ellipse','cx="95" cy="100" rx="55" ry="36"'),CR('path','d="M85 66 Q100 45 118 68Z"'),CR('path','d="M80 110 Q70 130 95 128Z"'),CR('circle','cx="68" cy="92" r="8"'),CR('circle','cx="40" cy="50" r="7"'),CR('circle','cx="30" cy="30" r="5"'),CR('rect','x="0" y="175" width="200" height="25"')]},
+ {n:'杯子蛋糕',r:[CR('path','d="M55 110 H145 L132 185 H68Z"'),CR('path','d="M50 112 Q40 80 70 78 Q72 50 100 55 Q128 50 130 78 Q160 80 150 112Z"'),CR('circle','cx="100" cy="45" r="12"'),CR('circle','cx="80" cy="92" r="5"'),CR('circle','cx="118" cy="90" r="5"'),CR('circle','cx="100" cy="100" r="5"')]},
+ {n:'彩虹',r:[...[0,1,2,3,4].map(i=>{const R0=90-i*13,R1=R0-13;return CR('path',`d="M${100-R0} 150 A${R0} ${R0} 0 0 1 ${100+R0} 150 H${100+R1} A${R1} ${R1} 0 0 0 ${100-R1} 150Z"`)}),CR('path','d="M5 160 Q10 135 30 140 Q40 125 55 138 Q70 140 65 160Z"'),CR('path','d="M135 160 Q130 138 150 140 Q160 125 175 138 Q195 138 195 160Z"'),CR('circle','cx="170" cy="35" r="18"')]},
+ {n:'蝴蝶',r:[CR('ellipse','cx="65" cy="75" rx="40" ry="32" transform="rotate(-20 65 75)"'),CR('ellipse','cx="135" cy="75" rx="40" ry="32" transform="rotate(20 135 75)"'),CR('ellipse','cx="72" cy="130" rx="28" ry="22" transform="rotate(20 72 130)"'),CR('ellipse','cx="128" cy="130" rx="28" ry="22" transform="rotate(-20 128 130)"'),CR('ellipse','cx="100" cy="105" rx="10" ry="45"'),CR('circle','cx="100" cy="55" r="12"'),CR('circle','cx="60" cy="72" r="10"'),CR('circle','cx="140" cy="72" r="10"')]},
+ {n:'城堡',r:[CR('rect','x="0" y="180" width="200" height="20"'),CR('rect','x="45" y="95" width="110" height="88"'),CR('rect','x="20" y="80" width="34" height="103"'),CR('rect','x="146" y="80" width="34" height="103"'),CR('path','d="M16 82 L37 40 L58 82Z"'),CR('path','d="M142 82 L163 40 L184 82Z"'),CR('path','d="M80 97 L100 55 L120 97Z"'),CR('path','d="M85 183 V150 A15 15 0 0 1 115 150 V183Z"'),CR('rect','x="60" y="115" width="18" height="20" rx="9"'),CR('rect','x="122" y="115" width="18" height="20" rx="9"')]},
+ {n:'月亮星星',r:[CR('path','d="M120 30 A50 50 0 1 0 120 130 A38 38 0 1 1 120 30Z"'),CR('path',`d="${starD(160,60,16)}"`),CR('path',`d="${starD(40,40,12)}"`),CR('path',`d="${starD(150,140,11)}"`),CR('path','d="M20 175 Q40 150 70 160 Q90 140 115 158 Q140 150 150 175Z"'),CR('rect','x="0" y="185" width="200" height="15"')]}
+];
+const PALETTE=['#FF4F6F','#FF9A3C','#FFD24D','#6FD39A','#3FB8A0','#7FB8FF','#3F6FD8','#B99CFF','#FF8FC8','#A87A4A','#9A9AA8','#FFFFFF'];
+SCREENS.coloring=function(){
+ screen.innerHTML=`<div class="park">${parkHead('塗色本')}<div class="cgrid">${PICS.map((p,i)=>`<button class="ccard" data-i="${i}" style="--dl:${(i*.05).toFixed(2)}s">${picSVG(i,true)}<b>${p.n}</b>${S.colorDone[i]?'<i>完成 ✓</i>':`<i class="sg">${gem(WALLET_GEM)}+2</i>`}</button>`).join('')}</div></div>`;
+ bindBack();say(['塗色本！選一張圖來塗顏色吧！']);
+ $$('.ccard').forEach(b=>b.onclick=()=>colorPic(+b.dataset.i));
+};
+function picSVG(i,thumb){const P=PICS[i],C=S.colors[i]||{};return `<svg viewBox="0 0 200 200" class="${thumb?'cthumb':'cpic'}">${thumb?'':'<rect width="200" height="200" fill="#fff"/>'}${P.r.map(([t,a],k)=>`<${t} ${a} data-k="${k}" class="cr" fill="${C[k]||'#FFFFFF'}" stroke="#3A2A5C" stroke-width="2.5" stroke-linejoin="round"/>`).join('')}</svg>`}
+function colorPic(i){let cur=PALETTE[0];const P=PICS[i];
+ screen.innerHTML=`<div class="park">${parkHead(P.n,'coloring')}<div class="cwrap"><div class="cboard">${picSVG(i)}</div>
+  <div class="cside"><div class="pal">${PALETTE.map((c,k)=>`<button class="pc${k?'':' on'}" data-c="${c}" style="background:${c}" aria-label="顏色"></button>`).join('')}</div>
+  <div class="row"><button class="btn2 small" id="cclear">全部擦掉</button><button class="btn" id="cdone">塗好了</button></div><p class="small">選一個顏色，再點圖上的地方就能塗色</p></div></div></div>`;
+ bindBack('coloring');say(['選一個顏色，再點圖上的地方，就可以塗色喔！']);
+ $$('.pc').forEach(b=>b.onclick=()=>{cur=b.dataset.c;$$('.pc').forEach(x=>x.classList.toggle('on',x===b));tone(800,0,.08,'sine',.05)});
+ const svg=$('.cpic');
+ svg.addEventListener('click',e=>{const t=e.target.closest('.cr');if(!t)return;const k=t.dataset.k;t.setAttribute('fill',cur);(S.colors[i]=S.colors[i]||{})[k]=cur;saveP();tone(600+Math.random()*400,0,.1,'triangle',.06)});
+ $('#cclear').onclick=()=>{S.colors[i]={};saveP();colorPic(i)};
+ $('#cdone').onclick=()=>{const C=S.colors[i]||{};const filled=P.r.filter((_,k)=>C[k]&&C[k]!=='#FFFFFF').length;
+  if(filled<Math.ceil(P.r.length*.6)){say(['還有好多地方是白色的，再塗一塗吧！']);toast('再多塗幾個地方吧！');return}
+  const first=!S.colorDone[i];S.colorDone[i]=1;if(first)addGems(2);else saveP();confetti();
+  const ov=overlay(screen,`<div class="card"><h2>好漂亮的畫！</h2><div class="cfin">${picSVG(i,true)}</div><p>${first?'第一次完成這張圖，得到 2 顆寶石！':'又畫了一張漂亮的畫！'}</p><div class="row"><button class="btn" id="cok">好</button></div></div>`);
+  say([first?'好漂亮的畫！送你兩顆寶石！':'好漂亮的畫！']);$('#cok',ov).onclick=()=>go('coloring')};
+}
+
+/* ----- 自由練習 ----- */
+const PTOPICS=[
+ ['letter','英文字母','🔤','bunny','forest',['letter','letter','catch:letter','letter','letter']],
+ ['zhuyin','注音','🎈','bear','hill',['zhuyin','zhuyin','catch:zhuyin','spell','zhuyin']],
+ ['word','英文單字','📘','kitten','town',['word','word','body','word','word']],
+ ['count','數數','🔢','frog','river',['count','count','compare','feed','count']],
+ ['add','加法','➕','kitten','garden',['add','add','add','feed','add']],
+ ['sub','減法','➖','squirrel','village',['sub','sub','sub','sub','sub']],
+ ['clock','時鐘和錢','⏰','owl','town',['clock','clock','money','money','clock']],
+ ['quiz','生活知識','💡','dog','town',['quiz','quiz','quiz','manner','quiz']],
+ ['nature','動物和自然','🐾','deer','forest',['animal','habitat','baby','season','sky']],
+ ['shape','形狀和顏色','🔷','bee','candy',['shape','colormix','shape','pattern','shadow']]
+];
+SCREENS.practice=function(){
+ screen.innerHTML=`<div class="park">${parkHead('自由練習')}<p class="psub">選一個想練習的，練完有寶石和禮物喔！（難度：${DIFF[S.diff].name}）</p><div class="tgrid">${PTOPICS.map(([k,n,e],i)=>`<button class="tcard" data-k="${k}" style="--dl:${(i*.04).toFixed(2)}s"><span class="pic">${art(e)}</span><b>${n}</b><span class="rstars">${'★'.repeat(S.pstars[k]||0)}<i>${'★'.repeat(3-(S.pstars[k]||0))}</i></span></button>`).join('')}</div></div>`;
+ bindBack();say(['自由練習！你想練習什麼呢？']);
+ $$('.tcard').forEach(b=>b.onclick=()=>startPractice(b.dataset.k));
+};
+let _LVsave=null;
+function startPractice(k){const T=PTOPICS.find(x=>x[0]===k);
+ _LVsave=LEVELS;S.pmode={k,name:T[1]};LEVELS=[{name:'自由練習・'+T[1],helper:T[3],decor:T[4],qs:T[5],reward:'box',intro:`我們來練習「${T[1]}」！一共五題，加油喔！`}];
+ S.level=0;S.q=0;S.lvMiss=0;S.qs=shuffle(T[5].slice());go('stage')}
+function endPractice(){if(!S.pmode)return;S.pmode=null;if(_LVsave){LEVELS=_LVsave;_LVsave=null}setCh(S.ch)}
+const _show0=show;
+show=function(name,arg){if(S.pmode&&name!=='stage')endPractice();document.body.dataset.scr=name;_show0(name,arg)};
+const _levelDone0=levelDone;
+levelDone=function(){if(!S.pmode)return _levelDone0();
+ const k=S.pmode.k,perfect=S.lvMiss===0,st=perfect?3:S.lvMiss<=2?2:1,earn=2+(perfect?2:0);S.pstars[k]=Math.max(S.pstars[k]||0,st);S.wallet+=earn;saveP();renderBar();sfx('gem');
+ const ov=overlay($('.stage'),`<div class="card"><div class="rhead"><span class="rgem" style="--gc:#FF8FC8">${gem('#FF8FC8')}</span><div><b>練習完成！</b><span class="rstars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></span></div><span class="earn">${gem(WALLET_GEM)}<b>+${earn}</b></span></div><div class="rbody"></div></div>`);
+ say(['練習完成了！好認真喔！',`寶石袋多了${earn}顆寶石，還有一個禮物喔！`]);
+ const card=$('.rbody',ov);const finish=()=>go('practice');
+ setTimeout(()=>{if(card.isConnected)REWARD[pick(['box','chest','pick'])](card,finish)},1500)};
 
 let rt=0;
 addEventListener('resize',()=>{sizeFx();clearTimeout(rt);rt=setTimeout(()=>{if(S.screen==='map')SCREENS.map('quiet')},200)});
