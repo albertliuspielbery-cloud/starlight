@@ -1825,7 +1825,8 @@ title(){clearEnd();
  $('#parent').onclick=()=>parentPanel();
  $('#about').onclick=()=>aboutPanel();
  const nb=$('#nameit');if(nb)nb.onclick=()=>nameAsk(true);
- if(!S.name&&!nameAsked)setTimeout(()=>{if(S.screen==='title'&&!$('.overlay'))nameAsk()},700);
+ if(!setupState()&&!(()=>{try{return sessionStorage.getItem(SETUP_KEY)}catch(e){return 0}})()&&!nameAsked){nameAsked=true;setTimeout(()=>{if(S.screen==='title'&&!$('.overlay'))setupIntro()},700)}
+ else if(!S.name&&!nameAsked)setTimeout(()=>{if(S.screen==='title'&&!$('.overlay'))nameAsk()},700);
  const rs=$('#restart');if(rs)rs.onclick=()=>{say(['重新開始要請爸爸媽媽幫忙喔！']);parentGate(()=>{const ov=overlay(screen,`<div class="card"><h2>重新開始這一章？</h2><p>「${CHAPTERS[S.ch].name}」會回到第 1 關。<br>寶石、衣服和其他章節都會保留。</p><div class="row"><button class="btn" id="rsy">重新開始</button><button class="btn2" id="rsn">取消</button></div></div>`);$('#rsn',ov).onclick=()=>ov.remove();$('#rsy',ov).onclick=()=>{ov.remove();S.prog=0;S.walkFrom=null;save();SCREENS.title();toast('已經從第 1 關重新開始')}})};
 },
 story(){
@@ -2006,8 +2007,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.11';
-const VLOG=[['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、平板橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回平板聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用平板聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用平板聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回平板內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.12.1';
+const VLOG=[['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、平板橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回平板聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用平板聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用平板聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回平板內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2090,10 +2091,11 @@ function parentPanel(){
   <div><span class="lab">休息提醒</span><div class="seg">${[0,10,15,20].map(m=>`<button data-rest="${m}" aria-pressed="${S.rest===m}">${m?m+' 分鐘':'關閉'}</button>`).join('')}</div></div>
   <div><span class="lab">流暢模式（舊平板建議開啟）</span><div class="seg"><button data-lite="1" aria-pressed="${!!S.lite}">開</button><button data-lite="0" aria-pressed="${!S.lite}">關</button></div></div>
   <div><span class="lab">學習小報告</span>${reportHTML()}<button class="btn2 small" id="rreset" style="margin-top:8px">清除紀錄</button></div>
-  <div><span class="lab">家長模式</span><div class="vrow"><button class="btn2 small" id="pmode">跳關・寶石・備份存檔</button></div></div>
+  <div><span class="lab">家長模式</span><div class="vrow"><button class="btn2 small" id="pmode">跳關・寶石・備份存檔</button><button class="btn2 small" id="psetup">第一次使用設定</button></div></div>
   <div><span class="lab">目前版本 v${APP_VERSION}</span><div class="vrow"><button class="btn2 small" id="pupd">檢查更新</button></div></div>
   <button class="btn" id="pdone">好了</button></div>`);
  $('#pmode',ov).onclick=()=>{ov.remove();parentGate(parentTools)};
+ $('#psetup',ov).onclick=()=>{ov.remove();setupWizard(0)};
  $('#pupd',ov).onclick=()=>{toast('檢查更新中…');const r=window.__swreg;Promise.resolve(r&&r.update()).catch(()=>{}).then(()=>setTimeout(()=>location.reload(),1500))};
  $$('[data-rest]',ov).forEach(b=>b.onclick=()=>{S.rest=+b.dataset.rest;save();$$('[data-rest]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $$('[data-lite]',ov).forEach(b=>b.onclick=()=>{S.lite=b.dataset.lite==='1';S.liteUser=true;save();applyLite();$$('[data-lite]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
@@ -3884,7 +3886,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-61872bb0.json';
+const VOICE_INDEX='index-f6a561af.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -3962,9 +3964,10 @@ function voResolve(s){
  const nm=S.name||'';
  if(!(nm&&s.includes(nm))){if(voHas('z|'+s))return ['z|'+s];if(voHas('z|'+voCk(s)))return ['z|'+voCk(s)]}
  const chunks=s.split(/(?<=[，、])/).map(x=>x.trim()).filter(Boolean);
- if(chunks.length===1)return voDigits(chunks[0])||[{tts:s}];
+ const nmSeg=c=>{const core=voCk(c).replace(/[！!。？?]+$/,'');if(nm&&core===nm+'公主'&&voHas('nm|'+nm))return 'nm|'+nm;return null};
+ if(chunks.length===1){const g=nmSeg(chunks[0]);if(g)return [g];return voDigits(chunks[0])||[{tts:s}]}
  const out=[];for(const c of chunks){
-  if(nm&&c.includes(nm)){out.push({tts:c});continue}
+  if(nm&&c.includes(nm)){out.push(nmSeg(c)||{tts:c});continue}
   const k='z|'+voCk(c);if(voHas(k)){out.push(k);continue}
   const d=voDigits(c);if(d){out.push(...d);continue}
   out.push({tts:c})}
@@ -4001,6 +4004,74 @@ say=function(parts,opt={}){return new Promise(async res=>{
 function voStop(){const s=VO.cur;VO.cur=null;if(s){try{s.onended=null;s.stop()}catch(e){}}if(VO.el){try{VO.el.onended=null;VO.el.pause()}catch(e){}}}
 function saveVo(){try{const o=JSON.parse(localStorage.getItem('pp4')||'{}');o.vo=S.vo;localStorage.setItem('pp4',JSON.stringify(o))}catch(e){}}
 voInit();
+
+/* ================= v1.12: 第一次使用設定引導（加到主畫面、下載語音、公主名字） ================= */
+const SETUP_KEY='pp4setup';
+const setupState=()=>{try{return localStorage.getItem(SETUP_KEY)||''}catch(e){return ''}};
+const setSetup=v=>{try{localStorage.setItem(SETUP_KEY,v)}catch(e){}};
+function devInfo(){const ua=navigator.userAgent||'';const ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+ const android=/Android/i.test(ua);const standalone=!!(navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches));
+ const iosOther=ios&&/CriOS|FxiOS|EdgiOS|Line\/|FBAN|Instagram/i.test(ua);const ipad=ios&&!/iPhone|iPod/.test(ua);
+ return {ios,android,standalone,iosOther,ipad}}
+const SHARE_IC=`<svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align:-5px"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5" fill="none" stroke="#7FB8FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10H6a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2" fill="none" stroke="#7FB8FF" stroke-width="2" stroke-linecap="round"/></svg>`;
+function setupIntro(){
+ const ov=overlay(screen,`<div class="card setup"><h2>爸爸媽媽好！</h2>
+  <p>第一次使用，請爸爸媽媽花 3 分鐘，<br>幫小公主完成 3 個設定：</p>
+  <ol class="sulist"><li>加到主畫面（像 App 一樣打開）</li><li>下載真人語音</li><li>幫公主取名字</li></ol>
+  <div class="row"><button class="btn" id="suGo">爸爸媽媽開始設定</button><button class="btn2" id="suLater">之後再說</button></div>
+  <button class="linkbtn" id="suNever">不用了，不再提醒</button></div>`);
+ $('#suGo',ov).onclick=()=>{ov.remove();parentGate(()=>setupWizard(0))};
+ $('#suLater',ov).onclick=()=>{ov.remove();try{sessionStorage.setItem(SETUP_KEY,'later')}catch(e){};if(!S.name)setTimeout(()=>{if(S.screen==='title'&&!$('.overlay'))nameAsk()},400)};
+ $('#suNever',ov).onclick=()=>{ov.remove();setSetup('skip')};
+}
+function setupWizard(step=0){
+ const d=devInfo();const N=3;
+ const dots=`<div class="sudots">${[0,1,2].map(i=>`<i class="${i<step?'ok':i===step?'on':''}">${i<step?'✓':i+1}</i>`).join('')}</div>`;
+ let body='';
+ if(step===0){
+  if(d.standalone)body=`<h2>1. 加到主畫面</h2><p class="okmsg">✓ 已經是從主畫面打開的，很好！</p>`;
+  else if(d.ios&&d.iosOther)body=`<h2>1. 加到主畫面</h2><p>請先用 <b class="gold">Safari</b> 打開這個遊戲網址：</p><p class="url">${location.href.split('?')[0]}</p><p class="small">iPad／iPhone 只有 Safari 可以把遊戲加到主畫面。</p>`;
+  else if(d.ios)body=`<h2>1. 加到主畫面</h2><ol class="sulist"><li>點 Safari 的「分享」按鈕 ${SHARE_IC}<br><span class="small">${d.ipad?'在畫面右上角':'在畫面最下方'}</span></li><li>往下滑，點「<b class="gold">加入主畫面</b>」</li><li>按右上角「<b class="gold">新增</b>」</li><li>回到主畫面，點「星光公主」圖示打開，<br>再到「家長設定 → 第一次使用設定」繼續</li></ol>
+   <p class="warn">⚠️ iPad／iPhone 的 Safari 和主畫面 App 資料是分開的。<br>語音和存檔都要在「主畫面 App」裡使用。</p>`;
+  else if(d.android)body=`<h2>1. 加到主畫面</h2><ol class="sulist"><li>點 Chrome 右上角「<b class="gold">⋮</b>」</li><li>點「<b class="gold">加到主畫面</b>」或「安裝應用程式」</li><li>按「安裝」，之後從主畫面打開</li></ol>`;
+  else body=`<h2>1. 加到桌面</h2><ol class="sulist"><li>Chrome／Edge：點網址列右邊的「<b class="gold">安裝</b>」圖示</li><li>或打開瀏覽器選單 →「安裝星光公主」</li><li>之後從桌面或開始選單打開</li></ol><p class="small">電腦上不安裝也可以直接玩。</p>`;
+ }else if(step===1){
+  const inSafariOnly=d.ios&&!d.standalone;
+  body=`<h2>2. 下載真人語音</h2>
+   ${inSafariOnly?`<p class="warn">⚠️ 建議先完成第 1 步，從主畫面打開後再下載。<br>在 Safari 下載的語音，主畫面 App 用不到。</p>`:''}
+   <ul class="sulist dotl"><li>大約 44 MB，只要下載一次</li><li>請連 <b class="gold">Wi-Fi</b>，下載時不要關掉畫面</li><li>通常 1–3 分鐘</li></ul>
+   <div class="vobox"><small id="vostat" class="small"></small><div class="row"><button class="btn2 small" id="suRe">重新下載語音包</button><button class="btn2 small" id="suTest">試聽</button></div></div>`;
+ }else if(step===2){
+  body=`<h2>3. 公主的名字</h2><p>遊戲裡會叫她「○○公主」。</p><div class="row"><input id="suName" class="pin" maxlength="6" value="${(S.name||'').replace(/"/g,'')}" placeholder="例如：Anita" aria-label="公主的名字"></div><p class="small">之後可以在「家長設定」修改。</p>`;
+ }else{
+  body=`<h2>設定完成！</h2><p>現在可以把${d.ipad?' iPad ':'手機／平板'}交給小公主了 🎉</p>${S.name?`<p class="gold">${S.name}公主，準備好去冒險了嗎？</p>`:''}`;
+ }
+ const last=step>=N;
+ const ov=overlay(screen,`<div class="card left setup"><button class="xclose" aria-label="關閉">✕</button>${last?'':dots}${body}
+  <div class="row sunav">${step>0&&!last?'<button class="btn2" id="suBack">上一步</button>':''}<button class="btn" id="suNext">${last?'開始冒險':step===N-1?'完成':'下一步'}</button></div></div>`);
+ const close=()=>{ov.remove();SCREENS.title()};
+ $('.xclose',ov).onclick=()=>{setSetup(setupState()||'partial');close()};
+ if(step===1){if(!S.vo){S.vo=true;saveVo()}voInit();voStatus(ov);
+  $('#suRe',ov).onclick=()=>{toast('重新下載語音包中…');voRedownload().then(()=>voStatus(ov));voStatus(ov)};
+  $('#suTest',ov).onclick=()=>say(['準備好了嗎？','答對了！你好厲害喔！'])}
+ const saveName=()=>{const el=$('#suName',ov);if(!el)return;const v=el.value.trim().replace(/[<>&"']/g,'').slice(0,6);if(v!==S.name){S.name=v;save();if(v)say([`你好，${v}公主！`])}};
+ if($('#suBack',ov))$('#suBack',ov).onclick=()=>{saveName();ov.remove();setupWizard(step-1)};
+ $('#suNext',ov).onclick=()=>{if(last){close();return}saveName();if(step===N-1)setSetup('done');ov.remove();setupWizard(step+1)};
+}
+(()=>{const st=document.createElement('style');st.textContent=`
+.card.setup{max-width:520px}
+.setup .sulist{text-align:left;margin:4px 0;padding-left:1.4em;line-height:1.7;font-size:17px}
+.setup .sulist li{margin:4px 0}.setup .dotl{list-style:disc}
+.setup .sudots{display:flex;gap:10px;justify-content:center;margin-top:-4px}
+.setup .sudots i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:900;border:2px solid var(--goldline);color:var(--text2)}
+.setup .sudots i.on{background:var(--gold);color:#4A2A7A;border-color:var(--gold)}.setup .sudots i.ok{background:#6FE3A8;color:#1E4A34;border-color:#6FE3A8}
+.setup .okmsg{font-size:19px;color:#9FF0C6;font-weight:700}
+.setup .warn{background:rgba(255,200,90,.12);border:1px dashed rgba(255,217,138,.6);border-radius:12px;padding:8px 12px;font-size:15px;line-height:1.6;color:#FFE7B0}
+.setup .url{word-break:break-all;background:rgba(255,255,255,.08);padding:6px 10px;border-radius:10px;font-size:14px}
+.setup .vobox{background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;align-self:stretch}
+.setup .sunav{justify-content:center;margin-top:6px}
+.linkbtn{background:none;border:0;color:var(--text2);text-decoration:underline;font:inherit;font-size:14px;cursor:pointer;opacity:.8}
+`;document.head.appendChild(st)})();
 
 // 每次打開自動檢查新版本
 function updCheck(){if(!/^https?:/.test(location.protocol)||!navigator.onLine)return;
