@@ -1526,7 +1526,7 @@ function say(parts,opt={}){return new Promise(async res=>{
  const merged=[];parts.forEach(p=>{if(p==null||p==='')return;if(typeof p==='string'&&typeof merged[merged.length-1]==='string')merged[merged.length-1]+=p;else if(p&&p.slow===2){merged.push(p,{pause:650},p)}else merged.push(p)});
  const gen=++sayGen;try{speechSynthesis.cancel()}catch(e){}
  spkOn();try{for(const p of merged){if(gen!==sayGen)break;if(p&&p.pause){await wait(p.pause);continue}await speakOne(p,opt)}}catch(e){}spkOff();res()})}
-const hush=()=>{sayGen++;try{speechSynthesis.cancel()}catch(e){}};
+const hush=()=>{sayGen++;try{speechSynthesis.cancel()}catch(e){}try{voStop()}catch(e){}};
 
 /* ================= fx ================= */
 const fx=$('#fx'),ctx=fx.getContext('2d');let parts=[],emit=[],raf=0;
@@ -1942,7 +1942,7 @@ map(first){
    <g class="nbody"><circle cx="${x}" cy="${y}" r="${rr}" fill="url(#${g}n)" stroke="${done?GEMC[i]:'#FFD98A'}" stroke-width="4" ${now||done?`filter="url(#${g}f)"`:''}/>
    ${animal(L.helper,`x="${x-rr*.72}" y="${y-rr*.78}" width="${rr*1.44}" height="${rr*1.44}"`)}</g>
    <circle cx="${x-rr*.72}" cy="${y-rr*.72}" r="15" fill="#FFD98A"/><text class="nnum" x="${x-rr*.72}" y="${y-rr*.72+8}" text-anchor="middle">${i+1}</text>
-   ${done?gem(GEMC[i],false,`x="${x+rr*.4}" y="${y-rr*1.25}" width="38" height="38"`):''}${done&&S.stars[S.ch+'-'+i]?starsRow(x,y+rr-4,S.stars[S.ch+'-'+i]):''}${now?(()=>{const [px,py]=i?P[i-1]:[x-200,y];const ang=Math.atan2(y-py,x-px),ux=Math.cos(ang),uy=Math.sin(ang),d=rr+16;return `<g transform="translate(${(x-ux*d).toFixed(1)} ${(y-uy*d).toFixed(1)}) rotate(${(ang*180/Math.PI).toFixed(1)})"><g class="marrow"><path d="M0 0 l-24 -16 v9 h-20 v14 h20 v9z" fill="#FFD24D" stroke="#1A1648" stroke-width="2"/></g></g>`})():''}
+   ${done?lvGemSVG(i,`x="${x+rr*.4}" y="${y-rr*1.25}" width="38" height="38"`):''}${done&&S.stars[S.ch+'-'+i]?starsRow(x,y+rr-4,S.stars[S.ch+'-'+i]):''}${now?(()=>{const [px,py]=i?P[i-1]:[x-200,y];const ang=Math.atan2(y-py,x-px),ux=Math.cos(ang),uy=Math.sin(ang),d=rr+16;return `<g transform="translate(${(x-ux*d).toFixed(1)} ${(y-uy*d).toFixed(1)}) rotate(${(ang*180/Math.PI).toFixed(1)})"><g class="marrow"><path d="M0 0 l-24 -16 v9 h-20 v14 h20 v9z" fill="#FFD24D" stroke="#1A1648" stroke-width="2"/></g></g>`})():''}
    <text class="nlab" x="${x}" y="${y+rr+(port?30:34)}" text-anchor="middle" style="font-size:${port?26:28}px">${L.name}</text></g>`});
  svg+=`<g id="token">${petSVG(S.look.pet,S.look.petacc,`x="-92" y="-108" width="58" height="54"`)}${princess(S.look,`x="-40" y="-150" width="60" height="86"`)}</g>`;
  screen.innerHTML=`<div class="map"><svg class="mapsvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${svg}</svg>
@@ -1994,8 +1994,8 @@ chend(){
 }
 };
 
-const APP_VERSION='1.7.1';
-const VLOG=[['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='1.9';
+const VLOG=[['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回平板內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2070,7 +2070,8 @@ function aboutPanel(){
 function parentPanel(){
  const ov=overlay(screen,`<div class="card left"><h2>家長設定</h2>
   <div><span class="lab">難度</span><div class="seg">${Object.entries(DIFF).map(([k,v])=>`<button data-d="${k}" aria-pressed="${S.diff===k}">${v.name}</button>`).join('')}</div><p class="small" id="ddesc">${DIFF[S.diff].desc}</p></div>
-  <div><span class="lab">說故事的聲音</span><div class="vrow"><select id="vsel" class="vsel" aria-label="選擇語音"></select><button class="btn2 small" id="vtest">試聽</button></div></div>
+  <div><span class="lab">語音</span><div class="seg"><button data-vo="1" aria-pressed="${!!S.vo}">真人錄音（推薦）</button><button data-vo="0" aria-pressed="${!S.vo}">平板內建</button></div></div>
+  <div><span class="lab">說故事的聲音（平板內建時使用）</span><div class="vrow"><select id="vsel" class="vsel" aria-label="選擇語音"></select><button class="btn2 small" id="vtest">試聽</button></div></div>
   <div><span class="lab">背景音樂</span><div class="seg"><button data-m="1" aria-pressed="${S.music}">開</button><button data-m="0" aria-pressed="${!S.music}">關</button></div></div>
   <div><span class="lab">休息提醒</span><div class="seg">${[0,10,15,20].map(m=>`<button data-rest="${m}" aria-pressed="${S.rest===m}">${m?m+' 分鐘':'關閉'}</button>`).join('')}</div></div>
   <div><span class="lab">流暢模式（舊平板建議開啟）</span><div class="seg"><button data-lite="1" aria-pressed="${!!S.lite}">開</button><button data-lite="0" aria-pressed="${!S.lite}">關</button></div></div>
@@ -2084,6 +2085,7 @@ function parentPanel(){
  $$('[data-lite]',ov).forEach(b=>b.onclick=()=>{S.lite=b.dataset.lite==='1';S.liteUser=true;save();applyLite();$$('[data-lite]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $('#rreset',ov).onclick=()=>{S.stats={types:{},weak:{}};save();ov.remove();parentPanel()};
  fillVoiceSel();
+ $$('[data-vo]',ov).forEach(b=>b.onclick=()=>{S.vo=b.dataset.vo==='1';saveVo();$$('[data-vo]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b));say(['你好，我是說故事的聲音。'])});
  $$('[data-d]',ov).forEach(b=>b.onclick=()=>{S.diff=b.dataset.d;save();$$('[data-d]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b));$('#ddesc',ov).textContent=DIFF[S.diff].desc});
  $$('[data-m]',ov).forEach(b=>b.onclick=()=>{S.music=b.dataset.m==='1';save();$$('[data-m]',ov).forEach(x=>x.setAttribute('aria-pressed',x===b))});
  $('#vsel',ov).onchange=e=>{S.voice=e.target.value;save();say(['你好，我是說故事的聲音。'])};
@@ -2143,19 +2145,19 @@ function renderChoice(play,{cat,q,opts,ans,why,sp,noLabel,voice,visual}){
 /* ================= rewards ================= */
 function levelDone(){
  const L=LEVELS[S.level];const isNew=S.level===S.prog;
- const perfect=S.lvMiss===0;const earn=1+(perfect?1:0)+(S.diff==='mid'?1:S.diff==='hard'?2:0);
+ const LG=gemPick();S.lvGem[S.ch+'-'+S.level]={s:LG.s,c:LG.c};const perfect=S.lvMiss===0;const earn=1+(perfect?1:0)+(S.diff==='mid'?1:S.diff==='hard'?2:0);
  S.wallet+=earn;save();renderBar();sfx('gem');
  const st=perfect?3:S.lvMiss<=2?2:1;const sk=S.ch+'-'+S.level;S.stars[sk]=Math.max(S.stars[sk]||0,st);save();
- const ov=overlay($('.stage'),`<div class="card"><div class="rhead"><span class="rgem" style="--gc:${GEMC[S.level]}">${gem(GEMC[S.level])}</span><div><b>第 ${S.level+1} 關過關！</b><span class="rstars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></span></div><span class="earn">${gem(WALLET_GEM)}<b>+${earn}</b></span></div><div class="rbody"><div class="gembig" style="--gc:${GEMC[S.level]}">${gem(GEMC[S.level])}</div></div></div>`);
+ const ov=overlay($('.stage'),`<div class="card"><div class="rhead"><span class="rgem" style="--gc:${LG.c}">${gemX(LG)}</span><div><b>第 ${S.level+1} 關過關！</b><span class="rstars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></span></div><span class="earn">${gem(WALLET_GEM)}<b>+${earn}</b></span></div><div class="rbody"><div class="gembig" style="--gc:${LG.c}">${gemX(LG)}</div></div></div>`);
  setTimeout(()=>burstEl($('.rgem',ov),50),200);
- say([pick(['過關了！好厲害！','太棒了，這一關完成了！','過關囉！']),`寶石袋多了${earn}顆寶石。`,perfect?'全部答對，拿到三顆星！':'']);
+ say([pick(['過關了！好厲害！','太棒了，這一關完成了！','過關囉！']),`拿到一顆${LG.name}！`,`寶石袋多了${earn}顆寶石。`,perfect?'全部答對，拿到三顆星！':'']);
  const card=$('.rbody',ov);
  const finish=async()=>{
   if(L.reward==='chapter'){S.prog=NL;S.chDone=Math.max(S.chDone,S.ch+1);save();go(S.ch===4||S.ch===CHAPTERS.length-1?'finale':'chend');return}
   if(isNew){
    const src=card.getBoundingClientRect();const dst=$('#prog').getBoundingClientRect();
    const sz=90,sx=src.left+src.width/2-sz/2,sy=src.top+src.height/2-sz/2;
-   const f=document.createElement('div');f.className='flygem';f.innerHTML=gem(GEMC[S.level]);Object.assign(f.style,{left:sx+'px',top:sy+'px',width:sz+'px',height:sz+'px'});document.body.appendChild(f);
+   const f=document.createElement('div');f.className='flygem';f.innerHTML=gemX(LG);Object.assign(f.style,{left:sx+'px',top:sy+'px',width:sz+'px',height:sz+'px'});document.body.appendChild(f);
    ov.style.opacity='0';ov.style.transition='opacity .3s';
    const tx=dst.left+dst.width/2-sz/2-sx,ty=dst.top+dst.height/2-sz/2-sy;
    const an=f.animate([{transform:'none'},{transform:`translate(${tx*.5}px,${ty*.5-80}px) scale(.8) rotate(180deg)`},{transform:`translate(${tx}px,${ty}px) scale(.3) rotate(360deg)`}],{duration:reduced?10:900,easing:'ease-in-out'});
@@ -2163,7 +2165,7 @@ function levelDone(){
   }
   go('map');
  };
- setTimeout(()=>{if(card.isConnected)REWARD[L.reward](card,finish)},reduced?200:1700);
+ setTimeout(()=>{if(card.isConnected)REWARD[L.reward==='chapter'?'chapter':pickReward()](card,finish)},reduced?200:1700);
 }
 const contBtn=()=>`<button class="btn" id="cont">繼續冒險</button>`;
 function wearShow(card,it,finish,msg){
@@ -2207,7 +2209,7 @@ const REWARD={
   const rf=$('#rf',card),cd=$('#rcd',card);let n=3;
   intro.then(()=>wait(300)).then(()=>{if(!rf.isConnected)return;tone(660,0,.15,'sine',.08);const tick=setInterval(()=>{if(!rf.isConnected)return clearInterval(tick);n--;if(n>0){cd.textContent=n;tone(660,0,.15,'sine',.08);cd.classList.remove('pop2');void cd.offsetWidth;cd.classList.add('pop2')}else{clearInterval(tick);cd.remove();tone(990,0,.25,'triangle',.1);start()}},900)});
   function start(){let caught=0;
-   const iv=setInterval(()=>{if(!rf.isConnected)return clearInterval(iv);const g=document.createElement('button');g.className='fgem';g.setAttribute('aria-label','寶石');g.style.left=(5+Math.random()*78)+'%';g.style.animationDuration=(2.2+Math.random()*1.2)+'s';g.innerHTML=gem(pick(GEMC));
+   const iv=setInterval(()=>{if(!rf.isConnected)return clearInterval(iv);const g=document.createElement('button');g.className='fgem';g.setAttribute('aria-label','寶石');g.style.left=(5+Math.random()*78)+'%';g.style.animationDuration=(2.2+Math.random()*1.2)+'s';g.innerHTML=gemAny();
     const hit=e=>{e.stopPropagation();if(g.dataset.hit)return;g.dataset.hit=1;caught++;$('#rc',card).textContent=caught;sfx('coin');const r=g.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,10,true);g.remove()};
     g.addEventListener('pointerdown',hit);g.addEventListener('click',hit);
     g.addEventListener('animationend',()=>g.remove());rf.appendChild(g)},reduced?700:430);
@@ -3728,11 +3730,204 @@ levelDone=function(){if(!S.pmode)return _levelDone0();
  const ov=overlay($('.stage'),`<div class="card"><div class="rhead"><span class="rgem" style="--gc:#FF8FC8">${gem('#FF8FC8')}</span><div><b>練習完成！</b><span class="rstars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></span></div><span class="earn">${gem(WALLET_GEM)}<b>+${earn}</b></span></div><div class="rbody"></div></div>`);
  say(['練習完成了！好認真喔！',`寶石袋多了${earn}顆寶石，還有一個禮物喔！`]);
  const card=$('.rbody',ov);const finish=()=>go('practice');
- setTimeout(()=>{if(card.isConnected)REWARD[pick(['box','chest','pick'])](card,finish)},1500)};
+ setTimeout(()=>{if(card.isConnected)REWARD[pickReward()](card,finish)},1500)};
+
+/* ================= v1.8: 獎品更多變化・寶石有很多種 ================= */
+const GEMSHAPES={
+ diamond:['鑽石',`<polygon points="20,4 34,15 20,36 6,15" fill="url(#G)"/><path d="M6 15 H34 M13 15 L20 4 L27 15 M13 15 L20 36 L27 15" fill="none" stroke="#fff" stroke-width="1.1" opacity=".55"/>`],
+ heart:['愛心寶石',`<path d="M20 35 C8 26 4 19 4 13 C4 8 8 5 12.5 5 C16 5 18.5 7 20 10 C21.5 7 24 5 27.5 5 C32 5 36 8 36 13 C36 19 32 26 20 35Z" fill="url(#G)"/><path d="M20 10 L20 30 M9 14 L20 22 L31 14" fill="none" stroke="#fff" stroke-width="1" opacity=".45"/>`],
+ star:['星星寶石',`<polygon points="20,3 24.7,14.5 37,15 27.5,23 30.8,35.5 20,28.5 9.2,35.5 12.5,23 3,15 15.3,14.5" fill="url(#G)" stroke-linejoin="round"/><path d="M20 3 L20 20 L37 15 M20 20 L30.8 35.5 M20 20 L9.2 35.5 M20 20 L3 15" fill="none" stroke="#fff" stroke-width="1" opacity=".45"/>`],
+ drop:['水滴寶石',`<path d="M20 3 C26 12 32 18 32 25 A12 12 0 0 1 8 25 C8 18 14 12 20 3Z" fill="url(#G)"/><path d="M20 3 L20 37 M8 25 H32" fill="none" stroke="#fff" stroke-width="1" opacity=".45"/>`],
+ round:['圓圓寶石',`<circle cx="20" cy="20" r="16" fill="url(#G)"/><polygon points="20,9 28,13 31,20 28,27 20,31 12,27 9,20 12,13" fill="none" stroke="#fff" stroke-width="1.1" opacity=".55"/>`],
+ square:['方方寶石',`<polygon points="11,5 29,5 35,11 35,29 29,35 11,35 5,29 5,11" fill="url(#G)"/><rect x="12" y="12" width="16" height="16" fill="none" stroke="#fff" stroke-width="1.1" opacity=".55"/><path d="M5 11 L12 12 M35 11 L28 12 M5 29 L12 28 M35 29 L28 28" stroke="#fff" stroke-width="1" opacity=".45"/>`],
+ moon:['月亮寶石',`<path d="M26 4 A16 16 0 1 0 36 26 A12.5 12.5 0 1 1 26 4Z" fill="url(#G)"/><path d="M14 10 L18 20 L14 30" fill="none" stroke="#fff" stroke-width="1" opacity=".45"/>`],
+ flower:['花朵寶石',`<g fill="url(#G)"><circle cx="20" cy="10" r="7"/><circle cx="29.5" cy="17" r="7"/><circle cx="26" cy="28" r="7"/><circle cx="14" cy="28" r="7"/><circle cx="10.5" cy="17" r="7"/></g><circle cx="20" cy="20" r="5" fill="#FFF3B0"/>`]
+};
+const GEMCOL=[['#FF6FB0','粉紅色'],['#34C6E6','藍色'],['#4FD890','綠色'],['#A98BF0','紫色'],['#FFC93C','金色'],['#FF7E4F','橘色'],['#FF4F6E','紅色'],['#7FE3F0','水藍色'],['#E8F4FF','白色'],['#B99CFF','薰衣草色']];
+function gemX(o,a=''){const S2=GEMSHAPES[o.s]||GEMSHAPES.diamond,c=o.c,g=nid();
+ return `<svg viewBox="0 0 40 40" ${a} aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${mix(c,'#ffffff',.6)}"/><stop offset=".5" stop-color="${c}"/><stop offset="1" stop-color="${mix(c,'#1A1040',.35)}"/></linearGradient></defs>${S2[1].replace(/url\(#G\)/g,`url(#${g})`)}<ellipse cx="14" cy="12" rx="3.2" ry="2" fill="#fff" opacity=".85" transform="rotate(-35 14 12)"/></svg>`}
+function gemPick(){const s=pick(Object.keys(GEMSHAPES)),[c,cn]=pick(GEMCOL);return {s,c,name:cn+'的'+GEMSHAPES[s][0]}}
+function gemAny(){return gemX(gemPick())}
+// 每關拿到的寶石記下來，地圖上就會顯示那一顆
+S.lvGem=S.lvGem||{};S.rwHist=S.rwHist||[];
+try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.lvGem)S.lvGem=sv.lvGem;if(sv.rwHist)S.rwHist=sv.rwHist}catch(e){}
+function save18(){saveP();try{const o=JSON.parse(localStorage.getItem('pp4')||'{}');o.lvGem=S.lvGem;o.rwHist=S.rwHist;localStorage.setItem('pp4',JSON.stringify(o))}catch(e){}}
+function lvGemSVG(i,a){const g=S.lvGem[S.ch+'-'+i];return g?gemX(g,a):gem(GEMC[i],false,a)}
+
+// 選獎品：隨機，而且不會跟前幾關重複
+const RW_W={pick:3,box:3,petgift:2,chest:1,rain:2,wheel:2,balloon:2,room:2,treat:1};
+function rwAvail(t){
+ if(t==='pick')return ITEMS.some(i=>i.reward&&!owns(i.id));
+ if(t==='box')return ITEMS.some(i=>(i.box||i.reward)&&!owns(i.id));
+ if(t==='petgift')return ITEMS.some(i=>i.petgift&&!owns(i.id));
+ if(t==='room')return roomLeft().length>0;
+ if(t==='treat')return !!(S.look.pet&&ITEM[S.look.pet]);
+ return true}
+function roomLeft(){const r=[];for(const k in ROOMITEMS)ROOMITEMS[k].forEach(([v,n,p])=>{if(p>0&&!S.roomOwned.includes(k+':'+v))r.push([k,v,n])});return r}
+function pickReward(){
+ let c=Object.keys(RW_W).filter(t=>rwAvail(t)&&!S.rwHist.slice(-3).includes(t));
+ if(!c.length)c=Object.keys(RW_W).filter(rwAvail);
+ let tot=c.reduce((a,t)=>a+RW_W[t],0),r=Math.random()*tot,t=c[0];
+ for(const k of c){r-=RW_W[k];if(r<0){t=k;break}}
+ S.rwHist=S.rwHist.concat(t).slice(-6);save18();return t}
+
+// 寶石：一次顯示好幾顆不一樣的
+gemsShow=function(card,n,finish,title){S.wallet+=n;save18();renderBar();
+ const row=Array.from({length:Math.min(n,10)},(_,i)=>`<span class="gx" style="animation-delay:${i*.12}s">${gemAny()}</span>`).join('');
+ card.innerHTML=`<div class="gxrow">${row}</div><h2>${title||`得到 ${n} 顆寶石！`}</h2><p class="small">寶石袋現在有 ${S.wallet} 顆</p>${contBtn()}`;
+ sfx('coin');burstEl(card,40);say([`得到${n}顆寶石！`]);$('#cont',card).onclick=finish};
+
+// 新獎品：房間驚喜
+REWARD.room=function(card,finish){
+ const L=roomLeft();if(!L.length)return REWARD.chest(card,finish);
+ const [k,v,n]=pick(L);
+ card.innerHTML=`<h2>房間驚喜禮物</h2><div class="rbox" id="rbox">${giftbox('#FFB347')}</div><p>點一下，看看是什麼！</p>`;
+ say(['公主房間的驚喜禮物！點一下打開！']);
+ $('#rbox',card).onclick=()=>{S.roomOwned.push(k+':'+v);S.room[k]=v;save18();
+  const R=roomSVG();
+  card.innerHTML=`<div class="rwmini"><svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">${R.bg}</svg><div class="rtoy">${R.toy}</div></div><h2>新的${(ROOMSLOTS.find(x=>x[0]===k)||[0,''])[1]}：${n}！</h2><p class="small">已經放進公主房間了</p>${contBtn()}`;
+  sfx('gem');burstEl(card,50);say([`得到${n}了！已經放進公主房間囉！`]);$('#cont',card).onclick=finish}};
+
+// 新獎品：寵物點心
+REWARD.treat=function(card,finish){
+ const nm=petName();
+ card.innerHTML=`<h2>${nm}的點心時間</h2><div class="trt"><div class="petshow" id="tpet">${myPet()}</div><button class="cookie" id="ck" aria-label="點心">${cookieSVG()}</button></div><p>點一下點心，餵${nm}吃！</p>`;
+ say([`${nm}肚子餓了，點一下點心，餵牠吃吧！`]);
+ $('#ck',card).onclick=e=>{e.currentTarget.remove();sfx('pop');
+  const P=pc(),lv0=plv(P.love);P.love+=2;P.h=Date.now();const lv1=plv(P.love);let bonus=0;if(lv1>lv0){bonus=3*lv1;S.wallet+=bonus}
+  save18();renderBar();const tp=$('#tpet',card);tp.classList.add('yum');
+  for(let i=0;i<6;i++)setTimeout(()=>{if(!tp.isConnected)return;const h=document.createElement('span');h.className='hrt';h.textContent='♥';h.style.left=(20+Math.random()*60)+'%';tp.appendChild(h);setTimeout(()=>h.remove(),1400)},i*160);
+  setTimeout(()=>{if(!card.isConnected)return;
+   card.insertAdjacentHTML('beforeend',`<h2>${nm}好開心！好感度 +2</h2>${bonus?`<p class="small">好感度升到 Lv.${lv1}，送你 ${bonus} 顆寶石！</p>`:''}${contBtn()}`);
+   say([`${nm}吃得好開心！好感度加二！`,bonus?`好感度升級了，送你${bonus}顆寶石！`:'']);$('#cont',card).onclick=finish},900)}};
+function cookieSVG(){return `<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="#E8A860" stroke="#B87838" stroke-width="3"/><circle cx="21" cy="22" r="3.5" fill="#6A3A1A"/><circle cx="36" cy="19" r="3" fill="#6A3A1A"/><circle cx="38" cy="35" r="3.5" fill="#6A3A1A"/><circle cx="24" cy="38" r="3" fill="#6A3A1A"/><path d="M26 29 q4 -3 8 0" stroke="#FF8FC8" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`}
+
+// 新獎品：戳氣球
+REWARD.balloon=function(card,finish){
+ const cols=shuffle(['#FF6FB0','#34C6E6','#6FE3A8','#A98BF0','#FFC93C','#FF7E4F']);
+ const giftAt=rwAvail('box')&&Math.random()<.5?rand(0,5):-1;let popped=0,total=0,gift=null;
+ card.innerHTML=`<h2>魔法氣球</h2><div class="blns">${cols.map((c,i)=>`<button class="bln" data-i="${i}" style="--d:${(i%3)*.4}s" aria-label="氣球">${balloonSVG(c)}</button>`).join('')}</div><p>戳破三顆氣球，看看裡面有什麼！</p><p class="small">已經戳破 <b id="bp">0</b> 顆</p>`;
+ say(['魔法氣球！戳破三顆氣球，看看裡面藏了什麼！']);
+ $$('.bln',card).forEach(b=>b.onclick=()=>{if(popped>=3||b.dataset.p)return;b.dataset.p=1;popped++;$('#bp',card).textContent=popped;tone(900+popped*120,0,.12,'square',.06);
+  const i=+b.dataset.i;if(i===giftAt){gift=pick(ITEMS.filter(x=>(x.box||x.reward)&&!owns(x.id)));b.innerHTML=`<span class="bin">${giftbox('#FF8FC8')}</span>`}
+  else{const n=rand(1,3);total+=n;b.innerHTML=`<span class="bin">${gemAny()}<b>+${n}</b></span>`}
+  b.classList.add('popd');const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,14,true);
+  if(popped>=3){$$('.bln:not(.popd)',card).forEach(x=>x.disabled=true);
+   setTimeout(()=>{if(!card.isConnected)return;
+    if(gift){const fin=()=>total?gemsShow(card,total,finish,`氣球裡還有 ${total} 顆寶石！`):finish();wearShow(card,gift,fin,`氣球裡有${gift.name}！`)}
+    else gemsShow(card,total,finish,`氣球裡有 ${total} 顆寶石！`)},1100)}})};
+function balloonSVG(c){return `<svg viewBox="0 0 60 90"><path d="M30 4 C45 4 54 16 54 30 C54 46 42 58 30 60 C18 58 6 46 6 30 C6 16 15 4 30 4Z" fill="${c}"/><ellipse cx="20" cy="20" rx="5" ry="8" fill="#fff" opacity=".45" transform="rotate(20 20 20)"/><path d="M27 60 L33 60 L30 65Z" fill="${c}"/><path d="M30 65 q-5 8 0 14 q5 6 0 10" stroke="#FFF3D0" stroke-width="1.5" fill="none"/></svg>`}
+
+// 新獎品：幸運轉盤
+REWARD.wheel=function(card,finish){
+ const canGift=rwAvail('box'),canRoom=rwAvail('room'),canTreat=rwAvail('treat');
+ const seg=[['g',2],[canGift?'gift':'g',canGift?0:5],['g',4],[canRoom?'room':'g',canRoom?0:3],['g',3],[canTreat?'treat':'g',canTreat?0:6]];
+ const cols=['#FF8FC8','#FFC93C','#8FD8F0','#B99CFF','#9EE8B8','#FFB08A'];
+ const R=90,cx=100,cy=100;let d='';
+ seg.forEach(([t,n],i)=>{const a0=(i*60-90)*Math.PI/180,a1=((i+1)*60-90)*Math.PI/180,am=((i+.5)*60-90)*Math.PI/180;
+  d+=`<path d="M${cx} ${cy} L${cx+R*Math.cos(a0)} ${cy+R*Math.sin(a0)} A${R} ${R} 0 0 1 ${cx+R*Math.cos(a1)} ${cy+R*Math.sin(a1)}Z" fill="${cols[i]}" stroke="#fff" stroke-width="3"/>`;
+  const ix=cx+58*Math.cos(am),iy=cy+58*Math.sin(am);
+  const ic=t==='g'?gemX({s:'diamond',c:'#34B6D6'}):t==='gift'?giftbox('#FF6FAE'):t==='room'?giftbox('#FFB347'):cookieSVG();
+  d+=`<g transform="rotate(${(i+.5)*60} ${ix} ${iy})">${ic.replace('<svg ',`<svg x="${ix-15}" y="${iy-(t==='g'?22:17)}" width="30" height="30" `)}${t==='g'?`<text x="${ix}" y="${iy+20}" text-anchor="middle" font-size="16" font-weight="900" fill="#5A3A8C">${n}</text>`:''}</g>`});
+ card.innerHTML=`<h2>幸運轉盤</h2><div class="whl"><svg viewBox="0 0 200 200" class="wsv" id="wsv">${d}<circle cx="100" cy="100" r="16" fill="#FFF3D0" stroke="#FFC93C" stroke-width="4"/></svg><div class="wptr"></div></div><button class="btn" id="spin">轉！</button>`;
+ say(['幸運轉盤！按下轉，看看會轉到什麼！']);
+ $('#spin',card).onclick=e=>{e.currentTarget.disabled=true;const k=rand(0,5);const deg=360*5+(360-(k*60+30))+rand(-18,18);
+  const w=$('#wsv',card);w.style.transition=reduced?'none':'transform 3.2s cubic-bezier(.15,.8,.2,1)';w.style.transform=`rotate(${deg}deg)`;
+  let tk=0;const ti=setInterval(()=>{if(++tk>14||!card.isConnected)return clearInterval(ti);tone(700,0,.05,'square',.04)},200);
+  setTimeout(()=>{if(!card.isConnected)return;const [t,n]=seg[k];sfx('gem');
+   if(t==='g')gemsShow(card,n,finish,`轉到 ${n} 顆寶石！`);
+   else if(t==='gift')wearShow(card,pick(ITEMS.filter(x=>(x.box||x.reward)&&!owns(x.id))),finish);
+   else if(t==='room')REWARD.room(card,finish);else REWARD.treat(card,finish)},reduced?300:3400)}};
+
+(()=>{const st=document.createElement('style');st.textContent=`
+.gxrow{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:340px;margin:0 auto}
+.gx{width:clamp(34px,7vw,48px);display:block;animation:gxin .5s ease backwards;filter:drop-shadow(0 0 6px rgba(255,255,255,.5))}
+.gx svg{width:100%;height:auto;display:block}
+@keyframes gxin{from{transform:translateY(-30px) scale(.3);opacity:0}to{transform:none;opacity:1}}
+.rwmini{position:relative;width:min(300px,70vw);aspect-ratio:2/1;border-radius:18px;overflow:hidden;margin:0 auto 6px;border:4px solid #FFD98A}
+.rwmini svg{width:100%;height:100%;display:block}.rwmini .rtoy{position:absolute;right:8%;bottom:6%;width:22%}
+.rwmini .rtoy svg{width:100%;height:auto}
+.trt{display:flex;align-items:center;justify-content:center;gap:18px}
+.trt .petshow{position:relative;width:clamp(110px,22vw,150px)}.trt .petshow svg{width:100%;height:auto}
+.trt .yum{animation:yum .5s ease 3}@keyframes yum{50%{transform:scale(1.08,.94)}}
+.trt .hrt{position:absolute;bottom:40%;color:#FF6FAE;font-size:26px;animation:hrise 1.4s ease-out forwards;pointer-events:none}
+.cookie{width:clamp(64px,13vw,86px);background:none;border:0;padding:0;cursor:pointer;animation:boxwig 1.6s ease-in-out infinite}
+.cookie svg{width:100%;height:auto;display:block}
+.blns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:0 auto}
+.bln{background:none;border:0;padding:0;cursor:pointer;height:clamp(78px,15vw,108px);display:flex;align-items:center;justify-content:center;animation:bfloat 2.4s ease-in-out infinite;animation-delay:var(--d)}
+.bln svg{height:100%;width:auto}.bln:disabled{opacity:.45}
+.bln .bin{display:flex;flex-direction:column;align-items:center;height:70%}.bln .bin svg{height:100%}.bln .bin b{color:#FFE07A;font-size:18px}
+.bln.popd{animation:none}
+@keyframes bfloat{50%{transform:translateY(-8px)}}
+.whl{position:relative;width:min(250px,60vw);margin:0 auto 10px}
+.wsv{width:100%;height:auto;display:block;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.wptr{position:absolute;left:50%;top:-10px;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:26px solid #FF4F6E;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4))}
+.lite .gx,.lite .wsv{filter:none}
+`;document.head.appendChild(st)})();
+
+/* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
+const VOICE_INDEX='index-9031b8dc.json';
+const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
+if(S.vo===undefined)S.vo=true;
+try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
+function voInit(){if(VO.ready)return VO.ready;
+ VO.ready=(typeof VOICE_INDEX==='string'&&location.protocol!=='file:'?fetch('voice/'+VOICE_INDEX).then(r=>r.ok?r.json():null):Promise.resolve(null))
+  .then(j=>{if(j&&j.clips){VO.idx=j.clips;VO.files=j.files;VO.files.forEach(voPack)}}).catch(()=>{VO.fail=true});return VO.ready}
+function voPack(f){if(!VO.packs[f])VO.packs[f]=fetch('voice/'+f).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null);return VO.packs[f]}
+const voHas=k=>!!(VO.idx&&VO.idx[k]);
+async function voBuf(k){
+ if(VO.bufs.has(k))return VO.bufs.get(k);
+ const e=VO.idx&&VO.idx[k];if(!e)return null;const ab=await voPack(VO.files[e[0]]);if(!ab)return null;const c=audio();if(!c)return null;
+ try{const b=await new Promise((res,rej)=>{const pr=c.decodeAudioData(ab.slice(e[1],e[1]+e[2]),res,rej);if(pr&&pr.then)pr.then(res,rej)});
+  if(VO.bufs.size>160)VO.bufs.delete(VO.bufs.keys().next().value);VO.bufs.set(k,b);return b}catch(err){return null}}
+function voPlay(b){return new Promise(r=>{const c=audio();if(!c||!b)return r();let done=0;const f=()=>{if(done)return;done=1;clearTimeout(t);if(VO.cur===s)VO.cur=null;r()};
+ const s=c.createBufferSource();s.buffer=b;const g=c.createGain();g.gain.value=1.15;s.connect(g);g.connect(c.destination);s.onended=f;VO.cur=s;s.start();const t=setTimeout(f,b.duration*1000+400)})}
+const voCk=t=>t.trim().replace(/[，、,]+$/,'');
+const voSents=t=>(String(t).match(/[^。！？!?]+[。！？!?」』）)～…]*/g)||[]).map(s=>s.trim()).filter(Boolean);
+// 一句話 → 要播的片段（音檔 key 或 {tts:文字}）
+function voResolve(s){
+ const nm=S.name||'';
+ if(!(nm&&s.includes(nm))){if(voHas('z|'+s))return ['z|'+s];if(voHas('z|'+voCk(s)))return ['z|'+voCk(s)]}
+ const chunks=s.split(/(?<=[，、])/).map(x=>x.trim()).filter(Boolean);
+ if(chunks.length===1)return voDigits(chunks[0])||[{tts:s}];
+ const out=[];for(const c of chunks){
+  if(nm&&c.includes(nm)){out.push({tts:c});continue}
+  const k='z|'+voCk(c);if(voHas(k)){out.push(k);continue}
+  const d=voDigits(c);if(d){out.push(...d);continue}
+  out.push({tts:c})}
+ return out}
+function voDigits(c){const x=voCk(c);if(!/\d/.test(x))return null;
+ const toks=x.split(/(\d+)/).map(t=>t.trim()).filter(Boolean);const out=[];
+ for(const t of toks){if(/^\d+$/.test(t)){if(!voHas('n|'+(+t)))return null;out.push('n|'+(+t))}else{if(!voHas('p|'+t))return null;out.push('p|'+t)}}
+ return out}
+async function voSpeak(p,opt,gen){
+ const ob=typeof p==='object';const en=ob&&p.en!=null;const txt=String(en?p.en:ob?p.zh:p).trim();const sl=ob&&p.slow?p.slow:0;
+ const fallback=async()=>{if(sl===2){await speakOne(p,opt);if(gen!==sayGen)return;await wait(650);if(gen!==sayGen)return;await speakOne(p,opt)}else await speakOne(p,opt)};
+ if(!S.vo||!VO.idx)return fallback();
+ if(en||sl){const k=(en?'e':'z')+sl+'|'+txt;if(voHas(k)){const b=await voBuf(k);if(b&&gen===sayGen)return voPlay(b)}return fallback()}
+ for(const s of voSents(txt)){if(gen!==sayGen)return;
+  const segs=voResolve(s);
+  // 片段先全部解碼好，再連續播放，避免中間卡頓
+  const bs=await Promise.all(segs.map(g=>typeof g==='string'?voBuf(g):Promise.resolve(g)));
+  for(let i=0;i<bs.length;i++){if(gen!==sayGen)return;const b=bs[i];
+   if(b&&b.tts!=null){await speakOne({zh:b.tts},opt);continue}
+   if(!b){const g=segs[i];await speakOne({zh:typeof g==='string'?g.replace(/^[a-z0-9]+\|/,''):s},opt);continue}
+   await voPlay(b);if(i<bs.length-1)await wait(40)}
+  await wait(90)}
+}
+say=function(parts,opt={}){return new Promise(async res=>{
+ if(!S.sound||!parts)return res();
+ const useVo=S.vo&&VO.idx;if(!useVo&&!('speechSynthesis' in window))return res();
+ const merged=[];parts.forEach(p=>{if(p==null||p==='')return;if(typeof p==='string'&&typeof merged[merged.length-1]==='string')merged[merged.length-1]+=p;else merged.push(p)});
+ const gen=++sayGen;try{speechSynthesis.cancel()}catch(e){}voStop();
+ spkOn();try{for(const p of merged){if(gen!==sayGen)break;if(p&&p.pause){await wait(p.pause);continue}await voSpeak(p,opt,gen)}}catch(e){}spkOff();res()})};
+function voStop(){const s=VO.cur;VO.cur=null;if(s){try{s.onended=null;s.stop()}catch(e){}}}
+function saveVo(){try{const o=JSON.parse(localStorage.getItem('pp4')||'{}');o.vo=S.vo;localStorage.setItem('pp4',JSON.stringify(o))}catch(e){}}
+voInit();
 
 let rt=0;
 addEventListener('resize',()=>{sizeFx();clearTimeout(rt);rt=setTimeout(()=>{if(S.screen==='map')SCREENS.map('quiet')},200)});
-window.__game={S,go,show,ITEMS,get LEVELS(){return LEVELS},setCh,rq:renderQ,sb:i=>songBuffer(i)};
+window.__game={S,go,show,ITEMS,REWARD,pickReward,say:(...a)=>say(...a),VO:()=>VO,voResolve:s=>voResolve(s),voSents:t=>voSents(t),get LEVELS(){return LEVELS},setCh,rq:renderQ,sb:i=>songBuffer(i)};
 show('title');
 })();
 
