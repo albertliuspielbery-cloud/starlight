@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光公主">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-141cca0a.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-141cca0a.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-2bd770b4.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-2bd770b4.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -1701,7 +1701,7 @@ let sayGen=0;
 function speakOne(p,opt){return new Promise(r=>{try{const ob=typeof p==='object';const en=ob&&p.en!=null;const txt=en?p.en:ob?p.zh:p;const u=new SpeechSynthesisUtterance(txt);const v=pickVoice(!en);u.lang=v?v.lang:(en?'en-US':'zh-TW');if(v)u.voice=v;
  u.rate=(en?.85:.92)*(opt.rate||1)*(ob&&p.slow?(p.slow===2?.38:.6):1);u.pitch=opt.pitch||1.05;let d=0;const f=()=>{if(d)return;d=1;clearTimeout(t);r()};const t=setTimeout(f,2500+String(txt).length*(ob&&p.slow?420:260));u.onend=u.onerror=f;speechSynthesis.speak(u)}catch(e){r()}})}
 function say(parts,opt={}){return new Promise(async res=>{
- if(!S.sound||!parts||!('speechSynthesis' in window))return res();
+ if(!S.sound||!parts)return res();
  const merged=[];parts.forEach(p=>{if(p==null||p==='')return;if(typeof p==='string'&&typeof merged[merged.length-1]==='string')merged[merged.length-1]+=p;else if(p&&p.slow===2){merged.push(p,{pause:650},p)}else merged.push(p)});
  const gen=++sayGen;try{speechSynthesis.cancel()}catch(e){}
  spkOn();try{for(const p of merged){if(gen!==sayGen)break;if(p&&p.pause){await wait(p.pause);continue}await speakOne(p,opt)}}catch(e){}spkOff();res()})}
@@ -4064,7 +4064,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-93966907.json';
+const VOICE_INDEX='index-ad78aa0e.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -5146,25 +5146,36 @@ voGet=async function(f){const c0=await voCache();const i0=VO.files.indexOf(f),wa
  VO.abs[f]=bl;PERF.packs[f]={ms:Math.round(performance.now()-t0),src:'網路',mb:+(ab.byteLength/1048576).toFixed(1)};return bl};
 // 下載排隊：同時下載 2 包；要播的句子在還沒下載的包裡，就把那包排到最前面
 // 名字包（700 個名字）不整包下載，只抓自己的名字那一句
-VO.pq=[];VO.busy=0;VO.rb=new Map();VO.rangeN=0;VO.rangeOK=null;
+VO.pq=[];VO.busy=0;
+VO.rb=new Map();VO.rangeN=0;VO.rangeOK=null;
 function voNamePack(f){if(!VO.idx)return false;if(VO.namePack!==undefined)return VO.namePack===f;
  const cnt={};for(const k in VO.idx){const fi=VO.idx[k][0];const c=cnt[fi]||(cnt[fi]={n:0,a:0});c.a++;if(k.startsWith('nm|'))c.n++}
  VO.namePack=null;for(const fi in cnt)if(cnt[fi].a>50&&cnt[fi].n===cnt[fi].a)VO.namePack=VO.files[fi];return VO.namePack===f}
-function voPump(){while(VO.busy<2&&VO.pq.length){VO.busy++;const [f,res]=VO.pq.shift();
- voGet(f).catch(()=>null).then(x=>{res(x);VO.busy--;voPump()})}}
+// 一次下載一包（留頻寬給「單句下載」）；「常用句子包」排第一個
+let voPumpT=0;
+function voPump(){if(voPumpT)return;voPumpT=1;Promise.resolve().then(()=>{voPumpT=0;
+ const st=VO.starter||(VO.starter=(VO.files||[]).find(f=>/^pack0-/.test(f))||null);if(st){const i=VO.pq.findIndex(x=>x[0]===st);if(i>0)VO.pq.unshift(VO.pq.splice(i,1)[0])}
+ while(VO.busy<1&&VO.pq.length){VO.busy++;const [f,res]=VO.pq.shift();
+  voGet(f).catch(()=>null).then(x=>{res(x);VO.busy--;voPump()})}})}
 voPack=function(f){if(!VO.packs[f]){
   if(voNamePack(f)){VO.packs[f]=(async()=>{const c0=await voCache();try{const h=c0&&!VO.reload&&await c0.match('voice/'+f);if(h){const bl=await h.blob();VO.abs[f]=bl}}catch(e){}
     const i=VO.files.indexOf(f);VO.bytes[f]=VO.sizes?VO.sizes[i]:0;VO.got++;voNamePrefetch();return VO.abs[f]||null})();return VO.packs[f]}
   let res;VO.packs[f]=new Promise(r=>res=r);VO.pq.push([f,res]);voPump()}return VO.packs[f]};
 function voWant(f){const i=VO.pq.findIndex(x=>x[0]===f);if(i>0)VO.pq.unshift(VO.pq.splice(i,1)[0])}
 // 只抓一句（HTTP Range）：還沒下載完的包，也能馬上用真人聲音
-async function voRange(f,e){const key=f+'@'+e[1];if(VO.rb.has(key))return VO.rb.get(key);
+// 單句下載最多等 0.9 秒，來不及就先用平板聲音，下載完的下次就能用
+function voRange(f,e){const key=f+'@'+e[1];if(VO.rb.has(key))return Promise.resolve(VO.rb.get(key));
+ if(!VO.rq)VO.rq=new Map();let pr=VO.rq.get(key);if(!pr){pr=voRange0(f,e).finally(()=>VO.rq.delete(key));VO.rq.set(key,pr)}
+ return Promise.race([pr,wait(voNamePack(f)||voNoTTS()?3000:900).then(()=>null)])}
+// 平板沒有中文語音：多等一下真人錄音，不然會完全沒聲音
+function voNoTTS(){try{return !speechSynthesis.getVoices().some(v=>/zh|cmn/i.test(v.lang))}catch(e){return true}}
+async function voRange0(f,e){const key=f+'@'+e[1];
  const named=voNamePack(f);const ck='voice/clip/'+key;const c0=named?await voCache():null;
  if(c0){try{const h=await c0.match(ck);if(h){const bl=await h.blob();VO.rb.set(key,bl);return bl}}catch(e){}}
  if(VO.rangeOK===false||!navigator.onLine)return null;
- const ctl=window.AbortController?new AbortController():null;const to=setTimeout(()=>ctl&&ctl.abort(),named?6000:2500);
- try{const r=await fetch('voice/'+f,{headers:{Range:`bytes=${e[1]}-${e[1]+e[2]-1}`},cache:'no-store',signal:ctl&&ctl.signal});
-  if(r.status!==206){VO.rangeOK=false;try{ctl&&ctl.abort()}catch(_){}return null}
+ const ctl=window.AbortController?new AbortController():null;const to=setTimeout(()=>ctl&&ctl.abort(),10000);
+ try{const r=await fetch('voice/'+f+'?c='+e[1],{headers:{Range:`bytes=${e[1]}-${e[1]+e[2]-1}`},signal:ctl&&ctl.signal});
+  if(r.status!==206){VO.rangeOK=false;VO.rangeSt=r.status;try{ctl&&ctl.abort()}catch(_){}return null}
   const bl=await r.blob();if(bl.size!==e[2])return null;VO.rangeOK=true;VO.rangeN++;
   if(VO.rb.size>200)VO.rb.delete(VO.rb.keys().next().value);VO.rb.set(key,bl);
   if(c0){try{await c0.put(ck,new Response(bl,{headers:{'Content-Type':'audio/mpeg'}}))}catch(_){}}
@@ -5198,7 +5209,8 @@ function perfText(){const pk=Object.entries(PERF.packs).map(([f,x])=>`${f.split(
  const fonts=(()=>{try{return document.fonts&&document.fonts.check('16px Huninn','星')?'字型已載入':'字型未載入'}catch(e){return ''}})();
  return [`速度：開啟 ${PERF.boot} ms・到首頁 ${PERF.title||'-'} ms・換畫面慢（>0.3秒）${PERF.slow} 次${mem}・${fonts}`,
   `最近換畫面：${PERF.scr.map(([n,ms])=>n+' '+ms+'ms').join('、')}`,
-  `語音包：${pk||'無'}${VO.pq&&VO.pq.length?'・排隊中 '+VO.pq.length+' 包':''}・單句下載 ${VO.rangeN} 次${VO.rangeOK===false?'（伺服器不支援）':''}`].join('\n')}
+  `平板聲音：${(()=>{try{const v=speechSynthesis.getVoices();return v.length+' 個（中文 '+v.filter(x=>/zh/i.test(x.lang)).length+'）'}catch(e){return '不支援'}})()}`,
+  `語音包：${pk||'無'}${VO.pq&&VO.pq.length?'・排隊中 '+VO.pq.length+' 包':''}・單句下載 ${VO.rangeN} 次${VO.rangeOK===false?'（伺服器不支援 '+(VO.rangeSt||'')+'）':''}`].join('\n')}
 const _bugRepPf=bugReport;
 bugReport=function(note){const s=_bugRepPf(note);const i=s.indexOf('\n最近錯誤');return i<0?s+'\n'+perfText():s.slice(0,i)+'\n'+perfText()+s.slice(i)};
 
