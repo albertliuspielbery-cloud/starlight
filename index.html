@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>星光公主大冒險</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光公主">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-2bd770b4.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-2bd770b4.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-4b27fcbd.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-4b27fcbd.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -1064,6 +1064,8 @@ body[data-scr="rest"] #bar,body[data-scr="limit"] #bar{visibility:hidden}
 @keyframes dtip{0%{transform:translateY(0) scaleX(1)}25%{transform:translateY(-7%) scaleX(1)}50%{transform:translateY(-7%) scaleX(-1)}75%{transform:translateY(-7%) scaleX(1)}100%{transform:translateY(0) scaleX(1)}}
 .dprize{height:110px}.dprize svg{height:100%;width:auto}
 
+html,body,button,.screen,canvas{touch-action:manipulation}
+
 </style>
 </head>
 <body>
@@ -1621,7 +1623,7 @@ Object.assign(ICON,{
 /* ================= audio ================= */
 let ac=null;
 let OFFCTX=null;
-function audio(){if(OFFCTX)return OFFCTX;if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state!=='running'&&ac.state!=='closed'&&!document.hidden){try{ac.resume()}catch(e){}}return ac}
+function audio(){if(OFFCTX)return OFFCTX;if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state!=='running'&&ac.state!=='closed'&&!document.hidden){try{const a0=ac,pr=a0.resume();if(pr&&pr.catch)pr.catch(()=>{a0.__fail=1})}catch(e){}}return ac}
 function tone(f,t,d,type='sine',v=.12,force){const a=audio();if(!a||(!S.sound&&!force))return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+t;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.015);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+d+.05)}
 function sfx(k){
  if(k==='right')[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.08,.4,'triangle',.11));
@@ -1649,7 +1651,7 @@ let mbus=null;
 function musBus(){const a=audio();if(!a)return null;if(!mbus){mbus=a.createGain();mbus.gain.value=.75;mbus.connect(a.destination)}return mbus}
 function musDuck(on){if(!ac)return;const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.62:.75,a.currentTime,on?.4:.8)}
 function mtone(f,t,d,type,v){const a=audio();const bus=musBus();if(!a||!bus)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+Math.max(0,t);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.02);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(bus);o.start(t0);o.stop(t0+d+.05)}
-// 背景音樂：整首先「預先錄好」成一段音檔再循環播放，節奏和音量都固定，不受平板忙不忙影響
+// 背景音樂：整首先「預先錄好」成一段音檔再循環播放，節奏和音量都固定，不受裝置忙不忙影響
 const songCache={};
 function songBuffer(si){if(songCache[si])return songCache[si];
  const OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OAC)return Promise.resolve(null);
@@ -2175,7 +2177,7 @@ chend(){
 };
 
 const APP_VERSION='2.2';
-const VLOG=[['2.2','2026/10/2','平板使用時間：每天統計、每日上限、玩久了要放下平板休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、平板橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回平板聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用平板聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用平板聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回平板內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊平板會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const VLOG=[['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2252,11 +2254,11 @@ function parentPanel(){
  const ov=overlay(screen,`<div class="card left"><button class="xclose" aria-label="關閉">✕</button><h2>家長設定</h2>
   <div><span class="lab">公主的名字</span><div class="vrow"><input id="pnm" class="pin" maxlength="6" value="${(S.name||'').replace(/"/g,'')}" placeholder="例如：Anita" aria-label="公主的名字"><button class="btn2 small" id="pnmok">儲存</button></div></div>
   <div><span class="lab">難度</span><div class="seg">${Object.entries(DIFF).map(([k,v])=>`<button data-d="${k}" aria-pressed="${S.diff===k}">${v.name}</button>`).join('')}</div><p class="small" id="ddesc">${DIFF[S.diff].desc}</p></div>
-  <div><span class="lab">語音</span><div class="seg"><button data-vo="1" aria-pressed="${!!S.vo}">真人錄音（推薦）</button><button data-vo="0" aria-pressed="${!S.vo}">平板內建</button></div><small id="vostat" class="small" style="display:block;margin-top:4px;opacity:.85"></small><button class="btn2 small" id="vore" style="margin-top:6px">重新下載語音包</button></div>
-  <div><span class="lab">說故事的聲音（平板內建時使用）</span><div class="vrow"><select id="vsel" class="vsel" aria-label="選擇語音"></select><button class="btn2 small" id="vtest">試聽</button></div></div>
+  <div><span class="lab">語音</span><div class="seg"><button data-vo="1" aria-pressed="${!!S.vo}">真人錄音（推薦）</button><button data-vo="0" aria-pressed="${!S.vo}">內建聲音</button></div><small id="vostat" class="small" style="display:block;margin-top:4px;opacity:.85"></small><button class="btn2 small" id="vore" style="margin-top:6px">重新下載語音包</button></div>
+  <div><span class="lab">說故事的聲音（裝置內建時使用）</span><div class="vrow"><select id="vsel" class="vsel" aria-label="選擇語音"></select><button class="btn2 small" id="vtest">試聽</button></div></div>
   <div><span class="lab">背景音樂</span><div class="seg"><button data-m="1" aria-pressed="${S.music}">開</button><button data-m="0" aria-pressed="${!S.music}">關</button></div></div>
   <div><span class="lab">休息提醒</span><div class="seg">${[0,10,15,20].map(m=>`<button data-rest="${m}" aria-pressed="${S.rest===m}">${m?m+' 分鐘':'關閉'}</button>`).join('')}</div></div>
-  <div><span class="lab">流暢模式（舊平板建議開啟）</span><div class="seg"><button data-lite="1" aria-pressed="${!!S.lite}">開</button><button data-lite="0" aria-pressed="${!S.lite}">關</button></div></div>
+  <div><span class="lab">流暢模式（舊裝置建議開啟）</span><div class="seg"><button data-lite="1" aria-pressed="${!!S.lite}">開</button><button data-lite="0" aria-pressed="${!S.lite}">關</button></div></div>
   <div><span class="lab">學習小報告</span>${reportHTML()}<button class="btn2 small" id="rreset" style="margin-top:8px">清除紀錄</button></div>
   <div><span class="lab">家長模式</span><div class="vrow"><button class="btn2 small" id="pmode">跳關・寶石・備份存檔</button><button class="btn2 small" id="psetup">第一次使用設定</button></div></div>
   <div><span class="lab">目前版本 v${APP_VERSION}</span><div class="vrow"><button class="btn2 small" id="pupd">檢查更新</button></div></div>
@@ -2893,7 +2895,7 @@ function parentTools(){
   <div><span class="lab">寶石數量</span><div class="vrow"><input id="pgem" class="pin" inputmode="numeric" value="${S.wallet}" aria-label="寶石數量"><button class="btn2 small" id="setgem">設定</button><button class="btn2 small" id="add10">＋10</button></div></div>
   <div><span class="lab">跳關</span><div class="vrow"><select id="pch" class="vsel" aria-label="章節">${CHAPTERS.map((c,i)=>`<option value="${i}" ${i===S.ch?'selected':''}>${c.title}</option>`).join('')}</select><select id="plv" class="vsel" aria-label="關卡">${Array.from({length:11},(_,i)=>`<option value="${i}">${i===10?'整章完成':'從第 '+(i+1)+' 關開始'}</option>`).join('')}</select><button class="btn2 small" id="setlv">設定</button></div><p class="small">前面的關卡會設成已完成；選「整章完成」會打開下一章，但不會送章節大獎。</p></div>
   <div><span class="lab">衣服與寵物</span><div class="vrow"><button class="btn2 small" id="unlockall">全部解鎖</button></div></div>
-  <div><span class="lab">備份存檔</span><p class="small">把這串文字複製起來，存到備忘錄。換平板或存檔不見時，貼到下面就能還原。</p><textarea id="bk" class="bk" readonly aria-label="備份文字">${saveCode()}</textarea><div class="vrow"><button class="btn2 small" id="copy">複製</button></div></div>
+  <div><span class="lab">備份存檔</span><p class="small">把這串文字複製起來，存到備忘錄。換裝置或存檔不見時，貼到下面就能還原。</p><textarea id="bk" class="bk" readonly aria-label="備份文字">${saveCode()}</textarea><div class="vrow"><button class="btn2 small" id="copy">複製</button></div></div>
   <div><span class="lab">還原存檔</span><textarea id="rs" class="bk" placeholder="把備份文字貼在這裡" aria-label="還原文字"></textarea><div class="vrow"><button class="btn2 small" id="restore">還原</button></div></div>
   <button class="btn" id="pdone2">完成</button></div>`);
  const upd=()=>{$('#bk',ov).value=saveCode();renderBar()};
@@ -4100,17 +4102,17 @@ async function voNet(f){const i=VO.files?VO.files.indexOf(f):-1,want=VO.sizes&&i
 function voPack(f){if(!VO.packs[f]){VO.packs[f]=VO.q.then(()=>voGet(f));VO.q=VO.packs[f].catch(()=>{})}return VO.packs[f]}
 function voStatus(ov){const el=ov&&ov.querySelector('#vostat');if(!el)return;
  const t=()=>{if(!el.isConnected)return;let m;
-  if(location.protocol==='file:')m='預覽版沒有語音包，會用平板內建聲音';
+  if(location.protocol==='file:')m='預覽版沒有語音包，會用裝置內建聲音';
   else if(!VO.idx)m=VO.done?'找不到語音包：請確認 GitHub 上有 voice 資料夾':'讀取中…';
   else if(VO.bad)m=`語音包檔案不完整（${VO.bad} 個），請重新上傳 voice 資料夾，再按「重新下載語音包」`;
   else if(VO.got<VO.files.length){const tot=(VO.sizes||[]).reduce((a,b)=>a+b,0),cur=Object.values(VO.bytes||{}).reduce((a,b)=>a+b,0);m=`語音包下載中… ${(cur/1048576).toFixed(1)} / ${(tot/1048576).toFixed(0)} MB（第 ${Math.min(VO.got+1,VO.files.length)}/${VO.files.length} 包，請保持網路連線）${VO.err?'・'+VO.err:''}`}
   else{m=`語音包已下載（${Object.keys(VO.idx).length} 句）`;if(!VO.diag){VO.diag=1;voBuf('z|答對了！').then(b=>{VO.diagRes=b?(b.url?'Audio 播放':'WebAudio 播放'):'解碼失敗';t()})}if(VO.diagRes)m+=`・${VO.diagRes}${VO.err?'（'+VO.err+'）':''}`}
-  if(!S.vo)m='目前使用平板內建聲音';el.textContent=m;if(S.vo&&VO.idx&&VO.got<VO.files.length)setTimeout(t,800)};
+  if(!S.vo)m='目前使用裝置內建聲音';el.textContent=m;if(S.vo&&VO.idx&&VO.got<VO.files.length)setTimeout(t,800)};
  Promise.resolve(VO.ready).then(t);t()}
 const voHas=k=>!!(VO.idx&&VO.idx[k]);
 async function voBuf(k){
  if(VO.bufs.has(k))return VO.bufs.get(k);
- const e=VO.idx&&VO.idx[k];if(!e)return null;const ab=VO.abs[VO.files[e[0]]];if(!ab)return null; // 還沒下載完：先用平板聲音，不等待
+ const e=VO.idx&&VO.idx[k];if(!e)return null;const ab=VO.abs[VO.files[e[0]]];if(!ab)return null; // 還沒下載完：先用裝置聲音，不等待
  const bytes=ab.slice(e[1],e[1]+e[2]);let out=null;
  if(VO.mode!=='el'){const c=audio();
   if(c){try{out=await new Promise((res,rej)=>{let d=0;const ok=b=>{if(!d){d=1;res(b)}},no=er=>{if(!d){d=1;rej(er)}};const pr=c.decodeAudioData(bytes.slice(0),ok,no);if(pr&&pr.then)pr.then(ok,no);setTimeout(()=>no(new Error('timeout')),4000)});if(out)VO.mode='wa'}
@@ -4690,7 +4692,7 @@ async function backupSave(){toast('備份中…');const o=await backupMake();con
 function backupPick(after){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json,text/plain';inp.style.display='none';document.body.appendChild(inp);
  inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.remove();if(!f)return;const fr=new FileReader();fr.onload=()=>{let o=null;try{o=JSON.parse(String(fr.result))}catch(e){}
   if(!o||o.app!=='starlight-princess'||!o.ls||!o.ls.pp4){toast('這不是星光公主的備份檔');return}
-  const ov=overlay(screen,`<div class="card"><h2>要還原這個備份嗎？</h2><p>備份日期：${dstr(o.date)}<br>畫冊：${(o.album||[]).length} 張畫</p><p class="small">現在平板上的進度會被這個備份取代。</p><div class="row"><button class="btn" id="ry">還原</button><button class="btn2" id="rn">取消</button></div></div>`);
+  const ov=overlay(screen,`<div class="card"><h2>要還原這個備份嗎？</h2><p>備份日期：${dstr(o.date)}<br>畫冊：${(o.album||[]).length} 張畫</p><p class="small">現在這台裝置上的進度會被這個備份取代。</p><div class="row"><button class="btn" id="ry">還原</button><button class="btn2" id="rn">取消</button></div></div>`);
   $('#rn',ov).onclick=()=>ov.remove();
   $('#ry',ov).onclick=async()=>{$('#ry',ov).disabled=true;try{const keep=['pp4setup'];Object.keys(localStorage).filter(k=>k.startsWith('pp4')&&!keep.includes(k)).forEach(k=>localStorage.removeItem(k));Object.entries(o.ls).forEach(([k,v])=>{if(k!=='pp4setup')localStorage.setItem(k,v)});
    await ADB.clear().catch(()=>{});for(const r of (o.album||[])){const b=await (await fetch(r.data)).blob();await ADB.put({id:r.id,pic:r.pic,name:r.name,blob:b})}
@@ -4700,7 +4702,7 @@ const bkAgo=()=>{if(!V2.lastBackup)return '還沒有備份過';const d=Math.floo
 const _pp0=parentPanel;
 parentPanel=function(){_pp0();const ov=$$('.overlay').pop();if(!ov)return;const anchor=$('#pmode',ov);const host=anchor&&anchor.closest('.card > div');if(!host)return;
  const d=document.createElement('div');const old=!V2.lastBackup||Date.now()-V2.lastBackup>30*864e5;
- d.innerHTML=`<span class="lab">備份與還原</span><p class="small">把進度、寶石、衣服和畫冊存成一個檔案，可以存到「檔案」App（iCloud 雲碟）、LINE 或 Email。換平板時用「還原」就能找回來。</p><p class="small bkago${old?' warn':''}">${bkAgo()}</p><div class="vrow"><button class="btn2 small" id="bksave">備份</button><button class="btn2 small" id="bkload">還原</button></div>`;
+ d.innerHTML=`<span class="lab">備份與還原</span><p class="small">把進度、寶石、衣服和畫冊存成一個檔案，可以存到「檔案」App（iCloud 雲碟）、LINE 或 Email。換裝置時用「還原」就能找回來。</p><p class="small bkago${old?' warn':''}">${bkAgo()}</p><div class="vrow"><button class="btn2 small" id="bksave">備份</button><button class="btn2 small" id="bkload">還原</button></div>`;
  host.parentNode.insertBefore(d,host);
  $('#bksave',d).onclick=async()=>{await backupSave();const a=$('.bkago',d);if(a){a.textContent=bkAgo();a.classList.remove('warn')}};
  $('#bkload',d).onclick=()=>backupPick()};
@@ -4722,6 +4724,7 @@ const _voResolve2=voResolve;voResolve=function(s){return _voResolve2(s).filter(g
 
 /* ================= v2.0: 更新提醒視窗 ================= */
 let updShown=false,updWait=0;
+try{if(/fresh=/.test(location.search))history.replaceState(null,'',location.pathname)}catch(e){}
 updCheck=function(){if(!/^https?:/.test(location.protocol)||!navigator.onLine||updShown)return;
  fetch('./index.html?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_VERSION='([^']+)'/);if(!m||m[1]===APP_VERSION)return;
   const d=(t.match(/const VLOG=\[\['[^']+','[^']+','([^']+)'/)||[])[1]||'';
@@ -4730,7 +4733,7 @@ updCheck=function(){if(!/^https?:/.test(location.protocol)||!navigator.onLine||u
    w.innerHTML=`<div class="card"><h2>有新版本囉！</h2><p>v${APP_VERSION} → <b class="gold">v${m[1]}</b></p>${d?`<p class="small updnote">${d.replace(/</g,'&lt;')}</p>`:''}<div class="row"><button class="btn" id="updgo">現在更新</button><button class="btn2" id="updno">等一下</button></div></div>`;
    document.body.appendChild(w);sfx('pop');
    $('#updno',w).onclick=()=>{w.remove()};
-   $('#updgo',w).onclick=()=>{$('#updgo',w).textContent='更新中…';$('#updgo',w).disabled=true;const r=window.__swreg;Promise.resolve(r&&r.update()).catch(()=>{}).then(()=>setTimeout(()=>location.reload(),1200))}};
+   $('#updgo',w).onclick=()=>{$('#updgo',w).textContent='更新中…';$('#updgo',w).disabled=true;const r=window.__swreg;Promise.resolve(r&&r.update()).catch(()=>{}).then(()=>setTimeout(()=>location.replace(location.pathname+'?fresh='+Date.now()),1200))}};
   show()}).catch(()=>{})};
 
 /* ================= v2.0: 問題回報 ================= */
@@ -4743,7 +4746,7 @@ addEventListener('unhandledrejection',e=>{const r=e&&e.reason;errLog('Promise: '
 const SCRHIST=[];const _show2=show;show=function(n,a){SCRHIST.push(n+(n==='stage'?`(${S.ch+1}-${S.level+1})`:''));if(SCRHIST.length>15)SCRHIST.shift();return _show2(n,a)};
 function bugReport(note){const d=new Date();const pad=n=>String(n).padStart(2,'0');const E=errGet();
  let ls=0;try{for(let k=0;k<localStorage.length;k++){const key=localStorage.key(k);ls+=(localStorage.getItem(key)||'').length}}catch(e){}
- const vo=(()=>{try{return `${S.vo?'真人錄音':'平板內建'}；語音包${VO.idx?'已載入（'+Object.keys(VO.idx).length+' 句）':VO.fail?'載入失敗':'未載入'}；音效${ac&&ac.state?ac.state:'未啟動'}`}catch(e){return '?'}})();
+ const vo=(()=>{try{return `${S.vo?'真人錄音':'裝置內建'}；語音包${VO.idx?'已載入（'+Object.keys(VO.idx).length+' 句）':VO.fail?'載入失敗':'未載入'}；音效${ac&&ac.state?ac.state:'未啟動'}`}catch(e){return '?'}})();
  const st=window.matchMedia&&matchMedia('(display-mode: standalone)').matches||navigator.standalone;
  return ['【星光公主問題回報】',`時間：${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`,`版本：v${APP_VERSION}`,
   note?`家長說明：${note}`:'',
@@ -4802,10 +4805,9 @@ SCREENS.dance=function(){const tok=++danceTok;const live=()=>tok===danceTok&&S.s
   setTimeout(tick,(tempo<1?720:430))};
  const move=k=>{pair.className='dpair '+(S.look.shoe==='balletshoe'&&k%3===2?'dm-tiptoe':DMOVES[k%DMOVES.length]);};
  (async()=>{
-  await say(['舞會開始囉！聽到聲音，點對的泡泡，王子和公主就會繼續跳舞！']);if(!live())return;
-  tick();
+  tick();move(0);await Promise.race([say(['舞會開始囉！聽到聲音，點對的泡泡，王子和公主就會繼續跳舞！']),wait(4500)]);if(!live())return;
   for(let r=0;r<DANCE_N;r++){
-   tempo=1;move(r);await wait(2600);if(!live())return;
+   tempo=1;move(r);await wait(r?2600:600);if(!live())return;
    tempo=.6;pair.classList.add('dwait');
    const q=danceQ();window.__dq=q.t;let tries=0;
    dq.innerHTML=`<div class="dbubbles">${q.opts.map((o,k)=>`<button class="dbub" data-v="${o}" style="--dl:${(k*.1).toFixed(1)}s">${q.label(o)}</button>`).join('')}</div><button class="speak dspeak" aria-label="再聽一次">${ICON.speaker('#2A2266')}</button>`;
@@ -4910,7 +4912,7 @@ const glMap=(list,lat)=>`<div class="glmap">${list.map(x=>{const g=BAG.g[x.toUpp
 reportHTML=function(){const base=_report0()+`<div class="glbox"><b>學習地圖</b><p class="small"><i class="gl ok">會了</i><i class="gl mid">練習中</i><i class="gl bad">常錯</i><i class="gl no">還沒出現</i></p><span class="lab">英文字母</span>${glMap('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),1)}<span class="lab">注音</span>${glMap(ZY_ALL.split(''))}</div>`;const W=V2.wrong.slice().sort((a,b)=>(b.c||1)-(a.c||1)).slice(0,8);
  return base+`<div class="revlist"><b>最近常錯的題目</b>${W.length?`<ul>${W.map(e=>`<li>${e.lab||e.t}${(e.c||1)>1?`（錯 ${e.c} 次）`:''}</li>`).join('')}</ul>`:'<p class="small">目前沒有錯題，好棒！</p>'}</div>`};
 
-/* ================= v2.2: 平板使用時間・定時休息・休息完抽禮物・每日上限 ================= */
+/* ================= v2.2: 使用時間・定時休息・休息完抽禮物・每日上限 ================= */
 const TKEY='pp4time';
 const TM=(()=>{let o={};try{o=JSON.parse(localStorage.getItem(TKEY)||'{}')||{}}catch(e){}return Object.assign({days:{},since:0,restUntil:0,restStart:0,extra:{},giftReady:0},o)})();
 const saveTM=()=>{try{localStorage.setItem(TKEY,JSON.stringify(TM))}catch(e){}};
@@ -4941,13 +4943,13 @@ let restTimer=0;
 SCREENS.rest=function(){clearInterval(restTimer);
  if(!TM.restUntil&&!TM.giftReady){go('title');return}
  screen.innerHTML=`<div class="restscr dim"><h2 class="gtitle">休息時間</h2><div class="restpet"><span class="sleepy">${myPet()}</span></div>
-  <p class="rtip">放下平板，去休息一下吧！<br>時間到再回來，可以抽一個禮物喔！</p>
+  <p class="rtip">眼睛累了，先離開螢幕休息一下吧！<br>時間到再回來，可以抽一個禮物喔！</p>
   <div class="restring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="rr0"/><circle cx="60" cy="60" r="52" class="rr1" id="rr1"/></svg><b id="rtime">--:--</b></div>
   <p class="small">再過這麼久回來</p><button class="btn2 small hold" id="rskip">家長：結束休息（長按）</button></div>`;
  longPress($('#rskip'),()=>{TM.restUntil=0;TM.giftReady=0;saveTM();clearInterval(restTimer);toast('休息結束');go('title')},1500);
  if(TM.giftReady||Date.now()>=TM.restUntil){restDone();return}
  const n=Math.max(1,Math.round((TM.restUntil-Date.now())/60000));
- if(Date.now()-TM.restStart<8000)say(['玩了好久囉，眼睛累了！','放下平板，去休息一下。',`${({5:'五',10:'十',15:'十五'})[n]||n}分鐘以後再回來，就可以抽一個禮物喔！`],{pitch:1.12});
+ if(Date.now()-TM.restStart<8000)say(['玩了好久囉，眼睛累了！',`${({5:'五',10:'十',15:'十五'})[n]||n}分鐘以後再回來，就可以抽一個禮物喔！`],{pitch:1.12});
  else say(['還沒到喔！再休息一下，時間到再回來！'],{pitch:1.12});
  const total=TM.restUntil-TM.restStart||V2.restLen*60000;
  const tick=()=>{const left=Math.max(0,TM.restUntil-Date.now());const m=Math.floor(left/60000),s=Math.floor(left/1000)%60;const el=$('#rtime');if(!el)return clearInterval(restTimer);
@@ -4972,17 +4974,17 @@ SCREENS.limit=function(){const used=Math.round(todayMs()/60000);
  screen.innerHTML=`<div class="restscr"><h2 class="gtitle">今天玩夠了！</h2><div class="restpet"><span class="sleepy">${princess(S.look)}</span><span class="sleepy">${myPet()}</span></div><p class="rtip">今天玩了 ${used} 分鐘，明天再一起冒險吧！</p><button class="btn2 small hold" id="lmore">家長：再玩 10 分鐘（長按）</button></div>`;
  say(['今天玩夠了，眼睛要休息囉！','明天再一起冒險吧！'],{pitch:1.12});
  longPress($('#lmore'),()=>{const k=dayKey();TM.extra[k]=(TM.extra[k]||0)+10;saveTM();toast('多 10 分鐘');go('title')},1500)};
-// 家長設定：平板使用時間
+// 家長設定：使用時間
 const _pp2=parentPanel;
 parentPanel=function(){_pp2();const ov=$$('.overlay').pop();if(!ov)return;const rb=$('[data-rest]',ov);const host=rb&&rb.closest('.card > div');if(!host)return;
  const days=[];for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*864e5);days.push([`${d.getMonth()+1}/${d.getDate()}`,Math.round((TM.days[dayKey(d)]||0)/60000)])}
  const mx=Math.max(30,...days.map(x=>x[1]));
  const d=document.createElement('div');
- d.innerHTML=`<span class="lab">平板使用時間</span><p class="small">今天玩了 <b class="gold">${Math.round(todayMs()/60000)}</b> 分鐘${V2.dayLimit?`（上限 ${V2.dayLimit} 分鐘）`:''}</p>
+ d.innerHTML=`<span class="lab">使用時間</span><p class="small">今天玩了 <b class="gold">${Math.round(todayMs()/60000)}</b> 分鐘${V2.dayLimit?`（上限 ${V2.dayLimit} 分鐘）`:''}</p>
   <div class="tbars">${days.map(([l,m])=>`<div class="tbar"><i style="height:${Math.max(2,m/mx*100)}%"></i><small>${m}</small><span>${l}</span></div>`).join('')}</div>
   <span class="lab" style="display:block;margin-top:8px">每天最多玩</span><div class="seg">${[0,20,30,45,60].map(m=>`<button data-dl="${m}" aria-pressed="${V2.dayLimit===m}">${m?m+' 分':'不限'}</button>`).join('')}</div>
-  <span class="lab" style="display:block;margin-top:8px">每次要離開平板多久</span><div class="seg">${[5,10,15].map(m=>`<button data-rl="${m}" aria-pressed="${V2.restLen===m}">${m} 分鐘</button>`).join('')}</div>
-  <p class="small">「休息提醒」時間到，遊戲會鎖住並倒數，請小朋友放下平板去休息；時間到回來可以抽一個禮物。關掉 App 也會繼續倒數。家長可以長按按鈕跳過。</p>`;
+  <span class="lab" style="display:block;margin-top:8px">每次要休息多久</span><div class="seg">${[5,10,15].map(m=>`<button data-rl="${m}" aria-pressed="${V2.restLen===m}">${m} 分鐘</button>`).join('')}</div>
+  <p class="small">「休息提醒」時間到，遊戲會鎖住並倒數，請小朋友離開螢幕去休息；時間到回來可以抽一個禮物。關掉 App 也會繼續倒數。家長可以長按按鈕跳過。</p>`;
  host.parentNode.insertBefore(d,host.nextSibling);
  const lab=$('.lab',host);if(lab&&/休息提醒/.test(lab.textContent))lab.textContent='休息提醒（每玩多久休息一次）';
  $$('[data-dl]',d).forEach(b=>b.onclick=()=>{V2.dayLimit=+b.dataset.dl;save2();$$('[data-dl]',d).forEach(x=>x.setAttribute('aria-pressed',x===b))});
@@ -5163,11 +5165,11 @@ voPack=function(f){if(!VO.packs[f]){
   let res;VO.packs[f]=new Promise(r=>res=r);VO.pq.push([f,res]);voPump()}return VO.packs[f]};
 function voWant(f){const i=VO.pq.findIndex(x=>x[0]===f);if(i>0)VO.pq.unshift(VO.pq.splice(i,1)[0])}
 // 只抓一句（HTTP Range）：還沒下載完的包，也能馬上用真人聲音
-// 單句下載最多等 0.9 秒，來不及就先用平板聲音，下載完的下次就能用
+// 單句下載最多等 0.9 秒，來不及就先用裝置聲音，下載完的下次就能用
 function voRange(f,e){const key=f+'@'+e[1];if(VO.rb.has(key))return Promise.resolve(VO.rb.get(key));
  if(!VO.rq)VO.rq=new Map();let pr=VO.rq.get(key);if(!pr){pr=voRange0(f,e).finally(()=>VO.rq.delete(key));VO.rq.set(key,pr)}
  return Promise.race([pr,wait(voNamePack(f)||voNoTTS()?3000:900).then(()=>null)])}
-// 平板沒有中文語音：多等一下真人錄音，不然會完全沒聲音
+// 裝置沒有中文語音：多等一下真人錄音，不然會完全沒聲音
 function voNoTTS(){try{return !speechSynthesis.getVoices().some(v=>/zh|cmn/i.test(v.lang))}catch(e){return true}}
 async function voRange0(f,e){const key=f+'@'+e[1];
  const named=voNamePack(f);const ck='voice/clip/'+key;const c0=named?await voCache():null;
@@ -5175,7 +5177,8 @@ async function voRange0(f,e){const key=f+'@'+e[1];
  if(VO.rangeOK===false||!navigator.onLine)return null;
  const ctl=window.AbortController?new AbortController():null;const to=setTimeout(()=>ctl&&ctl.abort(),10000);
  try{const r=await fetch('voice/'+f+'?c='+e[1],{headers:{Range:`bytes=${e[1]}-${e[1]+e[2]-1}`},signal:ctl&&ctl.signal});
-  if(r.status!==206){VO.rangeOK=false;VO.rangeSt=r.status;try{ctl&&ctl.abort()}catch(_){}return null}
+  if(r.status===200){VO.rangeOK=false;VO.rangeSt=200;try{ctl&&ctl.abort()}catch(_){}return null}
+  if(r.status!==206){VO.rangeSt=r.status;try{ctl&&ctl.abort()}catch(_){}return null}
   const bl=await r.blob();if(bl.size!==e[2])return null;VO.rangeOK=true;VO.rangeN++;
   if(VO.rb.size>200)VO.rb.delete(VO.rb.keys().next().value);VO.rb.set(key,bl);
   if(c0){try{await c0.put(ck,new Response(bl,{headers:{'Content-Type':'audio/mpeg'}}))}catch(_){}}
@@ -5188,6 +5191,7 @@ async function voDecode(src,off,len,k){let out=null;
     out=await new Promise((res,rej)=>{let d=0;const ok=b=>{if(!d){d=1;res(b)}},no=er=>{if(!d){d=1;rej(er)}};const pr=c.decodeAudioData(bytes,ok,no);if(pr&&pr.then)pr.then(ok,no);setTimeout(()=>no(new Error('timeout')),4000)});if(out)VO.mode='wa'}
    catch(err){VO.err='decode: '+String(err&&err.message||err);VO.fails=(VO.fails||0)+1;if(VO.fails>=3)VO.mode='el'}}}
  if(!out){out={url:URL.createObjectURL(src.slice(off,off+len,'audio/mpeg')),dur:len/4000+.3}}
+ else{try{out.__blob=src.slice(off,off+len,'audio/mpeg')}catch(e){}}
  if(VO.bufs.size>160){const [ok0,ov]=VO.bufs.entries().next().value;if(ov&&ov.url)URL.revokeObjectURL(ov.url);VO.bufs.delete(ok0)}
  try{out.__k=k}catch(e){}VO.bufs.set(k,out);return out}
 const _voRePf=voRedownload;
@@ -5209,10 +5213,37 @@ function perfText(){const pk=Object.entries(PERF.packs).map(([f,x])=>`${f.split(
  const fonts=(()=>{try{return document.fonts&&document.fonts.check('16px Huninn','星')?'字型已載入':'字型未載入'}catch(e){return ''}})();
  return [`速度：開啟 ${PERF.boot} ms・到首頁 ${PERF.title||'-'} ms・換畫面慢（>0.3秒）${PERF.slow} 次${mem}・${fonts}`,
   `最近換畫面：${PERF.scr.map(([n,ms])=>n+' '+ms+'ms').join('、')}`,
-  `平板聲音：${(()=>{try{const v=speechSynthesis.getVoices();return v.length+' 個（中文 '+v.filter(x=>/zh/i.test(x.lang)).length+'）'}catch(e){return '不支援'}})()}`,
+  `聲音：WebAudio ${(()=>{try{return ac?ac.state:'無'}catch(e){return '?'}})()}${VO.acNew?'・重建 '+VO.acNew+' 次':''}${VO.elPlays?'・改用 audio 播 '+VO.elPlays+' 次':''}・裝置聲音：${(()=>{try{const v=speechSynthesis.getVoices();return v.length+' 個（中文 '+v.filter(x=>/zh/i.test(x.lang)).length+'）'}catch(e){return '不支援'}})()}`,
   `語音包：${pk||'無'}${VO.pq&&VO.pq.length?'・排隊中 '+VO.pq.length+' 包':''}・單句下載 ${VO.rangeN} 次${VO.rangeOK===false?'（伺服器不支援 '+(VO.rangeSt||'')+'）':''}`].join('\n')}
 const _bugRepPf=bugReport;
 bugReport=function(note){const s=_bugRepPf(note);const i=s.indexOf('\n最近錯誤');return i<0?s+'\n'+perfText():s.slice(0,i)+'\n'+perfText()+s.slice(i)};
+
+// 裝置內建聲音不能用（沒有中文語音）：不要每句都等很久，直接跳過
+const TTS_T0=Date.now();
+function voNoTTS2(){if(Date.now()-TTS_T0<3000)return false;try{return !speechSynthesis.getVoices().some(v=>/zh|cmn/i.test(v.lang))}catch(e){return true}}
+const _speakPf=speakOne;
+speakOne=function(p,opt){if(voNoTTS2())return wait(250);return _speakPf(p,opt)};
+
+// iOS：「聲音裝置啟動失敗」時，下次點螢幕就重新建立聲音；這段時間改用 <audio> 播真人錄音
+const SILENT_MP3='data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//NwwAAAAAAAAAAAAEluZm8AAAAPAAAABAAAAlgAenp6enp6enp6enp6enp6enp6enp6enp6pqampqampqampqampqampqampqampqamptPT09PT09PT09PT09PT09PT09PT09PT09P/////////////////////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQCcQAAAAAAAAJY+/rsqgAAAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
+addEventListener('pointerdown',()=>{
+ // iOS：內建語音要在點螢幕的當下先「叫一次」，之後才念得出來
+ try{if(!VO.ttsOK&&'speechSynthesis' in window){VO.ttsOK=1;const u=new SpeechSynthesisUtterance(' ');u.volume=0;u.lang='zh-TW';speechSynthesis.speak(u)}}catch(e){}
+ try{if(!VO.elOK){VO.elOK=1;const a=voEl();a.muted=false;a.src=SILENT_MP3;const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{VO.elOK=0})}}catch(e){}
+ try{if(ac&&!OFFCTX&&ac.state!=='running'&&ac.state!=='closed'){
+  if(ac.__fail){try{ac.close()}catch(e){}ac=null;audio();VO.acNew=(VO.acNew||0)+1}
+  else{const a0=ac;const pr=a0.resume();if(pr&&pr.catch)pr.catch(()=>{a0.__fail=1});setTimeout(()=>{if(a0.state!=='running')a0.__fail=1},600)}}}catch(e){}
+},true);
+const _voPlayPf=voPlay;
+voPlay=async function(b){
+ if(b&&!b.url&&b.__blob){const c=audio();
+  if(!c||c.state!=='running'){try{if(c)await Promise.race([c.resume().catch(()=>{}),wait(300)])}catch(e){}}
+  if(!c||c.state!=='running'){VO.elPlays=(VO.elPlays||0)+1;const u=URL.createObjectURL(b.__blob);try{return await _voPlayPf({url:u,dur:(b.duration||1)+.3})}finally{setTimeout(()=>URL.revokeObjectURL(u),3000)}}}
+ return _voPlayPf(b)};
+
+// 鎖定畫面縮放：兩指捏不會放大縮小（連點兩下放大已由 touch-action:manipulation 擋掉）
+['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>{try{e.preventDefault()}catch(_){}},{passive:false}));
+document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1){try{e.preventDefault()}catch(_){}}},{passive:false});
 
 /* ================= v2.2: 新版王子（更帥：側分瀏海、披風、金肩章、紅綬帶） ================= */
 prince=function(a=''){const g=nid();const HAIR='#8C5428',HL='#C98A4B',NAVY1='#4456D6',NAVY2='#25307E',GOLD=`url(#${g}g)`;

@@ -1,17 +1,21 @@
 // 星光公主大冒險 — offline cache. Change VERSION when updating the game.
-const VERSION='starlight-v56';
-const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./font-hun-2bd770b4.woff2','./font-baloo-abc191e4.woff2'];
+const VERSION='starlight-v57';
+const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./font-hun-4b27fcbd.woff2','./font-baloo-abc191e4.woff2'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>Promise.all(CORE.map(u=>fetch(new Request(u,{cache:'reload'})).then(r=>{if(r.ok)return c.put(u,r)}).catch(()=>{})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==VERSION&&k!=='starlight-voice').map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 const isPage=req=>req.mode==='navigate'||/\/(index\.html)?$/.test(new URL(req.url).pathname);
 self.addEventListener('fetch',e=>{
   const req=e.request;if(req.method!=='GET')return;
+  const url=new URL(req.url);
+  // 遊戲自己檢查新版本（index.html?v=...）：直接上網拿，不走快取，也不限時間
+  if(req.mode!=='navigate'&&url.searchParams.has('v'))return;
   if(isPage(req)){
-    // 網頁本體：有網路就拿最新版，沒網路才用快取
-    e.respondWith(Promise.race([
-      fetch(req,{cache:'no-store'}).then(res=>{if(res&&res.ok){const copy=res.clone();caches.open(VERSION).then(c=>c.put('./index.html',copy))}return res}),
-      new Promise((_,rej)=>setTimeout(rej,4000))
-    ]).catch(()=>caches.match('./index.html').then(h=>h||caches.match('./'))));
+    // 網頁本體：有網路就拿最新版（網址加上時間，避免拿到 GitHub 的舊副本），太慢才先用快取
+    // 按「現在更新」時（?fresh=）一定等新版下載完
+    const fresh=url.searchParams.has('fresh');
+    const net=fetch('./index.html?n='+Date.now(),{cache:'no-store'}).then(res=>{if(res&&res.ok){const copy=res.clone();caches.open(VERSION).then(c=>c.put('./index.html',copy))}return res});
+    e.respondWith((fresh?net:Promise.race([net,new Promise((_,rej)=>setTimeout(rej,6000))]))
+      .catch(()=>caches.match('./index.html').then(h=>h||caches.match('./')||net)));
     return;
   }
   if(/\/voice\//.test(new URL(req.url).pathname)){
