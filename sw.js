@@ -1,7 +1,7 @@
 // 星光公主大冒險 — offline cache. Change VERSION when updating the game.
-const VERSION='starlight-v59';
+const VERSION='starlight-v61';
 const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./font-hun-35029ae1.woff2','./font-baloo-abc191e4.woff2'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>Promise.all(CORE.map(u=>fetch(new Request(u,{cache:'reload'})).then(r=>{if(r.ok)return c.put(u,r)}).catch(()=>{})))).then(()=>self.skipWaiting()))});
+self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>Promise.all(CORE.map(u=>Promise.race([fetch(new Request(u,{cache:'reload'})).then(r=>{if(r.ok)return c.put(u,r)}),new Promise(r=>setTimeout(r,8000))]).catch(()=>{})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==VERSION&&k!=='starlight-voice').map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 const isPage=req=>req.mode==='navigate'||/\/(index\.html)?$/.test(new URL(req.url).pathname);
 self.addEventListener('fetch',e=>{
