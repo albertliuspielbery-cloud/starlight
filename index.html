@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光公主">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-5ac93930.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-5ac93930.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-e936fdaf.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-e936fdaf.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -1090,6 +1090,9 @@ html,body,button,.screen,canvas{touch-action:manipulation}
 /* iPhone 主畫面 App：最下面安全區不要出現黑色色塊 */
 html{background:var(--sky3)}
 .vochip{position:static;align-self:center;margin:6px auto 0;display:table;background:rgba(18,26,68,.72);color:#FFF4D6;border:1px solid var(--goldline);border-radius:999px;padding:4px 12px;font-size:13px;pointer-events:none;white-space:nowrap}
+.card .adnew{margin:6px 0 2px;font-size:19px;font-weight:700;color:#7A5CE0}
+.card .adnew b{display:inline-block;margin:2px 4px;padding:2px 12px;background:#FFF0B8;border-radius:12px;font-size:26px;color:#2A2266}
+.adrange{margin-top:12px;padding:10px 14px;background:#F3EEFF;border-radius:14px;font-size:15px;line-height:1.7;color:#2A2266}
 
 </style>
 </head>
@@ -1653,7 +1656,7 @@ Object.assign(ICON,{
 let ac=null;
 let OFFCTX=null;
 function audio(){if(OFFCTX)return OFFCTX;if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state!=='running'&&ac.state!=='closed'&&!document.hidden){try{const a0=ac,pr=a0.resume();if(pr&&pr.catch)pr.catch(()=>{a0.__fail=1})}catch(e){}}return ac}
-function tone(f,t,d,type='sine',v=.12,force){const a=audio();if(!a||(!S.sound&&!force))return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+t;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.015);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+d+.05)}
+function tone(f,t,d,type='sine',v=.12,force){const a=audio();if(!a||(!S.sound&&!force))return;if(a!==OFFCTX&&a.state!=='running')return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+t;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.015);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+d+.05)}
 function sfx(k){
  if(k==='right')[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.08,.4,'triangle',.11));
  if(k==='wrong'){tone(392,0,.22,'sine',.09);tone(330,.15,.32,'sine',.09)}
@@ -1679,7 +1682,7 @@ const musicWanted=()=>S.music&&!document.hidden&&['title','wardrobe','map','stor
 let mbus=null;
 function musBus(){const a=audio();if(!a)return null;if(!mbus||mbus.context!==a){mbus=a.createGain();mbus.gain.value=.75;mbus.connect(a.destination)}return mbus}
 function musDuck(on){if(!ac)return;const g=musBus();if(!g)return;const a=audio();g.gain.cancelScheduledValues(a.currentTime);g.gain.setTargetAtTime(on?.62:.75,a.currentTime,on?.4:.8)}
-function mtone(f,t,d,type,v){const a=audio();const bus=musBus();if(!a||!bus)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+Math.max(0,t);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.02);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(bus);o.start(t0);o.stop(t0+d+.05)}
+function mtone(f,t,d,type,v){const a=audio();const bus=musBus();if(!a||!bus)return;if(a.state!=='running')return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;const t0=a.currentTime+Math.max(0,t);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.02);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g).connect(bus);o.start(t0);o.stop(t0+d+.05)}
 // 背景音樂：整首先「預先錄好」成一段音檔再循環播放，節奏和音量都固定，不受裝置忙不忙影響
 const songCache={};
 function songBuffer(si){if(songCache[si])return songCache[si];
@@ -1709,7 +1712,7 @@ async function musicTick(){const a=audio();if(!a||songBusy)return;if(songSrc&&so
   songT=setTimeout(()=>{if(songSrc===src)nextSong()},Math.max(20,buf.duration*2)*1000)}}catch(e){}songBusy=false}
 function startMusic(){if(!musicTimer){musicTimer=setInterval(musicTick,300)}}
 function bgPause(){try{stopSong()}catch(e){}try{hush()}catch(e){}try{if(ac&&ac.state==='running')ac.suspend()}catch(e){}}
-document.addEventListener('visibilitychange',()=>{if(document.hidden)bgPause();else{try{if(ac)ac.resume()}catch(e){}}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)bgPause();else{try{if(ac){const a0=ac,pr=a0.resume();if(pr&&pr.catch)pr.catch(()=>{a0.__fail=1})}}catch(e){}}});
 addEventListener('pagehide',bgPause);addEventListener('blur',()=>{if(document.hidden)bgPause()});
 
 /* voice */
@@ -1759,12 +1762,12 @@ function tick(now){ctx.clearRect(0,0,innerWidth,innerHeight);
 document.addEventListener('pointerdown',e=>{audio();startMusic();burst(e.clientX,e.clientY,7,true)},{passive:true});
 
 /* ================= difficulty content ================= */
-const DIFF={easy:{name:'簡單',desc:'大寫 A–J・注音 ㄅ–ㄌ・5 以內加減'},mid:{name:'中等',desc:'大小寫 A–Z・21 個聲母・10 以內加減'},hard:{name:'高難度',desc:'大小寫配對・37 個注音・0–100 加減'}};
+const DIFF={easy:{name:'簡單',desc:'從大寫 A–J、注音 ㄅ–ㄌ 開始，會了自動加新的・5 以內加減'},mid:{name:'中等',desc:'大小寫 A–Z・從 21 個聲母開始，會了自動加韻母・10 以內加減'},hard:{name:'高難度',desc:'大小寫配對・37 個注音・0–100 加減'}};
 const UP='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const ZY_S='ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙ',ZY_ALL=ZY_S+'ㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ';
 const ZREAD={'ㄅ':'玻','ㄆ':'坡','ㄇ':'摸','ㄈ':'佛','ㄉ':'得','ㄊ':'特','ㄋ':'訥','ㄌ':'勒','ㄍ':'哥','ㄎ':'科','ㄏ':'喝','ㄐ':'基','ㄑ':'欺','ㄒ':'希','ㄓ':'知','ㄔ':'吃','ㄕ':'詩','ㄖ':'日','ㄗ':'資','ㄘ':'疵','ㄙ':'思','ㄧ':'衣','ㄨ':'烏','ㄩ':'迂','ㄚ':'阿','ㄛ':'喔','ㄜ':'鵝','ㄝ':'耶','ㄞ':'哀','ㄟ':'欸','ㄠ':'熬','ㄡ':'歐','ㄢ':'安','ㄣ':'恩','ㄤ':'昂','ㄥ':'亨','ㄦ':'兒'};
-const zyPool=()=>S.diff==='easy'?ZY_S.slice(0,8):S.diff==='mid'?ZY_S:ZY_ALL;
-const letterPool=()=>(S.diff==='easy'?UP.slice(0,10):UP).split('');
+const zyPool=()=>ZY_ALL.slice(0,adZyN());
+const letterPool=()=>UP.slice(0,adLetN()).split('');
 const R=()=>S.diff==='easy'?5:S.diff==='mid'?10:100;
 
 
@@ -2205,8 +2208,8 @@ chend(){
 }
 };
 
-const APP_VERSION='2.3.4';
-const VLOG=[['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='2.6.1';
+const VLOG=[['2.6.1','2026/10/2','王子舞會更順：答對後把話說完才出下一題，等答案時王子和公主也繼續跳舞，下一題的聲音先準備好'],['2.6','2026/10/2','動態難度：字母和注音會了，就自動加新的（簡單從 A–J、ㄅ–ㄌ 開始，慢慢加到全部和小寫）；問答題增加到 200 題'],['2.5','2026/10/2','新的第十二章「台灣環島之旅」：台北101、夜市、太魯閣、熱氣球、阿里山、日月潭，新朋友台灣黑熊和小石虎；新題目 30 題：台灣 20 題、錢和買東西要先問爸爸媽媽 10 題；王子說話換成男生的聲音'],['2.4','2026/10/2','聲音全面檢查修正：切到別的 App 回來不會冒出一堆聲音、音樂不重疊；語音包分小塊下載，中途關掉下次接著下載；iPhone/iPad 固定用真人錄音；重新下載語音包會先確認'],['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2451,7 +2454,7 @@ letter(play,sp){
  const pool=letterPool();let t;t=bagPick(pool);if(S.force&&S.force.k==='g'&&pool.includes(S.force.i))t=S.force.i;S.revKey={k:'g',i:t};S.last=t;
  const k=S.diff==='easy'?3:4;
  let mode='up',target=t,prompt,voice,opts;
- if(S.diff==='mid'&&S.q%2===1)mode='low';
+ if((S.diff==='mid'&&S.q%2===1)||(S.diff==='easy'&&adLow()&&S.q%3===2))mode='low';
  if(S.diff==='hard')mode=Math.random()<.5?'lowup':'uplow';
  if(mode==='up'){opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1)]);prompt=`聽聽看，找出小兔子說的字母 <b class="ear">?</b>`;voice=['找一找，這個字母的蝴蝶：',{en:`${t.toUpperCase()}.`,slow:2}]}
  if(mode==='low'){target=t.toLowerCase();opts=shuffle([target,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1).map(x=>x.toLowerCase())]);prompt=`聽聽看，找出<b class="kw">小寫</b>的字母 <b class="ear">?</b>`;voice=['這次要找小寫的字母喔，仔細聽：',{en:`${target.toUpperCase()}.`,slow:2}]}
@@ -2532,9 +2535,9 @@ sub(play,sp){
 },
 seq(play,sp){
  const d=S.diff;let items,kind;const qi=S.q%3;
- if(qi===0){kind='en';const len=d==='easy'?3:d==='mid'?4:5;const low=d==='mid';const s=d==='easy'?0:rand(0,26-len);items=UP.slice(s,s+len).split('').map(c=>low?c.toLowerCase():c);if(d==='hard'&&Math.random()<.5)items=items.map(c=>c.toLowerCase())}
+ if(qi===0){kind='en';const len=d==='easy'?3:d==='mid'?4:5;const low=d==='mid'||(d==='easy'&&adLow()&&Math.random()<.4);const s=d==='easy'?rand(0,adLetN()-len):rand(0,26-len);items=UP.slice(s,s+len).split('').map(c=>low?c.toLowerCase():c);if(d==='hard'&&Math.random()<.5)items=items.map(c=>c.toLowerCase())}
  else if(qi===1){kind='num';if(d==='easy')items=['1','2','3'];else if(d==='mid'){const s=rand(1,17);items=[s,s+1,s+2,s+3].map(String)}else{if(Math.random()<.5){const s=rand(1,5)*10;items=[s,s+10,s+20,s+30,s+40].filter(x=>x<=100).map(String)}else{const s=rand(20,95);items=[s,s+1,s+2,s+3].filter(x=>x<=100).map(String)}}}
- else{kind='zy';const pool=d==='hard'?ZY_ALL:ZY_S;const len=d==='easy'?3:d==='mid'?4:5;const s=d==='easy'?0:rand(0,pool.length-len);items=pool.slice(s,s+len).split('')}
+ else{kind='zy';const pool=d==='hard'?ZY_ALL:zyPool();const len=d==='easy'?3:d==='mid'?4:5;const s=rand(0,pool.length-len);items=pool.slice(s,s+len).split('')}
  S.ans=items.join('|');
  let order;do{order=shuffle(items)}while(order.join()===items.join());
  const nth=['第一','第二','第三'][qi];const kname=kind==='en'?'字母':kind==='num'?'數字':'注音';
@@ -3294,7 +3297,7 @@ compare(play,sp){
 },
 catch(play,sp,kind){
  kind=kind||pick(['letter','zhuyin','num']);const need=S.diff==='easy'?3:4;let pool,sayT;
- if(kind==='zhuyin'){pool=zyPool().split('')}else if(kind==='num'){const hi=S.diff==='easy'?9:S.diff==='mid'?20:99;pool=Array.from({length:hi+1},(_,i)=>String(i))}else{pool=letterPool();if(S.diff!=='easy'&&Math.random()<.5)pool=pool.map(x=>x.toLowerCase())}
+ if(kind==='zhuyin'){pool=zyPool().split('')}else if(kind==='num'){const hi=S.diff==='easy'?9:S.diff==='mid'?20:99;pool=Array.from({length:hi+1},(_,i)=>String(i))}else{pool=letterPool();if(adLow()&&Math.random()<.5)pool=pool.map(x=>x.toLowerCase())}
  let t;if(kind==='num'){do{t=pick(pool)}while(t===S.last&&pool.length>1)}else{const lc=pool[0]!==pool[0].toUpperCase();t=bagPick(pool.map(x=>x.toUpperCase()));S.revKey={k:'g',i:t};if(lc)t=t.toLowerCase()}S.last=t;S.ans=t;
  sayT=kind==='zhuyin'?{zh:ZREAD[t],slow:2}:kind==='num'?{zh:String(t),slow:2}:{en:`${t.toUpperCase()}.`,slow:2};
  const introP=['天上掉下好多星星！仔細聽，只接住這個的星星：',sayT];setPrompt(`接住 <b class="ear">?</b> 的星星`,introP,false);const intro=sp?say(introP,{pitch:S.hp||1.05}):wait(300);
@@ -4095,7 +4098,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-ad78aa0e.json';
+const VOICE_INDEX='index-9b5893c7.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -4134,6 +4137,7 @@ function voStatus(ov){const el=ov&&ov.querySelector('#vostat');if(!el)return;
   if(location.protocol==='file:')m='預覽版沒有語音包，會用裝置內建聲音';
   else if(!VO.idx)m=VO.done?'找不到語音包：請確認 GitHub 上有 voice 資料夾':'讀取中…';
   else if(VO.bad)m=`語音包檔案不完整（${VO.bad} 個），請重新上傳 voice 資料夾，再按「重新下載語音包」`;
+  else if(VO.failed&&VO.failed.size&&!VO.pq.length&&!VO.busy)m='有語音包下載失敗（'+VO.missing.join('、')+'），連上網路後會自動再試，或按「重新下載語音包」';
   else if(VO.got<VO.files.length){const tot=(VO.sizes||[]).reduce((a,b)=>a+b,0),cur=Object.values(VO.bytes||{}).reduce((a,b)=>a+b,0);m=`語音包下載中… ${(cur/1048576).toFixed(1)} / ${(tot/1048576).toFixed(0)} MB（第 ${Math.min(VO.got+1,VO.files.length)}/${VO.files.length} 包，請保持網路連線）${VO.err?'・'+VO.err:''}`}
   else{m=`語音包已下載（${Object.keys(VO.idx).length} 句）`;if(!VO.diag){VO.diag=1;voBuf('z|答對了！').then(b=>{VO.diagRes=b?(b.url?'Audio 播放':'WebAudio 播放'):'解碼失敗';t()})}if(VO.diagRes)m+=`・${VO.diagRes}${VO.err?'（'+VO.err+'）':''}`}
   if(!S.vo)m='目前使用裝置內建聲音';el.textContent=m;if(S.vo&&VO.idx&&VO.got<VO.files.length)setTimeout(t,800)};
@@ -4172,7 +4176,7 @@ const voSents=t=>(String(t).match(/[^。！？!?]+[。！？!?」』）)～…]*
 function voResolve(s){
  const nm=S.name||'';
  if(!(nm&&s.includes(nm))){if(voHas('z|'+s))return ['z|'+s];if(voHas('z|'+voCk(s)))return ['z|'+voCk(s)]}
- const chunks=s.split(/(?<=[，、])/).map(x=>x.trim()).filter(Boolean);
+ const chunks=s.replace(/([，、])/g,'$1\u0001').split('\u0001').map(x=>x.trim()).filter(Boolean);
  const nmSeg=c=>{const core=voCk(c).replace(/[！!。？?]+$/,'');if(nm&&core===nm+'公主'&&voHas('nm|'+nm))return 'nm|'+nm;return null};
  if(chunks.length===1){const g=nmSeg(chunks[0]);if(g)return [g];return voDigits(chunks[0])||[{tts:s}]}
  const out=[];for(const c of chunks){
@@ -4248,7 +4252,7 @@ function setupWizard(step=0){
   const inSafariOnly=d.ios&&!d.standalone;
   body=`<h2>2. 下載真人語音</h2>
    ${inSafariOnly?`<p class="warn">⚠️ 建議先完成第 1 步，從主畫面打開後再下載。<br>在 Safari 下載的語音，主畫面 App 用不到。</p>`:''}
-   <ul class="sulist dotl"><li>大約 44 MB，只要下載一次</li><li>請連 <b class="gold">Wi-Fi</b>，下載時不要關掉畫面</li><li>通常 1–3 分鐘</li></ul>
+   <ul class="sulist dotl"><li>大約 55 MB，只要下載一次，建議連 <b class="gold">Wi-Fi</b></li><li>會在背景自動下載，下載中也可以先玩</li><li>中途關掉也沒關係，下次會接著下載</li></ul>
    <div class="vobox"><small id="vostat" class="small"></small><div class="row"><button class="btn2 small" id="suRe">重新下載語音包</button><button class="btn2 small" id="suTest">試聽</button></div></div>`;
  }else if(step===2){
   body=`<h2>3. 公主的名字</h2><p>遊戲裡會叫她「○○公主」。</p><div class="row"><input id="suName" class="pin" maxlength="6" value="${(S.name||'').replace(/"/g,'')}" placeholder="例如：Anita" aria-label="公主的名字"></div><p class="small">之後可以在「家長設定」修改。</p>`;
@@ -4515,7 +4519,7 @@ let fxGen=0;const _sayFx=say;
 say=function(parts,opt){try{if(window.__rec)window.__rec(parts)}catch(e){}
  const my=++fxGen;if(!parts||!parts.some(p=>p&&p.fx))return _sayFx(parts,opt);
  return (async()=>{let grp=[];const flush=async()=>{if(grp.length){const g=grp;grp=[];await _sayFx(g,opt)}};
-  for(const p of parts){if(my!==fxGen)return;if(p&&p.fx){await flush();if(my!==fxGen)return;try{voStop();speechSynthesis.cancel()}catch(e){}const ms=S.sound?playFx(p.fx):0;await wait(ms);continue}grp.push(p)}
+  for(const p of parts){if(my!==fxGen)return;if(p&&p.fx){await flush();if(my!==fxGen)return;try{hush()}catch(e){}const ms=S.sound?playFx(p.fx):0;await wait(ms);continue}grp.push(p)}
   if(my===fxGen)await flush()})()};
 
 // ----- 題型 -----
@@ -4538,7 +4542,7 @@ trace(play,sp,kind){traceQ(play,sp,kind||'num')}
 // ----- 描字 -----
 const TRACEZY='ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏ';
 function traceQ(play,sp,kind){
- let pool=kind==='zy'?(S.diff==='easy'?TRACEZY.slice(0,6):TRACEZY).split(''):kind==='letter'?(S.diff==='easy'?'ABCDEFGH':'ABCDEFGHIJKLMNOPRSTU').split(''):(S.diff==='easy'?'12345':'1234567890').split('');
+ let pool=kind==='zy'?(S.diff==='easy'?TRACEZY.slice(0,Math.max(6,Math.min(TRACEZY.length,adZyN()))):TRACEZY).split(''):kind==='letter'?(S.diff==='easy'?'ABCDEFGHIJKLMNOPRSTU'.split('').filter(c=>c<=UP[adLetN()-1]).join(''):'ABCDEFGHIJKLMNOPRSTU').split(''):(S.diff==='easy'?'12345':'1234567890').split('');
  let t=bagPick(pool,kind==='num'?'tn':undefined);if(window.__forceTrace)t=window.__forceTrace;if(S.force&&S.force.k==='g'&&pool.includes(S.force.i))t=S.force.i;S.revKey={k:'g',i:t};S.last=t;S.ans=t;
  const name=kind==='zy'?{zh:ZREAD[t],slow:1}:kind==='letter'?{en:t,slow:1}:String(t);
  const what=kind==='zy'?'注音':kind==='letter'?'英文字母':'數字';
@@ -4814,11 +4818,16 @@ const DANCE_N=8;
 const DMOVES=['dm-sway','dm-spin','dm-hop','dm-side','dm-twirl','dm-bow','dm-spin','dm-twirl'];
 const WALTZ='C5 E5 G5 E5 F5 A5 C6 A5 G5 E5 C5 E5 D5 F5 B4 D5 C5 E5 G5 C6 A5 F5 D5 B4 C5 - G4 - C5 - - -'.split(' ');
 function danceQ(){const r=Math.random(),hard=S.diff!=='easy';
- if(r<.45){const pool=zyPool().split('');const t=bagPick(pool);const opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,2)]);return {kind:'zy',t,opts,label:x=>`<span class="zy">${x}</span>`,voice:['找一找：',{zh:ZREAD[t],slow:1}],name:{zh:ZREAD[t],slow:1}}}
- if(!hard||r<.75){const pool=letterPool();const t=bagPick(pool);const opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,2)]);return {kind:'en',t,opts,label:x=>`<span class="lt">${x}</span>`,voice:['找一找：',{en:t,slow:1}],name:{en:t,slow:1}}}
+ if(r<.45){const pool=zyPool().split('');const t=bagPick(pool);const opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,2)]);return {kind:'zy',t,opts,label:x=>`<span class="zy">${x}</span>`,voice:['找找看！',{zh:ZREAD[t],slow:1}],name:{zh:ZREAD[t],slow:1}}}
+ if(!hard||r<.75){const pool=letterPool();const t=bagPick(pool);const opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,2)]);return {kind:'en',t,opts,label:x=>`<span class="lt">${x}</span>`,voice:['找找看！',{en:t,slow:1}],name:{en:t,slow:1}}}
  const [e,w]=pick(WORDS);const others=shuffle(WORDS.filter(x=>x[1]!==w)).slice(0,2);const opts=shuffle([[e,w],...others.map(x=>[x[0],x[1]])]);
  return {kind:'word',t:w,opts:opts.map(o=>o[1]),label:x=>`<span class="emo">${art((WORDS.find(y=>y[1]===x)||[''])[0])}</span>`,voice:['聽英文，找一找：',{en:w+'.',slow:2}],name:{en:w,slow:1}}}
 let danceTok=0;
+// 先把下一題要說的話載入好，出題時馬上就能念
+function voPre(parts){try{if(!S.vo||!VO.idx)return;for(const p of parts||[]){
+ if(typeof p==='string'){for(const x of voSents(p))for(const g of voResolve(x))if(typeof g==='string'&&VO.idx[g])voBuf(g)}
+ else if(p&&p.en!=null){const k=`e${p.slow||0}|${String(p.en).trim()}`;if(VO.idx[k])voBuf(k)}
+ else if(p&&p.zh!=null){const t=String(p.zh).trim();const k=p.slow?`z${p.slow}|${t}`:'z|'+t;if(VO.idx[k])voBuf(k);else if(VO.idx['z|'+t])voBuf('z|'+t)}}}catch(e){}}
 SCREENS.dance=function(){const tok=++danceTok;const live=()=>tok===danceTok&&S.screen==='dance';
  screen.innerHTML=`<div class="dball"><div class="phead"><button class="btn2 small" id="dback">離開舞會</button><h2 class="gtitle">王子舞會</h2><span class="phsp"></span></div>
   <div class="dfloor" id="dfloor"><svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${hallBg(800,400)}</svg><div class="dlights"></div>
@@ -4835,11 +4844,12 @@ SCREENS.dance=function(){const tok=++danceTok;const live=()=>tok===danceTok&&S.s
   setTimeout(tick,(tempo<1?720:430))};
  const move=k=>{pair.className='dpair '+(S.look.shoe==='balletshoe'&&k%3===2?'dm-tiptoe':DMOVES[k%DMOVES.length]);};
  (async()=>{
-  tick();move(0);await Promise.race([say(['舞會開始囉！聽到聲音，點對的泡泡，王子和公主就會繼續跳舞！']),wait(4500)]);if(!live())return;
+  tick();move(0);const fullIntro=V2.danceIntro!==today();V2.danceIntro=today();save2();await Promise.race([say(fullIntro?['舞會開始囉！聽到聲音，點對的泡泡，王子和公主就會繼續跳舞！']:['舞會開始囉！']),wait(8000)]);if(!live())return;
+  let nq=danceQ();voPre(nq.voice);let praiseP=null;
   for(let r=0;r<DANCE_N;r++){
-   tempo=1;move(r);await wait(r?2600:600);if(!live())return;
-   tempo=.6;pair.classList.add('dwait');
-   const q=danceQ();window.__dq=q.t;let tries=0;
+   tempo=1;move(r);if(r){const t0=Date.now();await Promise.race([praiseP,wait(5000)]);await wait(Math.max(450,1600-(Date.now()-t0)))}else await wait(300);if(!live())return;
+   tempo=.8;
+   const q=nq;window.__dq=q.t;let tries=0;
    dq.innerHTML=`<div class="dbubbles">${q.opts.map((o,k)=>`<button class="dbub" data-v="${o}" style="--dl:${(k*.1).toFixed(1)}s">${q.label(o)}</button>`).join('')}</div><button class="speak dspeak" aria-label="再聽一次">${ICON.speaker('#2A2266')}</button>`;
    say(q.voice);
    const ok=await new Promise(res=>{let idle=setTimeout(function re(){if(!live())return res(false);say(['再聽一次喔！',...q.voice.slice(1)]);idle=setTimeout(re,8000)},8000);
@@ -4849,9 +4859,9 @@ SCREENS.dance=function(){const tok=++danceTok;const live=()=>tok===danceTok&&S.s
      else{tries++;b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');sfx('wrong');
       if(tries>=2){const t=$$('.dbub',dq).find(x=>x.dataset.v===q.t);if(t)t.classList.add('hintglow');say(['看發光的那一個！'])}else say(['再聽一次喔！',...q.voice.slice(1)])}})});
    if(!ok||!live())return;
-   pair.classList.remove('dwait');const nt=$(`.dnotes i[data-k="${r}"]`);if(nt)nt.classList.add('on');
+   nq=r<DANCE_N-1?danceQ():null;if(nq)voPre(nq.voice);const nt=$(`.dnotes i[data-k="${r}"]`);if(nt)nt.classList.add('on');
    const pz=['好棒！轉圈圈！','跳得好漂亮！','答對了，繼續跳！','王子說：你好厲害！'][r%4];dq.innerHTML=`<p class="dtip">${pz}</p>`;
-   say([pz,'這是',q.name]);
+   praiseP=say([pz,'這是',q.name]);
   }
   running=false;if(!live())return;
   move(4);confetti();for(let k=0;k<6;k++)setTimeout(()=>burst(innerWidth*(.2+Math.random()*.6),innerHeight*(.15+Math.random()*.3),40),k*500);
@@ -5170,28 +5180,65 @@ STORYBOOK.push(
 /* ================= v2.2: 效能（語音包不佔記憶體・缺哪包先下載哪包・速度紀錄） ================= */
 const PERF={boot:Math.round(performance.now()),title:0,scr:[],packs:{},idx:0,slow:0,mem:''};
 // 語音包改存成 Blob（從快取拿的檔案大多放在磁碟上），播放時才切出那一句，iPad 不會吃掉 50MB 記憶體
-voGet=async function(f){const c0=await voCache();const i0=VO.files.indexOf(f),want=VO.sizes?VO.sizes[i0]:0;const t0=performance.now();
- if(c0&&!VO.reload){try{const h=await c0.match('voice/'+f);if(h){const bl=await h.blob();if(!want||bl.size===want){VO.got++;VO.abs[f]=bl;VO.bytes[f]=bl.size;PERF.packs[f]={ms:Math.round(performance.now()-t0),src:'快取'};return bl}}}catch(e){}}
- const ab=await voNet(f);if(!ab){(VO.missing||(VO.missing=[])).push(f.split('-')[0]+(VO.err?'（'+VO.err+'）':''));return null}let bl=null;
+// 語音包分成 1MB 小塊下載（每塊下載完就存起來）：中途關掉 App，下次會接著下載，不用從頭來
+const VCHUNK=1<<20;VO.epoch=0;
+async function voChunked(f,size,c0,ep){const n=Math.ceil(size/VCHUNK);const parts=new Array(n).fill(null);let got=0;let norange=false;
+ for(let i=0;i<n;i++){const want=Math.min(size,(i+1)*VCHUNK)-i*VCHUNK;try{const h=c0&&await c0.match('voice/part/'+f+'/'+i);if(h){const b=await h.blob();if(b.size===want){parts[i]=b;got+=b.size}}}catch(e){}}
+ VO.bytes[f]=got;let next=0,fail=false;
+ const worker=async()=>{while(!fail){let i=-1;while(next<n){if(!parts[next]){i=next++;break}next++}if(i<0)return;
+  const a=i*VCHUNK,b=Math.min(size,a+VCHUNK)-1;let ok=false;
+  for(let t=0;t<4&&!ok;t++){if(ep!==VO.epoch)return;
+   try{const ctl=window.AbortController?new AbortController():null;const to=setTimeout(()=>ctl&&ctl.abort(),45000);
+    let r,bl;try{r=await fetch('voice/'+f+'?p='+i,{headers:{Range:`bytes=${a}-${b}`},signal:ctl&&ctl.signal});
+     if(r.status===200){try{ctl&&ctl.abort()}catch(_){}throw new Error('NORANGE')}
+     if(r.status!==206){VO.err='下載失敗 '+r.status;await wait(2000);continue}
+     bl=await r.blob()}finally{clearTimeout(to)}
+    if(bl.size!==b-a+1){VO.err='檔案大小不符';continue}
+    parts[i]=bl;VO.bytes[f]=(VO.bytes[f]||0)+bl.size;ok=true;VO.err='';
+    if(c0){try{await c0.put('voice/part/'+f+'/'+i,new Response(bl))}catch(_){}}}
+   catch(e){if(e&&e.message==='NORANGE'){norange=true;fail=true;return}if(!navigator.onLine){VO.err='沒有網路，等網路恢復';await wait(3000);t--;if(ep!==VO.epoch)return;continue}VO.err='下載中斷，重試中…';await wait(2000)}}
+  if(!ok)fail=true}};
+ await Promise.all([worker(),worker()]);
+ if(norange)throw new Error('NORANGE');
+ if(fail||ep!==VO.epoch||parts.some(x=>!x))return null;
+ let bl=new Blob(parts);
+ if(c0){try{await c0.put('voice/'+f,new Response(bl,{headers:{'Content-Type':'application/octet-stream'}}));const h=await c0.match('voice/'+f);if(h){const b2=await h.blob();if(b2.size===size)bl=b2}
+   for(let i=0;i<n;i++)c0.delete('voice/part/'+f+'/'+i).catch(()=>{})}catch(e){}}
+ return bl}
+voGet=async function(f){const ep=VO.epoch;const c0=await voCache();const i0=VO.files.indexOf(f),want=VO.sizes?VO.sizes[i0]:0;const t0=performance.now();
+ if(c0&&!VO.reload){try{const h=await c0.match('voice/'+f);if(h){const bl=await h.blob();if(!want||bl.size===want){if(ep!==VO.epoch)return null;VO.got++;VO.abs[f]=bl;VO.bytes[f]=bl.size;PERF.packs[f]={ms:Math.round(performance.now()-t0),src:'快取'};return bl}}}catch(e){}}
+ let bl=null;
+ if(want&&VO.chunkOK!==false){try{bl=await voChunked(f,want,c0,ep)}catch(e){if(e&&e.message==='NORANGE')VO.chunkOK=false}}
+ if(ep!==VO.epoch)return null;
+ if(bl){VO.got++;VO.abs[f]=bl;VO.bytes[f]=bl.size;PERF.packs[f]={ms:Math.round(performance.now()-t0),src:'網路',mb:+(bl.size/1048576).toFixed(1)};return bl}
+ if(want&&VO.chunkOK!==false)return null; // 小塊下載失敗：稍後重試
+ // 伺服器不支援分塊：整包下載
+ const ab=await voNet(f);if(ep!==VO.epoch){if(ab)VO.got=Math.max(0,VO.got-1);return null}if(!ab)return null;
  if(c0){try{await c0.put('voice/'+f,new Response(new Blob([ab]),{headers:{'Content-Type':'application/octet-stream'}}));const h=await c0.match('voice/'+f);if(h)bl=await h.blob()}catch(e){}}
  if(!bl||bl.size!==ab.byteLength)bl=new Blob([ab]);
  VO.abs[f]=bl;PERF.packs[f]={ms:Math.round(performance.now()-t0),src:'網路',mb:+(ab.byteLength/1048576).toFixed(1)};return bl};
-// 下載排隊：同時下載 2 包；要播的句子在還沒下載的包裡，就把那包排到最前面
+// 下載排隊：一次一包（每包裡面同時下載 2 塊）；「常用句子包」排第一個；要播的句子在哪一包，就把那包排到最前面
+// 網路恢復或回到 App：之前下載失敗的語音包再試一次
+function voRetryFailed(){if(!VO.failed||!VO.failed.size||!VO.files)return;const fs=[...VO.failed];VO.failed.clear();VO.missing=[];fs.forEach(f=>{VO.retryN[f]=0;voPack(f)})}
+addEventListener('online',()=>setTimeout(voRetryFailed,1500));document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(voRetryFailed,2000)});
 // 名字包（700 個名字）不整包下載，只抓自己的名字那一句
 VO.pq=[];VO.busy=0;
-VO.rb=new Map();VO.rangeN=0;VO.rangeOK=null;
+VO.rb=new Map();VO.rangeN=0;VO.rangeOK=null;VO.missing=[];VO.retryN={};
 function voNamePack(f){if(!VO.idx)return false;if(VO.namePack!==undefined)return VO.namePack===f;
  const cnt={};for(const k in VO.idx){const fi=VO.idx[k][0];const c=cnt[fi]||(cnt[fi]={n:0,a:0});c.a++;if(k.startsWith('nm|'))c.n++}
  VO.namePack=null;for(const fi in cnt)if(cnt[fi].a>50&&cnt[fi].n===cnt[fi].a)VO.namePack=VO.files[fi];return VO.namePack===f}
-// 一次下載一包（留頻寬給「單句下載」）；「常用句子包」排第一個
 let voPumpT=0;
 function voPump(){if(voPumpT)return;voPumpT=1;Promise.resolve().then(()=>{voPumpT=0;
  const st=VO.starter||(VO.starter=(VO.files||[]).find(f=>/^pack0-/.test(f))||null);if(st){const i=VO.pq.findIndex(x=>x[0]===st);if(i>0)VO.pq.unshift(VO.pq.splice(i,1)[0])}
- while(VO.busy<1&&VO.pq.length){VO.busy++;const [f,res]=VO.pq.shift();
-  voGet(f).catch(()=>null).then(x=>{res(x);VO.busy--;voPump()})}})}
+ while(VO.busy<1&&VO.pq.length){VO.busy++;const ep=VO.epoch;const [f,res]=VO.pq.shift();
+  voGet(f).catch(()=>null).then(x=>{if(ep!==VO.epoch)return;VO.busy--;
+   if(x){res(x)}else{const n=navigator.onLine?(VO.retryN[f]=(VO.retryN[f]||0)+1):0;
+    if(n<=3){setTimeout(()=>{if(ep!==VO.epoch)return;VO.pq.push([f,res]);voPump()},Math.max(1,n)*15000)}
+    else{const tag=f.split('-')[0];if(!VO.missing.some(x=>x.startsWith(tag)))VO.missing.push(tag+(VO.err?'（'+VO.err+'）':''));VO.failed=VO.failed||new Set();VO.failed.add(f);delete VO.packs[f];res(null)}}
+   voPump()})}})}
 voPack=function(f){if(!VO.packs[f]){
-  if(voNamePack(f)){VO.packs[f]=(async()=>{const c0=await voCache();try{const h=c0&&!VO.reload&&await c0.match('voice/'+f);if(h){const bl=await h.blob();VO.abs[f]=bl}}catch(e){}
-    const i=VO.files.indexOf(f);VO.bytes[f]=VO.sizes?VO.sizes[i]:0;VO.got++;voNamePrefetch();return VO.abs[f]||null})();return VO.packs[f]}
+  if(voNamePack(f)){VO.packs[f]=(async()=>{const ep=VO.epoch;const c0=await voCache();try{const h=c0&&!VO.reload&&await c0.match('voice/'+f);if(h){const bl=await h.blob();VO.abs[f]=bl}}catch(e){}
+    if(ep!==VO.epoch)return null;const i=VO.files.indexOf(f);VO.bytes[f]=VO.sizes?VO.sizes[i]:0;VO.got++;voNamePrefetch();return VO.abs[f]||null})();return VO.packs[f]}
   let res;VO.packs[f]=new Promise(r=>res=r);VO.pq.push([f,res]);voPump()}return VO.packs[f]};
 function voWant(f){const i=VO.pq.findIndex(x=>x[0]===f);if(i>0)VO.pq.unshift(VO.pq.splice(i,1)[0])}
 // 只抓一句（HTTP Range）：還沒下載完的包，也能馬上用真人聲音
@@ -5225,7 +5272,7 @@ async function voDecode(src,off,len,k){let out=null;
  if(VO.bufs.size>160){const [ok0,ov]=VO.bufs.entries().next().value;if(ov&&ov.url)URL.revokeObjectURL(ov.url);VO.bufs.delete(ok0)}
  try{out.__k=k}catch(e){}VO.bufs.set(k,out);return out}
 const _voRePf=voRedownload;
-voRedownload=function(){VO.pq=[];VO.rb.clear();VO.namePack=undefined;VO.rangeOK=null;return _voRePf()};
+voRedownload=function(){VO.epoch++;VO.pq=[];VO.busy=0;VO.starter=null;VO.rb.clear();VO.rq=new Map();VO.namePack=undefined;VO.rangeOK=null;VO.chunkOK=undefined;VO.missing=[];VO.retryN={};VO.failed=new Set();VO.fails=0;VO.got=0;return _voRePf()};
 const _voBufPf=voBuf;
 voBuf=async function(k){
  if(VO.bufs.has(k))return VO.bufs.get(k);
@@ -5244,26 +5291,24 @@ function perfText(){const pk=Object.entries(PERF.packs).map(([f,x])=>`${f.split(
  return [`速度：開啟 ${PERF.boot} ms・到首頁 ${PERF.title||'-'} ms・換畫面慢（>0.3秒）${PERF.slow} 次${mem}・${fonts}`,
   `最近換畫面：${PERF.scr.map(([n,ms])=>n+' '+ms+'ms').join('、')}`,
   `聲音：WebAudio ${(()=>{try{return ac?ac.state:'無'}catch(e){return '?'}})()}${VO.acNew?'・重建 '+VO.acNew+' 次':''}${VO.elPlays?'・改用 audio 播 '+VO.elPlays+' 次':''}${VO.ttsFail?'・內建聲音沒念出來 '+VO.ttsFail+' 次':''}${VO.ttsRetryOK?'・換聲音重念成功 '+VO.ttsRetryOK+' 次':''}・裝置聲音：${(()=>{try{const v=speechSynthesis.getVoices();return v.length+' 個（中文 '+v.filter(x=>/zh/i.test(x.lang)).length+'）'}catch(e){return '不支援'}})()}`,
-  `語音包：${pk||'無'}${VO.pq&&VO.pq.length?'・排隊中 '+VO.pq.length+' 包':''}${VO.missing&&VO.missing.length?'・下載失敗：'+VO.missing.join('、'):''}・單句下載 ${VO.rangeN} 次${VO.rangeOK===false?'（伺服器不支援 '+(VO.rangeSt||'')+'）':''}`].join('\n')}
+  `語音包：${pk||'無'}${VO.pq&&VO.pq.length?'・排隊中 '+VO.pq.length+' 包':''}${VO.missing&&VO.missing.length?'・下載失敗：'+VO.missing.join('、'):''}${VO.chunkOK===false?'・不能分塊下載':''}・單句下載 ${VO.rangeN} 次${VO.rangeOK===false?'（伺服器不支援 '+(VO.rangeSt||'')+'）':''}`].join('\n')}
 const _bugRepPf=bugReport;
 bugReport=function(note){const s=_bugRepPf(note);const i=s.indexOf('\n最近錯誤');return i<0?s+'\n'+perfText():s.slice(0,i)+'\n'+perfText()+s.slice(i)};
 
-// 裝置內建聲音不能用（沒有中文語音）：不要每句都等很久，直接跳過
-const TTS_T0=Date.now();
-function voNoTTS2(){if(Date.now()-TTS_T0<3000)return false;try{return !speechSynthesis.getVoices().some(v=>/zh|cmn/i.test(v.lang))}catch(e){return true}}
+// 內建聲音：只有「真人錄音」模式下、裝置確定沒有中文語音時，中文句子才跳過（英文照念）
+function voNoTTS2(){try{const v=speechSynthesis.getVoices();return v.length>0&&!v.some(x=>/zh|cmn/i.test(x.lang))}catch(e){return false}}
 const _speakPf=speakOne;
-speakOne=function(p,opt){if(S.vo&&voNoTTS2())return wait(250);return _speakPf(p,opt)};
+speakOne=function(p,opt){const en=p&&typeof p==='object'&&p.en!=null;if(S.vo&&!en&&voNoTTS2())return wait(250);return _speakPf(p,opt)};
 
 // iOS：「聲音裝置啟動失敗」時，下次點螢幕就重新建立聲音；這段時間改用 <audio> 播真人錄音
 const SILENT_MP3='data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//NwwAAAAAAAAAAAAEluZm8AAAAPAAAABAAAAlgAenp6enp6enp6enp6enp6enp6enp6enp6pqampqampqampqampqampqampqampqamptPT09PT09PT09PT09PT09PT09PT09PT09P/////////////////////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQCcQAAAAAAAAJY+/rsqgAAAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
-addEventListener('pointerdown',()=>{
- // iOS：內建語音要在點螢幕的當下先「叫一次」，之後才念得出來
- try{if(!VO.ttsOK&&'speechSynthesis' in window){VO.ttsOK=1;const u=new SpeechSynthesisUtterance(' ');u.volume=0;u.lang='zh-TW';speechSynthesis.speak(u)}}catch(e){}
- try{if(!VO.elOK){VO.elOK=1;const a=voEl();a.muted=false;a.src=SILENT_MP3;const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{VO.elOK=0})}}catch(e){}
- try{if(ac&&!OFFCTX&&ac.state!=='running'&&ac.state!=='closed'){
-  if(ac.__fail){try{ac.close()}catch(e){}ac=null;audio();VO.acNew=(VO.acNew||0)+1}
-  else{const a0=ac;const pr=a0.resume();if(pr&&pr.catch)pr.catch(()=>{a0.__fail=1});setTimeout(()=>{if(a0.state!=='running')a0.__fail=1},600)}}}catch(e){}
-},true);
+function voUnlockTap(){
+ try{if(!VO.elOK&&!VO.elTry){const a=voEl();if(a.paused){VO.elTry=1;a.muted=false;a.src=SILENT_MP3;const pr=a.play();if(pr&&pr.then)pr.then(()=>{VO.elOK=1;VO.elTry=0},()=>{VO.elTry=0});else VO.elTry=0}}}catch(e){VO.elTry=0}
+ try{if(ac&&!OFFCTX&&ac.state!=='running'&&ac.state!=='closed'&&!document.hidden){
+  if(!ac.__watch){ac.__watch=1;const a1=ac;a1.addEventListener('statechange',()=>{if(a1.state==='running')a1.__fail=0})}
+  if(ac.__fail){const old=ac;try{const pc=old.close();if(pc&&pc.catch)pc.catch(()=>{})}catch(e){}ac=null;audio();VO.acNew=(VO.acNew||0)+1}
+  else{const a0=ac;const pr=a0.resume();if(pr&&pr.catch)pr.catch(()=>{a0.__fail=1})}}}catch(e){}}
+['pointerdown','touchend','click'].forEach(t=>addEventListener(t,voUnlockTap,true));
 const _voPlayPf=voPlay;
 voPlay=async function(b){
  if(b&&!b.url&&b.__blob){const c=audio();
@@ -5274,46 +5319,50 @@ voPlay=async function(b){
 // 鎖定畫面縮放：兩指捏不會放大縮小（連點兩下放大已由 touch-action:manipulation 擋掉）
 ['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>{try{e.preventDefault()}catch(_){}},{passive:false}));
 document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1){try{e.preventDefault()}catch(_){}}},{passive:false});
-// 內建語音有沒有真的念出來（iPhone 主畫面 App 有時候不會念）
-// 有些聲音（例如還沒下載的「加強版」語音）在手機上會念不出來：1.5 秒還沒開始念，就換預設聲音重念一次，並記住這個聲音不要再用
-VO.badVoices=new Set();VO.ttsCancelN=0;
-try{if('speechSynthesis' in window){const _sp=speechSynthesis.speak.bind(speechSynthesis),_cn=speechSynthesis.cancel.bind(speechSynthesis);
- // iPhone：沒在念的時候呼叫 cancel，緊接著的 speak 會被吃掉，所以只在真的有在念時才 cancel
- speechSynthesis.cancel=()=>{VO.ttsCancelN++;try{if(!speechSynthesis.speaking&&!speechSynthesis.pending)return}catch(e){}return _cn()};
- speechSynthesis.speak=u=>{try{if(u&&String(u.text||'').trim()&&!u.__retry){let st=0;const cn=VO.ttsCancelN;u.addEventListener('start',()=>{st=1;VO.ttsWorks=1});
-   setTimeout(()=>{if(st||document.hidden||cn!==VO.ttsCancelN)return;VO.ttsFail=(VO.ttsFail||0)+1;
-    try{if(u.voice)VO.badVoices.add(u.voice.voiceURI||u.voice.name);const r=new SpeechSynthesisUtterance(u.text);r.__retry=1;r.lang=u.lang||'zh-TW';r.rate=u.rate;r.pitch=u.pitch;
-     r.onend=e=>{u.onend&&u.onend(e)};r.onerror=e=>{u.onerror&&u.onerror(e)};r.addEventListener('start',()=>{VO.ttsWorks=1;VO.ttsRetryOK=(VO.ttsRetryOK||0)+1});_cn();_sp(r)}catch(e){}},1500)}}catch(e){}return _sp(u)}}}catch(e){}
-const _pickVoicePf=pickVoice;
-pickVoice=function(zh){const v=_pickVoicePf(zh);if(!VO.badVoices)return v;if(v&&VO.badVoices.has(v.voiceURI||v.name)){const alt=(zh?zhVoices():enVoices()).find(x=>!VO.badVoices.has(x.voiceURI||x.name));return alt||null}return v};
-const _noTTS0=voNoTTS;voNoTTS=function(){return (VO.ttsFail>=2&&!VO.ttsWorks)||_noTTS0()};
-// （不用「念不出來」來關掉內建聲音，只用它來決定要不要多等錄音）
+
 // 首頁小提示：語音還在下載時告訴家長
 const _titlePf=SCREENS.title;
 SCREENS.title=function(a){const r=_titlePf.apply(this,arguments);try{voChip()}catch(e){}return r};
-function voChip(){let el=document.querySelector('.vochip');
+let voChipT=0;
+function voChip(){clearTimeout(voChipT);let el=document.querySelector('.vochip');
  const t=()=>{const tot=(VO.sizes||[]).reduce((a,b)=>a+b,0),cur=Object.values(VO.bytes||{}).reduce((a,b)=>a+b,0);
-  if(!VO.files&&!VO.done&&S.screen==='title'){setTimeout(t,1000);return}
-  const done=!VO.files||VO.got>=VO.files.length||!S.vo;
+  if(!VO.files&&!VO.done&&S.screen==='title'){voChipT=setTimeout(t,1000);return}
+  const fl=VO.failed?VO.failed.size:0;const done=!VO.files||VO.got>=VO.files.length||!S.vo;
   if(done||S.screen!=='title'||location.protocol==='file:'){if(el){el.remove();el=null}return}
   if(!el){el=document.createElement('div');el.className='vochip';const ab=[...screen.querySelectorAll('button')].find(b=>/關於/.test(b.textContent));if(ab&&ab.parentElement){ab.parentElement.insertAdjacentElement('afterend',el)}else (screen.firstElementChild||screen).appendChild(el)}
-  el.textContent=`語音準備中 ${tot?Math.min(99,Math.round(cur/tot*100)):0}%（有些句子會晚一點才有聲音）`;setTimeout(t,1000)};
+  el.textContent=fl&&!VO.pq.length&&!VO.busy?'有些語音還沒下載好，連上網路後會自動再試':`語音準備中 ${tot?Math.min(99,Math.round(cur/tot*100)):0}%（有些句子會晚一點才有聲音）`;voChipT=setTimeout(t,1000)};
  t()}
 
 // 遊戲開好了：拿掉載入畫面
 try{const bt=document.getElementById('boot');if(bt)bt.remove()}catch(e){}
-// iPhone：「播放模式」的聲音設定會讓內建語音念不出來。選「內建聲音」時改回一般模式
-function voSession(){try{if(navigator.audioSession)navigator.audioSession.type=S.vo?'playback':'auto'}catch(e){}}
-voSession();
-document.addEventListener('click',e=>{const b=e.target&&e.target.closest&&e.target.closest('[data-vo]');if(b)setTimeout(voSession,0)},true);
-// 切到別的 App 時：不要排聲音（回來時才不會一次冒出一堆），也不要念到一半卡住
-const _audioPf=audio;
-audio=function(){if(document.hidden&&!OFFCTX)return null;return _audioPf()};
+
+// 切到別的 App 時：說話先暫停，回來後再繼續下一句（不會一次冒出一堆）
 const _sayPf=say;
-say=function(parts,opt){if(document.hidden)return Promise.resolve();return _sayPf(parts,opt)};
-document.addEventListener('visibilitychange',()=>{
- if(document.hidden){try{hush()}catch(e){}try{if(ac&&ac.state==='running')ac.suspend()}catch(e){}}
- else{try{const a=_audioPf();if(a&&a.state!=='running'){const pr=a.resume();if(pr&&pr.catch)pr.catch(()=>{a.__fail=1})}}catch(e){}}});
+say=function(parts,opt){if(document.hidden)return new Promise(res=>{const on=()=>{if(!document.hidden){document.removeEventListener('visibilitychange',on);setTimeout(res,300)}};document.addEventListener('visibilitychange',on)});return _sayPf(parts,opt)};
+
+// iPhone / iPad：內建語音在主畫面 App 常常念不出來，固定用真人錄音，不顯示「內建聲音」選項
+const IS_IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+if(IS_IOS&&!S.vo){S.vo=true;try{saveVo()}catch(e){}}
+function hideTTSUI(root){if(!IS_IOS||!root)return;
+ const b0=root.querySelector('[data-vo="0"]');if(b0){const seg=b0.closest('.seg');if(seg)seg.style.display='none';const lab=seg&&seg.parentElement&&seg.parentElement.querySelector('.lab');if(lab)lab.textContent='語音（真人錄音）'}
+ const vs=root.querySelector('#vsel');if(vs){const box=vs.closest('.vrow');const blk=box&&box.parentElement;if(blk)blk.style.display='none'}}
+// 重新下載語音包：先確認，避免小朋友誤觸
+function confirmBox(title,msg,okText){return new Promise(res=>{const w=document.createElement('div');w.className='updpop';
+ w.innerHTML=`<div class="card"><h2>${title}</h2><p class="small">${msg}</p><div class="row"><button class="btn2" id="cbno">取消</button><button class="btn" id="cbok">${okText}</button></div></div>`;
+ document.body.appendChild(w);w.querySelector('#cbno').onclick=()=>{w.remove();res(false)};w.querySelector('#cbok').onclick=()=>{w.remove();res(true)}})}
+function guardRedownload(root){if(!root)return;['#vore','#suRe'].forEach(id=>{const b=root.querySelector(id);if(!b||b.__guard)return;const orig=b.onclick;b.__guard=1;
+ b.onclick=e=>{confirmBox('重新下載語音包？','會把已經下載的語音全部刪掉重新下載（大約 55 MB），網路慢時要等比較久。<br>通常不需要，除非聲音壞掉。','重新下載').then(ok=>{if(ok&&orig)orig.call(b,e)})}})}
+const _ppPf=parentPanel;
+parentPanel=function(){const r=_ppPf.apply(this,arguments);const ov=$$('.overlay').pop();hideTTSUI(ov);guardRedownload(ov);return r};
+const _suPf=setupWizard;
+setupWizard=function(){const r=_suPf.apply(this,arguments);const ov=$$('.overlay').pop();hideTTSUI(ov);guardRedownload(ov);return r};
+
+// 舊版本的語音包、沒用到的下載小塊：全部下載完以後清掉，避免越存越多
+let voCleanDone=0;
+setInterval(async()=>{if(voCleanDone||!VO.files||VO.got<VO.files.length||(VO.failed&&VO.failed.size))return;voCleanDone=1;
+ try{const c=await voCache();if(!c)return;const keep=new Set(VO.files);const ks=await c.keys();
+  for(const r of ks){const u=new URL(r.url).pathname;const m=u.match(/voice\/(?:part\/|clip\/)?([^/@]+?\.(?:bin|json))/);if(!m)continue;const f=m[1];
+   if(/\/part\//.test(u)||(!keep.has(f)&&f!==VOICE_INDEX))c.delete(r).catch(()=>{})}}catch(e){}},20000);
 
 /* ================= v2.2: 新版王子（更帥：側分瀏海、披風、金肩章、紅綬帶） ================= */
 prince=function(a=''){const g=nid();const HAIR='#8C5428',HL='#C98A4B',NAVY1='#4456D6',NAVY2='#25307E',GOLD=`url(#${g}g)`;
@@ -5367,6 +5416,198 @@ if(!V2.petAcc||typeof V2.petAcc!=='object')V2.petAcc={};
  Object.defineProperty(L,'petacc',{configurable:true,enumerable:true,
   get(){return V2.petAcc[L.pet]||''},
   set(v){if(!L.pet)return;V2.petAcc[L.pet]=v||'';save2()}})})();
+
+/* ================= v2.5: 第十二章・台灣環島之旅 ＋ 30 題（台灣 20、錢和問爸媽 10） ================= */
+// ----- 角色：台灣黑熊、石虎 -----
+AN.blackbear=`<circle cx="24" cy="28" r="12" fill="#2B2630"/><circle cx="76" cy="28" r="12" fill="#2B2630"/><circle cx="24" cy="28" r="6" fill="#5A5262"/><circle cx="76" cy="28" r="6" fill="#5A5262"/>
+ <path d="M12 100 Q12 76 50 74 Q88 76 88 100Z" fill="#2B2630"/>
+ <circle cx="50" cy="50" r="30" fill="#36303E"/><circle cx="39" cy="47" r="8" fill="#554D60"/><circle cx="61" cy="47" r="8" fill="#554D60"/>
+ <ellipse cx="50" cy="63" rx="16" ry="12" fill="#C9A27A"/>@E(39,61,47)<ellipse cx="50" cy="58" rx="5.5" ry="4" fill="#1A1418"/><path d="M45 65 Q50 69 55 65" fill="none" stroke="#1A1418" stroke-width="2" stroke-linecap="round"/><ellipse cx="29" cy="60" rx="5" ry="3" fill="#FF8FAB" opacity=".5"/><ellipse cx="71" cy="60" rx="5" ry="3" fill="#FF8FAB" opacity=".5"/>
+ <path d="M28 82 L50 97 L72 82 L64 81 L50 90 L36 81Z" fill="#FFFFFF"/>`;
+AN.leopardcat=`<path d="M22 46 L24 14 L46 32Z" fill="#C89A5E"/><path d="M78 46 L76 14 L54 32Z" fill="#C89A5E"/><circle cx="31" cy="27" r="3" fill="#FFFFFF"/><circle cx="69" cy="27" r="3" fill="#FFFFFF"/>
+ <ellipse cx="50" cy="58" rx="32" ry="29" fill="#D9AE70"/><path d="M44 30 Q46 44 45 50 M56 30 Q54 44 55 50" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M40 32 Q41 42 40 48 M60 32 Q59 42 60 48" stroke="#5A3E22" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+ ${[[26,56],[74,56],[30,70],[70,70],[22,64],[78,64]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3" fill="#6A4A2A"/>`).join('')}
+ <ellipse cx="50" cy="72" rx="15" ry="11" fill="#FFF4E2"/>@E(38,62,56)<path d="M46 66 L54 66 L50 71Z" fill="#E07A8A"/><path d="M44 75 Q50 79 56 75" fill="none" stroke="#5A3E22" stroke-width="1.8" stroke-linecap="round"/>
+ <path d="M30 72 H16 M30 76 H18 M70 72 H84 M70 76 H82" stroke="#8A6A4A" stroke-width="1.4" stroke-linecap="round"/>`;
+Object.assign(PITCH,{blackbear:.95,leopardcat:1.25});
+Object.assign(PETANI,{leopardcat:'leopardcat'});
+Object.assign(ACCANCH,{leopardcat:{h:[50,24],n:[50,88],s:1.35}});
+Object.assign(DRESS,{hakkadress:{shape:'ball',c:'#E8405A',l:'#FFB3C0',pat:'leaf',pc:'#3FAF6F'}});
+ITEMS.push({id:'hakkadress',slot:'dress',name:'花布洋裝',price:0,chapter:12},{id:'leopardcat',slot:'pet',name:'小石虎',price:0,chapter:12});
+ITEMS.forEach(i=>{ITEM[i.id]=i});
+Object.assign(QTAG,{'台灣':'#9FE0C0','問爸媽':'#FFD27A'});
+try{DEX.push(['blackbear','台灣黑熊','Formosan black bear'],['leopardcat','石虎','Leopard cat'])}catch(e){}
+
+// ----- 背景：環島火車窗外（山、海、鐵軌、小火車） -----
+function taiwanBg(W,H){const [g,df]=_grad('#7FC8F0','#FFE6B8');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`;
+ d+=`<circle cx="${W*.82}" cy="${H*.2}" r="${Math.min(W,H)*.07}" fill="#FFF3B0"/>`;
+ [[.15,.2],[.45,.14],[.7,.26]].forEach(([fx,fy])=>{const x=W*fx,y=H*fy;d+=`<ellipse cx="${x}" cy="${y}" rx="42" ry="14" fill="#FFFFFF" opacity=".85"/><ellipse cx="${x+24}" cy="${y-8}" rx="26" ry="12" fill="#FFFFFF" opacity=".85"/>`});
+ // 101
+ const tx=W*.1;d+=`<path d="M${tx-10} ${H*.62} L${tx-6} ${H*.22} L${tx} ${H*.12} L${tx+6} ${H*.22} L${tx+10} ${H*.62}Z" fill="#7A9AB8" opacity=".7"/>`;for(let k=0;k<6;k++)d+=`<path d="M${tx-11} ${H*(.28+k*.06)} H${tx+11}" stroke="#5A7A98" stroke-width="2" opacity=".6"/>`;
+ // 山
+ d+=`<path d="M-400 ${H*.62} L${W*.18} ${H*.36} L${W*.34} ${H*.52} L${W*.52} ${H*.3} L${W*.72} ${H*.5} L${W*.9} ${H*.38} L${W+400} ${H*.6} V${H} H-400Z" fill="#5FAE7A"/>`;
+ d+=`<path d="M-400 ${H*.66} L${W*.25} ${H*.48} L${W*.45} ${H*.6} L${W*.64} ${H*.46} L${W*.84} ${H*.6} L${W+400} ${H*.54} V${H} H-400Z" fill="#3F9A6A"/>`;
+ // 海
+ d+=`<rect x="-400" y="${H*.7}" width="${W+800}" height="${H*.12}" fill="#3FA8D8"/>`;for(let k=0;k<9;k++)d+=`<path d="M${k*W/8-20} ${H*.75} q12 -6 24 0 t24 0" stroke="#FFFFFF" stroke-width="2" fill="none" opacity=".6"/>`;
+ // 鐵軌與小火車
+ d+=`<rect x="-400" y="${H*.82}" width="${W+800}" height="${H*.18}" fill="#C9A06A"/><path d="M-400 ${H*.86} H${W+400} M-400 ${H*.92} H${W+400}" stroke="#6A5A4A" stroke-width="3"/>`;
+ for(let x=-20;x<W+20;x+=26)d+=`<rect x="${x}" y="${H*.85}" width="8" height="${H*.08}" fill="#8A6A4A"/>`;
+ const t0=W*.56,ty=H*.74;['#E8405A','#FFB33A','#4AA0C0'].forEach((c,k)=>{const x=t0+k*62;d+=`<rect x="${x}" y="${ty}" width="56" height="${H*.1}" rx="8" fill="${c}"/><rect x="${x+8}" y="${ty+6}" width="16" height="12" rx="3" fill="#FFF6D8"/><rect x="${x+30}" y="${ty+6}" width="16" height="12" rx="3" fill="#FFF6D8"/><circle cx="${x+14}" cy="${ty+H*.1}" r="6" fill="#3A3040"/><circle cx="${x+42}" cy="${ty+H*.1}" r="6" fill="#3A3040"/>`});
+ return d}
+CHBG.taiwan=taiwanBg;
+const _decor2t=decor2;
+decor2=function(id){if(id!=='taiwan')return _decor2t(id);let d='';
+ d+=`<path d="M0 150 Q120 90 240 140 T480 130 T720 140 T1000 120 V200 H0Z" fill="#5FAE7A" opacity=".55"/>`;
+ d+=`<rect x="0" y="176" width="1000" height="24" fill="#C9A06A" opacity=".7"/><path d="M0 182 H1000 M0 192 H1000" stroke="#6A5A4A" stroke-width="2" opacity=".7"/>`;
+ return `<svg class="decor" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${d}</svg>`};
+
+// ----- 新題目 -----
+QUIZ.push(
+ ['台灣','台灣最高的大樓叫什麼？',['🏙️','台北101'],[['🗼','鐵塔'],['🏰','城堡']],'台北101好高好高，跨年的時候還會放煙火！'],
+ ['台灣','台灣黑熊的胸口有什麼？',['🤍','白色的V字'],[['❤️','紅色的愛心'],['⭐','黃色的星星']],'台灣黑熊的胸口有一個白色的V，好像在比耶！'],
+ ['台灣','石虎是什麼樣的動物？',['🐱','很像小貓的野生動物'],[['🐶','一種小狗'],['🐟','一種魚']],'石虎是台灣的野生小貓，我們要保護牠們。'],
+ ['台灣','台灣的四周是什麼？',['🌊','大海'],[['🏜️','沙漠'],['🧊','冰山']],'台灣是一個島，四周都是大海。'],
+ ['台灣','坐火車之前，要先做什麼？',['🎫','買車票或刷卡'],[['🏃','直接跳上去'],['😴','在鐵軌上睡覺']],'坐火車要先買車票或刷卡，再到月台排隊。'],
+ ['台灣','在月台等火車，要站在哪裡？',['🟨','黃線的後面'],[['🛤️','鐵軌上'],['🏃','跑來跑去']],'火車開得很快，要站在黃線後面才安全。'],
+ ['台灣','台灣發明的有名飲料是哪一個？',['🧋','珍珠奶茶'],[['🥤','可樂'],['☕','咖啡']],'珍珠奶茶是台灣發明的，全世界都喜歡！'],
+ ['台灣','日月潭是什麼？',['🏞️','一個美麗的湖'],[['⛰️','一座高山'],['🏙️','一棟大樓']],'日月潭是一個美麗的湖，可以坐船，也可以騎腳踏車。'],
+ ['台灣','阿里山的小火車在做什麼？',['🚂','載大家上山看日出'],[['🚢','在海上開'],['✈️','在天上飛']],'阿里山小火車慢慢爬上山，早上可以看到日出。'],
+ ['台灣','台東的天空，夏天會飄著什麼？',['🎈','熱氣球'],[['🛸','飛碟'],['🐉','大龍']],'台東有熱氣球嘉年華，天空好多漂亮的熱氣球。'],
+ ['台灣','墾丁在台灣的哪裡？',['⬇️','最南邊'],[['⬆️','最北邊'],['🏔️','高山上']],'墾丁在台灣最南邊，有美麗的海灘。'],
+ ['台灣','在海邊玩水，要注意什麼？',['👪','大人陪著，不去深的地方'],[['🌊','一個人游到好遠'],['🙈','偷偷跑去玩水']],'玩水一定要有大人陪著，不可以去深的地方。'],
+ ['台灣','花蓮的太魯閣有什麼？',['⛰️','高高的山壁和峽谷'],[['🏢','好多大樓'],['🎢','雲霄飛車']],'太魯閣有高高的山壁，還有清清的溪水。'],
+ ['台灣','台南有很多什麼？',['🏯','古老的廟和古蹟'],[['🚀','火箭'],['🐧','企鵝']],'台南是很老很老的城市，有好多古蹟和好吃的小吃。'],
+ ['台灣','哪一個是台灣有名的水果？',['🍍','鳳梨'],[['🍕','披薩'],['🍔','漢堡']],'台灣的鳳梨又香又甜，還可以做成鳳梨酥。'],
+ ['台灣','櫻花鉤吻鮭是什麼？',['🐟','一種魚'],[['🌸','一種花'],['🐦','一種鳥']],'櫻花鉤吻鮭是住在山上溪水裡的魚，是台灣的寶貝。'],
+ ['台灣','台灣藍鵲是什麼顏色？',['💙','藍色'],[['💛','黃色'],['💚','綠色']],'台灣藍鵲有長長的藍色尾巴，好漂亮。'],
+ ['台灣','高雄的港口有很多什麼？',['🚢','大船'],[['🚂','火車'],['🐫','駱駝']],'高雄有很大的港口，每天有好多大船開進開出。'],
+ ['台灣','坐火車的時候，可以做什麼？',['🪟','坐好看窗外的風景'],[['🏃','在走道跑來跑去'],['📢','大聲尖叫']],'坐火車要坐好，可以看看窗外的風景。'],
+ ['台灣','環島是什麼意思？',['🔄','繞台灣一圈'],[['🏠','待在家裡'],['🛫','坐飛機出國']],'環島就是繞著台灣走一圈，看看每個地方。'],
+ ['問爸媽','看到媽媽的錢包放在桌上，可以拿裡面的錢嗎？',['🙅','不可以，要先問媽媽'],[['💰','可以拿一點點'],['🤫','偷偷拿沒關係']],'爸爸媽媽的錢，不可以自己拿，一定要先問過他們。'],
+ ['問爸媽','想買新的鉛筆，要怎麼做？',['🙋','先問爸爸媽媽'],[['🏃','自己跑去買'],['👛','拿媽媽的錢']],'想買文具，要先問爸爸媽媽，一起去買。'],
+ ['問爸媽','在文具店看到好漂亮的貼紙，怎麼辦？',['🗣️','跟爸爸媽媽說，一起決定'],[['🤏','偷偷放進口袋'],['😭','躺在地上哭']],'想要的東西，先跟爸爸媽媽說，一起決定要不要買。'],
+ ['問爸媽','在地上撿到別人的錢，要怎麼做？',['👮','交給大人或警察'],[['🍬','拿去買糖果'],['🤐','藏起來']],'撿到的錢不是我們的，要交給大人或警察。'],
+ ['問爸媽','撲滿裡存的錢，想拿出來用，要怎麼做？',['🐷','先和爸爸媽媽商量'],[['🛍️','想買什麼就買什麼'],['🗑️','丟掉']],'存在撲滿的錢，要用之前也要和爸爸媽媽商量。'],
+ ['問爸媽','朋友說：「你拿家裡的錢來給我。」要怎麼辦？',['🙅','說不可以，告訴爸爸媽媽'],[['💵','偷偷拿去給他'],['🤫','不跟大人說']],'這樣不可以，要勇敢說不，回家告訴爸爸媽媽。'],
+ ['問爸媽','在商店裡，東西還沒付錢，可以拿走嗎？',['🙅','不可以，要先付錢'],[['🎒','放進包包帶走'],['🍭','先吃掉']],'每樣東西都要先付錢，不可以沒付錢就拿走。'],
+ ['問爸媽','爸爸媽媽說：「今天不買。」要怎麼做？',['😊','說好，下次再說'],[['😡','大吵大鬧'],['🙈','偷偷拿走']],'爸爸媽媽說今天不買，就說好，下次再說。'],
+ ['問爸媽','想用爸爸的手機買遊戲裡的東西，要怎麼做？',['🙋','先問爸爸，不能自己按'],[['👆','自己一直按'],['🤫','偷偷買']],'手機裡的東西也要花錢，一定要先問爸爸媽媽。'],
+ ['問爸媽','拿到紅包或零用錢，要怎麼做？',['🧧','說謝謝，請爸爸媽媽保管'],[['🗑️','隨便亂丟'],['🍬','全部拿去買糖果']],'拿到紅包要說謝謝，請爸爸媽媽幫忙保管。']
+);
+
+// ----- 關卡 -----
+const CH12=[
+ L_('台北101','blackbear','taiwan',['quiz:台灣','count','letter'],'pick','嗨！我是台灣黑熊。歡迎來到台北！抬頭看，好高的台北101！'),
+ L_('基隆夜市','pig','taiwan',['quiz:台灣','money','add'],'box','歡迎來到基隆廟口夜市！好多好吃的，買東西要付錢，一起來算算看！'),
+ L_('宜蘭','duck','taiwan',['quiz:台灣','zhuyin','sub'],'chest','呱呱！宜蘭有冬山河，還有好多好吃的蔥。一起來玩注音吧！'),
+ L_('花蓮太魯閣','squirrel','taiwan',['shape','quiz:台灣','trace:num'],'petgift','花蓮的太魯閣有高高的山壁！小心走，我們來認識形狀和數字。'),
+ L_('台東熱氣球','bird','taiwan',['quiz:台灣','compare','word'],'pick','啾啾！台東的天空飄著好多熱氣球，比一比，哪一個比較多？'),
+ L_('墾丁海邊','kitten','taiwan',['quiz:台灣','count','catch:letter'],'rain','喵～墾丁在台灣最南邊，海好藍！玩水一定要有大人陪喔。'),
+ L_('高雄港','elephant','taiwan',['vehicle','quiz:台灣','clock'],'box','叭叭！高雄的港口有好多大船，看看是幾點開船呢？'),
+ L_('台南柑仔店','leopardcat','taiwan',['quiz:問爸媽','money','quiz:問爸媽'],'chest','我是小石虎！台南的柑仔店有文具和零食，想買東西，要先問爸爸媽媽喔！'),
+ L_('阿里山','deer','taiwan',['quiz:台灣','pattern','trace:zy'],'petgift','早安！我們坐阿里山小火車上山，一起看日出吧！'),
+ L_('日月潭','star','taiwan',['mix','mix','mix','mix'],'chapter','環島最後一站，日月潭！答對四個問題，小星星會變得更亮喔！')];
+CHAPTERS.push({name:'台灣環島之旅',title:'第十二章・台灣環島之旅',levels:CH12,bg:'taiwan',mix:[...ALLMIX,'quiz:台灣','quiz:問爸媽','money','vehicle','measure'],
+ firstSay:'第十二章，台灣環島之旅！我們坐上小火車，繞台灣一圈吧！點一下發光的台灣黑熊，出發！',
+ letter:'親愛的公主：<br>謝謝你陪我坐火車繞台灣一圈！高山、大海、夜市和小火車，台灣好美！<br>我又變亮了一點點！<br>送你一件花布洋裝，還有一隻小石虎。<br>下一站，我們要去環遊世界！',
+ sign:'star',stamp:1,prize:['leopardcat','hakkadress'],prizeName:'小石虎和花布洋裝',endText:'你得到第二個旅行紀念章！<br>第十三章「環遊世界」敬請期待！'});
+// 第十一章結束時，告訴小朋友下一站
+try{const c11=CHAPTERS.find(c=>c.name==='小小職人街');if(c11)c11.endText='你得到第一個旅行紀念章！<br>下一站：第十二章「台灣環島之旅」！'}catch(e){}
+// 自由練習
+PTOPICS.push(['taiwan','台灣環島','🚂','blackbear','taiwan',['quiz:台灣','quiz:台灣','quiz:台灣','quiz:台灣','quiz:台灣']],['askparents','錢和買東西','🐷','leopardcat','town',['quiz:問爸媽','quiz:問爸媽','money','quiz:問爸媽','quiz:問爸媽']]);
+
+// ----- 第十二章開場故事 -----
+const _story12=SCREENS.story;
+SCREENS.story=function(){if(S.ch!==11)return _story12();
+ const bg=k=>`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${CHBG[k](800,400)}</svg>`;
+ const sn=()=>V2.starName||'小星星';
+ const P=[
+  {bg:'taiwan',actors:()=>`<span class="bob">${animal('star','class="small"')}</span>${princess(S.look)}`,text:()=>`${sn()}學會發出一點點光了！它說：我想看看更多地方！`},
+  {bg:'taiwan',actors:()=>`${princess(S.look)}<span class="bob">${animal('blackbear')}</span>`,text:()=>'台灣黑熊說：我們坐小火車，繞台灣一圈吧！這就叫做環島喔！'},
+  {bg:'taiwan',actors:()=>`${myPet('class="small"')}${princess(S.look)}<span class="bob">${animal('star','class="small"')}</span>`,text:()=>'第一站是台北！先換上漂亮的衣服，準備出發吧！'}];
+ let i=0;
+ function render(){const p=P[i];const t=p.text();
+  screen.innerHTML=`<div class="story"><button class="skip" id="skip">跳過</button><div class="scard">
+   <div class="scene">${bg(p.bg)}<div class="actors">${p.actors()}</div></div><p class="stext">${t}</p>
+   <div class="sdots">${P.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>
+   <button class="btn" id="next">${i<P.length-1?'下一頁':'去換裝'}</button></div></div>`;
+  say([t]);
+  $('#next').onclick=()=>{if(i<P.length-1){i++;sfx('pop');render()}else go('guide')};
+  $('#skip').onclick=()=>go('guide');
+ }
+ render()};
+
+/* ================= v2.5: 王子用男生的聲音（王子說的話、王子寫的信） ================= */
+const PRINCE_LETTERS=new Set(CHAPTERS.filter(c=>c.sign!=='star').map(c=>c.letter.replace(/<br>/g,'')));
+function princeMap(parts){if(!Array.isArray(parts))return parts;
+ return parts.map(p=>{if(typeof p!=='string')return p;if(p.startsWith('王子說：'))return {zh:p.slice(4),who:'prince'};if(PRINCE_LETTERS.has(p))return {zh:p,who:'prince'};return p})}
+const _sayPrince=say;
+say=function(parts,opt){return _sayPrince(princeMap(parts),opt)};
+const _voSpeakPr=voSpeak;
+voSpeak=async function(p,opt,gen){
+ if(!(p&&typeof p==='object'&&p.who==='prince'))return _voSpeakPr(p,opt,gen);
+ const txt=String(p.zh||'').trim();const plain={zh:txt};opt=Object.assign({},opt||{},{pitch:.75});
+ if(!S.vo||!VO.idx)return _voSpeakPr(plain,opt,gen);
+ const keys=voSents(txt).map(s=>'pz|'+s.trim()).filter(k=>k.length>3);
+ if(!keys.length||!keys.every(k=>VO.idx[k]))return _voSpeakPr(plain,opt,gen);
+ const bs=await Promise.all(keys.map(k=>voBuf(k)));
+ if(bs.some(b=>!b))return _voSpeakPr(plain,opt,gen);
+ for(let i=0;i<bs.length;i++){if(gen!==sayGen)return;const ok=await voPlay(bs[i]);if(ok===false&&gen===sayGen){return _voSpeakPr({zh:voSents(txt).slice(i).join('')},opt,gen)}if(i<bs.length-1)await wait(60)}};
+
+/* ================= v2.6 動態難度：會了就自動加新的字母、注音 ================= */
+const AD_L=[10,14,18,22,26],AD_Z=[8,12,16,21,24,28,32,37];
+function adState(){BAG.ad=BAG.ad||{l:0,z:0,zm:3,low:0};if(BAG.ad.zm==null)BAG.ad.zm=3;return BAG.ad}
+const adZKey=()=>S.diff==='mid'?'zm':'z';
+function adLetN(){return S.diff==='easy'?AD_L[Math.min(adState().l,AD_L.length-1)]:26}
+function adZyBase(){return S.diff==='mid'?3:0}
+function adZyN(){if(S.diff==='hard')return 37;const st=adState();return AD_Z[Math.min(Math.max(st[adZKey()],adZyBase()),AD_Z.length-1)]}
+function adLow(){return S.diff!=='easy'||!!adState().low}
+const AD_OK=.75;
+// 每個都練過兩次以上、而且大部分會了，才加新的
+const adReady=pool=>pool.every(x=>{const g=BAG.g[x];return g&&g.s>=2})&&covRate(pool)>=AD_OK;
+// 檢查要不要加新的；回傳要說的話
+function adCheck(){if(S.diff==='hard')return null;const st=adState();const msg=[];const nw=[];
+ if(S.diff==='easy'){
+  if(st.l<AD_L.length-1&&adReady(letterPool())){const a=adLetN();st.l++;nw.push(...UP.slice(a,adLetN()).split(''));msg.push('今天有新的字母朋友加入喔！')}
+  else if(st.l>=AD_L.length-1&&!st.low&&adReady(letterPool())){st.low=1;nw.push('a–z');msg.push('今天開始，也要認識小寫字母喔！')}}
+ const zk=adZKey(),zi=Math.max(st[zk],adZyBase());
+ if(zi<AD_Z.length-1&&adReady(zyPool().split(''))){const a=adZyN();st[zk]=zi+1;nw.push(...ZY_ALL.slice(a,adZyN()).split(''));msg.push('今天有新的注音朋友加入喔！')}
+ if(!msg.length)return null;saveBag();return {msg,nw}}
+// 每一關開始時檢查（魔王關、練習、複習也可以）
+const _stageAd=SCREENS.stage;
+SCREENS.stage=function(){const r=(()=>{try{return adCheck()}catch(e){return null}})();_stageAd.apply(this,arguments);
+ if(!r)return;const L=LEVELS[S.level];const card=document.querySelector('.stage .overlay .card');
+ if(card){const p=document.createElement('p');p.className='adnew';p.innerHTML='新朋友：'+r.nw.map(x=>`<b class="${/[a-z]/i.test(x)?'lt':'zy'}">${x}</b>`).join('');const h=card.querySelector('h2');h&&h.after(p)}
+ say([...r.msg,L.intro],{pitch:S.hp})};
+// 家長報告：目前練習範圍
+const _reportAd=reportHTML;
+reportHTML=function(){const ln=adLetN(),zn=adZyN();
+ const t=`<div class="adrange"><b>目前練習範圍</b>（${DIFF[S.diff].name}，會了會自動加新的）<br>英文字母：A–${UP[ln-1]}${adLow()?'（大寫和小寫）':'（只有大寫）'}<br>注音：${ZY_ALL[0]}–${ZY_ALL[zn-1]}（${zn} 個）</div>`;
+ return _reportAd()+t};
+
+/* ================= v2.6 題庫補到 200 題 ================= */
+QUIZ.push(
+['天空','天上的雲會動嗎？',['☁️','會被風吹著走'],[['🧱','黏在天上不會動'],['🦵','雲有腳會走路']],'風吹呀吹，雲就會慢慢飄走。'],
+['天空','風看得到嗎？',['🍃','看不到但樹葉會動'],[['💙','看得到藍藍的風'],['❤️','看得到紅紅的風']],'風看不到，可是會讓樹葉搖來搖去。'],
+['天空','風大的時候，晾在外面的衣服會怎麼樣？',['👕','很快就乾了'],[['💧','變得更濕'],['🧊','結冰']],'有風吹呀吹，衣服很快就乾了。'],
+['冬天','冬天好冷，喝什麼可以讓身體暖暖的？',['🍵','溫溫的湯或熱水'],[['🧊','冰水'],['🍧','剉冰']],'冬天喝溫溫的湯和水，身體暖呼呼。'],
+['冬天','冬天睡覺要蓋什麼？',['🛏️','厚厚的棉被'],[['📰','報紙'],['🏖️','海灘巾']],'蓋上厚厚的棉被，睡覺暖暖的。'],
+['冬天','冬天用的暖爐，可以靠很近嗎？',['🙅','要離遠一點'],[['🖐️','可以摸摸看'],['🧸','把玩具放上去']],'暖爐很燙，要離遠一點，才不會燙傷。'],
+['健康','咳嗽的時候，可以戴什麼？',['😷','口罩'],[['🎩','帽子'],['🕶️','太陽眼鏡']],'咳嗽戴口罩，才不會傳染給別人。'],
+['健康','坐著玩很久了，可以怎麼做？',['🤸','站起來伸伸懶腰'],[['🛋️','繼續坐著不動'],['🍪','再吃很多餅乾']],'坐久了站起來伸伸懶腰，身體才舒服。'],
+['健康','眼睛癢癢的，要怎麼做？',['🙅','告訴大人'],[['✋','用髒手一直揉'],['😴','不用管它']],'手上有細菌，眼睛不舒服要告訴大人。'],
+['宇宙','流星看起來像什麼？',['🌠','一道很快的光'],[['🐌','慢慢爬的蝸牛'],['☁️','一朵雲']],'流星一下子就劃過天空，看到要趕快許願喔。'],
+['宇宙','太空人在太空裡怎麼睡覺？',['🛌','把睡袋綁好再睡'],[['🛏️','跟家裡一樣躺床上'],['🏊','在水裡睡']],'太空裡東西會飄，太空人要把睡袋綁好，才不會飄走。'],
+['宇宙','哪一顆行星看起來紅紅的？',['🔴','火星'],[['🌍','地球'],['🪐','土星']],'火星看起來紅紅的，叫做紅色星球。'],
+['環保','看到水龍頭一直滴水，可以怎麼做？',['🚰','關緊或告訴大人'],[['🙈','假裝沒看到'],['💦','開更大']],'把水龍頭關緊，就不會浪費水。'],
+['環保','吃飯的時候，怎麼做最好？',['🍽️','吃多少拿多少'],[['🗑️','吃不完就倒掉'],['🍚','拿很多都不吃']],'吃多少拿多少，就不會浪費食物。'],
+['環保','去買東西，可以帶什麼來裝？',['👜','自己的購物袋'],[['🛍️','每次拿新的塑膠袋'],['📦','很多紙箱']],'帶自己的購物袋，就能少用塑膠袋。'],
+['植物','公園裡的花，可以隨便摘嗎？',['🙅','不可以摘'],[['✂️','可以全部摘光'],['👟','踩一踩']],'公園的花是大家的，不要摘，讓大家一起欣賞。'],
+['植物','大樹可以給我們什麼？',['🌳','乾淨的空氣和樹蔭'],[['🍬','糖果'],['📱','手機']],'大樹讓空氣變乾淨，夏天還有涼涼的樹蔭。'],
+['植物','稻子長大，會變成我們吃的什麼？',['🍚','白飯'],[['🍫','巧克力'],['🧀','起司']],'稻子結出稻米，煮熟就是白飯。'],
+['問爸媽','媽媽的口紅，可以拿來玩嗎？',['🙋','先問媽媽可不可以'],[['💄','拿來亂畫'],['🤫','偷偷拿去玩']],'別人的東西，要先問過才可以用。'],
+['問爸媽','想吃冰箱裡的點心，要怎麼做？',['🙋','先問爸爸媽媽'],[['🤫','偷偷拿來吃'],['🍫','全部吃光']],'想吃點心，先問爸爸媽媽可不可以。'],
+['問爸媽','同學的彩色筆好漂亮，可以直接拿回家嗎？',['🙅','要先問同學'],[['🎒','放進自己的書包'],['🤫','偷偷帶走']],'別人的東西，要先問過，不可以直接拿走。']);
 
 // 每次打開自動檢查新版本
 function updCheck(){if(!/^https?:/.test(location.protocol)||!navigator.onLine)return;
