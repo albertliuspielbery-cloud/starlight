@@ -4235,7 +4235,7 @@ function voStatus(ov){const el=ov&&ov.querySelector('#vostat');if(!el)return;
   else if(!VO.idx)m=VO.done?'找不到語音包：請確認 GitHub 上有 voice 資料夾':'讀取中…';
   else if(VO.bad)m=`語音包檔案不完整（${VO.bad} 個），請重新上傳 voice 資料夾，再按「重新下載語音包」`;
   else if(VO.failed&&VO.failed.size&&!VO.pq.length&&!VO.busy)m='有語音包下載失敗（'+VO.missing.join('、')+'），連上網路後會自動再試，或按「重新下載語音包」';
-  else if(VO.got<VO.files.length){const tot=(VO.sizes||[]).reduce((a,b)=>a+b,0),cur=Object.values(VO.bytes||{}).reduce((a,b)=>a+b,0);m=`語音包下載中… ${(cur/1048576).toFixed(1)} / ${(tot/1048576).toFixed(0)} MB（第 ${Math.min(VO.got+1,VO.files.length)}/${VO.files.length} 包，請保持網路連線）${VO.err?'・'+VO.err:''}`}
+  else if(VO.got<VO.files.length){const tot=(VO.sizes||[]).reduce((a,b)=>a+b,0),cur=Object.values(VO.bytes||{}).reduce((a,b)=>a+b,0);m=`語音包下載中… ${(cur/1048576).toFixed(1)} / ${(tot/1048576).toFixed(0)} MB（第 ${Math.min(VO.got+1,VO.files.length)}/${VO.files.length} 包，請保持網路連線）${VO.err&&!/^(play|decode):/.test(VO.err)?'・'+VO.err:''}`}
   else{m=`語音包已下載（${Object.keys(VO.idx).length} 句）`;if(!VO.diag){VO.diag=1;voBuf('z|答對了！').then(b=>{VO.diagRes=b?(b.url?'Audio 播放':'WebAudio 播放'):'解碼失敗';t()})}if(VO.diagRes){const ev=VO.err&&!(/^play:/.test(VO.err)&&Date.now()-(VO.errAt||0)>60000);m+=`・${VO.diagRes}${ev?'（'+VO.err+'）':''}`}}
   if(!S.vo)m='目前使用裝置內建聲音';el.textContent=m;if(S.vo&&VO.idx&&VO.got<VO.files.length)setTimeout(t,800)};
  Promise.resolve(VO.ready).then(t);t()}
@@ -5289,15 +5289,21 @@ async function voChunked(f,size,c0,ep){const n=Math.ceil(size/VCHUNK);const part
  const worker=async()=>{while(!fail){let i=-1;while(next<n){if(!parts[next]){i=next++;break}next++}if(i<0)return;
   const a=i*VCHUNK,b=Math.min(size,a+VCHUNK)-1;let ok=false;
   for(let t=0;t<4&&!ok;t++){if(ep!==VO.epoch)return;
-   try{const ctl=window.AbortController?new AbortController():null;const to=setTimeout(()=>ctl&&ctl.abort(),45000);
-    let r,bl;try{r=await fetch('voice/'+f+'?p='+i,{headers:{Range:`bytes=${a}-${b}`},signal:ctl&&ctl.signal});
+   // 網路很慢也能慢慢下載：只要一直有資料進來就不中斷（25 秒完全沒資料才重試），下載進度即時更新
+   let inflight=0;
+   try{const ctl=window.AbortController?new AbortController():null;let last=Date.now();const to=setInterval(()=>{if(Date.now()-last>25000)try{ctl&&ctl.abort()}catch(_){}},2000);
+    const hard=setTimeout(()=>{try{ctl&&ctl.abort()}catch(_){}},45000*(t+1)*4);
+    let r,bl;try{r=await fetch('voice/'+f+'?p='+i,{headers:{Range:`bytes=${a}-${b}`},signal:ctl&&ctl.signal});last=Date.now();
      if(r.status===200){try{ctl&&ctl.abort()}catch(_){}throw new Error('NORANGE')}
      if(r.status!==206){VO.err='下載失敗 '+r.status;await wait(2000);continue}
-     bl=await r.blob()}finally{clearTimeout(to)}
-    if(bl.size!==b-a+1){VO.err='檔案大小不符';continue}
-    parts[i]=bl;VO.bytes[f]=(VO.bytes[f]||0)+bl.size;ok=true;VO.err='';
+     if(r.body&&r.body.getReader&&window.ReadableStream){const rd=r.body.getReader();const bufs=[];
+      for(;;){const x=await rd.read();if(x.done)break;if(x.value&&x.value.length){bufs.push(x.value);inflight+=x.value.length;VO.bytes[f]=(VO.bytes[f]||0)+x.value.length;last=Date.now();if(ep!==VO.epoch){try{rd.cancel()}catch(_){}return}}}
+      bl=new Blob(bufs)}
+     else bl=await r.blob()}finally{clearInterval(to);clearTimeout(hard)}
+    if(bl.size!==b-a+1){VO.err='檔案大小不符';VO.bytes[f]=Math.max(0,(VO.bytes[f]||0)-inflight);inflight=0;continue}
+    parts[i]=bl;if(!inflight)VO.bytes[f]=(VO.bytes[f]||0)+bl.size;inflight=0;ok=true;VO.err='';
     if(c0){try{await c0.put('voice/part/'+f+'/'+i,new Response(bl))}catch(_){}}}
-   catch(e){if(e&&e.message==='NORANGE'){norange=true;fail=true;return}if(!navigator.onLine){VO.err='沒有網路，等網路恢復';await wait(3000);t--;if(ep!==VO.epoch)return;continue}VO.err='下載中斷，重試中…';await wait(2000)}}
+   catch(e){if(inflight){VO.bytes[f]=Math.max(0,(VO.bytes[f]||0)-inflight);inflight=0}if(e&&e.message==='NORANGE'){norange=true;fail=true;return}if(!navigator.onLine){VO.err='沒有網路，等網路恢復';await wait(3000);t--;if(ep!==VO.epoch)return;continue}VO.err='下載中斷，重試中…';await wait(2000)}}
   if(!ok)fail=true}};
  await Promise.all([worker(),worker()]);
  if(norange)throw new Error('NORANGE');
