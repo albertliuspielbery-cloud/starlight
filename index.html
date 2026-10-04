@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光公主">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-16cc2a16.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-16cc2a16.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-01e6b1b9.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-01e6b1b9.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -1096,6 +1096,44 @@ html{background:var(--sky3)}
 .scene .actors>.bob{height:100%;display:flex;align-items:flex-end}
 .scene .actors>.bob>svg{height:100%;width:auto}
 .scene .actors>.bob>svg.small{height:55%}
+.readbox{display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px 0}
+.readbox .rditem{min-width:150px;min-height:120px;padding:10px 26px;border-radius:26px;background:#FFF8E8;box-shadow:0 6px 0 rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;gap:14px;font-size:84px;color:#2A2266}
+.readbox .rditem .zy{font-size:92px}.readbox .rdemo{width:96px;height:96px;display:inline-block}.readbox .rdemo svg,.readbox .rdemo .emoji{width:96px;height:96px;font-size:80px}
+.readbox .rdw{font-size:54px}
+.readbox .rdbtns{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
+.rdmic{--lv:0;border:0;border-radius:999px;padding:12px 22px;background:#FF6F8F;color:#fff;font:inherit;font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 5px 0 #C8486A;cursor:pointer}
+.rdmic .rdmi{font-size:30px}.rdmic.on{background:#E8405A;box-shadow:0 0 0 calc(6px + var(--lv)*18px) rgba(255,111,143,.35),0 5px 0 #A82E48;animation:rdpulse 1s ease-in-out infinite}
+@keyframes rdpulse{50%{transform:scale(1.05)}}
+.readbox .rdtip{margin:0;text-align:center}
+.rdrec .rdlist{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.rdrec .rditm{border:0;border-radius:14px;padding:6px 12px;background:rgba(255,255,255,.14);color:inherit;font:inherit;display:flex;gap:6px;align-items:center}
+.rdrec .rditm i{opacity:.7;font-style:normal;font-size:13px}
+@media (max-width:480px){.readbox .rditem{font-size:64px;min-height:96px}.readbox .rdw{font-size:40px}.rdmic{font-size:17px;padding:10px 16px}}
+/* v3.0 口訣小卡、看字說說看 */
+.mnemo{position:absolute;right:-6px;bottom:-40px;z-index:6;display:flex;align-items:center;gap:6px;background:#FFFDF4;color:#2A2266;border:3px solid #FFD24D;border-radius:18px;padding:4px 12px 4px 6px;font-size:20px;box-shadow:0 4px 0 rgba(0,0,0,.15);pointer-events:none;animation:mnpop .35s ease both;white-space:nowrap}
+.mnemo .mnpic{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center}.mnemo .mnpic svg,.mnemo .mnpic .emoji{width:40px;height:40px;font-size:32px;line-height:40px}
+.mnemo .zy,.rcans .zy,.rdmn .zy{font-size:1.4em;font-weight:400}.mnemo .lt{font-size:1.2em}
+@keyframes mnpop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.readbox .rdmn{display:flex;align-items:center;gap:6px;font-size:22px;background:#fff;border-radius:16px;padding:4px 10px}
+.readbox .rdmn .mnpic{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center}.readbox .rdmn .mnpic svg,.readbox .rdmn .emoji{width:44px;height:44px;font-size:36px;line-height:44px}
+.rcbox .rcans{display:flex;align-items:center;gap:10px;font-size:28px;background:#fff;border:3px solid #FFD24D;border-radius:22px;padding:8px 18px;color:#2A2266;animation:mnpop .35s ease both}
+.rcbox .rcans[hidden]{display:none}.rcbox .rcans .mnpic{width:64px;height:64px;display:inline-flex;align-items:center;justify-content:center}.rcbox .rcans .mnpic svg,.rcbox .rcans .emoji{width:64px;height:64px;font-size:54px;line-height:64px}
+.rcbox .rdok.pulse{animation:mnpop .4s ease}
+.warmtag{background:#4FB8A0}
+.duebox{margin-top:10px}.duebox .wchip{margin:2px}
+@media (max-width:480px){.mnemo{font-size:16px;bottom:-34px}.mnemo .mnpic,.mnemo .mnpic svg,.mnemo .mnpic .emoji{width:30px;height:30px;font-size:24px;line-height:30px}.readbox .rdmn{font-size:17px}.rcbox .rcans{font-size:22px}}
+/* v3.0 重玩：小任務、求救、皇冠 */
+.questbtn{display:inline-flex;align-items:center;gap:8px;margin:.5em 0 .1em;padding:8px 18px;border-radius:999px;border:3px solid #FFB33A;background:linear-gradient(180deg,#FFF6CC,#FFE08A);color:#5A3A00;font:inherit;font-weight:800;font-size:clamp(17px,2.2vw,20px);box-shadow:0 4px 0 rgba(0,0,0,.2);cursor:pointer;animation:qbob 2.4s ease-in-out infinite}
+.questbtn .qst{color:#FF8A00;font-size:1.2em}.questbtn.qdone{animation:none;background:#E8F8EE;border-color:#6FE3A8;color:#1E4A34}
+@keyframes qbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.questcard .qrow{display:flex;justify-content:center;align-items:center;gap:14px}.questcard .qic,.questcard .qani{width:84px;height:84px;display:inline-grid;place-items:center}.questcard .qic svg,.questcard .qani svg,.questcard .qic .emoji{width:84px;height:84px;font-size:64px}
+.lvbonus{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:6px 0 0}.lvbonus b{background:#FFF0B8;color:#6A4A00;border-radius:999px;padding:2px 12px;font-size:16px}
+.wsos,.wquest{position:absolute;top:-6px;width:calc(var(--wb)*.36);height:calc(var(--wb)*.36);border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:calc(var(--wb)*.24);border:2px solid #fff;animation:qbob 1.6s ease-in-out infinite}
+.wsos{right:-6px;background:#FF4F6F;color:#fff}.wquest{left:-6px;background:#FFF4C8;color:#FF9A00;border-color:#FFB33A}
+.wstar{color:#FFD24D}
+.node .sosmark,.node .qmark{animation:sosb 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes sosb{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@media (prefers-reduced-motion:reduce){.questbtn,.wsos,.wquest,.node .sosmark,.node .qmark{animation:none}}
 
 </style>
 </head>
@@ -1410,6 +1448,14 @@ function princess(look,a='',vb='0 0 120 172'){
   moon:`<path d="M38 36 Q60 24 82 36" stroke="${gold}" stroke-width="3.4" fill="none" stroke-linecap="round"/><g ${glow}><path d="M66 8 A13 13 0 1 0 66 32 A10 10 0 1 1 66 8Z" fill="${gold}"/></g><circle cx="61" cy="21" r="3.4" fill="#9FF3FF" ${glow}/><circle class="tw" cx="44" cy="22" r="1.6" fill="#FFF6D0"/><circle class="tw" style="animation-delay:.8s" cx="78" cy="20" r="1.4" fill="#FFF6D0"/>`
  };
  const PR={
+  globeprop:`<rect x="86" y="112" width="14" height="4" rx="2" fill="#C98A4A"/><path d="M93 112 V104" stroke="#C98A4A" stroke-width="2"/><path d="M82 92 A12 12 0 0 0 104 98" stroke="#E0A040" stroke-width="1.6" fill="none"/><circle cx="93" cy="93" r="10" fill="#5AB0F0"/><path d="M87 88 Q90 85 93 88 Q94 92 90 93 Q87 92 87 88Z M95 94 Q99 92 100 96 Q98 100 95 99Z M89 97 Q91 96 92 99 Q90 101 89 99Z" fill="#7FD38A"/><path d="M86 89 Q90 86 94 87" stroke="#fff" stroke-width="1.4" fill="none" opacity=".6"/>`,
+  flowerwand:`<line x1="84" y1="115" x2="96" y2="86" stroke="#6FD39A" stroke-width="2.6" stroke-linecap="round"/><path d="M90 102 Q84 98 86 94 Q90 96 90 102Z" fill="#6FD39A"/>${[0,72,144,216,288].map(a=>`<ellipse cx="97" cy="76" rx="4.6" ry="6.4" fill="#FF8FB8" transform="rotate(${a} 97 83)"/>`).join('')}<circle cx="97" cy="83" r="5" fill="#FFE27A"/><circle cx="95.4" cy="82.4" r=".8" fill="#5A3A2A"/><circle cx="98.6" cy="82.4" r=".8" fill="#5A3A2A"/><path d="M95.4 84.6 Q97 86 98.6 84.6" stroke="#5A3A2A" stroke-width=".8" fill="none"/>`,
+  starscepter:`<line x1="84" y1="116" x2="97" y2="84" stroke="${gold}" stroke-width="3" stroke-linecap="round"/><path d="M96 88 Q88 94 86 104 M98 88 Q106 94 104 104" stroke="#C8B8FF" stroke-width="1.6" fill="none"/><g ${glow}><path d="${starD(98,78,9)}" fill="${gold}" stroke="#FFB33A" stroke-width=".8"/></g><circle cx="98" cy="78" r="2.4" fill="#9FF3FF"/><path class="tw" d="${sparkD(108,70,3)}" fill="#fff"/><path class="tw" style="animation-delay:.7s" d="${sparkD(88,70,2.4)}" fill="#fff"/>`,
+  dinoplush:`<g transform="translate(80 92) scale(.26)"><path d="M66 82 Q90 80 96 64 Q86 74 72 72Z" fill="#5CC27A"/>${[[44,22],[56,18],[67,24],[76,34]].map(([x,y])=>`<path d="M${x-6} ${y+8} L${x} ${y-4} L${x+6} ${y+8}Z" fill="#FFB33A"/>`).join('')}<ellipse cx="54" cy="70" rx="28" ry="22" fill="#6FD38A"/><ellipse cx="54" cy="76" rx="17" ry="13" fill="#E8FFD8"/><ellipse cx="42" cy="44" rx="26" ry="22" fill="#6FD38A"/><ellipse cx="30" cy="54" rx="15" ry="10" fill="#8FE3A6"/><circle cx="38" cy="40" r="5" fill="#2A2266"/><circle cx="54" cy="40" r="5" fill="#2A2266"/><circle cx="39.5" cy="38" r="1.8" fill="#fff"/><circle cx="55.5" cy="38" r="1.8" fill="#fff"/><path d="M24 58 Q31 63 38 58" fill="none" stroke="#2F7A4A" stroke-width="3" stroke-linecap="round"/></g>`,
+  trafficwand:`<line x1="84" y1="116" x2="95" y2="94" stroke="#9AA0B0" stroke-width="2.6" stroke-linecap="round"/><rect x="89" y="66" width="13" height="30" rx="4" fill="#2E3446"/><circle cx="95.5" cy="72" r="3.4" fill="#FF4F5F"/><circle cx="95.5" cy="81" r="3.4" fill="#FFD24D"/><circle cx="95.5" cy="90" r="3.4" fill="#4FD38A"/>`,
+  carrotprop:`<g transform="rotate(-28 92 98)"><path d="M86 86 Q92 82 98 86 L93 116 Q92 118 91 116Z" fill="#FF8A3A"/><path d="M88 94 H92 M90 102 H94 M89 109 H92" stroke="#E06A1A" stroke-width="1.2" stroke-linecap="round"/><path d="M92 84 Q86 74 84 70 M92 84 Q92 72 93 68 M92 84 Q98 74 101 71" stroke="#4FB86A" stroke-width="2.6" fill="none" stroke-linecap="round"/></g>`,
+  redlantern:`<line x1="84" y1="115" x2="96" y2="78" stroke="#C98A4A" stroke-width="2.4" stroke-linecap="round"/><path d="M96 78 V82" stroke="#C98A4A" stroke-width="1.4"/><g ${glow}><ellipse cx="96" cy="92" rx="10" ry="9" fill="#E8303A"/></g><rect x="91" y="81" width="10" height="3" rx="1" fill="#FFD24D"/><rect x="91" y="100" width="10" height="3" rx="1" fill="#FFD24D"/><path d="M92 84 Q89 92 92 100 M100 84 Q103 92 100 100 M96 84 V100" stroke="#FF8A6A" stroke-width="1" fill="none"/><path d="M94 103 V109 M96 103 V110 M98 103 V109" stroke="#FFD24D" stroke-width="1"/>`,
+  trophy:`<rect x="86" y="110" width="16" height="5" rx="1.5" fill="#C98A4A"/><rect x="91" y="102" width="6" height="8" fill="${gold}"/><g ${glow}><path d="M84 82 H104 Q104 100 94 102 Q84 100 84 82Z" fill="${gold}" stroke="#E0962A" stroke-width=".8"/></g><path d="M84 86 Q77 86 79 93 Q81 97 86 96 M104 86 Q111 86 109 93 Q107 97 102 96" stroke="#E0A040" stroke-width="2" fill="none"/><path d="${starD(94,90,4)}" fill="#FFF6D0"/>`,
   rainbowwand:`<line x1="84" y1="115" x2="96" y2="82" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>${['#FF6F8F','#FFC24D','#6FD39A','#7FB8FF'].map((c,i)=>`<path d="M${86+i*1.6} 82 A${10-i*1.6} ${10-i*1.6} 0 0 1 ${106-i*1.6} 82" stroke="${c}" stroke-width="1.8" fill="none"/>`).join('')}<path d="${starD(96,80,3)}" fill="#FFE27A"/>`,
   teddyprop:`<circle cx="81" cy="93" r="3.6" fill="#C98B5E"/><circle cx="95" cy="93" r="3.6" fill="#C98B5E"/><circle cx="88" cy="100" r="9" fill="#C98B5E"/><ellipse cx="88" cy="103" rx="4" ry="3" fill="#F2D6BC"/><circle cx="85" cy="98" r="1.2" fill="#3A2A5C"/><circle cx="91" cy="98" r="1.2" fill="#3A2A5C"/><circle cx="88" cy="102" r="1.1" fill="#3A2A5C"/><ellipse cx="88" cy="114" rx="7" ry="6" fill="#C98B5E"/>`,
   lollipop:`<line x1="85" y1="118" x2="91" y2="90" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/><circle cx="92" cy="82" r="10" fill="#FF8FC8"/><path d="M92 82 m-6 0 a6 6 0 1 1 6 6 a4 4 0 1 1 -4 -4 a2 2 0 1 1 2 2" stroke="#FFFFFF" stroke-width="1.8" fill="none"/>`,
@@ -2019,7 +2065,7 @@ title(){clearEnd();
   <div class="art">${castle('class="castleback"')}<div class="glowstage"></div><span class="petw">${myPet()}</span>${princess(S.look,'class="pr"')}</div>
   <div class="panel">
    <div class="logo"><span class="en">STARLIGHT PRINCESS</span><h1>星光公主</h1><span class="rib">大冒險</span></div>
-   <p class="sub">${S.name?`<b class="gold">${S.name}公主</b>，`:''}${cont()?`${CHAPTERS[S.ch].title}・已經走了 ${S.prog} 關`:S.chDone>=11?`已經得到 ${Math.min(S.chDone-10,5)} 個旅行紀念章，<br>繼續和小星星去旅行吧！`:S.chDone>=10?'星光王國亮起來了！<br>和小星星一起去旅行吧！':S.chDone>=6?`已經收集 ${S.chDone-5} 顆星星寶石，<br>繼續冒險吧！`:S.chDone>=1?`已經找到 ${S.chDone} 封王子的信，<br>繼續冒險吧！`:'和寵物一起穿過星光森林，<br>找回王子留下的魔法信'}</p>
+   <p class="sub">${S.name?`<b class="gold">${S.name}公主</b>，`:''}${cont()?`${CHAPTERS[S.ch].title}・已經走了 ${S.prog} 關`:S.chDone>=20?`第二季全部完成！<br>你是最棒的星光公主！`:S.chDone>=15?`第二季已經完成 ${S.chDone-15} 章，<br>繼續認識新朋友吧！`:S.chDone>=11?`已經得到 ${Math.min(S.chDone-10,5)} 個旅行紀念章，<br>繼續和小星星去旅行吧！`:S.chDone>=10?'星光王國亮起來了！<br>和小星星一起去旅行吧！':S.chDone>=6?`已經收集 ${S.chDone-5} 顆星星寶石，<br>繼續冒險吧！`:S.chDone>=1?`已經找到 ${S.chDone} 封王子的信，<br>繼續冒險吧！`:'和寵物一起穿過星光森林，<br>找回王子留下的魔法信'}</p>
    <div class="row"><button class="btn" id="go"><span class="ic">${ICON.star('#3A2A6A')}</span>${cont()?'繼續冒險':'開始冒險'}</button><button class="btn2" id="dress"><span class="ic">${ICON.shirt('#FFD98A')}</span>換裝間</button><button class="btn2" id="parkbtn"><span class="ic">${ICON.star('#FFD98A')}</span>遊樂園</button></div>
    <div class="row"><span class="pill">${gem(WALLET_GEM)}寶石袋 <b>${S.wallet}</b></span><button class="pill pbtn" id="parent">家長設定・${DIFF[S.diff].name}</button>${cont()?'<button class="pill pbtn" id="restart">重新開始</button>':''}${S.name?'':'<button class="pill pbtn namebtn" id="nameit">幫公主取名字</button>'}<button class="pill pbtn" id="about">關於・v${APP_VERSION}</button></div>
   </div></div>`;
@@ -2211,8 +2257,8 @@ chend(){
 }
 };
 
-const APP_VERSION='2.7.1';
-const VLOG=[['2.7.1','2026/10/3','穿長裙也看得到鞋子了：蓬裙、蛋糕裙、拖尾裙改成前短後長，人魚裙露出鞋尖；換裝間的鞋子圖案變大變清楚'],['2.7','2026/10/3','新的三章！第十三章「環遊世界」、第十四章「心情花園」（認識心情、保護自己、不認識的東西不亂吃）、第十五章「回到天空」（準備上學和總複習，第一季完結）；新題目 59 題'],['2.6.2','2026/10/2','家長設定的語音狀態不再一直顯示過去的播放錯誤'],['2.6.1','2026/10/2','王子舞會更順：答對後把話說完才出下一題，等答案時王子和公主也繼續跳舞，下一題的聲音先準備好'],['2.6','2026/10/2','動態難度：字母和注音會了，就自動加新的（簡單從 A–J、ㄅ–ㄌ 開始，慢慢加到全部和小寫）；問答題增加到 200 題'],['2.5','2026/10/2','新的第十二章「台灣環島之旅」：台北101、夜市、太魯閣、熱氣球、阿里山、日月潭，新朋友台灣黑熊和小石虎；新題目 30 題：台灣 20 題、錢和買東西要先問爸爸媽媽 10 題；王子說話換成男生的聲音'],['2.4','2026/10/2','聲音全面檢查修正：切到別的 App 回來不會冒出一堆聲音、音樂不重疊；語音包分小塊下載，中途關掉下次接著下載；iPhone/iPad 固定用真人錄音；重新下載語音包會先確認'],['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='3.0';
+const VLOG=[['3.0','2026/10/4','第二季開始！新的五章：時光恐龍谷、交通小城市、開心農場、節日和家人、星光運動會；新題目 160 題、新英文單字 40 個；新角色小恐龍阿古、乳牛、母雞、綿羊；新玩法「跟著唸」：錄下自己的聲音聽聽看，錄音只存在這台裝置；第十三～二十章的新衣服和道具；學得更牢：答錯會說明選到的是什麼，再答對會說「記住囉」，注音和字母有口訣和圖（ㄅ，爸爸的ㄅ；A is for apple），長得像的（ㄅㄆ、b d）會放在一起練，要在兩天都答對才算會了，太久沒練會再複習，每天第一關先暖身，新玩法「看字說說看」，中等和高難度每關多 1～2 題；想回去玩：每天一個小任務、朋友求救、中等和高難度全對拿皇冠、完成的章節可以直接選任何一關'],['2.7.1','2026/10/3','穿長裙也看得到鞋子了：蓬裙、蛋糕裙、拖尾裙改成前短後長，人魚裙露出鞋尖；換裝間的鞋子圖案變大變清楚'],['2.7','2026/10/3','新的三章！第十三章「環遊世界」、第十四章「心情花園」（認識心情、保護自己、不認識的東西不亂吃）、第十五章「回到天空」（準備上學和總複習，第一季完結）；新題目 59 題'],['2.6.2','2026/10/2','家長設定的語音狀態不再一直顯示過去的播放錯誤'],['2.6.1','2026/10/2','王子舞會更順：答對後把話說完才出下一題，等答案時王子和公主也繼續跳舞，下一題的聲音先準備好'],['2.6','2026/10/2','動態難度：字母和注音會了，就自動加新的（簡單從 A–J、ㄅ–ㄌ 開始，慢慢加到全部和小寫）；問答題增加到 200 題'],['2.5','2026/10/2','新的第十二章「台灣環島之旅」：台北101、夜市、太魯閣、熱氣球、阿里山、日月潭，新朋友台灣黑熊和小石虎；新題目 30 題：台灣 20 題、錢和買東西要先問爸爸媽媽 10 題；王子說話換成男生的聲音'],['2.4','2026/10/2','聲音全面檢查修正：切到別的 App 回來不會冒出一堆聲音、音樂不重疊；語音包分小塊下載，中途關掉下次接著下載；iPhone/iPad 固定用真人錄音；重新下載語音包會先確認'],['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2454,15 +2500,15 @@ const BCOL=['#FF8FC8','#7FE3F0','#FFE07A','#B99CFF'];
 const CONF={b:'dpq',d:'bpq',p:'qbd',q:'pdb',m:'nw',n:'mh',u:'nv',i:'jl',l:'iI',h:'nb'};
 const BUILD={
 letter(play,sp){
- const pool=letterPool();let t;t=bagPick(pool);if(S.force&&S.force.k==='g'&&pool.includes(S.force.i))t=S.force.i;S.revKey={k:'g',i:t};S.last=t;
+ const pool=letterPool();let t;t=(S.force&&S.force.k==='g'&&pool.includes(S.force.i))?S.force.i:bagPick(pool);S.revKey={k:'g',i:t};S.last=t;
  const k=S.diff==='easy'?3:4;
  let mode='up',target=t,prompt,voice,opts;
  if((S.diff==='mid'&&S.q%2===1)||(S.diff==='easy'&&adLow()&&S.q%3===2))mode='low';
  if(S.diff==='hard')mode=Math.random()<.5?'lowup':'uplow';
- if(mode==='up'){opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1)]);prompt=`聽聽看，找出小兔子說的字母 <b class="ear">?</b>`;voice=['找一找，這個字母的蝴蝶：',{en:`${t.toUpperCase()}.`,slow:2}]}
- if(mode==='low'){target=t.toLowerCase();opts=shuffle([target,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1).map(x=>x.toLowerCase())]);prompt=`聽聽看，找出<b class="kw">小寫</b>的字母 <b class="ear">?</b>`;voice=['這次要找小寫的字母喔，仔細聽：',{en:`${target.toUpperCase()}.`,slow:2}]}
+ if(mode==='up'){opts=confOpts(t,shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1)]),pool);prompt=`聽聽看，找出小兔子說的字母 <b class="ear">?</b>`;voice=['找一找，這個字母的蝴蝶：',{en:`${t.toUpperCase()}.`,slow:2}]}
+ if(mode==='low'){target=t.toLowerCase();opts=confOpts(target,shuffle([target,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1).map(x=>x.toLowerCase())]),pool.map(x=>x.toLowerCase()));prompt=`聽聽看，找出<b class="kw">小寫</b>的字母 <b class="ear">?</b>`;voice=['這次要找小寫的字母喔，仔細聽：',{en:`${target.toUpperCase()}.`,slow:2}]}
  if(mode==='uplow'){target=t.toLowerCase();const conf=(CONF[target]||'').split('').filter(c=>c.toUpperCase()!==t);opts=[...new Set([target,...conf,...shuffle(pool.filter(x=>x!==t)).map(x=>x.toLowerCase())])].slice(0,k);opts=shuffle(opts);prompt=`大寫 <b>${t}</b> 的小寫是哪一個？`;voice=[`大寫的 ${t}，小寫長什麼樣子呢？找找看！`]}
- if(mode==='lowup'){const low=t.toLowerCase();target=t;opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1)]);prompt=`小寫 <b>${low}</b> 的大寫是哪一個？`;voice=[`小寫的 ${low}，大寫是哪一個呢？`]}
+ if(mode==='lowup'){const low=t.toLowerCase();target=t;opts=confOpts(t,shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1)]),pool);prompt=`小寫 <b>${low}</b> 的大寫是哪一個？`;voice=[`小寫的 ${low}，大寫是哪一個呢？`]}
  S.ans=target;setPrompt(prompt,voice,sp);
  play.innerHTML=`<div class="flutter">${opts.map((c,i)=>{const fx=(i-(k-1)/2)*40+(i%2?30:-30),fy=-40-(i%2)*20;return `<button class="bfly" data-v="${c}" style="--w:${WING[i]};--dl:${(i*.22).toFixed(2)}s;--fx:${fx}vw;--fy:${fy}vh;--fr:${i%2?30:-30}deg" aria-label="字母 ${c}"><div class="fl">${butterfly(WING[i])}<span>${c}</span></div></button>`}).join('')}</div>`;
  const btn=v=>$$('.bfly',play).find(b=>b.dataset.v===v);
@@ -2470,8 +2516,8 @@ letter(play,sp){
  $$('.bfly',play).forEach(b=>b.onclick=()=>{const v=b.dataset.v;if(v===target){b.classList.add('win');right(b,[praise(),'這是',{en:v.toUpperCase()+'.',slow:2}])}else wrong(b)});
 },
 zhuyin(play,sp){
- const pool=zyPool().split('');let t;t=bagPick(pool);if(S.force&&S.force.k==='g'&&pool.includes(S.force.i))t=S.force.i;S.revKey={k:'g',i:t};S.last=t;S.ans=t;
- const k=S.diff==='easy'?3:4;const opts=shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1)]);
+ const pool=zyPool().split('');let t;t=(S.force&&S.force.k==='g'&&pool.includes(S.force.i))?S.force.i:bagPick(pool);S.revKey={k:'g',i:t};S.last=t;S.ans=t;
+ const k=S.diff==='easy'?3:4;const opts=confOpts(t,shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k-1)]),pool);
  setPrompt(`聽聽看，找出小熊說的注音 <b class="ear">?</b>`,['找一找，這個注音的氣球：',{zh:ZREAD[t],slow:2}],sp);
  play.innerHTML=`<div class="flutter">${opts.map((c,i)=>`<button class="bal" data-v="${c}" style="--w:${BCOL[i]};--dl:${(i*.25).toFixed(2)}s" aria-label="注音 ${c}"><div class="fl">${balloon(BCOL[i])}<span class="zy">${c}</span></div></button>`).join('')}</div>`;
  const btn=v=>$$('.bal',play).find(b=>b.dataset.v===v);
@@ -3961,7 +4007,7 @@ const _show0=show;
 show=function(name,arg){if(S.pmode&&name!=='stage')endPractice();document.body.dataset.scr=name;_show0(name,arg)};
 const _levelDone0=levelDone;
 levelDone=function(){if(!S.pmode)return _levelDone0();
- const k=S.pmode.k,perfect=S.lvMiss===0,st=perfect?3:S.lvMiss<=2?2:1,earn=2+(perfect?2:0);S.pstars[k]=Math.max(S.pstars[k]||0,st);S.wallet+=earn;saveP();renderBar();sfx('gem');
+ const k=S.pmode.k,perfect=S.lvMiss===0,st=perfect?3:S.lvMiss<=2?2:1,earn=(k==='readpr'||k==='recallpr')?1:2+(perfect?2:0);S.pstars[k]=Math.max(S.pstars[k]||0,st);S.wallet+=earn;saveP();renderBar();sfx('gem');
  const ov=overlay($('.stage'),`<div class="card"><div class="rhead"><span class="rgem" style="--gc:#FF8FC8">${gem('#FF8FC8')}</span><div><b>練習完成！</b><span class="rstars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></span></div><span class="earn">${gem(WALLET_GEM)}<b>+${earn}</b></span></div><div class="rbody"></div></div>`);
  say(['練習完成了！好認真喔！',`寶石袋多了${earn}顆寶石，還有一個禮物喔！`]);
  const card=$('.rbody',ov);const finish=()=>go('practice');
@@ -4101,7 +4147,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-0f724b89.json';
+const VOICE_INDEX='index-a8d13a59.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -4329,6 +4375,9 @@ const BAG=(()=>{try{return JSON.parse(localStorage.getItem(BAGKEY)||'{}')||{}}ca
 const saveBag=()=>{try{localStorage.setItem(BAGKEY,JSON.stringify(BAG))}catch(e){}};
 // g[字]={s:出現次數,o:一次答對次數,w:答錯次數}
 const glWeak=x=>{const g=BAG.g[x];return g&&g.w>0&&(g.o||0)<(g.w||0)+1};
+// v3.0 會了：在兩個不同的日子一次答對、對的比錯的多、十天內有練過、而且不是常錯
+const GL_FORGET=10*864e5;
+const glKnown=x=>{const g=BAG.g[x];if(!g||glWeak(x))return false;let d=g.d;if(!d)d=(g.o>=2?['old']:[]);return d.length>=2&&g.o>g.w&&(!g.lt||Date.now()-g.lt<GL_FORGET)};
 function bagPick(pool,tag){const key=(tag||'g')+':'+pool.join('');let b=(BAG.b[key]||[]).filter(x=>pool.includes(x));
  BAG.d=BAG.d||{};let d=BAG.d[key]||[];if(!b.length){b=shuffle(pool.slice());d=[]}
  let cand=b.filter(x=>x!==S.last);if(!cand.length)cand=b;
@@ -4367,7 +4416,7 @@ const ARCS=[
  {t:'王子的五封信',n:'第一段',from:0,ic:()=>WICON.letter,say:'先找到王子的五封信，'},
  {t:'五顆星星寶石',n:'第二段',from:5,ic:()=>gem('#7FD8FF'),say:'再找回五顆星星寶石，'},
  {t:'小星星的旅行',n:'第三段',from:10,ic:()=>WICON.stamp,say:'還要帶著小星星，去好多地方旅行！'}];
-const CHN=n=>['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五'][n];
+const CHN=n=>['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十'][n]||String(n+1);
 const wName=i=>CHAPTERS[i]?CHAPTERS[i].name:WORLD[i].name;
 function wState(i){if(!CHAPTERS[i])return 'soon';if(i>S.chDone)return 'lock';const cur=cont()?S.ch:S.chDone;if(i===cur)return 'now';if(i<S.chDone)return 'done';return 'open'}
 SCREENS.world=function(mode){
@@ -4395,7 +4444,7 @@ SCREENS.world=function(mode){
  if(intro||!V2.seenWorld){(async()=>{
   const hl=k=>{$$('.arc',screen).forEach((s,j)=>s.classList.toggle('hl',j===k))};
   await say(['這是星光王國的大地圖！公主要去好多好多地方喔。']);if(!live())return;
-  for(let k=0;k<3;k++){hl(k);await say([ARCS[k].say]);if(!live())return;await wait(250)}
+  for(let k=0;k<ARCS.length;k++){hl(k);await say([ARCS[k].say]);if(!live())return;await wait(250)}
   hl(-1);if(!live())return;
   if(intro){const n=$('.wnode[data-i="0"]',screen);if(n)n.classList.add('call');await say(['我們的第一站，是星光森林。點一下發光的森林，出發吧！'])}
   else{V2.seenWorld=1;save2();await say(['點一下想去的地方吧！'])}})()}
@@ -4546,7 +4595,7 @@ trace(play,sp,kind){traceQ(play,sp,kind||'num')}
 const TRACEZY='ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏ';
 function traceQ(play,sp,kind){
  let pool=kind==='zy'?(S.diff==='easy'?TRACEZY.slice(0,Math.max(6,Math.min(TRACEZY.length,adZyN()))):TRACEZY).split(''):kind==='letter'?(S.diff==='easy'?'ABCDEFGHIJKLMNOPRSTU'.split('').filter(c=>c<=UP[adLetN()-1]).join(''):'ABCDEFGHIJKLMNOPRSTU').split(''):(S.diff==='easy'?'12345':'1234567890').split('');
- let t=bagPick(pool,kind==='num'?'tn':undefined);if(window.__forceTrace)t=window.__forceTrace;if(S.force&&S.force.k==='g'&&pool.includes(S.force.i))t=S.force.i;S.revKey={k:'g',i:t};S.last=t;S.ans=t;
+ let t=(S.force&&S.force.k==='g'&&pool.includes(S.force.i))?S.force.i:bagPick(pool,kind==='num'?'tn':undefined);if(window.__forceTrace)t=window.__forceTrace;S.revKey={k:'g',i:t};S.last=t;S.ans=t;
  const name=kind==='zy'?{zh:ZREAD[t],slow:1}:kind==='letter'?{en:t,slow:1}:String(t);
  const what=kind==='zy'?'注音':kind==='letter'?'英文字母':'數字';
  setPrompt(`用手指描一描${what} <b class="kw">${t}</b>`,[`用手指，照著灰色的${what}描一描！`,'這是',name],sp);
@@ -4738,7 +4787,7 @@ const bkAgo=()=>{if(!V2.lastBackup)return '還沒有備份過';const d=Math.floo
 const _pp0=parentPanel;
 parentPanel=function(){_pp0();const ov=$$('.overlay').pop();if(!ov)return;const anchor=$('#pmode',ov);const host=anchor&&anchor.closest('.card > div');if(!host)return;
  const d=document.createElement('div');const old=!V2.lastBackup||Date.now()-V2.lastBackup>30*864e5;
- d.innerHTML=`<span class="lab">備份與還原</span><p class="small">把進度、寶石、衣服和畫冊存成一個檔案，可以存到「檔案」App（iCloud 雲碟）、LINE 或 Email。換裝置時用「還原」就能找回來。</p><p class="small bkago${old?' warn':''}">${bkAgo()}</p><div class="vrow"><button class="btn2 small" id="bksave">備份</button><button class="btn2 small" id="bkload">還原</button></div>`;
+ d.innerHTML=`<span class="lab">備份與還原</span><p class="small">把進度、寶石、衣服和畫冊存成一個檔案，可以存到「檔案」App（iCloud 雲碟）、LINE 或 Email。換手機或電腦時，用「還原」就能找回來。</p><p class="small bkago${old?' warn':''}">${bkAgo()}</p><div class="vrow"><button class="btn2 small" id="bksave">備份</button><button class="btn2 small" id="bkload">還原</button></div>`;
  host.parentNode.insertBefore(d,host);
  $('#bksave',d).onclick=async()=>{await backupSave();const a=$('.bkago',d);if(a){a.textContent=bkAgo();a.classList.remove('warn')}};
  $('#bkload',d).onclick=()=>backupPick()};
@@ -4904,7 +4953,7 @@ parentPanel=function(){_pp1();const ov=$$('.overlay').pop();if(!ov)return;const 
 /* ================= v2.0: 錯題複習 ================= */
 // V2.wrong: [{id,t:'zhuyin',f:{k,i}|null,need:2,at,c(錯幾次)}]
 V2.wrong=V2.wrong||[];V2.wid=V2.wid||1;
-const REVOK=['letter','zhuyin','word','spell','body','jobword','quiz','job','feel','vehicle','sound','habitat','baby','animal','sky','season','count','add','sub','clock','money','compare','shape','odd','trace','catch','shadow','pattern'];
+const REVOK=['warm','letter','zhuyin','word','spell','body','jobword','quiz','job','feel','vehicle','sound','habitat','baby','animal','sky','season','count','add','sub','clock','money','compare','shape','odd','trace','catch','shadow','pattern'];
 const _pickFresh0=pickFresh;
 pickFresh=function(bank,key){if(S.force&&S.force.k===key&&bank[S.force.i]){S.revKey={k:key,i:S.force.i};return bank[S.force.i]}const r=_pickFresh0(bank,key);S.revKey={k:key,i:bank.indexOf(r)};return r};
 let curRev=null,wrongMarked=-1;
@@ -4933,7 +4982,7 @@ right=function(el,parts,extra){if(!S.lock&&S.miss===0&&wrongMarked!==S.q)try{glM
 // 闖關時插入一題複習（魔王關不插）
 const _startLevel0=startLevel;
 const LEARNT=['letter','zhuyin','catch:letter','catch:zhuyin','spell','word','trace:letter','trace:zy'];
-const covRate=list=>{const g=list.map(x=>BAG.g[x]);return g.filter(x=>x&&x.o>=2&&x.o>x.w).length/list.length};
+const covRate=list=>list.filter(x=>glKnown(x)).length/list.length;
 startLevel=function(i){_startLevel0(i);const L=LEVELS[i];if(S.pmode||!L||L.reward==='chapter')return;
  const pool=V2.wrong.filter(e=>Date.now()-e.at>60e3);
  if(pool.length&&Math.random()<.5){S.qs.push('rev:'+pick(pool.slice(0,8)).id);return}
@@ -4951,7 +5000,7 @@ function startReview(){const list=V2.wrong.slice(0,5);_LVsave=LEVELS;S.pmode={k:
 Object.assign(ICONART,{'🔁':IA(`<circle cx="32" cy="32" r="26" fill="#FFF0B8"/><path d="M18 30 A14 14 0 0 1 44 24" stroke="#7A5CE0" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M46 14 L46 27 L33 25Z" fill="#7A5CE0"/><path d="M46 34 A14 14 0 0 1 20 40" stroke="#FF6F8F" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M18 50 L18 37 L31 39Z" fill="#FF6F8F"/>`)});
 // 家長學習報告：最近常錯
 const _report0=reportHTML;
-const glMap=(list,lat)=>`<div class="glmap">${list.map(x=>{const g=BAG.g[x.toUpperCase()];const st=!g||!g.s?'no':glWeak(x.toUpperCase())?'bad':g.o>=2&&g.o>g.w?'ok':'mid';return `<i class="gl ${st}${lat?' lat':''}">${x}</i>`}).join('')}</div>`;
+const glMap=(list,lat)=>`<div class="glmap">${list.map(x=>{const g=BAG.g[x.toUpperCase()];const st=!g||!g.s?'no':glWeak(x.toUpperCase())?'bad':glKnown(x.toUpperCase())?'ok':'mid';return `<i class="gl ${st}${lat?' lat':''}">${x}</i>`}).join('')}</div>`;
 reportHTML=function(){const base=_report0()+`<div class="glbox"><b>學習地圖</b><p class="small"><i class="gl ok">會了</i><i class="gl mid">練習中</i><i class="gl bad">常錯</i><i class="gl no">還沒出現</i></p><span class="lab">英文字母</span>${glMap('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),1)}<span class="lab">注音</span>${glMap(ZY_ALL.split(''))}</div>`;const W=V2.wrong.slice().sort((a,b)=>(b.c||1)-(a.c||1)).slice(0,8);
  return base+`<div class="revlist"><b>最近常錯的題目</b>${W.length?`<ul>${W.map(e=>`<li>${e.lab||e.t}${(e.c||1)>1?`（錯 ${e.c} 次）`:''}</li>`).join('')}</ul>`:'<p class="small">目前沒有錯題，好棒！</p>'}</div>`};
 
@@ -5567,7 +5616,7 @@ function adZyN(){if(S.diff==='hard')return 37;const st=adState();return AD_Z[Mat
 function adLow(){return S.diff!=='easy'||!!adState().low}
 const AD_OK=.75;
 // 每個都練過兩次以上、而且大部分會了，才加新的
-const adReady=pool=>pool.every(x=>{const g=BAG.g[x];return g&&g.s>=2})&&covRate(pool)>=AD_OK;
+const adReady=pool=>pool.every(x=>{const g=BAG.g[x];return g&&g.s>=2})&&covRate(pool)>=AD_OK&&!pool.some(x=>glWeak(x));
 // 檢查要不要加新的；回傳要說的話
 function adCheck(){if(S.diff==='hard')return null;const st=adState();const msg=[];const nw=[];
  if(S.diff==='easy'){
@@ -5794,6 +5843,680 @@ princess=function(look,a,vb){
  if(vb===VB.shoe&&look){const D=DRESS[look.dress]||DRESS.star;
   if(D.shape!=='short'&&D.shape!=='tutu'){const k='__shoeview_'+(look.dress||'star');if(!DRESS[k])DRESS[k]=Object.assign({},D,{shape:'short',tiers:undefined});look=Object.assign({},look,{dress:k})}}
  return _princessShoe(look,a,vb)};
+
+/* ================= v3.0: 第二季「星光王國的新朋友」第十六～二十章 ================= */
+// ----- 新角色：小恐龍阿古（自己畫）、乳牛、母雞、綿羊（用現有圖示） -----
+AN.dino=`<path d="M66 82 Q90 80 96 64 Q86 74 72 72Z" fill="#5CC27A"/>
+ ${[[44,22],[56,18],[67,24],[76,34]].map(([x,y])=>`<path d="M${x-6} ${y+8} L${x} ${y-4} L${x+6} ${y+8}Z" fill="#FFB33A"/>`).join('')}
+ <ellipse cx="54" cy="70" rx="28" ry="22" fill="#6FD38A"/><ellipse cx="54" cy="76" rx="17" ry="13" fill="#E8FFD8"/>
+ <ellipse cx="42" cy="44" rx="26" ry="22" fill="#6FD38A"/>
+ <ellipse cx="30" cy="54" rx="15" ry="10" fill="#8FE3A6"/><circle cx="24" cy="51" r="1.6" fill="#2F7A4A"/><circle cx="31" cy="52" r="1.6" fill="#2F7A4A"/>
+ @E(38,54,40)<path d="M24 58 Q31 63 38 58" fill="none" stroke="#2F7A4A" stroke-width="2" stroke-linecap="round"/>
+ <ellipse cx="60" cy="46" rx="4.5" ry="3" fill="#FF8FAB" opacity=".55"/>
+ <rect x="36" y="86" width="12" height="11" rx="5" fill="#5CC27A"/><rect x="60" y="86" width="12" height="11" rx="5" fill="#5CC27A"/>
+ <path d="M40 66 Q34 72 38 76" stroke="#5CC27A" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+[['cow','🐮'],['hen','🐔'],['sheep','🐑']].forEach(([k,e])=>{const s=ICONART[e];if(s&&!AN[k])AN[k]=`<g transform="translate(4 4) scale(1.44)">${s.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'')}</g>`});
+Object.assign(PITCH,{dino:1.15,cow:.95,hen:1.1,sheep:1.08});
+try{DEX.push(['dino','小恐龍','Dinosaur'],['cow','乳牛','Cow'],['hen','母雞','Hen'],['sheep','綿羊','Sheep'])}catch(e){}
+Object.assign(QTAG,{'恐龍':'#9FE0A0','農場':'#C8E6A0','家人':'#FFC0D8','運動':'#9FD8FF','藝術':'#E0C0FF','算算看':'#FFE08A'});
+
+// ----- 新背景：恐龍谷、農場、運動場 -----
+CHBG.dino=function(W,H){const [g,df]=_grad('#FFD9A8','#FFF2D8');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`;
+ d+=`<path d="M${W*.62} ${H*.62} L${W*.74} ${H*.22} L${W*.8} ${H*.22} L${W*.92} ${H*.62}Z" fill="#B07A5A"/><path d="M${W*.74} ${H*.22} Q${W*.77} ${H*.3} ${W*.8} ${H*.22}Z" fill="#FF8A4A"/>`;
+ [[.74,.16,16],[.78,.1,20],[.83,.05,14]].forEach(([x,y,r])=>{d+=`<circle cx="${W*x}" cy="${H*y}" r="${r}" fill="#E8D8D0" opacity=".8"/>`});
+ d+=`<path d="M-400 ${H*.66} Q${W*.25} ${H*.5} ${W*.5} ${H*.64} T${W+400} ${H*.6} V${H} H-400Z" fill="#8FC86A"/><rect x="-400" y="${H*.8}" width="${W+800}" height="${H*.2}" fill="#C9A06A"/>`;
+ [[.08,.62],[.3,.6],[.52,.66],[.95,.62]].forEach(([fx,fy])=>{const x=W*fx,y=H*fy;d+=`<rect x="${x-4}" y="${y-60}" width="8" height="64" fill="#8A5A3A"/>`;for(let k=0;k<5;k++){const a=-150+k*30;d+=`<path d="M${x} ${y-60} q${Math.cos(a*Math.PI/180)*40} ${Math.sin(a*Math.PI/180)*30+10} ${Math.cos(a*Math.PI/180)*60} ${Math.sin(a*Math.PI/180)*30+30}" stroke="#3F9A5A" stroke-width="7" fill="none" stroke-linecap="round"/>`}});
+ [[.2,.86],[.42,.9],[.68,.86]].forEach(([fx,fy])=>{d+=`<ellipse cx="${W*fx}" cy="${H*fy}" rx="9" ry="12" fill="#FFF4E0" stroke="#E0C090" stroke-width="2"/>`});
+ return d};
+CHBG.farm=function(W,H){const [g,df]=_grad('#9FDCFF','#E8F8FF');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`;
+ d+=`<circle cx="${W*.12}" cy="${H*.18}" r="${Math.min(W,H)*.07}" fill="#FFE27A"/>`;
+ d+=`<path d="M-400 ${H*.6} Q${W*.3} ${H*.48} ${W*.6} ${H*.58} T${W+400} ${H*.54} V${H} H-400Z" fill="#9FD86A"/>`;
+ const bx=W*.7,by=H*.62;d+=`<rect x="${bx}" y="${by-90}" width="120" height="90" fill="#E8505A"/><path d="M${bx-10} ${by-90} L${bx+60} ${by-140} L${bx+130} ${by-90}Z" fill="#B8303A"/><rect x="${bx+42}" y="${by-50}" width="36" height="50" fill="#FFFFFF"/><path d="M${bx+42} ${by-50} L${bx+78} ${by} M${bx+78} ${by-50} L${bx+42} ${by}" stroke="#E8505A" stroke-width="4"/>`;
+ for(let k=0;k<5;k++)d+=`<path d="M-400 ${H*(.7+k*.06)} H${W+400}" stroke="#7FBF4A" stroke-width="10" opacity=".6"/>`;
+ for(let x=-20;x<W+20;x+=34)d+=`<rect x="${x}" y="${H*.64}" width="7" height="${H*.1}" fill="#FFFFFF"/>`;
+ d+=`<path d="M-400 ${H*.67} H${W+400} M-400 ${H*.71} H${W+400}" stroke="#FFFFFF" stroke-width="4"/>`;
+ return d};
+CHBG.sports=function(W,H){const [g,df]=_grad('#8FD0FF','#E0F4FF');let d=df+`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="url(#${g})"/>`;
+ for(let k=0;k<14;k++){const x=k*W/13;d+=`<path d="M${x} ${H*.12} L${x+W/26} ${H*.2} L${x+W/13} ${H*.12}" fill="${['#FF6F8F','#FFD24D','#7FE3F0','#9FE07A'][k%4]}"/>`}
+ d+=`<path d="M-400 ${H*.12} H${W+400}" stroke="#FFFFFF" stroke-width="2"/>`;
+ d+=`<rect x="-400" y="${H*.36}" width="${W+800}" height="${H*.18}" fill="#7A8AB8"/>`;for(let k=0;k<26;k++)d+=`<circle cx="${k*W/25}" cy="${H*.44}" r="9" fill="${['#FF8FC8','#FFE27A','#9FD8FF','#B0F0A0'][k%4]}"/>`;
+ d+=`<rect x="-400" y="${H*.54}" width="${W+800}" height="${H*.46}" fill="#E07A5A"/>`;for(let k=0;k<4;k++)d+=`<path d="M-400 ${H*(.62+k*.1)} H${W+400}" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>`;
+ return d};
+
+// ----- 新題目：160 題 -----
+QUIZ.push(
+ // 恐龍 25
+ ['恐龍','像暴龍那樣的大恐龍，現在還活著嗎？',['🦴','沒有，很久很久以前就消失了'],[['🏠','住在我家旁邊'],['🏫','在學校上課']],'大恐龍生活在很久很久以前，現在只能看到牠們的化石。'],
+ ['恐龍','我們怎麼知道以前有恐龍？',['🦴','挖到恐龍的化石'],[['📺','看卡通知道的'],['🍬','吃糖果知道的']],'科學家挖到恐龍骨頭變成的石頭，叫做化石。'],
+ ['恐龍','暴龍喜歡吃什麼？',['🍖','吃肉'],[['🥬','吃青菜'],['🍰','吃蛋糕']],'暴龍有尖尖的牙齒，是吃肉的恐龍。'],
+ ['恐龍','脖子長長的恐龍，最喜歡吃什麼？',['🌿','高高樹上的葉子'],[['🐟','魚'],['🍔','漢堡']],'長脖子的恐龍，伸長脖子吃高高樹上的葉子。'],
+ ['恐龍','恐龍寶寶是從哪裡出生的？',['🥚','從蛋裡孵出來'],[['🌱','從土裡長出來'],['☁️','從雲上掉下來']],'恐龍媽媽會生蛋，恐龍寶寶從蛋裡孵出來。'],
+ ['恐龍','三角龍的頭上有什麼？',['🔺','三根角'],[['🎀','蝴蝶結'],['👑','皇冠']],'三角龍的頭上有三根角，還有一片大大的頸盾。'],
+ ['恐龍','劍龍的背上有什麼？',['🔶','一片一片的骨板'],[['🎒','背包'],['🦋','蝴蝶']],'劍龍的背上有一片一片的骨板，尾巴還有尖刺。'],
+ ['恐龍','研究恐龍化石的人，叫做什麼？',['🔎','古生物學家'],[['👨‍🍳','廚師'],['👮','警察']],'研究化石的科學家，叫做古生物學家。'],
+ ['恐龍','恐龍化石是在哪裡找到的？',['⛏️','挖開石頭和泥土'],[['🛒','超市買的'],['🌊','海浪送來的']],'化石藏在很深的石頭和泥土裡，要慢慢挖出來。'],
+ ['恐龍','大大的恐龍走路，可能會發出什麼聲音？',['🥁','咚咚咚'],[['🐦','啾啾啾'],['🐱','喵喵喵']],'大恐龍好重好重，走路咚咚咚！'],
+ ['恐龍','恐龍的皮膚，摸起來可能像什麼？',['🦎','像蜥蜴一樣有鱗片'],[['🧸','像布偶一樣軟軟的'],['🧊','像冰塊一樣冰']],'科學家從化石發現，很多恐龍的皮膚有鱗片。'],
+ ['恐龍','恐龍的名字裡，常常有哪一個字？',['🦖','龍'],[['🐱','貓'],['🐟','魚']],'暴龍、三角龍、劍龍，名字裡都有一個龍字！'],
+ ['恐龍','只吃植物的恐龍，叫做什麼？',['🌿','草食性恐龍'],[['🍖','肉食性恐龍'],['🍭','糖果恐龍']],'只吃植物的恐龍，叫做草食性恐龍。'],
+ ['恐龍','現在的小鳥，跟哪一種動物是親戚？',['🦖','恐龍'],[['🐟','魚'],['🐛','毛毛蟲']],'科學家發現，小鳥是恐龍的後代喔！'],
+ ['恐龍','恐龍蛋跟雞蛋比，大部分是怎麼樣？',['🥚','大很多'],[['🤏','小很多'],['🟰','一模一樣']],'很多恐龍蛋比雞蛋大很多。'],
+ ['恐龍','一隻恐龍和三隻恐龍，哪一邊比較多？',['🦕','三隻那一邊'],[['🦖','一隻那一邊'],['🟰','一樣多']],'三比一多，三隻那一邊比較多。'],
+ ['恐龍','暴龍的手長得怎麼樣？',['🤏','短短小小的'],[['💪','長長大大的'],['🪶','長滿羽毛的翅膀']],'暴龍的頭很大，可是手短短小小的。'],
+ ['恐龍','哪一種動物，跟恐龍一樣是爬蟲類？',['🐊','鱷魚'],[['🐶','小狗'],['🐷','小豬']],'鱷魚和恐龍一樣，都是爬蟲類。'],
+ ['恐龍','挖化石的時候，要用什麼慢慢刷？',['🖌️','小刷子'],[['🚜','大怪手'],['🧹','大掃把']],'化石很脆弱，要用小刷子慢慢刷。'],
+ ['恐龍','看恐龍展覽的時候，要怎麼做？',['🤫','小聲說話，排隊看'],[['🏃','跑來跑去'],['📢','大聲尖叫']],'看展覽要小聲，排隊一個一個看。'],
+ ['恐龍','科學家認為，恐龍為什麼消失了？',['☄️','可能有大石頭從天上撞到地球'],[['😴','去睡覺了'],['🏖️','去度假了']],'科學家認為，很久以前有大石頭撞到地球，恐龍就消失了。'],
+ ['恐龍','最大的恐龍有多大？',['🏠','比房子還大'],[['🐜','跟螞蟻一樣'],['🐱','跟小貓一樣']],'最大的恐龍，比一棟房子還要大！'],
+ ['恐龍','迅猛龍跑起來怎麼樣？',['💨','跑得很快'],[['🐢','慢吞吞'],['🛌','不會動']],'迅猛龍個子不大，可是跑得很快。'],
+ ['恐龍','恐龍化石，大家可以去哪裡看？',['🏛️','博物館'],[['🗑️','垃圾桶'],['🍳','廚房']],'博物館裡有恐龍化石，大家都可以去看。'],
+ ['恐龍','恐龍生活的時候，地球上有人類嗎？',['🙅','沒有，人類很久以後才出現'],[['👪','有，一起住'],['🏫','有，一起上學']],'恐龍消失很久很久以後，才有人類。'],
+ // 交通 30
+ ['交通','過馬路要走哪裡？',['🦓','斑馬線'],[['🚗','車子中間'],['🌳','從樹叢鑽出去']],'過馬路要走斑馬線，車子才看得到你。'],
+ ['交通','小綠人開始閃了，要怎麼做？',['⏳','還沒過的人等下一次'],[['🏃','快跑衝過去'],['💃','在馬路中間跳舞']],'小綠人閃了，表示快要紅燈了，還沒走的人要等下一次。'],
+ ['交通','過馬路之前，眼睛要看哪裡？',['👀','左看右看再左看'],[['📱','看手機'],['☁️','看天空']],'過馬路前，左看右看再左看，確定沒有車。'],
+ ['交通','搭公車要在哪裡等？',['🚏','站牌旁邊排隊'],[['🏃','追著公車跑'],['🛣️','站在馬路中間']],'在公車站牌排隊，公車停好再上車。'],
+ ['交通','捷運上的博愛座，要讓給誰？',['👴','老人家和需要的人'],[['🧸','玩具熊'],['🎒','書包']],'博愛座要讓給老人家、肚子裡有寶寶的媽媽和需要的人。'],
+ ['交通','捷運門要關了，嗶嗶嗶在響，要怎麼做？',['✋','等下一班'],[['🏃','衝進去'],['🦶','用腳擋門']],'聽到嗶嗶嗶，就不要衝，等下一班就好。'],
+ ['交通','在捷運裡，可以吃東西嗎？',['🙅','不可以，出站再吃'],[['🍔','可以吃漢堡'],['🥤','喝飲料沒關係']],'捷運車廂和車站裡面不能吃東西、喝飲料，出站再吃喔。'],
+ ['交通','搭電扶梯要怎麼站？',['✋','抓好扶手站穩'],[['🏃','在上面跑'],['🪑','坐在上面']],'搭電扶梯要抓好扶手，站在黃線裡面。'],
+ ['交通','騎腳踏車，要騎在哪裡？',['🚲','腳踏車道，大人陪著'],[['🛣️','大馬路中間'],['🏠','屋頂上']],'騎腳踏車要在安全的地方，大人陪著。'],
+ ['交通','下車的時候，要從哪一邊開門？',['🚪','靠人行道的那一邊'],[['🚗','靠馬路的那一邊'],['🪟','從窗戶爬出去']],'從靠人行道的那一邊下車，才不會被後面的車撞到。'],
+ ['交通','坐汽車的時候，小朋友要坐哪裡？',['💺','後座的兒童安全座椅'],[['🧍','站在前座'],['👩','坐在媽媽腿上']],'小朋友坐在後座的安全座椅，最安全。'],
+ ['交通','路上紅色八角形的牌子，寫著什麼？',['🛑','停'],[['🏃','快跑'],['🎉','歡迎']],'看到紅色八角形的牌子，車子要先停下來。'],
+ ['交通','救護車是做什麼的？',['🚑','送受傷生病的人去醫院'],[['🍕','送披薩'],['🧸','載玩具']],'救護車會快快把受傷生病的人送去醫院。'],
+ ['交通','警察伯伯舉起手比「停」，要怎麼做？',['✋','停下來'],[['🏃','繼續走'],['👋','跟他揮手就走']],'警察伯伯比停，就要停下來等。'],
+ ['交通','停好的車子後面，可以在那裡玩嗎？',['🙅','不可以，司機看不到你'],[['👌','可以'],['🙈','躲貓貓好地方']],'車子後面司機看不到，不可以在那裡玩。'],
+ ['交通','公車來了，什麼時候可以上車？',['🚏','公車停好、門打開再上'],[['🏃','公車還在開就跑過去'],['🤜','推前面的人']],'等公車停好、門打開，再排隊上車。'],
+ ['交通','晚上過馬路，穿什麼比較安全？',['🌟','亮亮的、會反光的衣服'],[['🖤','全身黑黑的'],['🙈','都一樣']],'晚上穿亮亮的衣服，開車的人比較看得到你。'],
+ ['交通','汽車要加什麼才會跑？',['⛽','油或電'],[['🧃','果汁'],['🍪','餅乾']],'汽車要加油或充電，才會跑。'],
+ ['交通','三輪車有幾個輪子？',['#3','三個'],[['#2','兩個'],['#4','四個']],'三輪車，名字裡就有「三」，有三個輪子。'],
+ ['交通','大人坐公車，要怎麼付錢？',['💳','刷卡或投錢'],[['🍬','給司機糖果'],['🙅','不用付']],'大人坐公車要刷卡或投錢喔。'],
+ ['交通','坐船的時候，要穿什麼才安全？',['🦺','救生衣'],[['🩱','泳衣就好'],['🧥','厚厚的大外套']],'坐船要穿救生衣，才安全。'],
+ ['交通','在捷運上，書包要怎麼放？',['🎒','放腳邊或抱在前面'],[['🪑','放在旁邊的座位'],['🚪','放在門口']],'書包放好，別人才有位子坐、走路才不會絆倒。'],
+ ['交通','搭飛機前，在機場要做什麼？',['🛂','排隊檢查行李'],[['🏃','在跑道上跑'],['🏊','去游泳']],'搭飛機前，要排隊檢查行李和證件。'],
+ ['交通','大貨車在載什麼？',['📦','很多貨物'],[['🐟','在游泳的魚'],['⭐','天上的星星']],'大貨車把好多貨物，送到各個地方。'],
+ ['交通','開車的時候，司機可以玩手機嗎？',['🙅','不可以，很危險'],[['📱','可以'],['🎮','玩遊戲沒關係']],'開車要專心看路，玩手機很危險。'],
+ ['交通','過馬路的時候，要牽著誰的手？',['🤝','爸爸媽媽或大人'],[['🐶','小狗'],['🙅','不用牽']],'過馬路要牽著大人的手，才安全。'],
+ ['交通','紅綠燈的黃燈亮了，車子要怎麼做？',['⚠️','準備停下來'],[['🏃','趕快衝過去'],['💤','停下來睡覺']],'黃燈表示快要紅燈了，要準備停下來。'],
+ ['交通','在路邊玩球，球滾到馬路上，要怎麼做？',['✋','不追過去，請大人幫忙'],[['🏃','馬上衝去撿'],['🙈','假裝沒看到']],'球滾到馬路上，千萬不要追，請大人幫忙撿。'],
+ ['交通','走在人行道上，要怎麼走？',['🚶','靠裡面走，離馬路遠一點'],[['🏃','邊走邊跳到馬路上'],['📱','邊走邊看手機']],'走在人行道上，要靠裡面走，離車子遠一點。'],
+ ['交通','消防車為什麼開得很快？',['🔥','要趕快去救火'],[['🍦','要去買冰淇淋'],['🏁','在比賽']],'消防車要趕快去救火，所以大家要讓路。'],
+ // 農場 30
+ ['農場','牛奶是從哪裡來的？',['🐄','乳牛'],[['🐔','母雞'],['🐟','魚']],'牛奶是乳牛媽媽的奶。'],
+ ['農場','雞蛋買回家，要放在哪裡？',['🧊','冰箱裡'],[['☀️','太陽下'],['🛏️','床上']],'雞蛋放進冰箱，才能保持新鮮。'],
+ ['農場','綿羊身上的毛，可以做成什麼？',['🧶','毛線和毛衣'],[['🍬','糖果'],['🪵','木頭']],'綿羊的毛剪下來，可以做成暖暖的毛線和毛衣。'],
+ ['農場','菜園裡的菜，什麼時候可以摘？',['🥬','長大了再摘'],[['🌱','剛發芽就摘'],['🙅','永遠不能摘']],'菜要慢慢長大，長大了才可以摘來吃。'],
+ ['農場','西瓜長在哪裡？',['🍉','地上的藤蔓'],[['🌳','高高的樹上'],['🌊','海裡']],'西瓜長在地上的藤蔓上，又大又圓。'],
+ ['農場','香蕉變成什麼顏色，就熟了？',['💛','黃色'],[['💚','綠色'],['💜','紫色']],'綠色的香蕉還沒熟，變黃了就可以吃了。'],
+ ['農場','農夫用什麼耕田？',['🚜','耕耘機'],[['🚀','火箭'],['🛹','滑板']],'農夫用耕耘機把土翻鬆，才好種菜。'],
+ ['農場','幫忙做菜的時候，切菜要誰來？',['👩‍🍳','大人來切'],[['🧒','自己拿刀亂切'],['🐶','叫小狗切']],'刀子很利，切菜要讓大人來做。'],
+ ['農場','吃飯前，可以幫忙擺好什麼？',['🥢','碗和筷子'],[['🧸','玩具'],['📱','手機']],'吃飯前幫忙擺碗筷，是家裡的小幫手。'],
+ ['農場','不喜歡吃的菜，可以怎麼做？',['😋','先吃一小口試試看'],[['🗑️','偷偷丟掉'],['😭','大哭大鬧']],'不喜歡的菜，先吃一小口試試看，說不定會喜歡。'],
+ ['農場','葡萄長在哪裡？',['🍇','葡萄藤上'],[['🥕','土裡'],['🐟','水裡']],'葡萄一串一串長在葡萄藤上。'],
+ ['農場','鳳梨長在哪裡？',['🍍','矮矮的植物中間'],[['🌳','高高的樹上'],['🌊','海裡']],'鳳梨長在矮矮的植物中間，不是長在樹上喔！'],
+ ['農場','豆漿是用什麼做的？',['🫘','黃豆'],[['🍓','草莓'],['🍫','巧克力']],'豆漿是用黃豆磨出來的。'],
+ ['農場','乳牛最喜歡吃什麼？',['🌿','草'],[['🍖','肉'],['🍬','糖果']],'乳牛吃草，牛媽媽生了寶寶以後，就會有牛奶。'],
+ ['農場','小豬為什麼喜歡在泥巴裡滾？',['🟫','讓身體涼涼的'],[['🛁','在洗澡'],['🎨','在畫畫']],'小豬不太會流汗，在泥巴裡滾一滾，身體就涼涼的。'],
+ ['農場','剛拔出來的菜上面有泥土，要怎麼辦？',['🚰','洗乾淨再煮'],[['😋','直接吃'],['🗑️','丟掉']],'菜上面有泥土，要洗乾淨再煮來吃。'],
+ ['農場','吃不完的飯菜，可以怎麼做？',['🧊','收進冰箱，下一餐吃'],[['🗑️','全部倒掉'],['🛏️','放在床上']],'吃不完的飯菜收進冰箱，下一餐再吃，就不會浪費。'],
+ ['農場','農夫伯伯種菜很辛苦，吃飯的時候要怎麼做？',['🙏','好好吃完不浪費'],[['🍚','吃一半就丟掉'],['😝','挑來挑去']],'珍惜食物，就是謝謝辛苦的農夫伯伯。'],
+ ['農場','早餐吃什麼比較健康？',['🥚','蛋、牛奶和麵包'],[['🍭','只吃糖果'],['🥤','只喝汽水']],'早餐吃蛋、牛奶和麵包，才有力氣上學。'],
+ ['農場','新鮮水果和很甜的果汁，哪一個比較健康？',['🍎','新鮮的水果'],[['🧃','很甜的果汁'],['🍬','水果糖']],'新鮮的水果最健康，很甜的果汁有好多糖。'],
+ ['農場','冰箱的門可以一直開著嗎？',['🙅','不可以，要關好'],[['🚪','可以一直開著'],['🧊','開著涼涼的']],'冰箱門要關好，裡面的食物才不會壞掉，也比較省電。'],
+ ['農場','草莓的種子在哪裡？',['🍓','外面一顆一顆的小點點'],[['📦','盒子裡'],['🌰','硬硬的殼裡']],'草莓外面一顆一顆的小點點，就是它的種子。'],
+ ['農場','母雞孵蛋，蛋會變成什麼？',['🐥','小雞'],[['🐶','小狗'],['🐟','小魚']],'母雞孵蛋，過了一段時間，小雞就破殼而出。'],
+ ['農場','雞蛋要怎麼拿，才不會破？',['🤲','輕輕的拿'],[['🤾','用力丟'],['🦶','用腳踩']],'雞蛋殼很薄，要輕輕的拿。'],
+ ['農場','把蘋果切開，裡面有什麼？',['🍎','小小的種子'],[['🐛','毛毛蟲'],['💎','寶石']],'蘋果切開，中間有小小的種子。'],
+ ['農場','在農場看到小動物，可以怎麼做？',['🤲','大人陪著，輕輕的摸'],[['🦶','踢牠'],['🪨','丟石頭']],'對小動物要溫柔，有大人陪著才可以摸。'],
+ ['農場','摸完小動物以後，要做什麼？',['🧼','用肥皂洗手'],[['🍬','馬上吃糖果'],['🛌','直接睡覺']],'摸完小動物，要用肥皂把手洗乾淨。'],
+ ['農場','玉米長在哪裡？',['🌽','高高的玉米稈上'],[['🌊','海底'],['🪨','石頭裡']],'玉米長在高高的玉米稈上。'],
+ ['農場','農場的雞，晚上會去哪裡？',['😴','回雞舍睡覺'],[['🎤','去開演唱會'],['🏊','去游泳']],'晚上，雞會回到雞舍裡睡覺。'],
+ ['農場','花要結出果實，需要誰幫忙傳花粉？',['🐝','蜜蜂'],[['🐟','魚'],['🐌','蝸牛']],'蜜蜂飛來飛去傳花粉，花才會結出果實。'],
+ // 節日 10
+ ['節日','過年見到長輩，可以說什麼吉祥話？',['🧧','新年快樂、恭喜發財'],[['😴','晚安'],['👋','掰掰']],'過年見到長輩，說新年快樂、恭喜發財！'],
+ ['節日','過年前，家裡常常會做什麼？',['🧹','大掃除'],[['🏖️','去游泳'],['🎃','刻南瓜燈']],'過年前全家一起大掃除，乾乾淨淨過新年。'],
+ ['節日','端午節會吃什麼？',['🍙','粽子'],[['🥮','月餅'],['🎂','生日蛋糕']],'端午節要吃粽子，還有划龍舟比賽。'],
+ ['節日','端午節中午，有人會試著讓什麼立起來？',['🥚','雞蛋'],[['🪑','椅子'],['🐱','小貓']],'端午節中午立蛋，是好玩的習俗。'],
+ ['節日','元宵節除了提燈籠，還可以玩什麼？',['🏮','猜燈謎'],[['⛄','堆雪人'],['🏊','游泳比賽']],'元宵節可以看花燈，還可以猜燈謎。'],
+ ['節日','中秋節常常會吃哪一種水果？',['🍈','柚子'],[['🍉','西瓜'],['🍌','香蕉']],'中秋節吃柚子，柚子皮還可以做成帽子！'],
+ ['節日','聖誕夜，有些小朋友會在床邊掛什麼？',['🧦','襪子'],[['🎒','書包'],['👟','球鞋']],'聖誕夜掛上襪子，等聖誕老公公送禮物。'],
+ ['節日','聖誕老公公的衣服是什麼顏色？',['❤️','紅色和白色'],[['💚','綠色和黃色'],['🖤','全身黑色']],'聖誕老公公穿著紅色和白色的衣服。'],
+ ['節日','過年吃魚，代表什麼好意思？',['🐟','年年有餘'],[['💤','年年睡覺'],['🌧️','年年下雨']],'「魚」和「餘」唸起來一樣，所以吃魚代表年年有餘。'],
+ ['節日','端午節划龍舟，大家要怎麼划？',['🤝','一起用力整齊划'],[['😴','有人在睡覺'],['🙅','各划各的']],'划龍舟要大家一起用力，船才會跑得快。'],
+ // 家人 15
+ ['家人','家人的生日快到了，你可以怎麼做？',['🎨','畫一張卡片送他'],[['🙈','假裝不知道'],['😝','跟他搶蛋糕']],'親手畫的卡片，是最棒的生日禮物。'],
+ ['家人','爺爺奶奶說以前的故事，要怎麼做？',['👂','專心聽，問問題'],[['📱','一直玩手機'],['🏃','跑去別的地方']],'專心聽爺爺奶奶說故事，會知道好多以前的事。'],
+ ['家人','吃飯的時候，什麼時候開動？',['👪','等家人都坐好'],[['🏃','自己先吃'],['📺','邊看電視邊吃']],'等家人都坐好，一起開動，好溫馨。'],
+ ['家人','媽媽在講電話，你有事要說，要怎麼做？',['🤫','等她講完再說'],[['📢','一直大叫媽媽'],['🥁','在旁邊打鼓']],'等媽媽講完電話再說，是有禮貌的好孩子。'],
+ ['家人','家人跟你說「不可以」的時候，要怎麼做？',['👂','先聽聽看為什麼'],[['😡','大哭大鬧'],['🙈','假裝沒聽到']],'家人說不可以，是想保護你，先聽聽看為什麼。'],
+ ['家人','弟弟妹妹在哭，你可以怎麼做？',['🧸','拿玩具陪他玩'],[['😝','笑他'],['📢','大叫不要哭']],'陪弟弟妹妹玩，是很棒的哥哥姊姊。'],
+ ['家人','想請家人幫忙，要怎麼說？',['🙏','請你幫幫我'],[['😡','快點幫我！'],['😭','一直哭']],'有禮貌的說「請你幫我」，家人會很樂意幫忙。'],
+ ['家人','出門的時候，要跟家人說什麼？',['👋','我出門了，掰掰'],[['🤐','什麼都不說'],['🌙','晚安']],'出門跟家人說一聲，家人才知道你去哪裡。'],
+ ['家人','回到家的時候，可以說什麼？',['🏠','我回來了'],[['👋','再見'],['🍽️','開動了']],'回到家說我回來了，家人會好開心。'],
+ ['家人','剪刀和膠水用好了，要怎麼做？',['📦','放回原來的地方'],[['🌀','隨便亂丟'],['🛋️','塞到沙發底下']],'東西用好放回原位，下次就找得到。'],
+ ['家人','家人跟你說話的時候，要怎麼做？',['👀','看著他，好好聽'],[['🙉','摀住耳朵'],['📺','繼續看電視']],'看著家人，好好聽他說話，是尊重。'],
+ ['家人','全家一起拍照，要怎麼做？',['😄','看鏡頭笑一個'],[['🏃','跑走'],['🙈','把臉遮起來']],'看鏡頭笑一個，拍出漂亮的全家福！'],
+ ['家人','家人下班回家好累，你可以怎麼做？',['🤗','給他一個抱抱'],[['📢','吵著要他陪玩'],['🙈','不理他']],'一個抱抱，家人就不累了！'],
+ ['家人','跟家人一起出去玩，要怎麼做？',['🤝','跟緊家人，不亂跑'],[['🏃','自己跑去別的地方'],['🙈','躲起來嚇人']],'出去玩要跟緊家人，才不會走丟。'],
+ ['家人','家人幫你做了一頓好吃的晚餐，可以怎麼做？',['🙏','說謝謝，好好吃完'],[['😝','說好難吃'],['📱','邊玩手機邊吃']],'謝謝家人辛苦做飯，好好吃完最開心。'],
+ // 運動 13
+ ['運動','運動之前，要先做什麼？',['🤸','暖身動一動'],[['🍔','先吃得很飽'],['😴','先睡一覺']],'運動前先暖身，身體才不會受傷。'],
+ ['運動','跑步跑累了，要怎麼做？',['💧','休息一下、喝水'],[['🏃','一直跑不停'],['🍦','吃冰淇淋']],'累了就休息一下，喝點水。'],
+ ['運動','比賽的時候，要怎麼做？',['🤝','遵守規則，不推人'],[['👊','推別人'],['🙈','偷偷作弊']],'比賽要遵守規則，大家玩得才開心。'],
+ ['運動','踢足球，大部分用身體的哪裡踢？',['🦶','腳'],[['👃','鼻子'],['👂','耳朵']],'踢足球用腳踢，只有守門員可以用手。'],
+ ['運動','打籃球，要把球丟進哪裡？',['🏀','籃框'],[['🗑️','垃圾桶'],['🚪','門裡']],'把籃球丟進籃框，就得分了！'],
+ ['運動','游泳的時候，戴什麼可以保護眼睛？',['🥽','蛙鏡'],[['🕶️','太陽眼鏡'],['🎭','面具']],'戴上蛙鏡，在水裡也可以張開眼睛。'],
+ ['運動','跳繩是用什麼跳？',['🪢','一條繩子'],[['🧶','一顆毛線球'],['🎈','一顆氣球']],'甩動繩子，跳過去，就是跳繩。'],
+ ['運動','接力賽跑，要把什麼交給下一個人？',['🏃','接力棒'],[['🍌','香蕉'],['🧸','玩偶']],'接力賽要把接力棒交給下一個隊友。'],
+ ['運動','去爬山，要穿什麼鞋子？',['👟','好走的運動鞋'],[['👠','高跟鞋'],['🩴','拖鞋']],'爬山要穿好走的運動鞋，才不會滑倒。'],
+ ['運動','盪鞦韆的時候，要怎麼做？',['🤲','抓好繩子坐穩'],[['🧍','站在上面'],['🏃','從鞦韆前面跑過去']],'盪鞦韆要坐穩抓好，也不要從鞦韆前面走過。'],
+ ['運動','哪一種動物跑得最快？',['🐆','獵豹'],[['🐢','烏龜'],['🐌','蝸牛']],'獵豹是跑得最快的動物。'],
+ ['運動','游完泳以後，要做什麼？',['🚿','沖澡、擦乾身體'],[['🏃','濕濕的到處跑'],['😴','濕濕的直接睡覺']],'游完泳沖個澡，擦乾身體，才不會著涼。'],
+ ['運動','比賽完了，要怎麼做？',['🤝','跟對手握手說謝謝'],[['😤','生氣跺腳'],['🙅','不理對手']],'比完賽握手說謝謝，大家都是好朋友。'],
+ // 藝術 12
+ ['藝術','哪一個是樂器？',['🎹','鋼琴'],[['🍎','蘋果'],['🧦','襪子']],'鋼琴是樂器，可以彈出好聽的音樂。'],
+ ['藝術','用嘴巴吹的樂器是哪一個？',['🎺','喇叭'],[['🥁','鼓'],['🎹','鋼琴']],'喇叭要用嘴巴吹。'],
+ ['藝術','拉小提琴要用什麼？',['🎻','琴弓'],[['🥄','湯匙'],['✏️','鉛筆']],'小提琴要用琴弓拉，才會發出聲音。'],
+ ['藝術','畫完畫，蠟筆要怎麼辦？',['📦','收回盒子裡'],[['🌀','丟在地上'],['👄','放進嘴巴']],'用完的蠟筆收回盒子，下次還可以畫。'],
+ ['藝術','可以在家裡的牆壁上畫畫嗎？',['🙅','不可以，要畫在紙上'],[['🖍️','可以隨便畫'],['🤫','偷偷畫']],'畫畫要畫在紙上，牆壁要保持乾淨。'],
+ ['藝術','表演結束了，可以怎麼做？',['👏','拍拍手謝謝表演的人'],[['🏃','馬上衝上台'],['😝','做鬼臉']],'表演完拍拍手，謝謝表演的人。'],
+ ['藝術','黏土可以拿來做什麼？',['🐱','捏出各種形狀'],[['🍬','當糖果吃'],['💧','當水喝']],'黏土可以捏出小貓、小花，但是不能吃喔。'],
+ ['藝術','用剪刀剪紙，要注意什麼？',['✂️','用兒童剪刀，不對著人'],[['🏃','拿著剪刀跑'],['👉','對著朋友剪']],'用兒童剪刀，剪刀口不要對著人。'],
+ ['藝術','跳舞的時候，要聽著什麼？',['🎵','音樂的節奏'],[['📺','電視'],['🔕','什麼都不用聽']],'跟著音樂的節奏，就可以跳得很好看。'],
+ ['藝術','鋼琴的琴鍵是什麼顏色？',['🎹','黑色和白色'],[['🌈','彩虹色'],['💚','綠色']],'鋼琴有黑色和白色的琴鍵。'],
+ ['藝術','唱生日快樂歌的時候，大家會做什麼？',['👏','一起拍手唱歌'],[['😴','睡覺'],['🙉','把耳朵摀起來']],'大家一起拍手唱生日快樂歌，好開心！'],
+ ['藝術','畫完的畫，可以怎麼做？',['🖼️','送給家人或貼起來'],[['🗑️','馬上丟掉'],['🌧️','拿去淋雨']],'畫完的畫可以送給家人，或貼在牆上欣賞。'],
+ // 算算看 25
+ ['算算看','樹上有三顆蘋果，掉下一顆，還剩幾顆？',['#2','兩顆'],[['#3','三顆'],['#4','四顆']],'三顆拿走一顆，還剩兩顆。'],
+ ['算算看','一隻小貓有四隻腳，兩隻小貓一共有幾隻腳？',['#8','八隻'],[['#6','六隻'],['#4','四隻']],'四隻加四隻，一共八隻腳。'],
+ ['算算看','盤子裡有五塊餅乾，吃掉兩塊，還剩幾塊？',['#3','三塊'],[['#2','兩塊'],['#7','七塊']],'五塊吃掉兩塊，還剩三塊。'],
+ ['算算看','你有兩顆糖，媽媽再給你兩顆，現在有幾顆？',['#4','四顆'],[['#3','三顆'],['#2','兩顆']],'兩顆加兩顆，一共四顆。'],
+ ['算算看','一雙襪子有幾隻？',['#2','兩隻'],[['#1','一隻'],['#3','三隻']],'一雙就是兩隻。'],
+ ['算算看','三個小朋友，每人一顆氣球，要幾顆氣球？',['#3','三顆'],[['#1','一顆'],['#6','六顆']],'每人一顆，三個人就要三顆。'],
+ ['算算看','停車場有六台車，開走一台，還有幾台？',['#5','五台'],[['#6','六台'],['#7','七台']],'六台開走一台，還有五台。'],
+ ['算算看','一隻小鳥有兩隻翅膀，三隻小鳥一共有幾隻翅膀？',['#6','六隻'],[['#5','五隻'],['#3','三隻']],'二加二加二，一共六隻翅膀。'],
+ ['算算看','兩隻腳，一共有幾根腳趾頭？',['#10','十根'],[['#5','五根'],['#8','八根']],'一隻腳五根腳趾頭，兩隻腳一共十根。'],
+ ['算算看','排隊的時候，你前面有兩個人，你排第幾個？',['#3','第三個'],[['#2','第二個'],['#1','第一個']],'前面有兩個人，你就是第三個。'],
+ ['算算看','媽媽買了四個包子，爸爸吃一個，你吃一個，還剩幾個？',['#2','兩個'],[['#3','三個'],['#1','一個']],'四個吃掉兩個，還剩兩個。'],
+ ['算算看','一盒蛋有六顆，破了一顆，還剩幾顆好的？',['#5','五顆'],[['#6','六顆'],['#4','四顆']],'六顆破了一顆，還剩五顆好的。'],
+ ['算算看','池塘裡有五隻小鴨，又游來三隻，一共有幾隻？',['#8','八隻'],[['#2','兩隻'],['#6','六隻']],'五隻加三隻，一共八隻。'],
+ ['算算看','十顆草莓，分給兩個人一樣多，一人幾顆？',['#5','五顆'],[['#2','兩顆'],['#10','十顆']],'十顆分成一樣多的兩份，一人五顆。'],
+ ['算算看','三角形有幾個角？',['#3','三個'],[['#4','四個'],['#5','五個']],'三角形有三個角，三條邊。'],
+ ['算算看','正方形有幾條邊？',['#4','四條'],[['#3','三條'],['#6','六條']],'正方形有四條一樣長的邊。'],
+ ['算算看','八個座位，坐了五個人，還有幾個空位？',['#3','三個'],[['#5','五個'],['#8','八個']],'八個座位坐了五個，還有三個空位。'],
+ ['算算看','小明有三枝筆，借給朋友一枝，還剩幾枝？',['#2','兩枝'],[['#4','四枝'],['#1','一枝']],'三枝借出一枝，還剩兩枝。'],
+ ['算算看','一輛腳踏車有兩個輪子，兩輛一共有幾個輪子？',['#4','四個'],[['#2','兩個'],['#3','三個']],'兩個加兩個，一共四個輪子。'],
+ ['算算看','九顆氣球，飛走了四顆，還剩幾顆？',['#5','五顆'],[['#4','四顆'],['#9','九顆']],'九顆飛走四顆，還剩五顆。'],
+ ['算算看','一個蘋果切成兩半，變成幾塊？',['#2','兩塊'],[['#1','一塊'],['#4','四塊']],'切成兩半，就是兩塊。'],
+ ['算算看','桌上有一個杯子，再拿來兩個，現在有幾個？',['#3','三個'],[['#2','兩個'],['#1','一個']],'一個加兩個，一共三個。'],
+ ['算算看','一隻小狗有一條尾巴，四隻小狗有幾條尾巴？',['#4','四條'],[['#1','一條'],['#8','八條']],'每隻一條，四隻就有四條尾巴。'],
+ ['算算看','哪一個數字比五大？',['#7','七'],[['#3','三'],['#1','一']],'七比五大，三和一比五小。'],
+ ['算算看','數一數：一、二、三，接下來是什麼？',['#4','四'],[['#6','六'],['#2','二']],'一、二、三、四，接下來是四。']
+);
+// ----- 新英文單字 40 個 -----
+WORDS.push(['🐯','tiger','老虎'],['🐒','monkey','猴子'],['🐼','panda','熊貓'],['🐴','horse','馬'],['🐑','sheep','綿羊'],['🐔','chicken','雞'],['🐦','bird','小鳥'],['🐋','whale','鯨魚'],['🐢','turtle','烏龜'],['🐝','bee','蜜蜂'],
+ ['🐜','ant','螞蟻'],['🦕','dinosaur','恐龍'],['🥛','milk','牛奶'],['💧','water','水'],['🍞','bread','麵包'],['🍚','rice','白飯'],['🍕','pizza','披薩'],['🍦','ice cream','冰淇淋'],['🍉','watermelon','西瓜'],['🍓','strawberry','草莓'],
+ ['🥕','carrot','紅蘿蔔'],['🌽','corn','玉米'],['🚆','train','火車'],['⛵','boat','船'],['✈️','airplane','飛機'],['🚲','bike','腳踏車'],['🚀','rocket','火箭'],['👒','hat','帽子'],['👟','shoe','鞋子'],['🎒','backpack','背包'],
+ ['🛏️','bed','床'],['🪑','chair','椅子'],['🥄','spoon','湯匙'],['🚪','door','門'],['🔑','key','鑰匙'],['⏰','clock','時鐘'],['❄️','snow','雪'],['🪁','kite','風箏'],['🥁','drum','鼓'],['🎁','gift','禮物']);
+
+// ----- 五個章節 -----
+const CH16=[
+ L_('恐龍蛋','dino','dino',['quiz:恐龍','count','letter'],'pick','我是小恐龍阿古！我剛從蛋裡孵出來，帶你參觀恐龍谷吧！'),
+ L_('化石挖挖樂','owl','dino',['quiz:恐龍','shape','zhuyin'],'box','咕咕，我是貓頭鷹博士！拿起小刷子，我們一起挖化石！'),
+ L_('長脖子森林','giraffe','dino',['quiz:恐龍','compare','add'],'chest','這裡住著長脖子恐龍，牠們最喜歡吃高高樹上的葉子！'),
+ L_('暴龍的腳印','dino','dino',['quiz:恐龍','pattern','read'],'petgift','咚咚咚！好大的腳印，是暴龍走過去的嗎？'),
+ L_('三角龍的家','deer','dino',['quiz:恐龍','word','quiz:算算看'],'pick','三角龍頭上有三根角，最喜歡吃低低的植物喔。'),
+ L_('火山口','dino','dino',['quiz:恐龍','catch:letter','sub'],'rain','前面有一座冒煙的火山，我們站遠遠的看就好！'),
+ L_('恐龍博物館','owl','museum',['quiz:恐龍','spell','read'],'box','歡迎來到恐龍博物館！化石要用眼睛看，不可以摸喔。'),
+ L_('恐龍蛋排排站','turtle','dino',['seq','quiz:恐龍','trace:num'],'chest','我是烏龜，跟恐龍一樣是爬蟲類！幫恐龍蛋排排隊吧！'),
+ L_('恐龍合唱團','bird','dino',['sound','quiz:恐龍','quiz:算算看'],'petgift','啾啾！小鳥是恐龍的後代喔，我們來唱歌吧！'),
+ L_('時光門','star','dino',['mix','mix','mix','mix'],'chapter','時光門要打開了！答對四個問題，就可以回到現在！')];
+const CH17=[
+ L_('公車站','pig','street',['quiz:交通','money','count'],'pick','叭叭！我是公車司機小豬，在站牌排隊，就可以上車囉！'),
+ L_('斑馬線','dog','street',['traffic','quiz:交通','letter'],'box','汪汪！我是警察小狗，過馬路要走斑馬線，左看右看再左看！'),
+ L_('捷運站','mouse','street',['quiz:交通','clock','read'],'chest','吱吱！搭捷運要先下後上，車廂裡不能吃東西喔。'),
+ L_('腳踏車道','bunny','garden',['quiz:交通','vehicle','add'],'petgift','騎腳踏車要戴安全帽，騎在腳踏車道上！'),
+ L_('火車站','elephant','street',['quiz:交通','zhuyin','quiz:算算看'],'pick','嗚嗚～火車要進站了，站在黃線後面等喔！'),
+ L_('港口','dolphin','sea',['quiz:交通','word','compare'],'rain','我是海豚！坐船要穿救生衣，才安全喔。'),
+ L_('機場','bird','cloud',['quiz:交通','catch:zhuyin','read'],'box','飛機要起飛囉！先排隊檢查行李，再上飛機。'),
+ L_('消防隊出動','dog','street',['sound','quiz:交通','sub'],'chest','喔咿喔咿！消防車要去救火，大家趕快讓路！'),
+ L_('停車場','kitten','town',['quiz:交通','pattern','quiz:算算看'],'petgift','喵～停車場有好多車，要牽著大人的手走喔。'),
+ L_('城市大遊行','star','street',['mix','mix','mix','mix'],'chapter','城市大遊行開始了！答對四個問題，一起去遊行！')];
+const CH18=[
+ L_('雞舍','hen','farm',['quiz:農場','count','letter'],'pick','咯咯咯！我是母雞，歡迎來到開心農場！快來看我剛生的蛋！'),
+ L_('牛奶屋','cow','farm',['quiz:農場','feed','add'],'box','哞～我是乳牛，牛奶就是從我這裡來的喔！'),
+ L_('綿羊草地','sheep','farm',['quiz:農場','zhuyin','read'],'chest','咩～我的毛軟綿綿，剪下來可以做成毛衣！'),
+ L_('菜園','bunny','farm',['quiz:農場','sort','quiz:算算看'],'petgift','菜園裡有好多青菜，長大了就可以摘喔！'),
+ L_('果園','squirrel','farm',['quiz:農場','count','word'],'pick','果園裡有蘋果、葡萄和香蕉，我們來數一數！'),
+ L_('玉米田','pig','farm',['quiz:農場','compare','sub'],'rain','玉米長得好高好高，比一比，哪一根比較長？'),
+ L_('廚房小幫手','kitten','town',['quiz:農場','routine','read'],'box','喵～做菜的時候，刀子和火讓大人來，我們幫忙擺碗筷！'),
+ L_('農夫市集','duck','village',['quiz:農場','money','quiz:算算看'],'chest','呱呱！農夫市集好熱鬧，買東西要先付錢喔。'),
+ L_('野餐時間','bear','garden',['quiz:農場','share','catch:letter'],'petgift','我們來野餐！好吃的東西大家一起分享。'),
+ L_('豐收派對','star','farm',['mix','mix','mix','mix'],'chapter','農場豐收了！答對四個問題，一起開豐收派對！')];
+const CH19=[
+ L_('大掃除','bunny','village',['quiz:節日','routine','count'],'pick','快過年了！我們全家一起大掃除吧！'),
+ L_('拜年','bear','village',['quiz:節日','manner','letter'],'box','新年快樂！見到長輩，要說恭喜發財喔！'),
+ L_('元宵燈會','owl','lake',['quiz:節日','catch:zhuyin','read'],'chest','元宵節的花燈好漂亮，我們來猜燈謎！'),
+ L_('端午龍舟','duck','lake',['quiz:節日','quiz:算算看','add'],'petgift','咚咚咚！龍舟比賽開始了，大家一起用力划！'),
+ L_('中秋賞月','bunny','lake',['quiz:節日','compare','quiz:家人'],'pick','中秋節的月亮好圓，全家一起賞月吃柚子！'),
+ L_('聖誕夜','snowman','ice',['quiz:節日','word','read'],'rain','聖誕節到了！掛上襪子，等聖誕老公公送禮物！'),
+ L_('爺爺奶奶家','dog','village',['quiz:家人','clock','sub'],'box','汪汪！今天去爺爺奶奶家，要記得打招呼喔！'),
+ L_('家事小幫手','mouse','town',['quiz:家人','sort','quiz:家人'],'chest','吱吱！收玩具、放髒衣服，我們都是家事小幫手！'),
+ L_('晚安故事','kitten','lake',['quiz:家人','zhuyin','read'],'petgift','喵～睡覺前，跟家人說晚安，聽一個故事吧。'),
+ L_('團圓飯','star','village',['mix','mix','mix','mix'],'chapter','全家人一起吃團圓飯！答對四個問題，大家一起開動！')];
+const CH20=[
+ L_('暖身操','bear','sports',['quiz:運動','count','letter'],'pick','歡迎來到星光運動會！運動前，先一起做暖身操！'),
+ L_('賽跑','giraffe','sports',['quiz:運動','compare','quiz:算算看'],'box','預備，跑！跑累了要休息喝水喔。'),
+ L_('接力賽','dog','sports',['quiz:運動','seq','read'],'chest','汪汪！把接力棒交給下一個隊友，大家一起加油！'),
+ L_('足球場','lion','sports',['quiz:運動','catch:letter','add'],'petgift','吼～踢足球要用腳，遵守規則才好玩！'),
+ L_('游泳池','dolphin','sea',['quiz:運動','word','sub'],'pick','我是海豚！游泳要戴蛙鏡，大人陪著才安全。'),
+ L_('音樂教室','bird','hall',['quiz:藝術','sound','read'],'rain','啾啾！鋼琴、喇叭、小提琴，好多好聽的樂器！'),
+ L_('畫畫教室','butterfly','garden',['quiz:藝術','colormix','zhuyin'],'box','拿起蠟筆，畫一張漂亮的畫吧！'),
+ L_('跳舞時間','bunny','hall',['quiz:藝術','pattern','quiz:算算看'],'chest','跟著音樂的節奏，一起跳舞吧！'),
+ L_('頒獎台','dino','sports',['quiz:運動','measure','read'],'petgift','比賽完了！不管第幾名，大家都好棒！'),
+ L_('閉幕典禮','star','sports',['mix','mix','mix','mix'],'chapter','最後一關！答對四個問題，星光運動會就圓滿成功了！')];
+const S2MIX=[...ALLMIX,'quiz:算算看','read'];
+CHAPTERS.push(
+ {name:'時光恐龍谷',title:'第十六章・時光恐龍谷',levels:CH16,bg:'dino',mix:[...S2MIX,'quiz:恐龍'],
+  firstSay:'第十六章，時光恐龍谷！我們穿過時光門，回到恐龍的時代吧！點一下發光的小恐龍，出發！',
+  letter:'親愛的公主：<br>謝謝你去恐龍谷幫小恐龍阿古！你認識了暴龍、三角龍和好多化石。<br>下一站，我們要去交通小城市！',
+  prize:[],gems:10,prizeName:'',endText:'下一站：第十七章「交通小城市」！'},
+ {name:'交通小城市',title:'第十七章・交通小城市',levels:CH17,bg:'street',mix:[...S2MIX,'quiz:交通','traffic','vehicle'],
+  firstSay:'第十七章，交通小城市！公車、捷運、火車和飛機，我們一起學會安全出門！點一下發光的小豬，出發！',
+  letter:'親愛的公主：<br>你學會了走斑馬線、搭公車和搭捷運，好厲害！<br>出門的時候，要牽好大人的手喔。<br>下一站，我們要去開心農場！',
+  prize:[],gems:10,prizeName:'',endText:'下一站：第十八章「開心農場」！'},
+ {name:'開心農場',title:'第十八章・開心農場',levels:CH18,bg:'farm',mix:[...S2MIX,'quiz:農場','feed'],
+  firstSay:'第十八章，開心農場！看看牛奶、雞蛋和青菜是從哪裡來的！點一下發光的母雞，出發！',
+  letter:'親愛的公主：<br>你知道了牛奶、雞蛋和青菜是從哪裡來的，也學會不浪費食物！<br>下一站，我們要回家過節日！',
+  prize:[],gems:10,prizeName:'',endText:'下一站：第十九章「節日和家人」！'},
+ {name:'節日和家人',title:'第十九章・節日和家人',levels:CH19,bg:'lake',mix:[...S2MIX,'quiz:節日','quiz:家人'],
+  firstSay:'第十九章，節日和家人！過年、端午、中秋和聖誕節，我們和家人一起過！點一下發光的小兔子，出發！',
+  letter:'親愛的公主：<br>你和家人一起過了好多節日，還當了家事小幫手！<br>有家人在身邊，每天都像過節一樣開心。<br>最後一站，是星光運動會！',
+  prize:[],gems:10,prizeName:'',endText:'下一站：最後一章「星光運動會」！'},
+ {name:'星光運動會',title:'第二十章・星光運動會',levels:CH20,bg:'sports',mix:[...S2MIX,'quiz:運動','quiz:藝術'],
+  firstSay:'第二十章，星光運動會！跑步、游泳、唱歌和畫畫，大家一起來參加！點一下發光的熊熊，出發！',
+  letter:'親愛的公主：<br>星光運動會圓滿成功！你跑得好快，唱得好好聽，畫得好漂亮。<br>謝謝你陪我認識這麼多新朋友！<br>你永遠是最棒的星光公主！',
+  prize:[],gems:20,prizeName:'',giftText:'星光公主大冒險，第二季完成！',giftSay:'還有二十顆寶石！星光公主大冒險，第二季完成！',
+  endText:'星光公主大冒險，第二季完成！<br>謝謝你一路陪著大家，我們下次再一起冒險！'});
+// 第十五章結束：接著第二季
+try{const c15=CHAPTERS[14];c15.endText='你得到第五個旅行紀念章！<br>第一季完成！<br>下一站：第二季「時光恐龍谷」！';c15.giftSay='還有二十顆寶石！星光公主大冒險，第一季完成！';c15.giftText='第一季完成！第二季的新朋友在等你！'}catch(e){}
+// 第二十章的信是王子寫的：用王子的聲音
+try{CHAPTERS.slice(15).forEach(c=>PRINCE_LETTERS.add(c.letter.replace(/<br>/g,'')))}catch(e){}
+// 大地圖：第四段
+WORLD.push({i:15,ic:()=>art('🦖'),c:['#5FAE6A','#2A5A2A'],name:'時光恐龍谷'},{i:16,ic:()=>art('🚌'),c:['#E0A04A','#7A4A1A'],name:'交通小城市'},
+ {i:17,ic:()=>art('🐄'),c:['#8FC86A','#3A6A2A'],name:'開心農場'},{i:18,ic:()=>art('🏮'),c:['#E0606A','#7A2A3A'],name:'節日和家人'},{i:19,ic:()=>art('🏅'),c:['#4A9AE0','#1A3A7A'],name:'星光運動會'});
+ARCS.push({t:'星光王國的新朋友',n:'第四段',from:15,ic:()=>WICON.star,say:'接著，再去認識好多新朋友！'});
+// 自由練習
+PTOPICS.push(['dino','恐龍','🦖','dino','dino',['quiz:恐龍','quiz:恐龍','quiz:恐龍','quiz:恐龍','quiz:恐龍']],
+ ['traffic2','交通安全','🚌','dog','street',['quiz:交通','quiz:交通','traffic','quiz:交通','quiz:交通']],
+ ['farm','農場和食物','🐄','cow','farm',['quiz:農場','quiz:農場','quiz:農場','feed','quiz:農場']],
+ ['family','節日和家人','🏮','bunny','lake',['quiz:節日','quiz:家人','quiz:節日','quiz:家人','quiz:家人']],
+ ['sport','運動和藝術','🏅','bear','sports',['quiz:運動','quiz:藝術','quiz:運動','quiz:藝術','quiz:運動']],
+ ['mathq','算算看','🔢','squirrel','forest',['quiz:算算看','quiz:算算看','quiz:算算看','quiz:算算看','quiz:算算看']]);
+
+// ----- 第二季開場故事 -----
+const _story2s=SCREENS.story;
+SCREENS.story=function(){if(S.ch<15||S.ch>19)return _story2s();
+ const bg=k=>`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${sbg(k)}</svg>`;
+ const sn=()=>V2.starName||'小星星';
+ const PAGES={
+  15:[{bg:'space',a:()=>`${princess(S.look)}<span class="bob">${animal('star','class="small"')}</span>`,t:()=>`${sn()}回到天空以後，王子收到了五封邀請信！`},
+      {bg:'dino',a:()=>`${princess(S.look)}<span class="bob">${animal('dino')}</span>`,t:()=>'第一封信來自小恐龍阿古：請來恐龍谷玩！'},
+      {bg:'dino',a:()=>`${myPet('class="small"')}${princess(S.look)}<span class="bob">${animal('owl')}</span>`,t:()=>'穿過時光門，回到很久很久以前，出發吧！'}],
+  16:[{bg:'street',a:()=>`${princess(S.look)}<span class="bob">${animal('pig')}</span>`,t:()=>'第二封信來自公車司機小豬：歡迎來交通小城市！'},
+      {bg:'street',a:()=>`${myPet('class="small"')}${princess(S.look)}<span class="bob">${animal('dog')}</span>`,t:()=>'警察小狗說：出門要注意安全，我教你怎麼過馬路！'},
+      {bg:'street',a:()=>`${princess(S.look)}<span class="bob">${animal('star','class="small"')}</span>`,t:()=>'牽好大人的手，我們出發囉！'}],
+  17:[{bg:'farm',a:()=>`${princess(S.look)}<span class="bob">${animal('hen')}</span>`,t:()=>'第三封信來自母雞：開心農場要豐收了，快來幫忙！'},
+      {bg:'farm',a:()=>`${myPet('class="small"')}${princess(S.look)}<span class="bob">${animal('cow')}</span>`,t:()=>'乳牛說：我們一起看看，好吃的食物是從哪裡來的！'},
+      {bg:'farm',a:()=>`${princess(S.look)}<span class="bob">${animal('sheep')}</span>`,t:()=>'穿上好走的鞋子，去農場囉！'}],
+  18:[{bg:'lake',a:()=>`${princess(S.look)}<span class="bob">${animal('bunny')}</span>`,t:()=>'第四封信來自小兔子：快過年了，一起回家過節吧！'},
+      {bg:'lake',a:()=>`${myPet('class="small"')}${princess(S.look)}<span class="bob">${animal('bear')}</span>`,t:()=>'熊熊說：過年、端午、中秋和聖誕節，都要和家人一起過！'},
+      {bg:'lake',a:()=>`${princess(S.look)}<span class="bob">${animal('star','class="small"')}</span>`,t:()=>'換上漂亮的衣服，回家過節囉！'}],
+  19:[{bg:'sports',a:()=>`${princess(S.look)}<span class="bob">${animal('bear')}</span>`,t:()=>'最後一封信來自熊熊：星光運動會要開始了！'},
+      {bg:'sports',a:()=>`${myPet('class="small"')}${princess(S.look)}<span class="bob">${animal('dino')}</span>`,t:()=>'小恐龍阿古、小豬、乳牛和小兔子，大家都來了！'},
+      {bg:'sports',a:()=>`${princess(S.look)}<span class="bob">${animal('star','class="small"')}</span>`,t:()=>'穿上運動鞋，我們去參加運動會吧！'}]};
+ const P=PAGES[S.ch];let i=0;
+ function render(){const p=P[i];const t=p.t();
+  screen.innerHTML=`<div class="story"><button class="skip" id="skip">跳過</button><div class="scard">
+   <div class="scene">${bg(p.bg)}<div class="actors">${p.a()}</div></div><p class="stext">${t}</p>
+   <div class="sdots">${P.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>
+   <button class="btn" id="next">${i<P.length-1?'下一頁':'去換裝'}</button></div></div>`;
+  say([t]);
+  $('#next').onclick=()=>{if(i<P.length-1){i++;sfx('pop');render()}else go('guide')};
+  $('#skip').onclick=()=>go('guide');
+ }
+ render()};
+
+/* ================= v3.0: 跟著唸（錄下自己的聲音，不判斷對錯） ================= */
+const RDB=(()=>{let dbp=null;const open=()=>dbp||(dbp=new Promise((res,rej)=>{try{const r=indexedDB.open('pp4rec',1);r.onupgradeneeded=()=>r.result.createObjectStore('r',{keyPath:'id',autoIncrement:true});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}}));
+ const tx=async m=>{const db=await open();return db.transaction('r',m).objectStore('r')};
+ const req=r=>new Promise((res,rej)=>{r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+ return {async add(o){const st=await tx('readwrite');await req(st.add(o));const all=await this.all();if(all.length>30){const st2=await tx('readwrite');for(const x of all.slice(30))st2.delete(x.id)}},
+  async all(){const st=await tx('readonly');const a=await req(st.getAll());return a.sort((x,y)=>y.t-x.t)},
+  async clear(){const st=await tx('readwrite');await req(st.clear())}}})();
+const canRec=()=>!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder);
+function rdItem(){const r=Math.random();
+ if(r<.34){const t=pick(letterPool());const low=adLow()&&Math.random()<.4;const s=low?t.toLowerCase():t;return {label:s,html:`<span class="lt">${s}</span><span class="rdmn">${mnemoHTML(t,low)}</span>`,model:[{en:t,slow:1},mnemoVoice(t)]}}
+ if(r<.67){const t=pick(zyPool().split(''));return {label:t,html:`<span class="zy">${t}</span><span class="rdmn">${mnemoHTML(t)}</span>`,model:[{zh:ZREAD[t],slow:1},mnemoVoice(t)]}}
+ const [e,w,zh]=pick(WORDS);return {label:w,html:`<span class="rdemo">${art(e)}</span><span class="lt rdw">${w}</span>`,model:[{en:w,slow:1}]}}
+async function rdPlayBlob(blob){
+ try{const a=audio();if(a){if(a.state!=='running')try{await a.resume()}catch(e){}
+  if(a.state==='running'){const buf=await a.decodeAudioData(await blob.arrayBuffer());await new Promise(r=>{const s=a.createBufferSource();s.buffer=buf;s.connect(a.destination);let d=0;const f=()=>{if(d)return;d=1;r()};s.onended=f;setTimeout(f,buf.duration*1000+800);s.start()});return}}}catch(e){}
+ await new Promise(r=>{try{const u=URL.createObjectURL(blob);const el=new Audio(u);let d=0;const f=()=>{if(d)return;d=1;URL.revokeObjectURL(u);r()};el.onended=f;el.onerror=f;setTimeout(f,6000);el.play().catch(f)}catch(e){r()}})}
+BUILD.read=function(play,sp){
+ const it=rdItem();S.revKey=null;S.ans='ok';const q0=S.q,lv0=S.level;
+ const mic=canRec();
+ play.innerHTML=`<div class="readbox"><div class="rditem">${it.html}</div>
+  <div class="rdbtns">${mic?`<button class="rdmic" id="rdmic" aria-label="錄音"><span class="rdmi">🎤</span><span>按我錄音</span></button>`:''}<button class="btn rdok" data-v="ok">我唸好了！</button></div>
+  <p class="rdtip small">${mic?'按麥克風，大聲唸出來，再聽聽自己的聲音！':'跟著唸一次，再按「我唸好了」！'}</p></div>`;
+ setPrompt('跟著唸唸看 <b class="ear">?</b>',['跟著我唸：',...it.model,mic?'換你唸囉！按下麥克風，大聲唸出來。':'換你唸囉！唸完按「我唸好了」。'],sp);
+ S.hint=()=>{petSay('再聽一次喔！',['再聽一次：',...it.model])};
+ const ok=$('.rdok',play),tip=$('.rdtip',play);
+ const mb=mic?$('#rdmic',play):null;
+ const alive=()=>ok.isConnected&&S.q===q0&&S.level===lv0&&S.screen==='stage'&&!S.lock;
+ let busy=false,stopper=null;
+ ok.onclick=()=>{if(S.lock)return;stopper&&stopper();right(ok,['唸得好棒！'])};
+ if(!mic)return;
+ const label=t=>{const x=mb.querySelector('span:last-child');if(x)x.textContent=t};
+ mb.onclick=async()=>{if(S.lock)return;if(busy){stopper&&stopper();return}busy=true;hush();
+  // 在按下的當下建立聲音偵測（iPhone 需要）
+  let actx=null;try{const AC=window.AudioContext||window.webkitAudioContext;actx=new AC();actx.resume&&actx.resume()}catch(e){actx=null}
+  try{if(navigator.audioSession)navigator.audioSession.type='play-and-record'}catch(e){}
+  const restore=()=>{try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}try{actx&&actx.close()}catch(e){}};
+  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){restore();busy=false;mb.remove();tip.textContent='沒有麥克風也沒關係，跟著唸一次，再按「我唸好了」！';if(alive())say(['沒有麥克風也沒關係，跟著唸一次，再按「我唸好了」！']);return}
+  const stopTracks=()=>{try{stream.getTracks().forEach(t=>t.stop())}catch(e){}};
+  if(!alive()){stopTracks();restore();busy=false;return}
+  let peak=0,raf=0;
+  try{if(!actx)throw 0;const src=actx.createMediaStreamSource(stream);const an=actx.createAnalyser();an.fftSize=512;src.connect(an);const buf=new Float32Array(an.fftSize);
+   if(actx.state!=='running')peak=1;
+   const loop=()=>{an.getFloatTimeDomainData(buf);let s=0;for(const v of buf)s+=v*v;const rms=Math.sqrt(s/buf.length);peak=Math.max(peak,rms);mb.style.setProperty('--lv',Math.min(1,rms*8).toFixed(2));raf=requestAnimationFrame(loop)};loop()}catch(e){peak=1}
+  const chunks=[];let rec;try{rec=new MediaRecorder(stream)}catch(e){stopTracks();restore();busy=false;mb.remove();return}
+  rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  const done=new Promise(r=>{rec.onstop=r;rec.onerror=r});
+  try{rec.start()}catch(e){stopTracks();restore();busy=false;return}
+  mb.classList.add('on');label('唸完再按一次');tip.textContent='正在錄音…大聲唸出來！';
+  const auto=setTimeout(()=>stopper&&stopper(),4000);
+  stopper=()=>{clearTimeout(auto);stopper=null;try{rec.state!=='inactive'&&rec.stop()}catch(e){}};
+  await done;cancelAnimationFrame(raf);stopTracks();restore();
+  mb.classList.remove('on');
+  if(!alive()){busy=false;return}
+  const blob=new Blob(chunks,{type:(chunks[0]&&chunks[0].type)||rec.mimeType||'audio/mp4'});
+  if(peak<.02||!blob.size){busy=false;label('再錄一次');tip.textContent='沒有聽到聲音喔，再唸一次，或是按「我唸好了」。';say(['沒有聽到聲音喔，再唸一次，或是按「我唸好了」。']);return}
+  try{await RDB.add({t:Date.now(),label:it.label,blob})}catch(e){}
+  if(!alive()){busy=false;return}
+  tip.textContent='聽聽看你的聲音！';await say(['聽聽看你的聲音！']);
+  if(!alive()){busy=false;return}
+  await rdPlayBlob(blob);busy=false;label('再錄一次');
+  if(!alive())return;right(ok,['唸得好棒！','再聽一次我唸：',...it.model])};
+};
+try{TNAME.read='跟著唸'}catch(e){}
+// 練習區：跟著唸
+PTOPICS.push(['readpr','跟著唸','🎤','bird','garden',['read','read','read','read','read']]);
+// 家長設定：聽小公主唸的錄音
+const _ppRd=parentPanel;
+parentPanel=function(){const r=_ppRd.apply(this,arguments);const ov=$$('.overlay').pop();if(!ov)return r;const card=$('.card',ov);if(!card)return r;
+ const d=document.createElement('div');d.className='rdrec';
+ d.innerHTML=`<span class="lab">小公主唸的錄音</span><p class="small">「跟著唸」的錄音只存在這台裝置，不會上傳。最多留最近 30 段。</p><div class="rdlist" id="rdlist"><p class="small">讀取中…</p></div><div class="vrow"><button class="btn2 small" id="rdclr">全部刪除</button></div>`;
+ const host=$('#vore',ov);const box=host&&host.closest('.card > div');if(box)box.after(d);else{const pd=$('#pdone',card);pd?card.insertBefore(d,pd):card.appendChild(d)}
+ const list=$('#rdlist',d);let cur=null;
+ const load=async()=>{let a=[];try{a=await RDB.all()}catch(e){}
+  if(!a.length){list.innerHTML='<p class="small">還沒有錄音。玩「跟著唸」的時候按麥克風，就會存在這裡。</p>';return}
+  list.innerHTML=a.slice(0,30).map((x,i)=>`<button class="rditm" data-i="${i}"><span>▶</span><b>${x.label}</b><i>${new Date(x.t).toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'})}</i></button>`).join('');
+  $$('.rditm',list).forEach(b=>b.onclick=()=>{try{if(cur){cur.pause();URL.revokeObjectURL(cur.src)}}catch(e){}const x=a[+b.dataset.i];const u=URL.createObjectURL(x.blob);cur=new Audio(u);cur.onended=()=>URL.revokeObjectURL(u);cur.play().catch(()=>{})})};
+ const mo=new MutationObserver(()=>{if(!d.isConnected){try{cur&&cur.pause()}catch(e){}mo.disconnect()}});mo.observe(document.body,{childList:true,subtree:true});
+ load();
+ $('#rdclr',d).onclick=async()=>{const yes=await confirmBox('刪除全部錄音？','刪掉就找不回來了喔。','刪除');if(!yes)return;try{await RDB.clear()}catch(e){}load()};
+ return r};
+
+/* ================= v3.0: 第十三～二十章的新衣服和新道具（之前完成的章節會補發） ================= */
+Object.assign(DRESS,{
+ globedress:{shape:'ball',c:'#3A90D0',l:'#BFE4FF',pat:'star',pc:'#FFE27A'},
+ moodbloom:{shape:'tier',c:'#FF8FB8',l:'#FFE0EC',pat:'heart',pc:'#FFFFFF',tiers:['#FF6FA8','#FF9FC8','#FFC8DE']},
+ skyqueen:{shape:'train',c:'#3A3A9A',l:'#C8B8FF',pat:'spark',pc:'#FFF6D0',dk:'#1A1A5A'},
+ dinodress:{shape:'short',c:'#6FD38A',l:'#E8FFD8',pat:'dot',pc:'#FFB33A'},
+ stationdress:{shape:'short',c:'#3A6AD8',l:'#BFD8FF',pat:'star',pc:'#FFFFFF',sailor:true},
+ farmdress:{shape:'short',c:'#E8505A',l:'#FFD0D0',pat:'dot',pc:'#FFFFFF'},
+ festdress:{shape:'ball',c:'#E8303A',l:'#FFD27A',pat:'spark',pc:'#FFD27A',dk:'#A01A2A'},
+ cheerdress:{shape:'tutu',c:'#FF6F8F',l:'#FFFFFF',pat:'star',pc:'#FFFFFF'}});
+const OUTFITS=[[12,'globedress','世界旅行裙','globeprop','小地球儀'],[13,'moodbloom','心情花朵裙','flowerwand','笑臉花朵棒'],[14,'skyqueen','星光女王禮服','starscepter','大星星權杖'],
+ [15,'dinodress','小恐龍裙','dinoplush','恐龍玩偶'],[16,'stationdress','小站長制服','trafficwand','紅綠燈指揮棒'],[17,'farmdress','小農夫洋裝','carrotprop','大紅蘿蔔'],
+ [18,'festdress','新年紅禮服','redlantern','紅燈籠'],[19,'cheerdress','啦啦隊裙','trophy','金色獎盃']];
+OUTFITS.forEach(([c,d,dn,p,pn])=>{ITEMS.push({id:d,slot:'dress',name:dn,price:0,chapter:c+1},{id:p,slot:'prop',name:pn,price:0,chapter:c+1});const C=CHAPTERS[c];if(C){C.outfit=[d,p];C.outfitName=dn+'和'+pn}});
+ITEMS.forEach(i=>{ITEM[i.id]=i});
+// 章節結束：送新衣服、新道具，也送寶石
+const _rwOutfit=REWARD.chapter;
+REWARD.chapter=function(card,finish){const C=CHAPTERS[S.ch];if(!C.outfit)return _rwOutfit(card,finish);
+ card.innerHTML=`<div class="scroll">${C.letter}<span class="sign">—— ${C.sign==='star'?starName():'王子'}</span>${C.sign==='star'?`<span class="seal starseal">${animal('star')}</span>`:sealSVG()}</div><button class="btn" id="next">看看禮物</button>`;
+ say([C.sign==='star'?C.letter.replace(/<br>/g,''):{zh:C.letter.replace(/<br>/g,''),who:'prince'}]);
+ $('#next',card).onclick=()=>{const [d,p]=C.outfit;C.outfit.forEach(id=>{if(!owns(id))S.owned.push(id)});S.look.dress=d;S.look.prop=p;S.newPrize=C.outfit.slice();
+  const n=C.gems||10;S.wallet+=n;save();try{renderBar()}catch(e){}
+  if(C.stamp&&!V2.stamps[S.ch]){V2.stamps[S.ch]=1;save2()}
+  card.innerHTML=`<div class="petshow">${princess(S.look)}<span class="bob">${animal('star','class="small"')}</span></div><h2>得到${C.outfitName}！</h2><p class="small">還有 ${n} 顆寶石！${C.giftText?'<br>'+C.giftText:''}</p><button class="btn" id="cont">太棒了！</button>`;
+  sfx('gem');confetti();say([`得到${C.outfitName}了！`,C.giftSay||'還有十顆寶石！']);$('#cont',card).onclick=finish}};
+// 之前已經完成的章節：補發
+function outfitCatchUp(){const got=[];OUTFITS.forEach(([c,d,dn,p,pn])=>{if(S.chDone>c){[d,p].forEach(id=>{if(!owns(id)){S.owned.push(id);got.push(ITEM[id].name)}})}});if(got.length)save();return got}
+const _titleOutfit=SCREENS.title;
+SCREENS.title=function(){const r=_titleOutfit.apply(this,arguments);const got=outfitCatchUp();
+ if(got.length){setTimeout(()=>{if(S.screen!=='title'||document.querySelector('.overlay'))return;
+  const ov=overlay(screen,`<div class="card"><div class="face big">${princess(S.look)}</div><h2>新衣服送到了！</h2><p>之前完成的章節，有新衣服和新道具：<br><b class="gold">${got.join('、')}</b></p><p class="small">去換裝間試穿看看吧！</p><button class="btn" id="ogok">好棒！</button></div>`);
+  say(['新衣服送到了！之前完成的章節，有新衣服和新道具，去換裝間試穿看看吧！']);$('#ogok',ov).onclick=()=>{ov.remove();sfx('pop')}},1200)}
+ return r};
+
+/* ================= v3.0: 學習優化（口訣、錯了說明、記住囉、暖身、看字說說看、易混淆） ================= */
+// 注音口訣：ㄅ，爸爸的ㄅ（圖片）
+const ZMN={'ㄅ':['爸爸','👨'],'ㄆ':['葡萄','🍇'],'ㄇ':['媽媽','👩'],'ㄈ':['飛機','✈️'],'ㄉ':['弟弟','👦'],'ㄊ':['兔子','🐰'],'ㄋ':['奶奶','👵'],'ㄌ':['老虎','🐯'],'ㄍ':['哥哥','🧒'],'ㄎ':['蝌蚪','🐸'],'ㄏ':['喝水','🥤'],
+ 'ㄐ':['小雞','🐥'],'ㄑ':['氣球','🎈'],'ㄒ':['西瓜','🍉'],'ㄓ':['蜘蛛','🕷️'],'ㄔ':['吃飯','🍚'],'ㄕ':['獅子','🦁'],'ㄖ':['熱狗','🌭'],'ㄗ':['紫色','💜'],'ㄘ':['刺蝟','🦔'],'ㄙ':['松鼠','🐿️'],
+ 'ㄧ':['衣服','👕'],'ㄨ':['烏龜','🐢'],'ㄩ':['小魚','🐟'],'ㄚ':['阿姨','👩‍🦰'],'ㄛ':['喔喔叫','🐓'],'ㄜ':['白鵝','🦢'],'ㄝ':['椰子','🥥'],'ㄞ':['愛心','❤️'],'ㄟ':['黑色','🖤'],'ㄠ':['貓咪','🐱'],'ㄡ':['海鷗','🕊️'],
+ 'ㄢ':['安全帽','⛑️'],'ㄣ':['森林','🌲'],'ㄤ':['太陽','☀️'],'ㄥ':['風箏','🪁'],'ㄦ':['耳朵','👂']};
+// 英文字母：A is for apple.
+const LMN={A:['apple','🍎'],B:['ball','⚽'],C:['cat','🐱'],D:['dog','🐶'],E:['egg','🥚'],F:['fish','🐟'],G:['grape','🍇'],H:['house','🏠'],I:['ice cream','🍦'],J:['juice','🧃'],K:['kite','🪁'],L:['lion','🦁'],M:['moon','🌙'],
+ N:['nose','👃'],O:['orange','🍊'],P:['pig','🐷'],Q:['queen','👸'],R:['rabbit','🐰'],S:['sun','☀️'],T:['tree','🌳'],U:['umbrella','☂️'],V:['violin','🎻'],W:['whale','🐋'],X:['xylophone','🎶'],Y:['yo-yo','🪀'],Z:['zebra','🦓']};
+const isZy=x=>!!ZMN[x],isLt=x=>/^[A-Za-z]$/.test(x||'');
+// 說口訣的聲音
+function mnemoVoice(x){if(isZy(x))return `${ZMN[x][0]}的${x}！`;if(isLt(x)){const u=x.toUpperCase();return {en:`${u} is for ${LMN[u][0]}.`}}return null}
+// 畫面上的口訣小卡
+function mnemoHTML(x,lc){if(isZy(x)){const [w,e]=ZMN[x];return `<span class="mnpic">${art(e)}</span><span class="mntx"><b>${w}</b>的 <b class="zy">${x}</b></span>`}
+ const u=x.toUpperCase(),[w,e]=LMN[u];return `<span class="mnpic">${art(e)}</span><span class="mntx"><b class="lt">${lc?u.toLowerCase():u}</b> is for <b>${w}</b></span>`}
+function showMnemo(x,lc){if(!(isZy(x)||isLt(x)))return;const host=$('.bubble');if(!host)return;$$('.mnemo').forEach(m=>m.remove());
+ const d=document.createElement('div');d.className='mnemo';d.innerHTML=mnemoHTML(x,lc);host.appendChild(d)}
+// 長得很像、聲音很像的
+const CONFZ={'ㄅ':'ㄆ','ㄆ':'ㄅ','ㄋ':'ㄌ','ㄌ':'ㄋ','ㄓ':'ㄗ','ㄗ':'ㄓ','ㄔ':'ㄘ','ㄘ':'ㄔ','ㄕ':'ㄙ','ㄙ':'ㄕ','ㄢ':'ㄤ','ㄤ':'ㄢ','ㄣ':'ㄥ','ㄥ':'ㄣ','ㄛ':'ㄜ','ㄜ':'ㄛ'};
+const CONFL={b:'d',d:'b',p:'q',q:'p',m:'n',n:'m',M:'N',N:'M',E:'F',F:'E',P:'R',R:'P',O:'Q',Q:'O',C:'G',G:'C'};
+const SOUNDLIKE='ㄋㄌㄓㄗㄔㄘㄕㄙㄢㄤㄣㄥㄛㄜ';
+const confOf=x=>CONFZ[x]||CONFL[x]||null;
+const isConfPair=(a,b)=>confOf(a)===b;
+// 選項裡放進長得像的（有學過的才放）
+function confOpts(t,opts,pool){try{const c=confOf(t);if(!c||opts.includes(c)||!pool.includes(c)||Math.random()<.4)return opts;
+ const i=opts.findIndex(o=>o!==t);if(i<0)return opts;const o=opts.slice();o[i]=c;return o}catch(e){return opts}}
+
+// ---- 熟練度：記錄哪幾天答對、最後一次練習 ----
+const _glMark45=glMark;
+glMark=function(ok){_glMark45(ok);try{const r=S.revKey;if(!r||r.k!=='g')return;const t=String(r.i).toUpperCase();const g=BAG.g[t];if(!g)return;
+ if(!g.d)g.d=(g.o-(ok?1:0))>=2?['old']:[];const td=today();g.ld=td;
+ if(ok){if(!g.d.includes(td)){g.d.push(td);if(g.w>0&&g.o<=g.w+1)g.w--}g.d=g.d.slice(-4);g.lt=Date.now()}saveBag()}catch(e){}};
+// 該複習的：出現過、還不算會了（常錯、只有一天對、或太久沒練）
+function glDue(pool){return pool.filter(x=>{const g=BAG.g[x];return g&&g.s>0&&!glKnown(x)}).sort((a,b)=>{const ga=BAG.g[a],gb=BAG.g[b];const wa=glWeak(a)?1:0,wb=glWeak(b)?1:0;if(wa!==wb)return wb-wa;return (ga.lt||0)-(gb.lt||0)})}
+const duePools=()=>{let L=[],Z=[];try{L=letterPool().map(x=>x.toUpperCase())}catch(e){}try{Z=zyPool().split('')}catch(e){}return [...new Set(L)].concat(Z)};
+
+// ---- 每道題重設 ----
+const _renderQ45=renderQ;
+renderQ=function(sp=true){S._opts=null;$$('.mnemo,.bubble .revtag').forEach(m=>m.remove());return _renderQ45(sp)};
+const _rc45=renderChoice;
+renderChoice=function(play,o){const r=_rc45(play,o);S._opts=o&&o.opts;return r};
+
+// ---- 答錯：說明選到的是什麼 ----
+const NOEXPL=['trace','read','recall','dance'];
+const baseType=()=>{const t=curType();try{if(t==='rev'&&curRev)return curRev.t.split(':')[0]}catch(e){}return t};
+function wrongExplain(el){const t=baseType();if(NOEXPL.includes(t))return null;
+ if(el.classList.contains('bfly')||el.classList.contains('bal')){const v=el.dataset.v,ans=String(S.ans||'');
+  if(!v||!ans||v===ans)return null;
+  if(isZy(ans)&&isZy(v)){const tip=isConfPair(v,ans)?(SOUNDLIKE.includes(ans)?'這兩個聲音很像，仔細聽聽看喔！':'這兩個長得很像，仔細看看喔！'):null;
+   return {x:ans,text:`這是 ${v}，我們要找的是 ${ans}。`,voice:['這是',{zh:ZREAD[v],slow:1},'我們要找的是',{zh:ZREAD[ans],slow:1},tip,mnemoVoice(ans)].filter(Boolean),btn:()=>$$('.bal,.bfly').find(b=>b.dataset.v===ans)}}
+  if(isLt(ans)&&isLt(v)){const tip=isConfPair(v,ans)?'這兩個長得很像，仔細看看喔！':null;
+   return {x:ans,lc:ans!==ans.toUpperCase(),text:`這是 ${v}，我們要找的是 ${ans}。`,voice:['這是',{en:v.toUpperCase(),slow:1},'我們要找的是',{en:ans.toUpperCase(),slow:1},tip,mnemoVoice(ans)].filter(Boolean),btn:()=>$$('.bal,.bfly').find(b=>b.dataset.v===ans)}}
+  return null}
+ if(el.classList.contains('qcard')&&S._opts){const o=S._opts[+el.dataset.v];if(!o)return null;let lab=String(o[1]||'').replace(/<[^>]+>/g,'').replace(/[！？。!?，、\s]+$/,'').trim();if(!lab||lab.length>14||/^[ㄅ-ㄩˊˇˋ˙\s]+$/.test(lab))return null;
+  const lv=/^[A-Za-z][A-Za-z .'-]*$/.test(lab)?{en:lab}:lab;
+  return {text:`這個是「${lab}」，不是喔，再想一想！`,voice:['這個是',typeof lv==='string'?{zh:lv}:lv,'不是喔，再想一想！'],btn:()=>$$('.qcard')[+S.ans]}}
+ return null}
+const _wrong45=wrong;
+wrong=function(el){if(S.lock||!el)return _wrong45(el);let ex=null;try{ex=wrongExplain(el)}catch(e){ex=null}
+ if(!ex)return _wrong45(el);
+ const h=S.hint;S.hint=null;let r;try{r=_wrong45(el)}finally{S.hint=h}const q0=S.q,lv0=S.level,m=S.miss;
+ setTimeout(()=>{if(S.lock||S.q!==q0||S.level!==lv0||S.screen!=='stage')return;if(ex.x)showMnemo(ex.x,ex.lc);
+  if(m>=2){const b=ex.btn&&ex.btn();if(b)glow(b)}petSay(ex.text,ex.voice)},450);
+ return r};
+
+// ---- 答對：之前錯過要說「記住囉」，字母注音加口訣 ----
+const NOREMEM=['trace','read','recall','dance','maze','seq'];
+const _right45=right;
+right=function(el,parts,extra=0){if(S.lock)return _right45(el,parts,extra);let p=Array.isArray(parts)?parts.slice():parts;
+ try{const t=baseType();
+  if(Array.isArray(p)&&S.miss>0&&p.length>=2&&!NOREMEM.includes(t))p.splice(1,0,'記住囉！');
+  const r=S.revKey;if(Array.isArray(p)&&r&&r.k==='g'&&t!=='read'&&t!=='recall'){const x=String(r.i);const u=x.toUpperCase();const key=isZy(x)?x:isLt(x)?u:null;
+   if(key){const a=String(S.ans||'');const lc=isLt(a)&&a===a.toLowerCase();showMnemo(key,lc);
+    if(S.miss>0||glWeak(key)||(!glKnown(key)&&Math.random()<.5)){p.push(mnemoVoice(key));extra=Math.max(extra,600)}}}}catch(e){}
+ return _right45(el,p,extra)};
+
+// ---- 暖身：今天第一關，先複習 2～3 個該複習的字 ----
+BUILD.warm=function(play,sp,x){const L=isLt(x);S.force={k:'g',i:L?x.toUpperCase():x};const real=curType()==='warm';S._warm=real;if(real&&V2.warmDay!==today()){V2.warmDay=today();save2()}
+ try{(L?BUILD.letter:BUILD.zhuyin)(play,sp)}finally{S._warm=false}
+ const b=$('.bubble');if(real&&b&&!$('.revtag',b)){const tg=document.createElement('span');tg.className='revtag warmtag';tg.textContent='暖身';b.prepend(tg)}};
+const _setPrompt45=setPrompt;
+setPrompt=function(html,parts,sp){if(S._warm&&Array.isArray(parts)&&!parts.__warm&&S.q===0){parts=['先來暖暖身，複習一下！',...parts];parts.__warm=1}return _setPrompt45(html,parts,sp)};
+// ---- 看字說說看：看到字，自己說說看，再看答案（不判斷對錯） ----
+BUILD.recall=function(play,sp,x){const pool=duePools().filter(y=>y!==S.last);const due=glDue(pool);const seen=pool.filter(y=>BAG.g[y]&&BAG.g[y].s>0);
+ let t=x||(due.length&&Math.random()<.6?pick(due.slice(0,4)):pick(seen.length>=3?seen:pool));if(!t)t='ㄅ';S.last=t;
+ S.revKey=null;S.ans='ok';const lc=isLt(t)&&adLow()&&Math.random()<.35;const shown=lc?t.toLowerCase():t;const q0=S.q,lv0=S.level;
+ play.innerHTML=`<div class="readbox rcbox"><div class="rditem"><span class="${isZy(t)?'zy':'lt'}">${shown}</span></div><div class="rcans" hidden></div>
+  <div class="rdbtns"><button class="btn rcshow">看答案</button><button class="btn rdok" data-v="ok" hidden>我記住了！</button></div><p class="rdtip small">先自己說說看，再按「看答案」！</p></div>`;
+ setPrompt('看一看，這是什麼？說說看 <b class="ear">?</b>',['看一看，這是什麼？先自己說說看，再按「看答案」！'],sp);
+ S.hint=()=>{petSay('說不出來也沒關係，按「看答案」！')};
+ const ok=$('.rdok',play),sh=$('.rcshow',play),ans=$('.rcans',play);
+ sh.onclick=async()=>{if(S.lock)return;sh.hidden=true;ans.hidden=false;ans.innerHTML=mnemoHTML(t,lc);$('.rdtip',play).textContent='你說對了嗎？跟著唸一次！';sfx('pop');
+  const sw=setTimeout(()=>{ok.hidden=false},6000);
+  await say(['答案是',isZy(t)?{zh:ZREAD[t],slow:1}:{en:t.toUpperCase(),slow:1},mnemoVoice(t)]);clearTimeout(sw);
+  if(S.q===q0&&S.level===lv0&&ok.isConnected){ok.hidden=false;ok.classList.remove('pulse');void ok.offsetWidth;ok.classList.add('pulse')}};
+ ok.onclick=()=>{if(S.lock)return;right(ok,['好棒，一起記住它！'])}};
+
+// ---- 每一關：題數跟著難度增加、今天第一關暖身、偶爾看字說說看 ----
+const LONGQ=['dance','maze','memory','puzzle','read','catch','trace','feed'];
+const _startLevel45=startLevel;
+startLevel=function(i){_startLevel45(i);try{const L=LEVELS[i];if(S.pmode||!L||L.reward==='chapter')return;
+ let w=[];if(V2.warmDay!==today())w=glDue(duePools()).slice(0,2);
+ if(w.length){S.qs.unshift(...w.map(x=>'warm:'+x));return}
+ const n=S.diff==='mid'?1:S.diff==='hard'?2:0;const mix=((CHAPTERS[S.ch]&&CHAPTERS[S.ch].mix)||['letter','zhuyin','count']).filter(t=>!LONGQ.includes(t.split(':')[0]));
+ for(let k=0;k<n;k++){const t=k===0&&Math.random()<.35?'recall':pick(mix.length?mix:['letter','zhuyin']);S.qs.splice(1+Math.floor(Math.random()*S.qs.length),0,t)}}catch(e){}};
+
+// ---- 名稱、練習區 ----
+try{Object.assign(TNAME,{warm:'暖身複習',recall:'看字說說看'})}catch(e){}
+PTOPICS.push(['recallpr','看字說說看','👀','owl','castle',['recall','recall','recall','recall','recall']]);
+
+// ---- 家長報告：今天該複習、最常錯 5 個 ----
+const _report45=reportHTML;
+reportHTML=function(){let add='';try{const pool=duePools();const due=glDue(pool).slice(0,12);
+ const all=Object.keys(BAG.g).filter(x=>(isZy(x)||isLt(x))&&BAG.g[x].w>0).sort((a,b)=>BAG.g[b].w-BAG.g[a].w).slice(0,5);
+ const chip=x=>`<i class="gl ${glWeak(x)?'bad':'mid'}${isLt(x)?' lat':''}">${x}</i>`;
+ add=`<div class="glbox duebox"><b>今天該複習</b><p class="small">還沒有在兩天都答對，或是超過十天沒練習的字。今天第一關會先暖身複習。</p>${due.length?`<div class="glmap">${due.map(chip).join('')}</div>`:'<p class="small">目前沒有要複習的，好棒！</p>'}
+  <b>最常錯的 5 個</b>${all.length?`<div class="glmap">${all.map(x=>`<span class="wchip">${x}<b>×${BAG.g[x].w}</b></span>`).join('')}</div>`:'<p class="small">還沒有答錯的字。</p>'}</div>`}catch(e){}
+ return _report45()+add};
+
+/* ================= v3.0: 讓小朋友想回去玩（星星、皇冠、今天的小任務、朋友求救） ================= */
+V2.crown=V2.crown||{};
+const lvDone=(c,i)=>c<S.chDone||(S.progs[c]||0)>i;
+// 地圖上真的打開的關（正在重玩的章節，只算目前走到的）
+const lvOpen=(c,i)=>c===S.ch&&S.prog<NL&&S.prog>0?i<S.prog:lvDone(c,i);
+// 每天只說一次的話
+const onceToday=k=>{V2.once=V2.once||{};if(V2.once[k]===today())return false;V2.once[k]=today();save2();return true};
+const chLevels=c=>(CHAPTERS[c]&&CHAPTERS[c].levels)||[];
+function doneLevels(){const a=[];CHAPTERS.forEach((C,c)=>C.levels.forEach((L,i)=>{if(L.reward!=='chapter'&&lvDone(c,i))a.push([c,i])}));return a}
+const LTYPES=['letter','catch:letter','trace:letter'],ZTYPES=['zhuyin','catch:zhuyin','spell','trace:zy'];
+// 今天的小任務：挑一關已經玩過的（優先：有該複習的字、還沒拿滿三顆星）
+function questToday(){const td=today();if(V2.quest&&V2.quest.day===td&&(V2.quest.done||lvDone(V2.quest.ch,V2.quest.lv)))return V2.quest;
+ const all=doneLevels();if(all.length<3)return null;let dl=[],dz=[];try{const d=glDue(duePools());dl=d.filter(isLt);dz=d.filter(isZy)}catch(e){}
+ const last=V2.quest;const sc=([c,i])=>{const L=CHAPTERS[c].levels[i];let s=Math.random()*2;
+  if(dl.length&&L.qs.some(t=>LTYPES.includes(t)))s+=3;if(dz.length&&L.qs.some(t=>ZTYPES.includes(t)))s+=3;
+  if((S.stars[c+'-'+i]||0)<3)s+=2;if(S.diff!=='easy'&&!V2.crown[c+'-'+i])s+=1;if(last&&last.ch===c&&last.lv===i)s-=5;return s};
+ const [c,i]=all.map(x=>[x,sc(x)]).sort((a,b)=>b[1]-a[1])[0][0];V2.quest={day:td,ch:c,lv:i,done:0};save2();return V2.quest}
+// 朋友求救：每天一次，地圖上打過的關會冒出「！」
+function sosToday(){const td=today();if(V2.sos&&V2.sos.day===td&&(V2.sos.done||lvDone(V2.sos.ch,V2.sos.lv)))return V2.sos;
+ const all=doneLevels();if(all.length<3)return null;const q=questToday();
+ let cand=cont()?all.filter(([c])=>c===S.ch):[];if(cand.length<2)cand=all.filter(([c])=>c<S.chDone);if(!cand.length)cand=all;
+ const k=cand.filter(([c,i])=>!(q&&q.ch===c&&q.lv===i));const [c,i]=pick(k.length?k:cand);V2.sos={day:td,ch:c,lv:i,done:0};save2();return V2.sos}
+const sosOpen=()=>{const s=sosToday();return s&&!s.done?s:null};
+const questOpen=()=>{const q=questToday();return q&&!q.done?q:null};
+
+// ---- 過關：星星變多、皇冠、完成任務 ----
+const _levelDone46=levelDone;
+levelDone=function(){
+ if(S.pmode&&S.pmode.k==='sos')return sosDone();
+ if(S.pmode)return _levelDone46();
+ const sk=S.ch+'-'+S.level,perfect=S.lvMiss===0,st=perfect?3:S.lvMiss<=2?2:1,old=S.stars[sk]||0;let bonus=0;const lines=[],tags=[];
+ if(old>0&&st>old){bonus+=2;lines.push('星星變多了！多送你兩顆寶石！');tags.push('星星變多了 +2')}
+ if(perfect&&S.diff!=='easy'){const c=S.diff==='hard'?2:1;if((V2.crown[sk]||0)<c){V2.crown[sk]=c;lines.push('拿到皇冠了！好厲害！');tags.push(c===2?'金皇冠':'銀皇冠')}}
+ const q=V2.quest;if(q&&q.day===today()&&!q.done&&q.ch===S.ch&&q.lv===S.level){q.done=1;bonus+=3;lines.push('完成今天的小任務了！多送你三顆寶石！');tags.push('小任務完成 +3')}
+ save2();if(bonus){S.wallet+=bonus;save()}
+ const _s=say;if(lines.length)say=function(parts,opt){say=_s;return _s([lines[lines.length-1],...(parts||[])],opt)};
+ let r;try{r=_levelDone46()}finally{say=_s}
+ if(tags.length){const card=$('.stage .overlay .card');if(card){const p=document.createElement('p');p.className='lvbonus';p.innerHTML=tags.map(t=>`<b>${t}</b>`).join('');const h=$('.rhead',card);h?h.after(p):card.prepend(p)}try{renderBar()}catch(e){}}
+ return r};
+
+// ---- 朋友求救：短短三題 ----
+function startSOS(i){const L=LEVELS[i];if(!L)return;audio();const mix=(CHAPTERS[S.ch]&&CHAPTERS[S.ch].mix)||['letter','zhuyin','count'];
+ const ts=shuffle(L.qs.map(t=>t==='mix'?pick(mix):t).filter(t=>t!=='read'));while(ts.length<3)ts.push(pick(mix));
+ _LVsave=LEVELS;S.pmode={k:'sos',name:'幫幫忙',lv:i};
+ LEVELS=[{name:'朋友需要幫忙',helper:L.helper,decor:L.decor,qs:ts.slice(0,3),reward:'box',intro:'嗚嗚，我遇到困難了！你可以幫我回答三個問題嗎？'}];
+ S.level=0;S.q=0;S.lvMiss=0;S.qs=ts.slice(0,3);go('stage')}
+function sosDone(){const s=V2.sos;if(s){s.done=1;save2()}const L=LEVELS[0];S.wallet+=3;save();try{renderBar()}catch(e){}sfx('gem');
+ const ov=overlay($('.stage'),`<div class="card"><div class="petshow"><span class="bob">${animal(L.helper)}</span></div><h2>謝謝你幫我！</h2><p><span class="earn">${gem(WALLET_GEM)}<b>+3</b></span></p><button class="btn" id="sosok">不客氣！</button></div>`);
+ setTimeout(()=>{try{confetti()}catch(e){}},150);say(['謝謝你幫我！送你三顆寶石！'],{pitch:S.hp});
+ $('#sosok',ov).onclick=()=>{hush();go('map')}}
+
+// ---- 章節地圖：皇冠、驚嘆號、任務星星；完成的章節每一關都能玩 ----
+const CROWN=c=>`<path d="M-15 7 L-15 -5 L-7.5 1 L0 -10 L7.5 1 L15 -5 L15 7Z" fill="${c===2?'#FFD24D':'#E2E8F4'}" stroke="#1A1648" stroke-width="2" stroke-linejoin="round"/><circle cx="0" cy="-10" r="2.6" fill="#FF6F8F"/>`;
+const _map46=SCREENS.map;
+SCREENS.map=function(first){const walking=S.walkFrom!=null;const r=_map46.apply(this,arguments);try{
+ const sos=sosOpen(),q=questOpen();const NS='http://www.w3.org/2000/svg';
+ $$('.node').forEach(n=>{const i=+n.dataset.i;const c=n.querySelector('.nbody circle');if(!c)return;const x=+c.getAttribute('cx'),y=+c.getAttribute('cy'),rr=+c.getAttribute('r');
+  const add=h=>{const g=document.createElementNS(NS,'g');g.innerHTML=h;n.appendChild(g);return g};
+  const open=lvOpen(S.ch,i);const cw=V2.crown[S.ch+'-'+i];if(cw&&open)add(`<g transform="translate(${x} ${y-rr-14})">${CROWN(cw)}</g>`);
+  if(q&&q.ch===S.ch&&q.lv===i&&open){add(`<g class="qmark" transform="translate(${x-rr-6} ${y-rr*.1})"><circle r="17" fill="#FFF4C8" stroke="#FFB33A" stroke-width="3"/><path d="${starD(0,1,11,.5)}" fill="#FFB33A"/></g>`);n.classList.add('questnode')}
+  if(sos&&sos.ch===S.ch&&sos.lv===i&&open){add(`<g class="sosmark" transform="translate(${x+rr*.85} ${y-rr*.15})"><circle r="18" fill="#FF4F6F" stroke="#fff" stroke-width="3"/><text y="9" text-anchor="middle" font-size="26" font-weight="900" fill="#fff">!</text></g>`);n.classList.add('sosnode');
+   const f=()=>{hush();sfx('pop');startSOS(i)};n.onclick=f;n.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}}});
+ const done=S.chDone>S.ch&&S.prog>=NL;const tip=$('.maptip');
+ if(sos&&sos.ch===S.ch&&$('.sosmark')){if(tip)tip.textContent='有朋友需要幫忙！點一下有驚嘆號的地方。';if(!walking&&onceToday('sosmap'))say(['有朋友需要幫忙！點一下有驚嘆號的地方。'])}
+ else if(done){const all3=chLevels(S.ch).every((L,i)=>(S.stars[S.ch+'-'+i]||0)>=3);const t=all3?'這一章全部都拿到三顆星了，好厲害！想玩哪一關都可以喔！':'這一章已經完成了！還沒拿滿三顆星的關，可以再挑戰喔！';if(tip)tip.textContent=t;if(!walking)say([onceToday('done'+S.ch)?t:'想玩哪一關，點一下就可以喔！'])}
+}catch(e){}return r};
+
+// ---- 大地圖：完成的章節顯示星星數；點進去每一關都能選 ----
+const _world46=SCREENS.world;
+SCREENS.world=function(mode){const r=_world46.apply(this,arguments);try{const sos=sosOpen(),q=questOpen();
+ $$('.wnode').forEach(b=>{const i=+b.dataset.i;const st=wState(i);
+  if(st==='done'){const n=chLevels(i).length;let s=0;for(let k=0;k<n;k++)s+=Math.min(3,S.stars[i+'-'+k]||0);const sub=$('.wsub',b);if(sub)sub.innerHTML=`<span class="wstar">★</span> ${s} / ${n*3}`;
+   if(mode!=='intro')b.onclick=()=>{wTok++;hush();sfx('pop');setCh(i);if(S.prog<NL)S.prog=NL;S.walkFrom=null;save();go('map','quiet')}}
+  const bd=$('.wbadge',b);if(!bd||mode==='intro')return;
+  if(sos&&sos.ch===i&&st!=='lock'){const e=document.createElement('span');e.className='wsos';e.textContent='!';bd.appendChild(e)}
+  if(q&&q.ch===i&&st!=='lock'){const e=document.createElement('span');e.className='wquest';e.textContent='★';bd.appendChild(e)}});
+ if(mode!=='intro'&&V2.seenWorld&&sos&&sos.ch!==S.ch&&wState(sos.ch)!=='lock'&&onceToday('sosworld'))setTimeout(()=>{if(S.screen==='world')say(['有朋友需要幫忙喔！找找看，哪裡有驚嘆號？'])},1600);
+}catch(e){}return r};
+
+// ---- 首頁：今天的小任務 ----
+const _title46=SCREENS.title;
+SCREENS.title=function(){try{if(V2.qret!=null&&S.ch!==V2.qret&&!cont()){setCh(V2.qret);V2.qret=null;save();save2()}else if(V2.qret!=null&&S.ch===V2.qret){V2.qret=null;save2()}}catch(e){}const r=_title46.apply(this,arguments);try{const q=questToday();const sub=$('.title .sub');if(!q||!sub)return r;
+ const b=document.createElement('button');b.className='questbtn'+(q.done?' qdone':'');b.id='quest';b.innerHTML=q.done?'今天的小任務 ✓':`<span class="qst">★</span>今天的小任務`;sub.after(b);
+ b.onclick=()=>{audio();startMusic();if(q.done){say(['今天的小任務已經完成了，明天再來看看喔！']);toast('今天的小任務完成了！');return}questCard(q)}}catch(e){}return r};
+function questCard(q){const C=CHAPTERS[q.ch],L=C.levels[q.lv];const sk=q.ch+'-'+q.lv,st=S.stars[sk]||0;
+ const ov=overlay(screen,`<div class="card questcard"><h2>今天的小任務</h2><div class="qrow"><span class="qic">${(WORLD[q.ch]&&WORLD[q.ch].ic)?WORLD[q.ch].ic():''}</span><span class="qani">${animal(L.helper)}</span></div>
+  <p><b>第${CHN(q.ch)}章「${C.name}」</b><br>第 ${q.lv+1} 關「${L.name}」</p><p class="rstars">${'★'.repeat(Math.min(3,st))}<i>${'★'.repeat(3-Math.min(3,st))}</i></p><p class="small">再玩一次這一關，完成了多送 3 顆寶石！</p>
+  <div class="row"><button class="btn" id="qgo">出發！</button><button class="btn2 small" id="qno">下次再說</button></div></div>`);
+ say(['今天的小任務：回到這個地方，再玩一次這一關！完成了，會多送你三顆寶石喔！']);
+ $('#qno',ov).onclick=()=>{hush();ov.remove()};
+ $('#qgo',ov).onclick=()=>{hush();ov.remove();if(cont()&&S.ch!==q.ch){V2.qret=S.ch;save2()}setCh(q.ch);if(q.ch<S.chDone&&!(S.prog>q.lv))S.prog=NL;S.walkFrom=null;save();startLevel(q.lv)}}
+
+// 求救關的標題
+const _stage46=SCREENS.stage;
+SCREENS.stage=function(){const r=_stage46.apply(this,arguments);try{if(S.pmode&&S.pmode.k==='sos'){const h=$('.stage .overlay .card h2');if(h)h.textContent='朋友需要幫忙'}}catch(e){}return r};
 
 // 每次打開自動檢查新版本
 function updCheck(){if(!/^https?:/.test(location.protocol)||!navigator.onLine)return;
