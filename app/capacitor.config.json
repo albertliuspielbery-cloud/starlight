@@ -1,0 +1,12 @@
+{
+  "appId": "tw.starlight.adventure",
+  "appName": "星光小冒險",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#1b1640",
+    "scrollEnabled": false,
+    "allowsLinkPreview": false
+  },
+  "backgroundColor": "#1b1640"
+}
