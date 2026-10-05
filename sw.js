@@ -1,10 +1,10 @@
 // 星光公主大冒險 — offline cache. Change VERSION when updating the game.
-const VERSION='starlight-v82';
+const VERSION='starlight-v83';
 const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./font-hun-381d7e68.woff2','./font-baloo-abc191e4.woff2'];
 const PAGE=()=>'./index.html?n='+Date.now(); // 網址加上時間，避免拿到 GitHub 的舊副本
 const timeout=ms=>new Promise(r=>setTimeout(r,ms));
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>Promise.all(CORE.map(u=>Promise.race([
-  fetch(u==='./'||u==='./index.html'?PAGE():u,{cache:'reload'}).then(r=>{if(r.ok)return c.put(u,r)}),timeout(8000)]).catch(()=>{}))))
+  fetch(u==='./'||u==='./index.html'?PAGE():u,{cache:'reload'}).then(r=>{if(r.ok)return c.put(u,r)}),timeout(u==='./'||u==='./index.html'?45000:8000)]).catch(()=>{}))))
   // 新版的語音目錄也先存好（離線打開也有聲音）
   .then(()=>caches.open(VERSION)).then(c=>c.match('./index.html')).then(h=>h&&h.text()).then(t=>t&&Promise.race([saveVI(t),timeout(8000)])).catch(()=>{})
   .then(()=>self.skipWaiting()))});
@@ -43,7 +43,7 @@ self.addEventListener('fetch',e=>{
         return Promise.race([net,timeout(20000).then(()=>{throw new Error('slow')})]).catch(()=>fetch(req))}).catch(()=>fetch(req)));
       return;
     }
-    e.respondWith(Promise.race([net,timeout(15000).then(()=>{throw new Error('slow')})])
+    e.respondWith(Promise.race([net,timeout(40000).then(()=>{throw new Error('slow')})])
       .catch(()=>caches.match('./index.html').then(h=>h||caches.match('./')).then(h=>h||net).catch(()=>fetch(req))));
     return;
   }
