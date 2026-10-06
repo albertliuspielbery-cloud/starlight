@@ -1017,19 +1017,16 @@ body[data-scr="album"] #btnMap,body[data-scr="dex"] #btnMap{display:none}
 .overlay .wkcard{width:100%!important;max-width:min(560px,100%)!important;box-sizing:border-box}
 /* 下方的主角和寵物只是裝飾，不要擋到題目按鈕 */
 .stage .cast{pointer-events:none}
-/* v3.6.1 iPad 直放：畫面比較大，房間、寵物小屋、題目跟著放大，不要留一大片空白 */
+/* v3.6.1 iPad 直放：房間畫面拉高、寵物小屋的按鈕和字放大（不用 zoom，iOS 上 zoom 會讓位置計算對不上） */
 @media (orientation:portrait) and (min-width:700px) and (min-height:950px){
  .room2 .rmscroll .rscene2{height:min(58vh,880px)!important}
- .stage > .play{zoom:1.3}
  .petpark .pscene{min-height:min(48vh,720px)}
- .petpark .pbig{zoom:1.45}
  .petpark .pside{font-size:20px}
  .petpark .pname b{font-size:30px}
  .petpark .pbar2{margin:6px 0}.petpark .pbar2 span{font-size:18px}
  .petpark .pacts{gap:12px}
  .petpark .pacts .btn2{font-size:24px;padding:.45em 1em}
 }
-@media (orientation:portrait) and (min-width:900px) and (min-height:1200px){.stage > .play{zoom:1.55}}
 /* v2.0 update popup, bug report, park cost, dance */
 .updpop{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:rgba(10,8,40,.6);padding:16px;box-sizing:border-box}
 .updpop .card{max-width:420px;text-align:center}.updnote{text-align:left;background:rgba(255,255,255,.07);border-radius:12px;padding:8px 12px;line-height:1.6}
