@@ -26,6 +26,29 @@ jobs:
       - name: 同步到 iOS 專案
         working-directory: app
         run: npx cap sync ios
+      - name: 測試版允許連到測試機上的小伺服器（只有這次測試用）
+        run: /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" -c "Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true" app/ios/App/App/Info.plist || true
+      - name: 開截圖用的小伺服器
+        run: |
+          mkdir -p results
+          cat > "$RUNNER_TEMP/srv.py" <<'PY'
+          import http.server,urllib.parse,subprocess,os
+          class H(http.server.BaseHTTPRequestHandler):
+              def do_GET(self):
+                  u=urllib.parse.urlparse(self.path);q=urllib.parse.parse_qs(u.query)
+                  cur=open('/tmp/cur.txt').read().split()
+                  udid,out=cur[0],cur[1]
+                  if u.path=='/shot':
+                      n=''.join(c for c in q.get('n',['x'])[0] if c.isalnum() or c in '_-')
+                      subprocess.run(['xcrun','simctl','io',udid,'screenshot',f'{out}/{n}.png'],capture_output=True)
+                  elif u.path=='/log':
+                      open(f'{out}/srvlog.txt','a').write(q.get('m',[''])[0]+'\n')
+                  self.send_response(200);self.send_header('Access-Control-Allow-Origin','*');self.end_headers();self.wfile.write(b'ok')
+              def log_message(self,*a):pass
+          http.server.ThreadingHTTPServer(('127.0.0.1',8765),H).serve_forever()
+          PY
+          nohup python3 "$RUNNER_TEMP/srv.py" > "$RUNNER_TEMP/srv.log" 2>&1 &
+          sleep 1
       - name: 模擬器版本
         working-directory: app/ios/App
         run: |
@@ -46,6 +69,7 @@ jobs:
           print(c[-1]['udid'] if c else '')" "$1"; }
           run_dev(){ name=$1; udid=$2; out=results/$name; mkdir -p $out
             echo "== $name $udid"
+            echo "$udid $PWD/$out" > /tmp/cur.txt
             xcrun simctl boot $udid; xcrun simctl bootstatus $udid -b
             xcrun simctl status_bar $udid override --time 9:41 --batteryState charged --batteryLevel 100 2>/dev/null
             xcrun simctl install $udid "$APP"
@@ -59,11 +83,11 @@ jobs:
                 for s in $(grep -o 'SELFTEST SHOT [0-9a-z]*' $out/log$ph.txt | awk '{print $3}'); do
                   case " $seen " in *" $s "*) ;; *) sleep 1; xcrun simctl io $udid screenshot $out/$s.png >/dev/null 2>&1; seen="$seen $s";; esac
                 done
-                grep -q "PHASE$ph DONE" $out/log$ph.txt && break
+                grep -qs "PHASE$ph DONE" $out/log$ph.txt $out/srvlog.txt && break
               done
               sleep 1; kill $LP 2>/dev/null; xcrun simctl terminate $udid tw.starlight.adventure 2>/dev/null; sleep 2
             done
-            grep -h "SELFTEST" $out/log1.txt $out/log2.txt | grep -v SHOT > $out/summary.txt
+            grep -h "SELFTEST" $out/log1.txt $out/log2.txt | grep -v SHOT > $out/summary.txt; [ -s $out/summary.txt ] || cp $out/srvlog.txt $out/summary.txt 2>/dev/null
             xcrun simctl shutdown $udid
           }
           IP=$(pick 'iPhone 1[0-9] Pro Max'); [ -z "$IP" ] && IP=$(pick 'iPhone')

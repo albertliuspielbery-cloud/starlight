@@ -1,10 +1,13 @@
 // 只在雲端模擬器自我測試時放進 App（mkapp.py 有 SELFTEST=1 才會加）：自動走過主要畫面，結果用 console 印出來
 (function(){
- const L=(...a)=>console.log('SELFTEST '+a.join(' '));
+ // 雲端測試機上有一個小伺服器（127.0.0.1:8765）：收紀錄、在對的時間截圖；連不上就只用 console
+ const SRV='http://127.0.0.1:8765';let srvOk=true;
+ const post=(path)=>srvOk?fetch(SRV+path,{mode:'cors'}).then(r=>r.ok).catch(()=>{srvOk=false;return false}):Promise.resolve(false);
+ const L=(...a)=>{const m='SELFTEST '+a.join(' ');console.log(m);post('/log?m='+encodeURIComponent(m))};
  window.addEventListener('error',e=>L('PAGEERR',e.message,e.filename?e.filename.split('/').pop():'',e.lineno||''));
  window.addEventListener('unhandledrejection',e=>L('PAGEERR','promise',String(e.reason&&e.reason.message||e.reason)));
  const W=ms=>new Promise(r=>setTimeout(r,ms));
- const shot=async(n,hold=4500)=>{L('SHOT',n);await W(hold)};
+ const shot=async(n,hold=4500)=>{await W(600);const done=await post('/shot?n='+encodeURIComponent(n));if(done){await W(400);return}L('SHOT',n);await W(hold)};
  const clr=()=>document.querySelectorAll('.overlay,.coach,#toast').forEach(o=>o.remove());
  const phase=localStorage.getItem('selftest_phase')||'1';
  async function audioCheck(){
@@ -26,7 +29,7 @@
   const S=__game.S;S.name='小星';S.chDone=4;S.progs=[10,10,10,10,4];S.wallet=77;__game.setCh(4);__game.save&&__game.save();try{__ev('save')()}catch(e){}
   __game.go('world');await W(1200);clr();await shot('02world');
   // 第六章以後：App 第一版顯示「即將推出」
-  const st=[...document.querySelectorAll('.wnode')].map(b=>b.className);L(st[5]&&/soon/.test(st[5])?'PASS':'FAIL','chapter 6 coming soon',st[5]||'');
+  {const n=document.querySelectorAll('.wnode').length,more=!!document.querySelector('.moresoon');L(n===5&&more?'PASS':'FAIL','map shows chapters 1-5 + more-coming card',n,more)}
   // 闖關：答對一題
   __game.setCh(0);S.level=0;S.q=0;S.qs=['letter','letter','letter'];__game.go('stage');await W(1500);clr();S.q=0;__game.rq();await W(1500);
   await shot('03stage',1500);
@@ -35,8 +38,8 @@
   clr();await shot('04right',2000);
   for(const s of ['room','pethouse','coloring','wardrobe','park']){try{clr();__game.go(s);await W(1500);clr();await shot('05'+s,3000)}catch(e){L('FAIL',s,e.message)}}
   try{__game.setCh(0);S.prog=10;__game.go('chend');await W(3500);await shot('06chend')}catch(e){L('FAIL','chend',e.message)}
-  try{__game.setCh(4);S.prog=10;__game.go('finale');await W(6000);await shot('07finale')}catch(e){L('FAIL','finale',e.message)}
-  try{__game.show('title');await W(1500);clr();__ev('parentPanel')();await W(1200);await shot('08parent');clr()}catch(e){L('FAIL','parent',e.message)}
+  try{__game.setCh(4);S.prog=10;__game.go('finale');await W(6000);L(!document.querySelector('#nextch2')?'PASS':'FAIL','finale has no go-to-chapter-6 button');await shot('07finale')}catch(e){L('FAIL','finale',e.message)}
+  try{__game.show('title');await W(1500);clr();document.querySelector('#parent').click();await W(700);L(document.querySelector('#pg')?'PASS':'FAIL','parent settings ask the grown-up question');clr();__ev('parentPanel')();await W(1200);await shot('08parent');clr()}catch(e){L('FAIL','parent',e.message)}
   // 存檔：寫一個記號，下次開 App 檢查
   S.wallet=77;try{__ev('save')()}catch(e){};localStorage.setItem('selftest_phase','2');localStorage.setItem('selftest_mark','m'+Date.now());
   L('PHASE1 DONE')}
