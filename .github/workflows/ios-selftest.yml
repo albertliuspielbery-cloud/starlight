@@ -73,12 +73,13 @@ jobs:
             xcrun simctl boot $udid; xcrun simctl bootstatus $udid -b
             xcrun simctl status_bar $udid override --time 9:41 --batteryState charged --batteryLevel 100 2>/dev/null
             xcrun simctl install $udid "$APP"
-            for ph in 1 2; do
+            for ph in 1 2 2; do
+              grep -qs "PHASE2 DONE" $out/srvlog.txt && [ $ph = 2 ] && continue   # 第二階段偶爾開不起來：沒跑完就再開一次
               : > $out/log$ph.txt
               xcrun simctl launch --console-pty --terminate-running-process $udid tw.starlight.adventure > $out/log$ph.txt 2>&1 &
               LP=$!
               seen=""
-              for i in $(seq 1 240); do
+              for i in $(seq 1 150); do
                 sleep 1
                 for s in $(grep -o 'SELFTEST SHOT [0-9a-z]*' $out/log$ph.txt | awk '{print $3}'); do
                   case " $seen " in *" $s "*) ;; *) sleep 1; xcrun simctl io $udid screenshot $out/$s.png >/dev/null 2>&1; seen="$seen $s";; esac
