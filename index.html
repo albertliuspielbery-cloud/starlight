@@ -2542,7 +2542,7 @@ const REWARD={
  chest(card,finish){
   card.innerHTML=`<h2>選一個寶箱</h2><div class="chests">${[0,1,2].map(i=>`<button class="chest" data-i="${i}">${chestSVG()}</button>`).join('')}</div><p>每一個寶箱都有寶石喔！</p>`;
   say(['選一個寶箱吧！每一個都有寶石喔！']);
-  $$('.chest',card).forEach(b=>b.onclick=()=>{b.classList.add('open');sfx('gem');burstEl(b,40);const n=rand(2,5);setTimeout(()=>gemsShow(card,n,finish,`寶箱裡有 ${n} 顆寶石！`),700)});
+  let chOpened=0;$$('.chest',card).forEach(b=>b.onclick=()=>{if(chOpened)return;chOpened=1;$$('.chest',card).forEach(x=>x.disabled=true);b.classList.add('open');sfx('gem');burstEl(b,40);const n=rand(2,5);setTimeout(()=>gemsShow(card,n,finish,`寶箱裡有 ${n} 顆寶石！`),700)});
  },
  petgift(card,finish){
   const pool=ITEMS.filter(i=>i.petgift&&!owns(i.id));
@@ -2760,7 +2760,7 @@ sort(play,sp,key){
  const n=S.diff==='easy'?4:S.diff==='mid'?5:6;
  const it=shuffle([...shuffle(all.filter(x=>x[1]===0)).slice(0,Math.ceil(n/2)),...shuffle(all.filter(x=>x[1]===1)).slice(0,Math.floor(n/2))]);
  S.ans=it.map(x=>x[1]).join('|');
- setPrompt(`放進對的籃子`,[`幫忙把東西放進對的籃子。是${b0[1]}，還是${b1[1]}呢？`],sp);
+ setPrompt(`放進對的籃子`,[`幫忙把東西放進對的籃子。是${b0[1]}，還是${b1[1]}呢？`,`${it[0][2]}呢？`],sp);
  play.innerHTML=`<div class="sortstage"><div class="sortitem" id="sitem"></div><div class="sortcount" id="sc"></div></div>
   <div class="baskets">${[b0,b1].map((b,i)=>`<button class="basket" data-v="${i}"><span class="emo">${art(b[0])}</span><span class="lbl">${b[1]}</span><span class="bin" id="bin${i}"></span></button>`).join('')}</div>`;
  let idx=0;const show=()=>{const x=it[idx];$('#sitem',play).innerHTML=`<span class="emo pop2">${art(x[0])}</span><span class="lbl">${x[2]}</span>`;$('#sc',play).textContent=`${idx+1} / ${it.length}`;if(idx>0)say([`${x[2]}呢？`])};
