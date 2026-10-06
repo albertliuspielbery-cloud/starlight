@@ -32,7 +32,7 @@
   const S=__game.S;S.name='小星';S.chDone=4;S.progs=[10,10,10,10,4];S.wallet=77;__game.setCh(4);__game.save&&__game.save();try{__ev('save')()}catch(e){}
   __game.go('world');await W(1200);clr();await shot('02world');
   // 第六章以後：App 第一版顯示「即將推出」
-  {const n=document.querySelectorAll('.wnode').length,more=!!document.querySelector('.moresoon');L(n===5&&more?'PASS':'FAIL','map shows chapters 1-5 + more-coming card',n,more)}
+  {const n=document.querySelectorAll('.wnode').length,more=!!document.querySelector('.moresoon');L(n===5&&!more?'PASS':'FAIL','map shows only chapters 1-5, no coming-soon',n,more)}
   // 闖關：答對一題
   __game.setCh(0);S.level=0;S.q=0;S.qs=['letter','letter','letter'];__game.go('stage');await W(1500);clr();S.q=0;__game.rq();await W(1500);
   await shot('03stage',1500);
