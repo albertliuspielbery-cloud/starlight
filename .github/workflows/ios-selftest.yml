@@ -85,7 +85,7 @@ jobs:
                 done
                 grep -qs "PHASE$ph DONE" $out/log$ph.txt $out/srvlog.txt && break
               done
-              sleep 1; kill $LP 2>/dev/null; xcrun simctl terminate $udid tw.starlight.adventure 2>/dev/null; sleep 2
+              sleep 6; kill $LP 2>/dev/null; xcrun simctl terminate $udid tw.starlight.adventure 2>/dev/null; sleep 2
             done
             grep -h "SELFTEST" $out/log1.txt $out/log2.txt | grep -v SHOT > $out/summary.txt; [ -s $out/summary.txt ] || cp $out/srvlog.txt $out/summary.txt 2>/dev/null
             xcrun simctl shutdown $udid
