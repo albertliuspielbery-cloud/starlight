@@ -87,7 +87,7 @@ jobs:
               done
               sleep 6; kill $LP 2>/dev/null; xcrun simctl terminate $udid tw.starlight.adventure 2>/dev/null; sleep 2
             done
-            grep -h "SELFTEST" $out/log1.txt $out/log2.txt | grep -v SHOT > $out/summary.txt; [ -s $out/summary.txt ] || cp $out/srvlog.txt $out/summary.txt 2>/dev/null
+            if [ -s $out/srvlog.txt ]; then cp $out/srvlog.txt $out/summary.txt; else grep -h "SELFTEST" $out/log1.txt $out/log2.txt | grep -v SHOT > $out/summary.txt; fi
             xcrun simctl shutdown $udid
           }
           IP=$(pick 'iPhone 1[0-9] Pro Max'); [ -z "$IP" ] && IP=$(pick 'iPhone')
@@ -103,3 +103,8 @@ jobs:
           echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt
           git add -A; git commit -q -m "selftest ${{ github.run_id }}"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" selftest-results
+      - name: 有任何一項失敗，這次測試就算失敗
+        run: |
+          cat results/*/summary.txt
+          ! grep -h "FAIL" results/*/summary.txt
+          for d in iphone ipad; do grep -q "PHASE2 DONE" results/$d/summary.txt || { echo "$d 沒有跑完第二階段"; exit 1; }; done

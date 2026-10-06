@@ -24,6 +24,9 @@
   await W(5000);clr();await shot('01title');
   L(__game&&__ev?'PASS':'FAIL','game loaded',window.__APP?'app':'web');
   L(typeof caches==='undefined'?'PASS':'FAIL','no service worker cache in app');
+  {const t=document.createElement('div');t.style.cssText='position:fixed;top:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';document.body.appendChild(t);const cs=getComputedStyle(t),it=parseFloat(cs.paddingTop)||0,ib=parseFloat(cs.paddingBottom)||0;t.remove();
+   const sc=document.querySelector('#screen');const bt=sc?sc.getBoundingClientRect().top:-1;const sb=sc?innerHeight-sc.getBoundingClientRect().bottom:-1;
+   L(bt>=it-1&&sb>=ib-1?'PASS':'FAIL','safe area respected','insetTop',it,'screenTop',Math.round(bt),'insetBottom',ib,'screenBottomGap',Math.round(sb))}
   try{await __ev('VO.ready');L('PASS','voice index',Object.keys(__ev('VO.idx')).length)}catch(e){L('FAIL','voice index',e.message)}
   await audioCheck();
   const S=__game.S;S.name='小星';S.chDone=4;S.progs=[10,10,10,10,4];S.wallet=77;__game.setCh(4);__game.save&&__game.save();try{__ev('save')()}catch(e){}
