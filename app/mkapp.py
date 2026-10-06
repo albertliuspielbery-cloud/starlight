@@ -10,6 +10,9 @@ h2=re.sub(r"<script>if\('serviceWorker' in navigator\)\{[^<]*</script>\n?",'',h)
 assert h2!=h,'sw register not found';h=h2
 if os.path.exists(DST):shutil.rmtree(DST)
 os.makedirs(DST+'/voice/c')
+if os.environ.get('SELFTEST'):
+  st=open(str(HERE/'selftest.js'),encoding='utf-8').read()
+  assert h.count('</body>')==1;h=h.replace('</body>','<script>'+st+'</script></body>',1)
 open(DST+'/index.html','w',encoding='utf-8').write(h)
 for f in os.listdir(SRC):
   if (f.endswith('.woff2') and f in h) or f.endswith(('.png','.webmanifest')):shutil.copy(SRC+'/'+f,DST+'/'+f)

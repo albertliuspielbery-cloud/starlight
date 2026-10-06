@@ -1,0 +1,81 @@
+# 星光小冒險 iOS App：在雲端的 iPhone／iPad 模擬器實際打開 App，自動走過主要畫面
+# 結果（截圖、紀錄）放到 selftest-results 分支，不會影響網站
+name: iOS 模擬器自我測試
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['app/selftest.js', '.github/workflows/ios-selftest.yml']
+permissions:
+  contents: write
+jobs:
+  selftest:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 安裝 Capacitor
+        working-directory: app
+        run: npm ci
+      - name: 做 App 用的網頁（加上自我測試）
+        working-directory: app
+        run: SELFTEST=1 python3 mkapp.py
+      - name: 同步到 iOS 專案
+        working-directory: app
+        run: npx cap sync ios
+      - name: 模擬器版本
+        working-directory: app/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/dd" CODE_SIGNING_ALLOWED=NO build | tail -30
+      - name: 在 iPhone、iPad 模擬器上跑
+        run: |
+          set +e
+          APP=$(ls -d "$RUNNER_TEMP"/dd/Build/Products/Debug-iphonesimulator/*.app | head -1)
+          echo "APP=$APP"
+          mkdir -p results
+          xcrun simctl list devices available > results/devices.txt
+          pick(){ xcrun simctl list devices available -j | python3 -c "
+          import json,sys,re
+          d=json.load(sys.stdin)['devices'];want=sys.argv[1]
+          c=[x for k,v in d.items() if 'iOS' in k for x in v if re.search(want,x['name'])]
+          print(c[-1]['udid'] if c else '')" "$1"; }
+          run_dev(){ name=$1; udid=$2; out=results/$name; mkdir -p $out
+            echo "== $name $udid"
+            xcrun simctl boot $udid; xcrun simctl bootstatus $udid -b
+            xcrun simctl status_bar $udid override --time 9:41 --batteryState charged --batteryLevel 100 2>/dev/null
+            xcrun simctl install $udid "$APP"
+            for ph in 1 2; do
+              : > $out/log$ph.txt
+              xcrun simctl launch --console-pty --terminate-running-process $udid tw.starlight.adventure > $out/log$ph.txt 2>&1 &
+              LP=$!
+              seen=""
+              for i in $(seq 1 240); do
+                sleep 1
+                for s in $(grep -o 'SELFTEST SHOT [0-9a-z]*' $out/log$ph.txt | awk '{print $3}'); do
+                  case " $seen " in *" $s "*) ;; *) sleep 1; xcrun simctl io $udid screenshot $out/$s.png >/dev/null 2>&1; seen="$seen $s";; esac
+                done
+                grep -q "PHASE$ph DONE" $out/log$ph.txt && break
+              done
+              sleep 1; kill $LP 2>/dev/null; xcrun simctl terminate $udid tw.starlight.adventure 2>/dev/null; sleep 2
+            done
+            grep -h "SELFTEST" $out/log1.txt $out/log2.txt | grep -v SHOT > $out/summary.txt
+            xcrun simctl shutdown $udid
+          }
+          IP=$(pick 'iPhone 1[0-9] Pro Max'); [ -z "$IP" ] && IP=$(pick 'iPhone')
+          PD=$(pick 'iPad Pro 13'); [ -z "$PD" ] && PD=$(pick 'iPad')
+          run_dev iphone $IP
+          run_dev ipad $PD
+          cat results/*/summary.txt
+      - name: 把結果放到 selftest-results 分支
+        run: |
+          cd results
+          git init -q; git checkout -q -b selftest-results
+          git config user.name "selftest"; git config user.email "selftest@users.noreply.github.com"
+          echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt
+          git add -A; git commit -q -m "selftest ${{ github.run_id }}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" selftest-results
