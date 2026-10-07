@@ -10,6 +10,8 @@
  const shot=async(n,hold=4500)=>{await W(600);const done=await post('/shot?n='+encodeURIComponent(n));if(done){await W(400);return}L('SHOT',n);await W(hold)};
  const clr=()=>document.querySelectorAll('.overlay,.coach,#toast').forEach(o=>o.remove());
  const phase=localStorage.getItem('selftest_phase')||'1';
+ const T0=Date.now(),loads=+(localStorage.getItem('selftest_loads_'+phase)||0)+1;localStorage.setItem('selftest_loads_'+phase,loads);
+ const step=n=>{try{localStorage.setItem('selftest_step',n)}catch(e){}L('STEP',n,((Date.now()-T0)/1000).toFixed(1)+'s')};
  async function audioCheck(){
   try{const AC=window.AudioContext||window.webkitAudioContext;const ctx=new AC();try{await ctx.resume()}catch(e){}
    const idx=__ev('VO.idx');const k=Object.keys(idx).find(x=>x.startsWith('z|'));const e=idx[k];
@@ -21,6 +23,7 @@
    L('AUDIO',ctx.state,'clip',k.slice(0,20),'dur',ab.duration.toFixed(2),'advanced',(ctx.currentTime-t0).toFixed(2));
    L(ctx.currentTime-t0>0.3&&ab.duration>0.2?'PASS':'FAIL','audio')}catch(e){L('FAIL','audio',e.message)}}
  async function run1(){
+  if(loads>1)L('NOTE reloaded during phase 1, last step was',localStorage.getItem('selftest_step'),'load',loads);
   await W(5000);clr();await shot('01title');
   L(__game&&__ev?'PASS':'FAIL','game loaded',window.__APP?'app':'web');
   L(typeof caches==='undefined'?'PASS':'FAIL','no service worker cache in app');
@@ -39,13 +42,13 @@
   const ans=String(S.ans);const b=document.querySelector(`.play [data-v="${ans}"]`);
   if(b){const r=b.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);L(hit&&(hit===b||b.contains(hit))?'PASS':'FAIL','answer button tappable');b.click();let k=0;while(S.q<1&&k<20){await W(500);k++}L(S.q>=1?'PASS':'FAIL','correct answer advances',S.q,(k/2)+'s')}else L('FAIL','no answer button');
   clr();await shot('04right',2000);
-  for(const s of ['room','pethouse','coloring','wardrobe','park']){try{clr();__game.go(s);await W(1500);clr();await shot('05'+s,3000)}catch(e){L('FAIL',s,e.message)}}
-  try{__game.setCh(0);S.prog=10;__game.go('chend');await W(3500);await shot('06chend')}catch(e){L('FAIL','chend',e.message)}
-  try{__game.setCh(4);S.prog=10;__game.go('finale');await W(6000);L(!document.querySelector('#nextch2')?'PASS':'FAIL','finale has no go-to-chapter-6 button');await shot('07finale')}catch(e){L('FAIL','finale',e.message)}
+  for(const s of ['room','pethouse','coloring','wardrobe','park']){try{step(s);clr();__game.go(s);await W(1500);clr();await shot('05'+s,3000)}catch(e){L('FAIL',s,e.message)}}
+  step('chend');try{__game.setCh(0);S.prog=10;__game.go('chend');await W(3500);await shot('06chend')}catch(e){L('FAIL','chend',e.message)}
+  step('finale');try{__game.setCh(4);S.prog=10;__game.go('finale');await W(6000);L(!document.querySelector('#nextch2')?'PASS':'FAIL','finale has no go-to-chapter-6 button');await shot('07finale')}catch(e){L('FAIL','finale',e.message)}
   try{__game.show('title');await W(1500);clr();document.querySelector('#parent').click();await W(700);L(document.querySelector('#pg')?'PASS':'FAIL','parent settings ask the grown-up question');clr();__ev('parentPanel')();await W(1200);await shot('08parent');clr()}catch(e){L('FAIL','parent',e.message)}
   // 存檔：寫一個記號，下次開 App 檢查
   S.wallet=77;try{__ev('save')()}catch(e){};localStorage.setItem('selftest_phase','2');localStorage.setItem('selftest_mark','m'+Date.now());
-  L('PHASE1 DONE')}
+  L(loads===1?'PASS':'FAIL','page loaded only once in phase 1',loads);L('PHASE1 DONE')}
  async function run2(){
   await W(5000);clr();
   const S=__game.S;L(localStorage.getItem('selftest_mark')?'PASS':'FAIL','localStorage survives relaunch');

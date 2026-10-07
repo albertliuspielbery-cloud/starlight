@@ -88,6 +88,7 @@ jobs:
               done
               sleep 6; kill $LP 2>/dev/null; xcrun simctl terminate $udid tw.starlight.adventure 2>/dev/null; sleep 2
             done
+            xcrun simctl spawn $udid log show --last 15m --style compact --predicate 'eventMessage CONTAINS[c] "WebContent" AND (eventMessage CONTAINS[c] "terminat" OR eventMessage CONTAINS[c] "crash" OR eventMessage CONTAINS[c] "jetsam" OR eventMessage CONTAINS[c] "memory")' 2>/dev/null | tail -60 > $out/webcontent.txt
             if [ -s $out/srvlog.txt ]; then cp $out/srvlog.txt $out/summary.txt; else grep -h "SELFTEST" $out/log1.txt $out/log2.txt | grep -v SHOT > $out/summary.txt; fi
             xcrun simctl shutdown $udid
           }
