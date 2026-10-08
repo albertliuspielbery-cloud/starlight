@@ -1,0 +1,7 @@
+This is an offline educational game for children aged 4–6 (Traditional Chinese).
+- No account, no ads, no analytics, no third-party SDKs, no data collection. All progress is stored on the device.
+- Parental gate: "家長設定" (Parent settings) and anything that leaves the app (the support email link, and saving a drawing to Photos via the system share sheet) require answering a multiplication question.
+- Microphone: used only in the "跟著唸" (read-aloud) activity so the child can hear their own voice. Recordings stay on the device.
+- This version includes chapters 1–5 (one complete story arc). No purchases are offered, and items, rewards and parent tools only cover chapters 1–5.
+- App name is 星光小冒險. The title screen shows the story title of the chosen hero: 「星光公主大冒險」 (princess) or 「星光小王子大冒險」 (prince).
+- To try the game quickly: choose a hero, enter any name (or skip), then tap "開始冒險".

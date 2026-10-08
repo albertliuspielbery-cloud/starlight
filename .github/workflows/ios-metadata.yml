@@ -1,0 +1,42 @@
+# 星光小冒險：把上架資料（說明、關鍵字、網址、版權、類別、審查備註、截圖）傳到 App Store Connect
+# 只更新資料，不會送審；送審要在 App Store Connect 自己按
+name: App Store 上架資料
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - name: 安裝 fastlane
+        run: gem install fastlane --no-document
+      - name: 上傳說明、截圖
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          set -o pipefail
+          python3 - <<'PY'
+          import json,os
+          json.dump({"key_id":os.environ["ASC_KEY_ID"],"issuer_id":os.environ["ASC_ISSUER_ID"],"key":os.environ["ASC_KEY_P8"],"in_house":False},open(os.environ["RUNNER_TEMP"]+"/asc.json","w"))
+          PY
+          trap 'rm -f "$RUNNER_TEMP/asc.json"' EXIT
+          fastlane deliver \
+            --api_key_path "$RUNNER_TEMP/asc.json" \
+            --app_identifier tw.starlight.adventure \
+            --app_version 1.0 --platform ios \
+            --metadata_path appstore/metadata \
+            --screenshots_path appstore/screenshots \
+            --skip_binary_upload true --skip_app_version_update false \
+            --overwrite_screenshots true \
+            --submit_for_review false --automatic_release false \
+            --run_precheck_before_submit false \
+            --force true 2>&1 | tee "$RUNNER_TEMP/deliver.log" || {
+              grep -E "\[!\]|Error|error|rror:|Invalid|ENTITY|STATE_ERROR" "$RUNNER_TEMP/deliver.log" | sort -u | head -9 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; exit 1; }
