@@ -52,9 +52,12 @@ jobs:
           printf '%s\n' "$ASC_KEY_P8" > "$KEY"
           AUTH=(-allowProvisioningUpdates -authenticationKeyPath "$KEY" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
           BUILD=$(date -u +%Y%m%d%H%M)
+          # 出錯時把錯誤訊息列成註記（在 Actions 頁面上就看得到，不用下載紀錄）
+          note(){ grep -E "error:|❌|Error Domain|No profiles|No Account|requires a provisioning|Signing for" "$1" | grep -v "^note:" | sort -u | head -25 | while IFS= read -r l; do echo "::error::$2: ${l:0:900}"; done; }
           xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
             -archivePath "$RUNNER_TEMP/App.xcarchive" archive "${AUTH[@]}" \
-            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGN_STYLE=Automatic CURRENT_PROJECT_VERSION="$BUILD" | tail -80
+            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGN_STYLE=Automatic CURRENT_PROJECT_VERSION="$BUILD" > "$RUNNER_TEMP/archive.log" 2>&1 || { tail -80 "$RUNNER_TEMP/archive.log"; note "$RUNNER_TEMP/archive.log" archive; rm -f "$KEY"; exit 65; }
+          tail -30 "$RUNNER_TEMP/archive.log"
           cat > "$RUNNER_TEMP/export.plist" <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -66,5 +69,6 @@ jobs:
           </dict></plist>
           EOF
           xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/export.plist" \
-            -exportPath "$RUNNER_TEMP/export" "${AUTH[@]}" | tail -40
+            -exportPath "$RUNNER_TEMP/export" "${AUTH[@]}" > "$RUNNER_TEMP/export.log" 2>&1 || { tail -80 "$RUNNER_TEMP/export.log"; note "$RUNNER_TEMP/export.log" upload; rm -f "$KEY"; exit 65; }
+          tail -30 "$RUNNER_TEMP/export.log"
           rm -f "$KEY"
