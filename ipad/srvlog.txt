@@ -1,0 +1,28 @@
+SELFTEST PASS no service worker cache in app
+SELFTEST PASS game loaded app
+SELFTEST PASS safe area respected insetTop 0 screenTop 10 insetBottom 25 screenBottomGap 35
+SELFTEST PASS voice index 13047
+SELFTEST PASS audio
+SELFTEST AUDIO running clip z|1 dur 0.44 advanced 0.70
+SELFTEST PASS map shows only chapters 1-5, no coming-soon 5 false
+SELFTEST PASS answer button tappable
+SELFTEST PASS correct answer advances 1 6.5s
+SELFTEST STEP room 65.3s
+SELFTEST STEP pethouse 73.9s
+SELFTEST STEP coloring 79.8s
+SELFTEST STEP wardrobe 84.0s
+SELFTEST STEP park 87.7s
+SELFTEST STEP chend 91.7s
+SELFTEST STEP finale 99.6s
+SELFTEST PASS finale has no go-to-chapter-6 button
+SELFTEST PASS parent settings ask the grown-up question
+SELFTEST STEP storyvoice 121.2s
+SELFTEST VOFETCH entry [19,2733139,15124,1,1338023] url voice/c/1-1338023.mp3 status 0 ok false size 15124 type  ab 15124
+SELFTEST VOSTATE vo true sound true mode wa bufs 35
+SELFTEST STORYVOICE [{"k":"buf","t":"0.00","d":1.6,"end":"1.61"},{"k":"voBuf","key":"z|在星光王國，今天晚上要舉","got":"buf"},{"k":"buf","t":"0.43","d":3.74,"end":"4.17"},{"k":"voPlay","ret":"[object Event]"},{"k":"voBuf","key":"z|小公主和她的寵物，好期待","got":"buf"},{"k":"buf","t":"4.27","d":3.11,"end":"7.39"},{"k":"voPlay","ret":"[object Event]"}] ctx running err  elPlays 0
+SELFTEST PASS story first page voice plays fully 3 cut 0
+SELFTEST PASS page loaded only once in phase 1 1
+SELFTEST PHASE1 DONE
+SELFTEST PASS localStorage survives relaunch
+SELFTEST PASS game save survives relaunch wallet 77 name 小星
+SELFTEST PHASE2 DONE

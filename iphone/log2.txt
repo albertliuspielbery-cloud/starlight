@@ -1,0 +1,7 @@
+2026-10-08 10:53:13.095 App[13019:41825] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/runner/Library/Developer/CoreSimulator/Devices/9F3D563E-AF8A-4089-B32E-3ADADEB067F0/data/Containers/Data/Application/BD1185B4-0A94-47E5-99B6-FE127250E35F/Library/Cookies/tw.starlight.adventure.binarycookies
+⚡️  Loading app at capacitor://localhost...
+⚡️  WebView loaded
+⚡️  [log] - SELFTEST PASS localStorage survives relaunch
+⚡️  [log] - SELFTEST PASS game save survives relaunch wallet 77 name 小星
+⚡️  [log] - SELFTEST PHASE2 DONE
+tw.starlight.adventure: 13019

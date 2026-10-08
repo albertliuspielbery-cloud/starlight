@@ -1,0 +1,29 @@
+2026-10-08 10:50:07.930 App[6620:25152] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/runner/Library/Developer/CoreSimulator/Devices/9F3D563E-AF8A-4089-B32E-3ADADEB067F0/data/Containers/Data/Application/BD1185B4-0A94-47E5-99B6-FE127250E35F/Library/Cookies/tw.starlight.adventure.binarycookies
+⚡️  Loading app at capacitor://localhost...
+⚡️  WebView loaded
+⚡️  [log] - SELFTEST PASS game loaded app
+⚡️  [log] - SELFTEST PASS no service worker cache in app
+⚡️  [log] - SELFTEST PASS safe area respected insetTop 62 screenTop 72 insetBottom 34 screenBottomGap 44
+⚡️  [log] - SELFTEST PASS voice index 13047
+⚡️  [log] - SELFTEST AUDIO running clip z|1 dur 0.44 advanced 0.70
+⚡️  [log] - SELFTEST PASS audio
+⚡️  [log] - SELFTEST PASS map shows only chapters 1-5, no coming-soon 5 false
+⚡️  [log] - SELFTEST PASS answer button tappable
+⚡️  [log] - SELFTEST PASS correct answer advances 1 4s
+⚡️  [log] - SELFTEST STEP room 75.1s
+⚡️  [log] - SELFTEST STEP pethouse 83.7s
+⚡️  [log] - SELFTEST STEP coloring 90.1s
+⚡️  [log] - SELFTEST STEP wardrobe 95.6s
+⚡️  [log] - SELFTEST STEP park 100.2s
+⚡️  [log] - SELFTEST STEP chend 105.0s
+⚡️  [log] - SELFTEST STEP finale 112.3s
+⚡️  [log] - SELFTEST PASS finale has no go-to-chapter-6 button
+⚡️  [log] - SELFTEST PASS parent settings ask the grown-up question
+⚡️  [log] - SELFTEST STEP storyvoice 129.9s
+⚡️  [log] - SELFTEST VOFETCH entry [19,2733139,15124,1,1338023] url voice/c/1-1338023.mp3 status 0 ok false size 15124 type  ab 15124
+⚡️  [log] - SELFTEST VOSTATE vo true sound true mode wa bufs 36
+⚡️  [log] - SELFTEST STORYVOICE [{"k":"buf","t":"0.00","d":1.6,"end":"1.61"},{"k":"voBuf","key":"z|在星光王國，今天晚上要舉","got":"buf"},{"k":"buf","t":"0.43","d":3.74,"end":"4.17"},{"k":"voPlay","ret":"[object Event]"},{"k":"voBuf","key":"z|小公主和她的寵物，好期待","got":"buf"},{"k":"buf","t":"4.29","d":3.11,"end":"7.40"},{"k":"voPlay","ret":"[object Event]"}] ctx running err  elPlays 0
+⚡️  [log] - SELFTEST PASS story first page voice plays fully 3 cut 0
+⚡️  [log] - SELFTEST PASS page loaded only once in phase 1 1
+⚡️  [log] - SELFTEST PHASE1 DONE
+tw.starlight.adventure: 6620

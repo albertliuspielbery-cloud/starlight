@@ -1,0 +1,60 @@
+			com.apple.assertiond.app-state-monitor,
+			com.apple.runningboard.process-state
+			]>
+	3338=<RBEntitlements| [
+			com.apple.assertiond.app-state-monitor,
+			com.apple.runningboard.attributes.bannerrequest,
+			com.apple.runningboard.launchprocess
+			]>
+	3380=<RBEntitlements| [
+			com.apple.runningboard.sessionkitd,
+			com.apple.runningboard.process-state,
+			com.apple.assertiond.app-state-monitor
+			]>
+	3398=<RBEntitlements| [
+			com.apple.assertiond.app-state-monitor,
+			com.apple.private.applemediaservices,
+			com.apple.runningboard.VoiceOver,
+			com.apple.runningboard.accessibility,
+			com.apple.backboard.client,
+			com.apple.runningboard.launchprocess,
+			com.apple.runningboard.AccessibilityUIServer,
+			com.apple.runningboard.assertions.angeltarget,
+			com.apple.multitasking.unlimitedassertions
+			]>
+	3381=<RBEntitlements| [
+			com.apple.runningboard.assertions.chronod,
+			com.apple.runningboard.terminateprocess,
+			com.apple.runningboard.sessionkitd,
+			com.apple.assertiond.app-state-monitor,
+			com.apple.runningboard.process-state,
+			com.apple.runningboard.launchprocess,
+			com.apple.runningboard.assertions.siri
+			]>
+	
+		]>
+2026-10-08 10:50:08.666 Df runningboardd[3325:364c] [com.apple.runningboard:process] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:6620])>{vt hash: 71395982}[uuid:FFA4E5CC-BF32-469D-8F7C-865C70E9E545]{definition:com.apple.WebKit.WebContent[extension][client]}:6670] Memory Limits: active 0 inactive 0
+ <RBJetsamProperties| tasklimit=0
+(null)>
+2026-10-08 10:50:08.666 E  runningboardd[3325:364c] [com.apple.runningboard:process] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:6620])>{vt hash: 71395982}[uuid:FFA4E5CC-BF32-469D-8F7C-865C70E9E545]{definition:com.apple.WebKit.WebContent[extension][client]}:6670] Memorystatus failed with unexpected error: Operation not permitted (1)
+2026-10-08 10:50:08.666 E  runningboardd[3325:364c] [com.apple.runningboard:process] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:6620])>{vt hash: 71395982}[uuid:FFA4E5CC-BF32-469D-8F7C-865C70E9E545]{definition:com.apple.WebKit.WebContent[extension][client]}:6670] Memorystatus failed with unexpected error: Invalid argument (22)
+2026-10-08 10:50:18.997 Df App[6620:62e9] [com.apple.WebKit:PerformanceLogging] WebContent[6670]: Memory usage info dump at MainFrameLoadCompleted:
+2026-10-08 10:50:18.998 Df App[6620:62e9] [com.apple.WebKit:PerformanceLogging] WebContent[6670]:   javascript_gc_heap_extra_memory_size_mb: 8
+2026-10-08 10:50:29.000 Df App[6620:62e9] [com.apple.WebKit:PerformanceLogging] WebContent[6670]: PerformanceMonitor::measurePostLoadMemoryUsage: Process was using 43163520 bytes of memory after the page load.
+2026-10-08 10:53:03.889 Df runningboardd[3325:6405] [com.apple.runningboard:ttl] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:6620])>{vt hash: 71395982}[uuid:FFA4E5CC-BF32-469D-8F7C-865C70E9E545]{definition:com.apple.WebKit.WebContent[extension][client]}:6670] termination reported by launchd (0, 0, 0)
+2026-10-08 10:53:03.890 Df runningboardd[3325:6405] [com.apple.runningboard:process] Removing assertions for terminated process: [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:6620])>{vt hash: 71395982}[uuid:FFA4E5CC-BF32-469D-8F7C-865C70E9E545]{definition:com.apple.WebKit.WebContent[extension][client]}:6670]
+2026-10-08 10:53:03.947 Df locationd[3347:9c2a] [com.apple.locationd.Core:Core] {"msg":"RBS #dic AppMonitor received Termination", "pid":6670, "bundleId":com.apple.WebKit.WebContent, "isUserKill":0}
+2026-10-08 10:53:03.947 Df locationd[3347:9c2a] [com.apple.locationd.Core:Core] {"msg":"RBS #AppMonitor Post Application State Change Notification", "notification":Terminated, "pid":6670, "bundleId":com.apple.WebKit.WebContent}
+2026-10-08 10:53:13.664 Df runningboardd[3325:901f] [com.apple.runningboard:process] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:13019])>{vt hash: 71395982}[uuid:C4C80612-7B8E-4F01-80B2-F8252FD20346]{definition:com.apple.WebKit.WebContent[extension][client]}:13040] Memory Limits: active 0 inactive 0
+ <RBJetsamProperties| tasklimit=0
+(null)>
+2026-10-08 10:53:13.664 E  runningboardd[3325:901f] [com.apple.runningboard:process] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:13019])>{vt hash: 71395982}[uuid:C4C80612-7B8E-4F01-80B2-F8252FD20346]{definition:com.apple.WebKit.WebContent[extension][client]}:13040] Memorystatus failed with unexpected error: Operation not permitted (1)
+2026-10-08 10:53:13.664 E  runningboardd[3325:901f] [com.apple.runningboard:process] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:13019])>{vt hash: 71395982}[uuid:C4C80612-7B8E-4F01-80B2-F8252FD20346]{definition:com.apple.WebKit.WebContent[extension][client]}:13040] Memorystatus failed with unexpected error: Invalid argument (22)
+2026-10-08 10:53:16.862 Df App[13019:a3e9] [com.apple.WebKit:PerformanceLogging] WebContent[13040]: Memory usage info dump at MainFrameLoadCompleted:
+2026-10-08 10:53:16.863 Df App[13019:a3e9] [com.apple.WebKit:PerformanceLogging] WebContent[13040]:   javascript_gc_heap_extra_memory_size_mb: 8
+2026-10-08 10:53:26.863 Df App[13019:a3e9] [com.apple.WebKit:PerformanceLogging] WebContent[13040]: PerformanceMonitor::measurePostLoadMemoryUsage: Process was using 43163648 bytes of memory after the page load.
+2026-10-08 10:53:33.986 Df runningboardd[3325:484c] [com.apple.runningboard:ttl] [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:13019])>{vt hash: 71395982}[uuid:C4C80612-7B8E-4F01-80B2-F8252FD20346]{definition:com.apple.WebKit.WebContent[extension][client]}:13040] termination reported by launchd (0, 0, 0)
+2026-10-08 10:53:33.995 Df runningboardd[3325:484c] [com.apple.runningboard:process] Removing assertions for terminated process: [xpcservice<com.apple.WebKit.WebContent([app<tw.starlight.adventure((null))>:13019])>{vt hash: 71395982}[uuid:C4C80612-7B8E-4F01-80B2-F8252FD20346]{definition:com.apple.WebKit.WebContent[extension][client]}:13040]
+2026-10-08 10:53:34.165 Df locationd[3347:9ac8] [com.apple.locationd.Core:Core] {"msg":"RBS #dic AppMonitor received Termination", "pid":13040, "bundleId":com.apple.WebKit.WebContent, "isUserKill":0}
+2026-10-08 10:53:34.165 Df locationd[3347:9ac8] [com.apple.locationd.Core:Core] {"msg":"RBS #AppMonitor Post Application State Change Notification", "notification":Terminated, "pid":13040, "bundleId":com.apple.WebKit.WebContent}
+2026-10-08 10:53:40.650 Df log[14397:0] [com.apple.log:] log run noninteractively, parent: 3315 (launchd_sim), args: 'log' 'show' '--last' '15m' '--style' 'compact' '--predicate' 'eventMessage CONTAINS[c] "WebContent" AND (eventMessage CONTAINS[c] "terminat" OR eventMessage CONTAINS[c] "crash" OR eventMessage C
