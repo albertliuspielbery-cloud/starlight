@@ -8126,7 +8126,8 @@ SCREENS.pethouse=function(){ptCatchUp();const r=_ph63.apply(this,arguments);try{
   confetti();say(nw.map(n=>`寵物有新玩具：${n}！`));$('#ptok',ov).onclick=()=>ov.remove()},1200)}}catch(e){console.log('pt',e)}return r};
 (()=>{const st=document.createElement('style');st.textContent=`
 .ptpanel{position:absolute;inset:6% 4%;background:rgba(30,24,80,.92);border:2px solid var(--goldline);border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:8px;z-index:5}
-.ptgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;overflow-y:auto;flex:1}
+.ptgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));grid-auto-rows:min-content;align-content:start;gap:8px;overflow-y:auto;flex:1}
+@media (min-width:700px){.ptgrid{grid-template-columns:repeat(5,minmax(84px,150px));justify-content:center}}
 .ptitem{position:relative;border:2px solid var(--goldline);border-radius:14px;background:rgba(255,255,255,.08);color:var(--text);padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;cursor:pointer}
 .ptitem svg{width:48px;height:48px}.ptitem b{font-weight:400;font-size:15px}.ptitem i{font-style:normal;font-size:11px;color:#FFD98A;display:flex;align-items:center;gap:2px}.ptitem i svg{width:12px;height:12px}
 .ptitem.lockd{opacity:.6}.ptitem.lockd svg:first-child{filter:grayscale(.7)}.ptic{font-size:34px;line-height:48px}.ptclose{align-self:center}
@@ -8291,7 +8292,7 @@ if(IS_APP){try{
    const t=b.textContent||'';if(t.length<80&&(LATE.test(t)||LATE2.test(t)))b.style.display='none'});
   $$('.trow').forEach(r=>{const h=r.querySelector('h3');if(h&&/旅行紀念章|星星寶石/.test(h.textContent))r.style.display='none'});
  }catch(e){}};
- let swq=0;new MutationObserver(()=>{if(swq)return;swq=1;requestAnimationFrame(()=>{swq=0;sweep()})}).observe(document.body,{childList:true,subtree:true});
+ new MutationObserver(()=>sweep()).observe(document.body,{childList:true,subtree:true});  // 在畫面顯示前就藏好（不會閃一下）
  // 萬一還是點到：不說「完成第六章以後」
  const _sayLock=say;say=function(parts,opt){try{if(Array.isArray(parts)&&parts.some(p=>typeof p==='string'&&LATE.test(p)))return Promise.resolve()}catch(e){}return _sayLock.call(this,parts,opt)};
  // 家長模式：跳關只到第五章；「全部解鎖」只解鎖第一～五章拿得到的東西

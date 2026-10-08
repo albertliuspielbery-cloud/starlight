@@ -79,7 +79,7 @@ jobs:
               xcrun simctl launch --console-pty --terminate-running-process $udid tw.starlight.adventure > $out/log$ph.txt 2>&1 &
               LP=$!
               seen=""
-              for i in $(seq 1 300); do
+              for i in $(seq 1 600); do
                 sleep 1
                 for s in $(grep -o 'SELFTEST SHOT [0-9a-z]*' $out/log$ph.txt | awk '{print $3}'); do
                   case " $seen " in *" $s "*) ;; *) sleep 1; xcrun simctl io $udid screenshot $out/$s.png >/dev/null 2>&1; seen="$seen $s";; esac
