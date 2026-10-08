@@ -6359,7 +6359,7 @@ BUILD.read=function(play,sp){
   const auto=setTimeout(()=>stopper&&stopper(),4000);
   stopper=()=>{clearTimeout(auto);stopper=null;try{rec.state!=='inactive'&&rec.stop()}catch(e){}};
   await done;cancelAnimationFrame(raf);stopTracks();restore();
-  mb.classList.remove('on');
+  mb.classList.remove('on');label('聽聽看…');
   if(!alive()){busy=false;return}
   const blob=new Blob(chunks,{type:(chunks[0]&&chunks[0].type)||rec.mimeType||'audio/mp4'});
   if(peak<.02||!blob.size){busy=false;label('再錄一次');tip.textContent='沒有聽到聲音喔，再唸一次，或是按「我唸好了」。';say(['沒有聽到聲音喔，再唸一次，或是按「我唸好了」。']);return}
@@ -8310,15 +8310,26 @@ if(IS_APP){try{
   const sel=$('#pch',ov);if(sel){[...sel.options].forEach(o=>{if(+o.value>=APP_CH)o.remove()});if(S.ch>=APP_CH)sel.value=String(APP_CH-1)}
   const ua=$('#unlockall',ov);if(ua){const f=ua.onclick;ua.onclick=function(){const before=new Set(S.owned||[]);const r2=f&&f.apply(this,arguments);try{S.owned=(S.owned||[]).filter(id=>{const it=ITEMS.find(x=>x.id===id);return before.has(id)||!(it&&it.chapter&&it.chapter>APP_CH)});save()}catch(e){}return r2}}}catch(e){}return r};
  // 畫冊「存到相簿」會打開分享選單（可以傳出 App）：先問家長
- if(typeof shareFile==='function'){const _shOrig=shareFile;shareFile=function(blob,name,title){if(!(blob&&/^image\//.test(blob.type)))return _shOrig.apply(this,arguments);return new Promise(res=>{let done=0;const fin=v=>{if(!done){done=1;clearInterval(iv);res(v)}};
+ if(typeof shareFile==='function'){const _shOrig=shareFile;
+  const cap=window.Capacitor,plug=n=>cap&&((cap.Plugins&&cap.Plugins[n])||(cap.registerPlugin&&cap.registerPlugin(n)));
+  // App 裡用原生外掛：存成暫存檔 → 打開分享選單
+  const nativeShare=async(blob,name,title,dlg)=>{const FS=plug('Filesystem'),SH=plug('Share');if(!FS||!SH)return null;
+   const b64=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(blob)});
+   const ext=/png/.test(blob.type)?'png':/jpe?g/.test(blob.type)?'jpg':/json/.test(blob.type)?'json':'txt';
+   const fn=/^image\//.test(blob.type)?`starlight-${Date.now()}.${ext}`:`starlight-backup-${new Date().toISOString().slice(0,10)}.${ext}`;
+   let w;try{w=await FS.writeFile({path:fn,data:b64,directory:'CACHE'})}catch(e){toast('存不起來，手機空間可能不夠');return 'cancel'}
+   try{await SH.share({title,files:[w.uri],dialogTitle:dlg||title});return 'shared'}catch(e){return 'cancel'}};
+  shareFile=function(blob,name,title){if(!(blob&&/^image\//.test(blob.type)))return (async()=>{try{const r=await nativeShare(blob,name,title);if(r)return r}catch(e){}return _shOrig(blob,name,title)})();return new Promise(res=>{let done=0;const fin=v=>{if(!done){done=1;clearInterval(iv);res(v)}};
   let passed=0;parentGate(async()=>{passed=1;try{
    // App 裡：先存成暫存檔，再打開 iPhone 的分享選單（裡面有「儲存影像」）
-   const cap=window.Capacitor,plug=n=>cap&&((cap.Plugins&&cap.Plugins[n])||(cap.registerPlugin&&cap.registerPlugin(n)));const FS=plug('Filesystem'),SH=plug('Share');
-   if(FS&&SH){const b64=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(blob)});
-    const ext=(/png/.test(blob.type)?'png':'jpg');const w=await FS.writeFile({path:`starlight-${Date.now()}.${ext}`,data:b64,directory:'CACHE'});
-    try{await SH.share({title,files:[w.uri],dialogTitle:'存到相簿'});fin('shared')}catch(e){fin('cancel')}return}
+   const r=await nativeShare(blob,name,title,'存到相簿');if(r){fin(r);return}
    const f=new File([blob],name,{type:blob.type});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title});fin('shared')}else{toast('這台裝置沒辦法直接存，可以用截圖保存喔');fin('cancel')}}catch(e){console.log('save',e);fin('cancel')}});
   let seen=0;const iv=setInterval(()=>{if($('#pg'))seen=1;else if(seen&&!passed)fin('cancel')},400)})}}
+
+ // 首頁「關於」不顯示內部版本號（App Store 上是 1.0）
+ const _tAbout=SCREENS.title;SCREENS.title=function(){const r=_tAbout.apply(this,arguments);try{const a=$('#about');if(a)a.textContent='關於'}catch(e){}return r};
+ // 語音還沒準備好時先等一下（最多 3 秒），不要先用機器聲
+ const _sayRdy=say;say=function(parts,opt){try{if(!VO.idx&&VO.ready&&S.vo){const self=this;return Promise.race([VO.ready,wait(3000)]).then(()=>_sayRdy.call(self,parts,opt))}}catch(e){}return _sayRdy.call(this,parts,opt)};
 }catch(e){console.log('applock',e)}}
 
 // 每次打開自動檢查新版本

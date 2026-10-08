@@ -1,5 +1,5 @@
 This is an offline educational game for children aged 4–6 (Traditional Chinese).
-- No account, no ads, no analytics, no third-party SDKs, no data collection. All progress is stored on the device.
+- No account, no ads, no analytics or advertising SDKs, no data collection (built with the open-source Capacitor framework). All progress is stored on the device.
 - Parental gate: "家長設定" (Parent settings) and anything that leaves the app (the support email link, and saving a drawing to Photos via the system share sheet) require answering a multiplication question.
 - Microphone: used only in the "跟著唸" (read-aloud) activity so the child can hear their own voice. Recordings stay on the device.
 - This version includes chapters 1–5 (one complete story arc). No purchases are offered, and items, rewards and parent tools only cover chapters 1–5.
