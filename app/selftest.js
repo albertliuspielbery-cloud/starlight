@@ -46,6 +46,20 @@
   step('chend');try{__game.setCh(0);S.prog=10;__game.go('chend');await W(3500);await shot('06chend')}catch(e){L('FAIL','chend',e.message)}
   step('finale');try{__game.setCh(4);S.prog=10;__game.go('finale');await W(6000);L(!document.querySelector('#nextch2')?'PASS':'FAIL','finale has no go-to-chapter-6 button');await shot('07finale')}catch(e){L('FAIL','finale',e.message)}
   try{__game.show('title');await W(1500);clr();document.querySelector('#parent').click();await W(700);L(document.querySelector('#pg')?'PASS':'FAIL','parent settings ask the grown-up question');clr();__ev('parentPanel')();await W(1200);await shot('08parent');clr()}catch(e){L('FAIL','parent',e.message)}
+  // 故事開頭的語音：每一段有沒有完整念完（記錄用哪種方式播、什麼時候被停）
+  step('storyvoice');try{const ev=[];const T=()=>((performance.now()-T1)/1000).toFixed(2);let T1=performance.now();
+   const P=AudioBufferSourceNode.prototype,st=P.start,sp=P.stop;P.start=function(...a){const d=this.buffer?this.buffer.duration:0;if(d>0.3){const r={k:'buf',t:T(),d:+d.toFixed(2)};ev.push(r);this.addEventListener('ended',()=>{r.end=T()});this.__r=r}return st.apply(this,a)};
+   P.stop=function(...a){if(this.__r)this.__r.stop=T();return sp.apply(this,a)};
+   const M=HTMLMediaElement.prototype,mp=M.play,mz=M.pause;M.play=function(){const r={k:'el',t:T(),src:String(this.src).slice(0,30)};ev.push(r);this.addEventListener('ended',()=>{r.end=T()},{once:true});this.__r=r;return mp.apply(this,arguments)};
+   M.pause=function(){if(this.__r&&!this.__r.end)this.__r.pause=T();return mz.apply(this,arguments)};
+   const ss=window.speechSynthesis,sk=ss&&ss.speak.bind(ss);if(ss)ss.speak=u=>{ev.push({k:'tts',t:T(),txt:String(u.text).slice(0,12)});return sk(u)};
+   clr();S.prog=0;__game.setCh(0);T1=performance.now();__game.go('story');await W(12000);
+   P.start=st;P.stop=sp;M.play=mp;M.pause=mz;if(ss)ss.speak=sk;
+   let ctx='';try{ctx=__ev('ac&&ac.state')}catch(e){}
+   L('STORYVOICE',JSON.stringify(ev),'ctx',ctx,'err',String(__ev('VO.err')||''),'elPlays',String(__ev('VO.elPlays')||0));
+   const bufs=ev.filter(e=>e.k==='buf');const cut=ev.filter(e=>e.stop||e.pause);
+   L(bufs.length>=2&&!cut.length&&!ev.some(e=>e.k==='tts')?'PASS':'FAIL','story first page voice plays fully',bufs.length,'cut',cut.length);
+   await shot('10story',1500)}catch(e){L('FAIL','storyvoice',e.message)}
   // 存檔：寫一個記號，下次開 App 檢查
   S.wallet=77;try{__ev('save')()}catch(e){};localStorage.setItem('selftest_phase','2');localStorage.setItem('selftest_mark','m'+Date.now());
   L(loads===1?'PASS':'FAIL','page loaded only once in phase 1',loads);L('PHASE1 DONE')}
