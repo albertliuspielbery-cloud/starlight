@@ -4938,7 +4938,7 @@ function bugReport(note){const d=new Date();const pad=n=>String(n).padStart(2,'0
   `最近錯誤（${E.length}）：`,...(E.length?E.slice(-10).map(x=>{const t=new Date(x.t);return `・${t.getMonth()+1}/${t.getDate()} ${pad(t.getHours())}:${pad(t.getMinutes())} v${x.v} [${x.scr} ${x.ch+1}-${(x.lv||0)+1}] ${x.m} @ ${x.s}`}):['・沒有'])].filter(Boolean).join('\n')}
 function bugPanel(){const ov=overlay(screen,`<div class="card left bugcard"><button class="xclose" aria-label="關閉">✕</button><h2>回報問題</h2>
   <p class="small">遇到問題時，簡單寫一下發生什麼事，再按「分享」用 LINE 或 Email 傳出去。</p>
-  <textarea id="bgnote" class="bk" placeholder="例如：第十一章描字時，畫不上去" aria-label="發生什麼事"></textarea>
+  <textarea id="bgnote" class="bk" placeholder="例如：玩到一半突然沒有聲音" aria-label="發生什麼事"></textarea>
   <span class="lab">會一起送出的資訊</span><textarea id="bgtxt" class="bk bgtxt" readonly aria-label="回報內容"></textarea>
   <div class="vrow"><button class="btn" id="bgshare">分享</button><button class="btn2 small" id="bgcopy">複製</button><button class="btn2 small" id="bgclr">清除錯誤紀錄</button></div></div>`);
  const upd=()=>{$('#bgtxt',ov).value=bugReport($('#bgnote',ov).value.trim())};upd();$('#bgnote',ov).oninput=upd;
@@ -7891,9 +7891,9 @@ if(IS_APP){try{
  // 收費版打開時（window.__chOpen），買過的章節就能玩
 const appOpen=i=>i<APP_CH||!!(window.__chOpen&&window.__chOpen(i));
 const _wsApp=wState;wState=function(i){if(!appOpen(i))return 'soon';return _wsApp.apply(this,arguments)};
- const _sayApp=say;say=function(parts,opt){try{if(Array.isArray(parts))parts=parts.map(p=>typeof p==='string'&&/，還在準備中，敬請期待！$/.test(p)?'新的冒險即將推出，敬請期待！':p)}catch(e){}return _sayApp.call(this,parts,opt)};
+ const _sayApp=say;say=function(parts,opt){try{if(Array.isArray(parts))parts=parts.map(p=>typeof p==='string'&&/，還在準備中，敬請期待！$/.test(p)?'':p)}catch(e){}return _sayApp.call(this,parts,opt)};
  const CHSCR=['story','guide','map','stage','chend'];
- const _showApp=show;show=function(name,arg){if(CHSCR.includes(name)&&!appOpen(S.ch)){setCh(APP_CH-1);name='world';setTimeout(()=>{try{say(['新的冒險即將推出，敬請期待！'])}catch(e){}},600)}return _showApp.call(this,name,arg)};
+ const _showApp=show;show=function(name,arg){if(CHSCR.includes(name)&&!appOpen(S.ch)){setCh(APP_CH-1);name='world';setTimeout(()=>{try{}catch(e){}},600)}return _showApp.call(this,name,arg)};
  // 7) 大地圖只顯示打得開的段落（不放「敬請期待」，Apple 會當成還沒做完）
  setTimeout(()=>{try{if(!window.__chOpen)ARCS.splice(1)}catch(e){}},0);
  const _wApp=SCREENS.world;SCREENS.world=function(){const r=_wApp.apply(this,arguments);try{}catch(e){}return r};
@@ -8283,11 +8283,13 @@ if(ISBOY){const _naBoy=nameAsk;nameAsk=function(){const r=_naBoy.apply(this,argu
 // App 版第一版只有第一～五章：第六章以後才拿得到的東西都不顯示，家長工具也只到第五章；畫冊分享要先過家長題
 if(IS_APP){try{
  const LATE=/完成第(六|七|八|九|十|十[一二三四五六七八九]|二十)章/;
- const lateItem=it=>it&&it.chapter&&it.chapter-1>APP_CH&&!owns(it.id);
+ const lateItem=it=>it&&it.chapter&&it.chapter>APP_CH&&!owns(it.id);
+ const LATE2=/第(六|七|八|九|十|十[一二三四五六七八九]|二十)章/;
  const sweep=()=>{try{
   $$('.opt[data-id]').forEach(b=>{if(b.style.display==='none')return;const it=ITEMS.find(x=>x.id===b.dataset.id);if(lateItem(it))b.style.display='none'});
   $$('button,[role="button"],.pbtn,.rmitem,.citem,li').forEach(b=>{if(b.style.display==='none'||b.closest('.overlay .card.left'))return;
-   const t=b.textContent||'';if(t.length<80&&LATE.test(t))b.style.display='none'});
+   const t=b.textContent||'';if(t.length<80&&(LATE.test(t)||LATE2.test(t)))b.style.display='none'});
+  $$('.trow').forEach(r=>{const h=r.querySelector('h3');if(h&&/旅行紀念章|星星寶石/.test(h.textContent))r.style.display='none'});
  }catch(e){}};
  let swq=0;new MutationObserver(()=>{if(swq)return;swq=1;requestAnimationFrame(()=>{swq=0;sweep()})}).observe(document.body,{childList:true,subtree:true});
  // 萬一還是點到：不說「完成第六章以後」
@@ -8295,9 +8297,9 @@ if(IS_APP){try{
  // 家長模式：跳關只到第五章；「全部解鎖」只解鎖第一～五章拿得到的東西
  const _ptApp=parentTools;parentTools=function(){const r=_ptApp.apply(this,arguments);try{const ov=$$('.overlay').pop();if(!ov)return r;
   const sel=$('#pch',ov);if(sel){[...sel.options].forEach(o=>{if(+o.value>=APP_CH)o.remove()});if(S.ch>=APP_CH)sel.value=String(APP_CH-1)}
-  const ua=$('#unlockall',ov);if(ua){const f=ua.onclick;ua.onclick=function(){const before=new Set(S.owned||[]);const r2=f&&f.apply(this,arguments);try{S.owned=(S.owned||[]).filter(id=>{const it=ITEMS.find(x=>x.id===id);return before.has(id)||!(it&&it.chapter&&it.chapter-1>APP_CH)});save()}catch(e){}return r2}}}catch(e){}return r};
+  const ua=$('#unlockall',ov);if(ua){const f=ua.onclick;ua.onclick=function(){const before=new Set(S.owned||[]);const r2=f&&f.apply(this,arguments);try{S.owned=(S.owned||[]).filter(id=>{const it=ITEMS.find(x=>x.id===id);return before.has(id)||!(it&&it.chapter&&it.chapter>APP_CH)});save()}catch(e){}return r2}}}catch(e){}return r};
  // 畫冊「存到相簿」會打開分享選單（可以傳出 App）：先問家長
- if(typeof shareFile==='function'){shareFile=function(blob,name,title){return new Promise(res=>{let done=0;const fin=v=>{if(!done){done=1;clearInterval(iv);res(v)}};
+ if(typeof shareFile==='function'){const _shOrig=shareFile;shareFile=function(blob,name,title){if(!(blob&&/^image\//.test(blob.type)))return _shOrig.apply(this,arguments);return new Promise(res=>{let done=0;const fin=v=>{if(!done){done=1;clearInterval(iv);res(v)}};
   let passed=0;parentGate(async()=>{passed=1;try{const f=new File([blob],name,{type:blob.type});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title});fin('shared')}else{toast('這台裝置沒辦法直接存，可以用截圖保存喔');fin('cancel')}}catch(e){fin('cancel')}});
   let seen=0;const iv=setInterval(()=>{if($('#pg'))seen=1;else if(seen&&!passed)fin('cancel')},400)})}}
 }catch(e){console.log('applock',e)}}
