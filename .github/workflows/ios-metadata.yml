@@ -39,4 +39,5 @@ jobs:
             --submit_for_review false --automatic_release false \
             --run_precheck_before_submit false \
             --force true 2>&1 | tee "$RUNNER_TEMP/deliver.log" || {
-              grep -E "\[!\]|Error|error|rror:|Invalid|ENTITY|STATE_ERROR" "$RUNNER_TEMP/deliver.log" | sort -u | head -9 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; exit 1; }
+              sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/deliver.log" | grep -v "^\s*/\|^\s*from \|\.rb:[0-9]" | tail -45 > "$RUNNER_TEMP/tail.txt"
+              msg=$(sed 's/%/%25/g' "$RUNNER_TEMP/tail.txt" | awk '{printf "%s%%0A", substr($0,1,300)}'); echo "::error title=fastlane 最後的紀錄::${msg}"; exit 1; }
