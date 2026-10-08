@@ -19,6 +19,13 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+      - name: 用 Xcode 26（App Store 規定要用 iOS 26 SDK 打包）
+        run: |
+          ls -d /Applications/Xcode*.app
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$X" ] || { echo "::error::這台雲端電腦沒有 Xcode 26"; exit 1; }
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
       - uses: actions/setup-node@v4
         with:
           node-version: 22
