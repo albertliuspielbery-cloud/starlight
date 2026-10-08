@@ -41,3 +41,32 @@ jobs:
             --force true 2>&1 | tee "$RUNNER_TEMP/deliver.log" || {
               sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/deliver.log" | grep -v "^\s*from " | sed -E 's#^\s*/[^ ]+\.rb:[0-9]+:in [^:]+: ##' | grep -v "Looking for related\|github.com/fastlane\|fastlane env\|Found no similar\|^\s*$" | tail -30 > "$RUNNER_TEMP/tail.txt"
               msg=$(sed 's/%/%25/g' "$RUNNER_TEMP/tail.txt" | awk '{printf "%s%%0A", substr($0,1,300)}'); echo "::error title=fastlane 最後的紀錄::${msg}"; exit 1; }
+      - name: 檢查 App Store Connect 上的截圖
+        if: always()
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          python3 - <<'PY'
+          import json,os
+          json.dump({"key_id":os.environ["ASC_KEY_ID"],"issuer_id":os.environ["ASC_ISSUER_ID"],"key":os.environ["ASC_KEY_P8"],"in_house":False},open(os.environ["RUNNER_TEMP"]+"/asc.json","w"))
+          PY
+          cat > "$RUNNER_TEMP/chk.rb" <<'RB'
+          require 'spaceship'
+          begin
+            Spaceship::ConnectAPI.token = Spaceship::ConnectAPI::Token.from(filepath: ENV['RUNNER_TEMP'] + '/asc.json')
+            app = Spaceship::ConnectAPI::App.find('tw.starlight.adventure')
+            v = app.get_edit_app_store_version(platform: Spaceship::ConnectAPI::Platform::IOS)
+            out = ["版本 #{v.version_string} 狀態 #{v.app_store_state}"]
+            v.get_app_store_version_localizations.each do |l|
+              sets = l.get_app_screenshot_sets
+              out << "#{l.locale}：截圖組 #{sets.size} 個"
+              sets.each { |s| out << "  #{s.screenshot_display_type}：#{(s.app_screenshots || []).size} 張" }
+            end
+            puts "::notice title=App Store Connect 截圖::" + out.join('%0A')
+          rescue => e
+            puts "::warning title=檢查截圖失敗::#{e.class} #{e.message}"
+          end
+          RB
+          ruby "$RUNNER_TEMP/chk.rb"; rm -f "$RUNNER_TEMP/asc.json"
