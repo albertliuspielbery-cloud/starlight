@@ -53,7 +53,10 @@
    const M=HTMLMediaElement.prototype,mp=M.play,mz=M.pause;M.play=function(){const r={k:'el',t:T(),src:String(this.src).slice(0,30)};ev.push(r);this.addEventListener('ended',()=>{r.end=T()},{once:true});this.__r=r;return mp.apply(this,arguments)};
    M.pause=function(){if(this.__r&&!this.__r.end)this.__r.pause=T();return mz.apply(this,arguments)};
    const ss=window.speechSynthesis,sk=ss&&ss.speak.bind(ss);if(ss)ss.speak=u=>{ev.push({k:'tts',t:T(),txt:String(u.text).slice(0,12)});return sk(u)};
+   window.__stv=ev;__ev("window.__o1=voBuf;voBuf=async function(k){const b=await window.__o1(k);window.__stv.push({k:'voBuf',key:String(k).slice(0,14),got:b?(b.url?'url':'buf'):'null'});return b};window.__o2=voPlay;voPlay=async function(b){const r=await window.__o2(b);window.__stv.push({k:'voPlay',ret:String(r)});return r};window.__o3=speakOne;speakOne=function(p,o){window.__stv.push({k:'speakOne',p:JSON.stringify(p).slice(0,20),vo:S.vo,idx:!!VO.idx});return window.__o3(p,o)}");
+   L('VOSTATE','vo',String(S.vo),'sound',String(S.sound),'mode',String(__ev('VO.mode')),'bufs',String(__ev('VO.bufs.size')));
    clr();S.prog=0;__game.setCh(0);T1=performance.now();__game.go('story');await W(12000);
+   __ev("voBuf=window.__o1;voPlay=window.__o2;speakOne=window.__o3");
    P.start=st;P.stop=sp;M.play=mp;M.pause=mz;if(ss)ss.speak=sk;
    let ctx='';try{ctx=__ev('ac&&ac.state')}catch(e){}
    L('STORYVOICE',JSON.stringify(ev),'ctx',ctx,'err',String(__ev('VO.err')||''),'elPlays',String(__ev('VO.elPlays')||0));
