@@ -108,5 +108,5 @@ jobs:
       - name: 有任何一項失敗，這次測試就算失敗
         run: |
           cat results/*/summary.txt
-          ! grep -h "FAIL" results/*/summary.txt
+          if grep -h "FAIL" results/*/summary.txt; then echo "有失敗的項目"; exit 1; fi
           for d in iphone ipad; do grep -q "PHASE2 DONE" results/$d/summary.txt || { echo "$d 沒有跑完第二階段"; exit 1; }; done
