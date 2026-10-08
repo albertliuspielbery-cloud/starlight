@@ -54,6 +54,10 @@
    M.pause=function(){if(this.__r&&!this.__r.end)this.__r.pause=T();return mz.apply(this,arguments)};
    const ss=window.speechSynthesis,sk=ss&&ss.speak.bind(ss);if(ss)ss.speak=u=>{ev.push({k:'tts',t:T(),txt:String(u.text).slice(0,12)});return sk(u)};
    window.__stv=ev;__ev("window.__o1=voBuf;voBuf=async function(k){const b=await window.__o1(k);window.__stv.push({k:'voBuf',key:String(k).slice(0,14),got:b?(b.url?'url':'buf'):'null'});return b};window.__o2=voPlay;voPlay=async function(b){const r=await window.__o2(b);window.__stv.push({k:'voPlay',ret:String(r)});return r};window.__o3=speakOne;speakOne=function(p,o){window.__stv.push({k:'speakOne',p:JSON.stringify(p).slice(0,20),vo:S.vo,idx:!!VO.idx});return window.__o3(p,o)}");
+   try{const e=__ev('VO.idx')['z|在星光王國，今天晚上要舉辦星光舞會。'];const u=e&&(e.length>=5?`voice/c/${e[3]}-${e[4]}.mp3`:`voice/c/${e[0]}-${e[1]}.mp3`);let info='entry '+JSON.stringify(e)+' url '+u;
+    try{const r=await fetch(u);info+=' status '+r.status+' ok '+r.ok;const bl=await r.blob();info+=' size '+bl.size+' type '+bl.type;
+     try{const bytes=await new Response(bl.slice(0,bl.size)).arrayBuffer();info+=' ab '+bytes.byteLength}catch(er){info+=' resp-err '+er.message}}catch(er){info+=' fetch-err '+er.message}
+    L('VOFETCH',info)}catch(er){L('VOFETCH err',er.message)}
    L('VOSTATE','vo',String(S.vo),'sound',String(S.sound),'mode',String(__ev('VO.mode')),'bufs',String(__ev('VO.bufs.size')));
    clr();S.prog=0;__game.setCh(0);T1=performance.now();__game.go('story');await W(12000);
    __ev("voBuf=window.__o1;voPlay=window.__o2;speakOne=window.__o3");
