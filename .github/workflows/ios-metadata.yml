@@ -31,7 +31,7 @@ jobs:
           fastlane deliver \
             --api_key_path "$RUNNER_TEMP/asc.json" \
             --app_identifier tw.starlight.adventure \
-            --app_version 1.0 --platform ios \
+            --app_version 1.0.1 --platform ios \
             --metadata_path appstore/metadata \
             --screenshots_path appstore/screenshots \
             --skip_binary_upload true --skip_app_version_update false \
