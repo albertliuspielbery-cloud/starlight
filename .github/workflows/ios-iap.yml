@@ -1,0 +1,21 @@
+# 星光小冒險：在 App Store Connect 建好「App 內購買項目」（第六～二十章解鎖）
+# 只建商品、不會送審；送審時在 1.1 版本頁面把它們加進去
+name: App 內購買項目
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  iap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: 建立商品、價格、名稱、截圖
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          python3 -m pip install -q pyjwt cryptography
+          python3 app/ci_iap.py app/iap_review.png
