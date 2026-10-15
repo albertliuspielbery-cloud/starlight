@@ -13,7 +13,7 @@ ITEMS = [
     ('stage2', 'Chapters 6-10', '第六～十章', '解鎖第六章到第十章的冒險，一次購買永久使用', 120),
     ('stage3', 'Chapters 11-15', '第十一～十五章', '解鎖第十一章到第十五章的冒險，一次購買永久使用', 120),
     ('stage4', 'Chapters 16-20', '第十六～二十章', '解鎖第十六章到第二十章的冒險，一次購買永久使用', 120),
-    ('full', 'All Chapters 6-20', '全部章節', '一次解鎖第六章到第二十章的所有冒險', 290),
+    ('full', 'Chapters 6-20 Bundle', '第六～二十章合購', '一次解鎖第六章到第二十章（三段合購）', 290),
 ]
 NOTE = ('Non-consumable unlock for story chapters. The purchase screen is only reachable from Parent Settings, '
         'which is behind a parental gate (multiplication question). Children tapping a locked chapter only hear '
@@ -57,7 +57,28 @@ if not app:
     print('::error::找不到 App ' + BUNDLE); raise SystemExit(1)
 app_id = app[0]['id']
 have = {x['attributes']['productId']: x for x in all_pages(f'/v1/apps/{app_id}/inAppPurchasesV2?limit=200')}
-terr = [t['id'] for t in all_pages('/v1/territories?limit=200') if t['id'] != 'CHN']
+# 不上架的地區：中國大陸、歐盟 27 國（歐盟收費要公開地址，先不上）
+EU = ['AUT', 'BEL', 'BGR', 'HRV', 'CYP', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU',
+      'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROU', 'SVK', 'SVN', 'ESP', 'SWE']
+SKIP = set(['CHN'] + EU)
+terr = [t['id'] for t in all_pages('/v1/territories?limit=200') if t['id'] not in SKIP]
+
+# App 本身也從歐盟拿掉（失敗的話只提醒，請到 App Store Connect 手動取消勾選）
+eu_note = ''
+try:
+    av = call('GET', f'/v1/apps/{app_id}/appAvailabilityV2', ok404=True)
+    if av and av.get('data'):
+        tas = all_pages(f'/v2/appAvailabilities/{av["data"]["id"]}/territoryAvailabilities?include=territory&limit=200')
+        off = 0
+        for ta in tas:
+            tid = ((ta.get('relationships') or {}).get('territory') or {}).get('data', {}).get('id')
+            if tid in EU and (ta.get('attributes') or {}).get('available'):
+                call('PATCH', f'/v1/territoryAvailabilities/{ta["id"]}', {'data': {'type': 'territoryAvailabilities', 'id': ta['id'], 'attributes': {'available': False}}})
+                off += 1
+        eu_note = f'App 已從歐盟 {off} 個國家拿掉（原本就沒上的不算）'
+except SystemExit:
+    eu_note = '歐盟地區可能沒有全部拿掉，請到 App Store Connect →「價格與供應狀況」確認歐盟國家都沒有勾選'
+
 report = []
 
 for code, ref, name, desc, price in ITEMS:
@@ -104,9 +125,9 @@ for code, ref, name, desc, price in ITEMS:
         'included': [{'type': 'inAppPurchasePrices', 'id': '${p1}', 'attributes': {'startDate': None},
                       'relationships': {'inAppPurchaseV2': {'data': {'type': 'inAppPurchases', 'id': iid}},
                                         'inAppPurchasePricePoint': {'data': {'type': 'inAppPurchasePricePoints', 'id': pp['id']}}}}]})
-    # 4. 地區：跟 App 一樣（中國大陸以外）
-    av = call('GET', f'/v2/inAppPurchases/{iid}/inAppPurchaseAvailability', ok404=True)
-    if not (av and av.get('data')):
+    # 4. 地區：跟 App 一樣（中國大陸、歐盟以外）
+    # 每次都重新設定（POST 會取代原本的地區設定，確保歐盟、中國大陸不在裡面）
+    if True:
         call('POST', '/v1/inAppPurchaseAvailabilities', {'data': {'type': 'inAppPurchaseAvailabilities',
              'attributes': {'availableInNewTerritories': True}, 'relationships': {
                  'inAppPurchase': {'data': {'type': 'inAppPurchases', 'id': iid}},
@@ -133,4 +154,6 @@ for code, ref, name, desc, price in ITEMS:
     report.append(f'{name}：NT${got:g}，狀態 {st}')
     print(pid, 'ok', got, st)
 
+if eu_note:
+    report.append(eu_note)
 print('::notice title=App 內購買項目::' + '%0A'.join(report))

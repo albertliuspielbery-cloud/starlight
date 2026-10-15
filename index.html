@@ -8300,7 +8300,7 @@ try{const sc=$('#screen');if(sc)new MutationObserver(ms=>{if(ms.some(m=>m.target
      tw.starlight.adventure.stage2  第六～十章    NT$120
      tw.starlight.adventure.stage3  第十一～十五章 NT$120
      tw.starlight.adventure.stage4  第十六～二十章 NT$120
-     tw.starlight.adventure.full    全部章節     NT$290（已經買過任何一段的人，就不顯示「全部章節」，避免重複付費）
+     tw.starlight.adventure.full    第六～二十章合購 NT$290（已經買過任何一段的人，就不顯示合購，避免重複付費）
    每個商品都要在 App Store Connect 打開「家人共享」；上線時也要更新上架說明和給審查人員的說明
    m61_app.js 已經會看 window.__chOpen（這個檔設定）；「爸爸媽媽可以幫你打開新的冒險喔！」已經錄好（pack23）
    規則：購買入口只在「家長設定」裡（App 版的家長設定要先答算術題）；小朋友點鎖住的章節只會聽到「爸爸媽媽可以幫你打開」，不會跳出商店；不賣衣服、寶石、房間東西 */
@@ -8308,7 +8308,7 @@ const iapPlugin=()=>{const C=window.Capacitor;if(!C)return null;if(C.Plugins&&C.
 const IAP_ON=IS_APP&&!!iapPlugin();
 const IAPP='tw.starlight.adventure.';
 // 以後新增章節：在這裡加一行（例如 ['stage5','第二十一～二十五章',20,25]），App Store Connect 也建同名商品；
-// 「全部章節」(full) 只包含 FULLSET 裡的段落，之後新增的段落要另外買
+// 合購 (full) 只包含 FULLSET 裡的段落，之後新增的段落要另外買
 const STAGES=[['stage2','第六～十章',5,10],['stage3','第十一～十五章',10,15],['stage4','第十六～二十章',15,20]];
 const FULLSET=['stage2','stage3','stage4'];
 const IAPKEY='pp4iap';
@@ -8334,7 +8334,7 @@ if(IAP_ON){try{
   const btn=id=>price(id)?`<button class="btn small" data-buy="${id}">${price(id)}</button>`:'<i class="na">暫時無法購買，請確認網路後再打開一次</i>';
   const rows=STAGES.map(([id,n],k)=>`<div class="iaprow"><span><b>${n}</b></span>${stageOpen(id)?'<i>已解鎖 ✓</i>':k&&!stageOpen(STAGES[k-1][0])?'<i class="na">先解鎖上一段</i>':btn(id)}</div>`).join('');const anyStage=STAGES.some(([id])=>iapOwned().includes(id));
   const ov=overlay(screen,`<div class="card left iapcard"><h2>解鎖新的冒險</h2><p class="small">一次購買，永久使用；家人共享的家人也可以玩。</p>${rows}
-   ${iapOwned().includes('full')||anyStage?'':`<div class="iaprow full"><span><b>全部章節</b><br><small>一次打開第六～二十章</small></span>${btn('full')}</div>`}
+   ${iapOwned().includes('full')||anyStage?'':`<div class="iaprow full"><span><b>第六～二十章合購</b><br><small>三段一次買，比分開買划算</small></span>${btn('full')}</div>`}
    <div class="row"><button class="btn2 small" id="iaprs">恢復購買</button><button class="btn2 small" id="iapcode">輸入兌換碼</button></div><button class="btn" id="iapx">好了</button></div>`);
   $('#iapx',ov).onclick=()=>{ov.remove();go(bought?'world':'title')};
   $$('[data-buy]',ov).forEach(b=>b.onclick=async()=>{b.disabled=true;try{const t=await NP.purchaseProduct({productIdentifier:IAPP+b.dataset.buy,quantity:1});if(t){bought=1;iapSave(iapOwned().concat([b.dataset.buy]));toast('解鎖了！');confetti();ov.remove();shop();setTimeout(()=>sync(false),3000)}else{b.disabled=false;await sync(false);if(stageOpen(b.dataset.buy)){bought=1;ov.remove();shop()}}}catch(e){toast(/pending|deferred|ask/i.test(String(e&&e.message||e))?'已經送出，等家長同意後就會打開':'沒有完成購買');b.disabled=false}});
