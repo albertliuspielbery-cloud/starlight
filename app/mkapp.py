@@ -19,6 +19,11 @@ if os.environ.get('DEMO'):
 if os.environ.get('SELFTEST'):
   st=open(str(HERE/'selftest.js'),encoding='utf-8').read()
   assert h.count('</body>')==1;h=h.replace('</body>','<script>'+st+'</script></body>',1)
+# 「關於」裡的版本號：自動用 Xcode 專案的版本（MARKETING_VERSION），不用手動改
+import re as _re
+_mv=_re.search(r'MARKETING_VERSION = ([0-9.]+);',open(HERE/'ios/App/App.xcodeproj/project.pbxproj',encoding='utf-8').read()).group(1)
+assert h.count("const APP_STORE_VER='")==1,'APP_STORE_VER 不見了'
+h=_re.sub(r"const APP_STORE_VER='[^']*'",f"const APP_STORE_VER='{_mv}'",h)
 open(DST+'/index.html','w',encoding='utf-8').write(h)
 for f in os.listdir(SRC):
   if (f.endswith('.woff2') and f in h) or f.endswith(('.png','.webmanifest')):shutil.copy(SRC+'/'+f,DST+'/'+f)
