@@ -12,6 +12,11 @@ CODE = (sys.argv[1] if len(sys.argv) > 1 else 'STARLIGHT2026').strip().upper()
 COUNT = int(sys.argv[2]) if len(sys.argv) > 2 else 20
 API = 'https://api.appstoreconnect.apple.com'
 OUT = os.environ.get('GITHUB_STEP_SUMMARY')
+import traceback
+def _hook(t, v, tb):
+    msg = ''.join(traceback.format_exception(t, v, tb))[-900:]
+    print('::error title=兌換碼流程出錯::' + msg.replace('\n', '%0A'))
+sys.excepthook = _hook
 
 
 def say(t):
