@@ -2,8 +2,8 @@
 (function(){
 const SRV='http://127.0.0.1:8765';const L=m=>{console.log('DEMO '+m);try{fetch(SRV+'/log?m='+encodeURIComponent('DEMO '+m),{mode:'cors'}).catch(()=>{})}catch(e){}};
 const W=ms=>new Promise(r=>setTimeout(r,ms));
-async function main(){await W(7000);
-const st=document.createElement('style');st.textContent='#wipe,#toast,.coach,.nexthint,.nmhand{display:none!important}.title #parent,.title #restart,.title #nameit,.title #about,.title #quest,.title #iaptitle{visibility:hidden!important}';document.head.appendChild(st);
+async function main(){try{__ev('nameAsked=true')}catch(e){}await W(7000);
+const st=document.createElement('style');st.textContent='#wipe,#toast,.coach,.nexthint,.nmhand{display:none!important}.title #parent,.title #restart,.title #nameit,.title #about,.title #quest,.title #iaptitle{visibility:hidden!important}.iapmap{display:none!important}';document.head.appendChild(st);
  // promo4: prototype of the DEMO-build scene helpers (runs inside the game page, after the game script).
  // Each scene returns nothing; taps are scheduled with setTimeout relative to the scene start.
  window.DEMO=(()=>{
@@ -59,7 +59,7 @@ const st=document.createElement('style');st.textContent='#wipe,#toast,.coach,.ne
     T(600,()=>fill('12','#FFD24D'));T(1100,()=>fill('4','#FF8FC8'));T(1600,()=>fill('0','#B99CFF'))},
    // 8 大地圖：沒購買的樣子（第6章以後上鎖），慢慢往下捲
    map(){clr();hush();unbuy();G.show('world');ready('map');
-    T(600,()=>{const sc=[document.scrollingElement,...$$('*')].find(e=>e&&e.scrollHeight>e.clientHeight+40&&getComputedStyle(e).overflowY!=='hidden');if(!sc)return;const max=sc.scrollHeight-sc.clientHeight,t1=performance.now(),D=3200;
+    T(600,()=>{const sc=$('.wbody');if(!sc)return;const max=sc.scrollHeight-sc.clientHeight,t1=performance.now(),D=3200;
      const step=()=>{const k=Math.min(1,(performance.now()-t1)/D);sc.scrollTop=max*(1-Math.cos(Math.PI*k))/2;if(k<1)requestAnimationFrame(step)};step()})},
    // 9 結尾：首頁
    end(){clr();hush();quiet();G.show('title');ready('end')}
