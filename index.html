@@ -8344,8 +8344,8 @@ const FITSEL=['.stage > .play','.title'];
 function fitNow(){if(document.hidden||innerHeight<300||innerWidth<200)return;const sc=$('#screen');if(!sc)return;const sb=Math.min(sc.getBoundingClientRect().bottom,innerHeight)-4;
  const bottom=el=>{let mb=-1e9;for(const c of el.children){const cs=getComputedStyle(c);if(cs.position==='absolute'||cs.position==='fixed'||cs.display==='none')continue;mb=Math.max(mb,c.getBoundingClientRect().bottom)}return mb};
  for(const sel of FITSEL){const el=$(sel);if(!el)continue;el.style.zoom='';if(el.querySelector('canvas'))continue;let z=parseFloat(getComputedStyle(el).zoom)||1;
-  // v3.8.3 首頁：先把公主圖縮矮一點（最多到 6 成），按鈕維持原來大小；還放不下才整塊縮小
-  if(sel==='.title'){const art=el.querySelector('.art');if(art){art.style.height='';const h0=art.getBoundingClientRect().height;for(let k=0;k<4;k++){const mb=bottom(el);if(mb<=sb+1)break;const h=art.getBoundingClientRect().height;const nh=Math.max(h0*.6,h-(mb-sb)-6);if(nh>=h-1)break;art.style.height=nh.toFixed(0)+'px'}}}
+  // v3.8.3 首頁：先把公主圖縮矮一點（最多到 8 成），按鈕維持原來大小；還放不下才整塊縮小
+  if(sel==='.title'){const art=el.querySelector('.art');if(art){art.style.height='';const h0=art.getBoundingClientRect().height;for(let k=0;k<4;k++){const mb=bottom(el);if(mb<=sb+1)break;const h=art.getBoundingClientRect().height;const nh=Math.max(h0*.82,h-(mb-sb)-6);if(nh>=h-1)break;art.style.height=nh.toFixed(0)+'px'}}}
   for(let k=0;k<5;k++){const top=el.getBoundingClientRect().top,mb=bottom(el);if(mb<=sb+1||mb-top<80)break;
    z=Math.max(.6,z*Math.max(.8,(sb-top)/(mb-top)));el.style.zoom=z.toFixed(3);if(z<=.6)break}}}
 let fitRaf=0;const fitSoon=()=>{cancelAnimationFrame(fitRaf);fitRaf=requestAnimationFrame(()=>{try{fitNow()}catch(e){}})};
