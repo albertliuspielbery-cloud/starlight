@@ -8552,7 +8552,7 @@ window.__homeHub=homeHub;
  // 那句話＋喇叭
  const sub=$('.sub',T);if(sub){const {who,t}=homeLine();sub.innerHTML=`<span>${who?`<b class="gold">${who.replace(/，$/,'')}</b>，`:''}${t}</span><button class="spk" id="hspk" aria-label="念給我聽">${HICO.spk}</button>`;
   $('#hspk',sub).onclick=()=>{audio();const L=homeLine();say(L.who?[L.who.replace(/，$/,''),L.t]:[L.t])};
-  if(!S.name){const n=document.createElement('button');n.className='namechip';n.textContent='✎ 幫公主取名字';n.onclick=()=>nameAsk(true);sub.after(n)}}
+  if(!S.name){const n=document.createElement('button');n.className='namechip';n.textContent=window.HERO==='prince'?'✎ 幫王子取名字':'✎ 幫公主取名字';n.onclick=()=>nameAsk(true);sub.after(n)}}
  // 上方：家長專區、寶石
  const tb=document.createElement('div');tb.className='topbar';tb.innerHTML=`<button class="pzone" id="pzone">${HICO.lock}<span>家長專區</span></button><span class="gembag" aria-label="寶石 ${S.wallet} 顆">${gem(WALLET_GEM)}<b>${S.wallet}</b></span>`;T.prepend(tb);
  $('#pzone',tb).onclick=()=>{audio();say(['這裡要請爸爸媽媽幫忙喔！']);IS_APP?parentGate(homeHub):homeHub()};
