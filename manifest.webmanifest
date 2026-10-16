@@ -1,6 +1,6 @@
 {
-  "name": "星光公主大冒險",
-  "short_name": "星光公主",
+  "name": "星光小冒險",
+  "short_name": "星光小冒險",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",

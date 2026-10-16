@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>星光公主大冒險</title>
+<title>星光小冒險</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <meta name="theme-color" content="#121A44">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="星光公主">
+<meta name="apple-mobile-web-app-title" content="星光小冒險">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-46ce7253.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-46ce7253.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-77872734.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-77872734.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -4281,7 +4281,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-acc28392.json';
+const VOICE_INDEX='index-b39ae180.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -4936,7 +4936,7 @@ let titleGreeted=false;
 const _title0=SCREENS.title;
 SCREENS.title=function(){_title0();if(titleGreeted)return;titleGreeted=true;
  setTimeout(()=>{if(S.screen!=='title'||$('.overlay')||!setupState())return;
-  const nm=S.name;say([nm?`歡迎回來，${nm}公主！`:'歡迎來到星光公主大冒險！',cont()?'要繼續冒險，還是去遊樂園玩呢？':'要去冒險，還是去遊樂園玩呢？'])},900)};
+  const nm=S.name;say([nm?`歡迎回來，${nm}公主！`:'歡迎來到星光小冒險！',cont()?'要繼續冒險，還是去遊樂園玩呢？':'要去冒險，還是去遊樂園玩呢？'])},900)};
 // 章節完成畫面：加「大地圖」按鈕
 const _chend0=SCREENS.chend;
 SCREENS.chend=function(){_chend0();const eb=$('.endbtns');if(!eb||$('#endworld'))return;const b=document.createElement('button');b.className='btn2';b.id='endworld';b.textContent='大地圖';b.onclick=()=>{clearEnd();hush();go('world')};eb.insertBefore(b,$('#home',eb))};
@@ -8345,7 +8345,7 @@ function fitNow(){if(document.hidden||innerHeight<300||innerWidth<200)return;con
  const bottom=el=>{let mb=-1e9;for(const c of el.children){const cs=getComputedStyle(c);if(cs.position==='absolute'||cs.position==='fixed'||cs.display==='none')continue;mb=Math.max(mb,c.getBoundingClientRect().bottom)}return mb};
  for(const sel of FITSEL){const el=$(sel);if(!el)continue;el.style.zoom='';if(el.querySelector('canvas'))continue;let z=parseFloat(getComputedStyle(el).zoom)||1;
   // v3.8.3 首頁：先把公主圖縮矮一點（最多到 8 成），按鈕維持原來大小；還放不下才整塊縮小
-  if(sel==='.title'){const art=el.querySelector('.art');if(art){art.style.height='';const h0=art.getBoundingClientRect().height;for(let k=0;k<4;k++){const mb=bottom(el);if(mb<=sb+1)break;const h=art.getBoundingClientRect().height;const nh=Math.max(h0*.82,h-(mb-sb)-6);if(nh>=h-1)break;art.style.height=nh.toFixed(0)+'px'}}}
+  if(sel==='.title'){const art=el.querySelector('.art');if(art){art.style.removeProperty('height');const h0=art.getBoundingClientRect().height;for(let k=0;k<4;k++){const mb=bottom(el);if(mb<=sb+1)break;const h=art.getBoundingClientRect().height;const nh=Math.max(h0*.82,h-(mb-sb)-6);if(nh>=h-1)break;art.style.setProperty('height',nh.toFixed(0)+'px','important')}}}
   for(let k=0;k<5;k++){const top=el.getBoundingClientRect().top,mb=bottom(el);if(mb<=sb+1||mb-top<80)break;
    z=Math.max(.6,z*Math.max(.8,(sb-top)/(mb-top)));el.style.zoom=z.toFixed(3);if(z<=.6)break}}}
 let fitRaf=0;const fitSoon=()=>{cancelAnimationFrame(fitRaf);fitRaf=requestAnimationFrame(()=>{try{fitNow()}catch(e){}})};
@@ -8509,6 +8509,107 @@ const boot=c=>A.rainboot.replace(/#FFC93C/g,c[0]).replace(/#F2A61E/g,c[1]);A.boo
 ['🐕','🐈','🐇','🐖'].forEach(e=>{try{delete ICONART[e]}catch(_){}});
 Object.entries(A).forEach(([k,b])=>{ICONART['i:'+k]=IA(b).replace('viewBox="0 0 64 64"','viewBox="3 2 58 58"')});
 })();
+
+/* ================= v3.8.3 新首頁（UI/UX 代理設計）：公主更大、一顆大按鈕、三個圖示按鈕、家長的東西收進「家長專區」；名字統一叫「星光小冒險」 ================= */
+// ---- 名字統一：星光小冒險（網頁、App、王子版都一樣） ----
+try{CHAPTERS.forEach(c=>{['giftText','giftSay','endText'].forEach(k=>{if(typeof c[k]==='string')c[k]=c[k].replace(/星光(公主|小王子)大冒險/g,'星光小冒險')})})}catch(e){}
+try{document.title='星光小冒險'}catch(e){}
+{const _ab70=aboutPanel;aboutPanel=function(){const r=_ab70.apply(this,arguments);try{const ov=$$('.overlay').pop();const h=ov&&$('h2',ov);if(h&&/大冒險/.test(h.textContent))h.textContent='星光小冒險'}catch(e){}return r}}
+// ---- 首頁那句話（會念出來，所以都用國字數字，跟錄音一致） ----
+const ZHC=n=>n===2?'兩':ZHN(n);// 數量用「兩」
+const ZHN=n=>{const d='零一二三四五六七八九';if(n<=10)return n===10?'十':d[n];if(n<20)return '十'+d[n%10];return d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:'')};
+function homeLine(){const who=S.name?`${S.name}${window.HERO==='prince'?'王子':'公主'}，`:'';
+ let t;if(cont())t=`繼續第${ZHN(S.ch+1)}章的冒險吧！`;else if(S.chDone>=6)t=`找到${ZHC(Math.min(15,S.chDone-5))}顆星星寶石囉！`;else if(S.chDone>=1)t=`找到${ZHC(S.chDone)}封信囉！`;else t='一起去冒險吧！';
+ return {who,t}}
+// ---- 家長專區 ----
+let pgOK70=0;{const _pg70=parentGate;parentGate=function(then){if(Date.now()-pgOK70<90000)return then();return _pg70(()=>{pgOK70=Date.now();then()})}}
+const HICO={lock:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+ bag:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#FFD98A" stroke-width="2" stroke-linejoin="round"><path d="M5 8h14l-1 12H6Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>',
+ gear:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#FFD98A" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>',
+ redo:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#FFD98A" stroke-width="2" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg>',
+ info:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#FFD98A" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5" stroke-linecap="round"/></svg>',
+ star:'<svg viewBox="0 0 48 48" width="44" height="44"><circle cx="24" cy="24" r="21" fill="#FFB33A"/><path d="M24 11l3.9 8 8.8 1.2-6.4 6.1 1.6 8.7L24 30.8 16.1 35l1.6-8.7-6.4-6.1 8.8-1.2Z" fill="#FFF6D8"/></svg>',
+ stardone:'<svg viewBox="0 0 48 48" width="44" height="44"><circle cx="24" cy="24" r="21" fill="#3FBF8A"/><path d="M15 25l6 6 12-13" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ spk:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 9h4l5-4v14l-5-4H4Z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'};
+HICO.dress=`<svg viewBox="0 0 48 48" width="44" height="44"><path d="M18 6h12l-2 7 9 25H11l9-25Z" fill="#FF8FC0"/><path d="M18 6q6 5 12 0" fill="none" stroke="#fff" stroke-width="2"/><rect x="17" y="17" width="14" height="3" rx="1.5" fill="#FFE27A"/>${[[20,28],[28,30],[24,34],[16,34],[32,35]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#fff"/>`).join('')}</svg>`;
+HICO.wheel=`<svg viewBox="0 0 48 48" width="44" height="44"><path d="M17 44l7-18 7 18" fill="none" stroke="#FFD24D" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="21" r="15" fill="none" stroke="#FFE7F1" stroke-width="2.5"/>${[0,1,2,3,4,5,6,7].map(k=>{const a=k*Math.PI/4,x=(24+15*Math.cos(a)).toFixed(1),y=(21+15*Math.sin(a)).toFixed(1);return `<line x1="24" y1="21" x2="${x}" y2="${y}" stroke="#FFE7F1" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="3.4" fill="${['#FF8FC0','#7FD3FF','#FFD24D','#9FE8B0'][k%4]}"/>`}).join('')}<circle cx="24" cy="21" r="3" fill="#FFD24D"/></svg>`;
+function homeHub(){const all=(()=>{try{return STAGES.every(([id])=>stageOpen(id))}catch(e){return true}})();
+ const rows=[];
+ if(IS_APP)rows.push(['buy',HICO.bag,'購買章節',all?'已全部解鎖・恢復購買／兌換碼':'第一～五章免費・之後的章節一次買斷・恢復購買',1]);
+ rows.push(['set',HICO.gear,'遊戲設定',`難度：${(DIFF[S.diff]||{}).name||''}・名字・語音・休息提醒・學習報告`]);
+ if(cont())rows.push(['redo',HICO.redo,'重新開始這一章','從這一章的第一關重新玩']);
+ rows.push(['about',HICO.info,'關於這個遊戲',IS_APP?'版本・作者・聯絡方式':`版本 v${APP_VERSION}・作者・聯絡方式`]);
+ const ov=overlay(screen,`<div class="card hub"><h2>${HICO.lock}家長專區</h2><p class="small">這裡是給爸爸媽媽的設定${IS_APP?'，已通過家長確認':''}。</p>${rows.map(([k,ic,t,s,g])=>`<button class="hrow${g?' gold':''}" data-k="${k}"><span class="hic">${ic}</span><span class="htx"><b>${t}</b><small>${s}</small></span><i>›</i></button>`).join('')}<button class="btn2 hubx" id="hubx">回到遊戲</button></div>`);
+ const close=()=>{pgOK70=0;ov.remove()};
+ $('#hubx',ov).onclick=()=>{sfx&&sfx('pop');close()};
+ $$('.hrow',ov).forEach(b=>b.onclick=()=>{const k=b.dataset.k;ov.remove();
+  if(k==='buy')window.__iapShop&&window.__iapShop();else if(k==='set')parentPanel();else if(k==='about')aboutPanel();else if(k==='redo'){const r=$('#restart');r&&r.click()}
+  setTimeout(()=>{if(!$('.overlay'))pgOK70=0},400)})}
+window.__homeHub=homeHub;
+// ---- 首頁版面 ----
+{const _t70=SCREENS.title;SCREENS.title=function(){const r=_t70.apply(this,arguments);try{const T=$('.title');if(!T||T.classList.contains('home2'))return r;T.classList.add('home2');
+ const lg=$('.logo',T);if(lg){$$('.appname,.en',lg).forEach(x=>x.remove());const h=$('h1',lg);if(h)h.textContent='星光';const rb=$('.rib',lg);if(rb)rb.textContent='小冒險'}
+ // 那句話＋喇叭
+ const sub=$('.sub',T);if(sub){const {who,t}=homeLine();sub.innerHTML=`<span>${who?`<b class="gold">${who.replace(/，$/,'')}</b>，`:''}${t}</span><button class="spk" id="hspk" aria-label="念給我聽">${HICO.spk}</button>`;
+  $('#hspk',sub).onclick=()=>{audio();const L=homeLine();say(L.who?[L.who.replace(/，$/,''),L.t]:[L.t])};
+  if(!S.name){const n=document.createElement('button');n.className='namechip';n.textContent='✎ 幫公主取名字';n.onclick=()=>nameAsk(true);sub.after(n)}}
+ // 上方：家長專區、寶石
+ const tb=document.createElement('div');tb.className='topbar';tb.innerHTML=`<button class="pzone" id="pzone">${HICO.lock}<span>家長專區</span></button><span class="gembag" aria-label="寶石 ${S.wallet} 顆">${gem(WALLET_GEM)}<b>${S.wallet}</b></span>`;T.prepend(tb);
+ $('#pzone',tb).onclick=()=>{audio();say(['這裡要請爸爸媽媽幫忙喔！']);IS_APP?parentGate(homeHub):homeHub()};
+ // 大按鈕＋三個圖示按鈕
+ const go=$('#go',T),dr=$('#dress',T),pk=$('#parkbtn',T),q=$('#quest',T),ex=$('#exambtn',T);
+ if(go){const act=document.createElement('div');act.className='actions';(go.closest('.row')||go).before(act);
+  go.innerHTML=`<span class="ic">${ICON.star('#3A2A6A')}</span>${(S.chDone>=1||S.prog>0||cont())?'繼續冒險':'開始冒險'}`;act.appendChild(go);
+  const tl=document.createElement('div');tl.className='tiles';act.appendChild(tl);
+  const tile=(b,ic,lab)=>{if(!b)return;b.classList.add('tile');b.innerHTML=`<span class="tic">${ic}</span><span class="tlab">${lab}</span>`;tl.appendChild(b)};
+  if(q){const done=q.classList.contains('qdone');tile(q,done?HICO.stardone:HICO.star,done?'完成了':'小任務');if(!done){const bd=document.createElement('i');bd.className='badge';bd.textContent='1';q.appendChild(bd)}}
+  tile(dr,HICO.dress,'換裝間');tile(pk,HICO.wheel,'遊樂園');if(ex){tile(ex,HICO.star,'考卷');tl.classList.add('t4')}}
+ // 舊的那幾排藏起來（按鈕的功能留著）
+ $$('.row',T).forEach(rw=>{if(!rw.querySelector('#go,#dress,#parkbtn')&&!rw.closest('.actions'))rw.style.display='none'});
+ $$('.pill.gemmoved',T).forEach(x=>x.style.display='none');
+ const vc=$('.vochip');if(vc&&sub)sub.after(vc);
+}catch(e){console.log('home2',e)}return r}}
+// 錄音跟著改：歡迎詞
+{const _say70=say;say=function(parts){try{if(Array.isArray(parts))parts=parts.map(p=>typeof p==='string'?p.replace(/星光(公主|小王子)大冒險/g,'星光小冒險'):p)}catch(e){}return _say70.call(this,parts)}}
+{const st=document.createElement('style');st.textContent=`
+.title.home2 .topbar{position:absolute;left:0;right:0;top:4px;display:flex;justify-content:space-between;align-items:center;z-index:3;pointer-events:none}
+.title.home2 .topbar>*{pointer-events:auto}
+.home2 .pzone{display:flex;align-items:center;gap:6px;height:44px;padding:0 16px;border-radius:22px;border:1.5px solid rgba(255,255,255,.35);background:rgba(20,14,50,.35);color:rgba(255,255,255,.78);font:inherit;font-size:15px}
+.home2 .gembag{display:flex;align-items:center;gap:6px;height:44px;padding:0 16px;border-radius:22px;border:2px solid rgba(255,217,138,.75);background:rgba(20,14,50,.45);font-family:"Baloo 2",inherit;font-size:20px;color:#fff}
+.home2 .gembag svg{width:26px;height:26px}
+.home2 .sub{font-size:clamp(17px,4.4vw,20px);margin:8px 0 0;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.home2 .spk{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,217,138,.7);background:rgba(255,255,255,.06);color:#FFD98A;display:inline-flex;align-items:center;justify-content:center;padding:0;flex:none}
+.home2 .namechip{margin:6px auto 0;height:36px;padding:0 14px;border-radius:18px;border:1.5px dashed rgba(255,217,138,.7);background:none;color:#FFD98A;font:inherit;font-size:15px}
+.home2 .actions{width:100%;max-width:380px;margin:14px auto 0;display:flex;flex-direction:column;gap:14px}
+.home2 .actions #go{width:100%;height:76px;font-size:clamp(26px,7.4vw,32px);letter-spacing:.18em;margin:0;justify-content:center}
+.home2 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));grid-auto-flow:column;gap:12px}
+.home2 .tiles.t4{grid-template-columns:repeat(4,1fr)}
+.home2 .tiles .tile{position:relative;width:100%;max-width:none;height:96px;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:18px;padding:0;margin:0;min-width:0}
+.home2 .tiles .tic{display:flex;width:44px;height:44px}
+.home2 .tiles .tlab{white-space:nowrap}
+.home2 #quest.tile{background:linear-gradient(#FFF1C2,#FFD978);color:#4A3200;border:2px solid #FFC23A;animation:none}
+.home2 #quest.tile.qdone{background:#2E6B58;border:2px solid #6FE3A8;color:#EFFFF6}
+.home2 .tiles .badge{position:absolute;top:-8px;right:-6px;width:26px;height:26px;border-radius:50%;background:#FF4F6F;color:#fff;font-style:normal;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.home2 .logo{flex-direction:row;align-items:center;justify-content:center;gap:10px}
+.home2 .logo .rib{transform:rotate(-3deg)}
+.card.hub{max-width:520px;text-align:left}
+.card.hub h2{display:flex;align-items:center;gap:8px;color:#FFD98A}
+.hub .hrow{display:flex;align-items:center;gap:12px;width:100%;min-height:62px;margin:10px 0 0;padding:10px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#fff;font:inherit;text-align:left}
+.hub .hrow.gold{border-color:rgba(255,217,138,.7);background:rgba(255,217,138,.12)}
+.hub .hic{flex:none;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center}
+.hub .htx{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}.hub .htx b{font-size:19px;font-weight:400}.hub .htx small{font-size:13px;opacity:.75}
+.hub .hrow i{font-style:normal;font-size:22px;opacity:.6}
+.hub .hubx{width:100%;margin-top:16px;min-height:52px}
+@media (orientation:portrait),(max-width:720px){
+ .title.home2{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding-top:48px;box-sizing:border-box}
+ .title.home2 .art{flex:none;width:100%;height:min(50vh,105vw,480px)!important}
+ .title.home2 .art .pr{flex:none;height:100%;width:auto}
+ .title.home2 .art .petw{flex:0 1 auto;height:46%;margin-right:-10%;min-width:0}
+ .title.home2 .art .petw svg{height:100%;width:auto}
+ .home2 .panel{width:100%;display:flex;flex-direction:column;align-items:center}
+ .home2 .logo{margin-top:-14px;position:relative;z-index:2}
+ .home2 .logo h1{font-size:clamp(46px,13vw,62px)}
+}`;document.head.appendChild(st)}
 
 // 每次打開自動檢查新版本
 function updCheck(){if(!/^https?:/.test(location.protocol)||!navigator.onLine)return;
