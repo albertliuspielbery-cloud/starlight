@@ -12,7 +12,7 @@ OUT = os.environ.get('GITHUB_STEP_SUMMARY')
 
 
 def say(t):
-    print(t)
+    print('::notice::' + t)
     if OUT:
         open(OUT, 'a', encoding='utf-8').write(t + '\n')
 
