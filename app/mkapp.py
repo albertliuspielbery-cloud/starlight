@@ -12,6 +12,10 @@ assert h2!=h,'sw register not found';h=h2
 h=h.replace('、Anita、','、').replace('Anita','小公主');assert 'Anita' not in h and '安妮塔' not in h
 if os.path.exists(DST):shutil.rmtree(DST)
 os.makedirs(DST+'/voice/c')
+if os.environ.get('DEMO'):
+  di=open(str(HERE/'demo_init.js'),encoding='utf-8').read();dm=open(str(HERE/'demo.js'),encoding='utf-8').read()
+  h=h.replace('<head>','<head><script>'+di+'</script>',1)
+  assert h.count('</body>')==1;h=h.replace('</body>','<script>'+dm+'</script></body>',1)
 if os.environ.get('SELFTEST'):
   st=open(str(HERE/'selftest.js'),encoding='utf-8').read()
   assert h.count('</body>')==1;h=h.replace('</body>','<script>'+st+'</script></body>',1)

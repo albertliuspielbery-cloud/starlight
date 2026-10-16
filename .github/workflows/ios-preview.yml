@@ -1,0 +1,81 @@
+# 星光小冒險：App Store 預覽影片的畫面，在雲端 iPhone 模擬器上錄（App 自動照分鏡演一次）
+# 錄好的影片放到 preview-results 分支，之後再加字幕、聲音
+name: 預覽影片錄影
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  record:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 安裝 Capacitor
+        working-directory: app
+        run: npm ci
+      - name: 做 App 用的網頁（加上自動示範）
+        working-directory: app
+        run: DEMO=1 python3 mkapp.py
+      - name: 同步到 iOS 專案
+        working-directory: app
+        run: npx cap sync ios
+      - name: 允許連到測試機上的小伺服器（只有這次錄影用）
+        run: /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" -c "Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true" app/ios/App/App/Info.plist || true
+      - name: 開收紀錄的小伺服器
+        run: |
+          mkdir -p results
+          cat > "$RUNNER_TEMP/srv.py" <<'PY'
+          import http.server,urllib.parse
+          class H(http.server.BaseHTTPRequestHandler):
+              def do_GET(self):
+                  u=urllib.parse.urlparse(self.path);q=urllib.parse.parse_qs(u.query)
+                  if u.path=='/log':
+                      open('results/srvlog.txt','a').write(q.get('m',[''])[0]+'\n')
+                  self.send_response(200);self.send_header('Access-Control-Allow-Origin','*');self.end_headers();self.wfile.write(b'ok')
+              def log_message(self,*a):pass
+          http.server.ThreadingHTTPServer(('127.0.0.1',8765),H).serve_forever()
+          PY
+          nohup python3 "$RUNNER_TEMP/srv.py" > "$RUNNER_TEMP/srv.log" 2>&1 &
+          sleep 1
+      - name: 模擬器版本
+        working-directory: app/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/dd" CODE_SIGNING_ALLOWED=NO build | tail -20
+      - name: 在 iPhone 模擬器上錄影
+        run: |
+          set +e
+          APP=$(ls -d "$RUNNER_TEMP"/dd/Build/Products/Debug-iphonesimulator/*.app | head -1)
+          xcrun simctl list devices available > results/devices.txt
+          UDID=$(xcrun simctl list devices available -j | python3 -c "
+          import json,sys,re
+          d=json.load(sys.stdin)['devices']
+          c=[x for k,v in d.items() if 'iOS' in k for x in v if re.search('iPhone 1[0-9] Pro Max',x['name'])]
+          print(c[-1]['udid'] if c else '')")
+          echo "device $UDID" | tee results/device.txt
+          xcrun simctl boot $UDID; xcrun simctl bootstatus $UDID -b
+          xcrun simctl status_bar $UDID override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4
+          xcrun simctl install $UDID "$APP"
+          sleep 5
+          xcrun simctl io $UDID recordVideo --codec h264 --force results/raw.mp4 &
+          RP=$!
+          sleep 2
+          xcrun simctl launch --console-pty $UDID tw.starlight.adventure > results/console.txt 2>&1 &
+          for i in $(seq 1 120); do sleep 1; grep -qs "DEMO DONE" results/srvlog.txt results/console.txt && break; done
+          sleep 3
+          kill -INT $RP; wait $RP
+          ls -la results
+          cat results/srvlog.txt
+      - name: 把影片放到 preview-results 分支
+        run: |
+          cd results
+          git init -q; git checkout -q -b preview-results
+          git config user.name "preview"; git config user.email "preview@users.noreply.github.com"
+          echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt
+          git add -A; git commit -q -m "preview ${{ github.run_id }}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" preview-results
