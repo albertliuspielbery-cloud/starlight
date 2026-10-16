@@ -63,7 +63,7 @@ EU = ['AUT', 'BEL', 'BGR', 'HRV', 'CYP', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU
 SKIP = set(['CHN'] + EU)
 terr = [t['id'] for t in all_pages('/v1/territories?limit=200') if t['id'] not in SKIP]
 
-# App 本身也從歐盟拿掉（失敗的話只提醒，請到 App Store Connect 手動取消勾選）
+# App 本身也從歐盟、中國大陸拿掉（失敗的話只提醒，請到 App Store Connect 手動取消勾選）
 eu_note = ''
 try:
     av = call('GET', f'/v1/apps/{app_id}/appAvailabilityV2', ok404=True)
@@ -72,12 +72,12 @@ try:
         off = 0
         for ta in tas:
             tid = ((ta.get('relationships') or {}).get('territory') or {}).get('data', {}).get('id')
-            if tid in EU and (ta.get('attributes') or {}).get('available'):
+            if tid in SKIP and (ta.get('attributes') or {}).get('available'):
                 call('PATCH', f'/v1/territoryAvailabilities/{ta["id"]}', {'data': {'type': 'territoryAvailabilities', 'id': ta['id'], 'attributes': {'available': False}}})
                 off += 1
-        eu_note = f'App 已從歐盟 {off} 個國家拿掉（原本就沒上的不算）'
+        eu_note = f'App 已從歐盟、中國大陸拿掉 {off} 個地區（原本就沒上的不算）'
 except (SystemExit, Exception):
-    eu_note = '歐盟地區可能沒有全部拿掉，請到 App Store Connect →「價格與供應狀況」確認歐盟國家都沒有勾選'
+    eu_note = '歐盟、中國大陸可能沒有全部拿掉，請到 App Store Connect →「價格與供應狀況」確認都沒有勾選'
 
 report = []
 
