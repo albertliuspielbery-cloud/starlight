@@ -1,0 +1,28 @@
+# 星光小冒險：建立「第六～二十章合購」的免費兌換碼（給親友）
+# 在 GitHub 手機 App：Actions → 兌換碼 → Run workflow；跑完點進去，最上面會顯示兌換碼和兌換網址
+name: 兌換碼
+on:
+  workflow_dispatch:
+    inputs:
+      code:
+        description: '兌換碼（英文大寫＋數字）'
+        default: 'STARLIGHT2026'
+      count:
+        description: '可以兌換幾次'
+        default: '20'
+permissions:
+  contents: read
+jobs:
+  offer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: 建立免費優惠和兌換碼
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          python3 -m pip install -q pyjwt cryptography
+          python3 app/ci_offer.py "${{ inputs.code }}" "${{ inputs.count }}"
