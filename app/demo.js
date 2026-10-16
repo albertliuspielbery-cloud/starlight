@@ -2,7 +2,7 @@
 (function(){
 const SRV='http://127.0.0.1:8765';const L=m=>{console.log('DEMO '+m);try{fetch(SRV+'/log?m='+encodeURIComponent('DEMO '+m),{mode:'cors'}).catch(()=>{})}catch(e){}};
 const W=ms=>new Promise(r=>setTimeout(r,ms));
-async function main(){try{__ev('nameAsked=true')}catch(e){}await W(7000);
+async function main(){try{__ev('nameAsked=true')}catch(e){}await W(14000);
 const st=document.createElement('style');st.textContent='#wipe,#toast,.coach,.nexthint,.nmhand{display:none!important}.title #parent,.title #restart,.title #nameit,.title #about,.title #quest,.title #iaptitle{visibility:hidden!important}.iapmap{display:none!important}';document.head.appendChild(st);
  // promo4: prototype of the DEMO-build scene helpers (runs inside the game page, after the game script).
  // Each scene returns nothing; taps are scheduled with setTimeout relative to the scene start.
@@ -74,7 +74,7 @@ const st=document.createElement('style');st.textContent='#wipe,#toast,.coach,.ne
  const t0=performance.now();window.__t0=t0;L('FLASH 0 abs '+Math.round(t0));await W(600);f.remove();
  for(let i=0;i<PLAN.length;i++){const at=600+i*MS;const w=at-(performance.now()-t0);if(w>0)await W(w);
   L('SCENE '+PLAN[i]+' '+Math.round(performance.now()-t0));try{D.scenes[PLAN[i]]()}catch(e){L('ERR '+PLAN[i]+' '+e.message)}}
- await W(MS);L('DONE '+Math.round(performance.now()-t0));}
+ await W(MS*2);L('DONE '+Math.round(performance.now()-t0));}
 window.addEventListener('error',e=>L('PAGEERR '+e.message));
 main().catch(e=>L('ERR main '+e.message));
 })();
