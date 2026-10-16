@@ -1,0 +1,45 @@
+2026-10-16 15:16:15.304 App[7313:27772] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/runner/Library/Developer/CoreSimulator/Devices/9F3D563E-AF8A-4089-B32E-3ADADEB067F0/data/Containers/Data/Application/ABCCCB1A-4496-4E20-A56C-E4665C027CF8/Library/Cookies/tw.starlight.adventure.binarycookies
+⚡️  Loading app at capacitor://localhost...
+⚡️  To Native ->  NativePurchases addListener 82236311
+⚡️  WebView loaded
+⚡️  To Native ->  NativePurchases getPurchases 82236312
+getPurchases
+⚡️  TO JS {"purchases":[]}
+⚡️  [log] - DEMO FLASH 0 abs 21473
+⚡️  [log] - DEMO SCENE title 614
+⚡️  [log] - DEMO READY title 875
+⚡️  [log] - DEMO SCENE zhuyin 5602
+⚡️  [log] - DEMO READY zhuyin 5942
+⚡️  [log] - DEMO TAP 220 558 84 109 6360 440 956
+⚡️  [log] - DEMO SCENE letter 10602
+⚡️  [log] - DEMO READY letter 10827
+⚡️  [log] - DEMO TAP 343 356 88 82 11337 440 956
+⚡️  [log] - DEMO SCENE quiz 15600
+⚡️  [log] - DEMO READY quiz 15819
+⚡️  [log] - DEMO TAP 163 490 104 121 16418 440 956
+⚡️  [log] - DEMO SCENE prince 20602
+⚡️  [log] - DEMO READY prince 21266
+⚡️  [log] - DEMO TAP 220 662 160 40 23352 440 956
+⚡️  [log] - DEMO SCENE ward 25602
+⚡️  [log] - DEMO READY ward 26115
+⚡️  [log] - DEMO TAP 168 19 94 141 26449 440 956
+⚡️  [log] - DEMO TAP 65 780 94 159 27650 440 956
+⚡️  [log] - DEMO SCENE pet 30602
+⚡️  [log] - DEMO READY pet 30737
+⚡️  [log] - DEMO TAP 323 686 198 44 31226 440 956
+⚡️  [log] - DEMO TAP 267 335 62 62 31776 440 956
+⚡️  [log] - DEMO TAP 371 386 62 62 32005 440 956
+⚡️  [log] - DEMO TAP 305 339 62 62 32237 440 956
+⚡️  [log] - DEMO TAP 303 392 62 62 32467 440 956
+⚡️  [log] - DEMO TAP 262 258 62 62 32697 440 956
+⚡️  [log] - DEMO TAP 362 384 62 62 32927 440 956
+⚡️  [log] - DEMO SCENE color 35601
+⚡️  [log] - DEMO READY color 36073
+⚡️  [log] - DEMO TAP 220 328 60 60 36399 440 956
+⚡️  [log] - DEMO TAP 220 453 60 60 36887 440 956
+⚡️  [log] - DEMO TAP 220 549 60 60 37387 440 956
+⚡️  [log] - DEMO SCENE map 40603
+⚡️  [log] - DEMO READY map 40884
+⚡️  [log] - DEMO SCENE end 45602
+⚡️  [log] - DEMO READY end 45785
+⚡️  [log] - DEMO DONE 55623
