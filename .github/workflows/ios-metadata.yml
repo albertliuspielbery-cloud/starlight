@@ -31,7 +31,7 @@ jobs:
           fastlane deliver \
             --api_key_path "$RUNNER_TEMP/asc.json" \
             --app_identifier tw.starlight.adventure \
-            --app_version 1.1 --platform ios \
+            --app_version 1.2 --platform ios \
             --metadata_path appstore/metadata \
             --screenshots_path appstore/screenshots \
             --skip_binary_upload true --skip_app_version_update false \
@@ -41,6 +41,14 @@ jobs:
             --force true 2>&1 | tee "$RUNNER_TEMP/deliver.log" || {
               sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/deliver.log" | grep -v "^\s*from " | sed -E 's#^\s*/[^ ]+\.rb:[0-9]+:in [^:]+: ##' | grep -v "Looking for related\|github.com/fastlane\|fastlane env\|Found no similar\|^\s*$" | tail -30 > "$RUNNER_TEMP/tail.txt"
               msg=$(sed 's/%/%25/g' "$RUNNER_TEMP/tail.txt" | awk '{printf "%s%%0A", substr($0,1,300)}'); echo "::error title=fastlane 最後的紀錄::${msg}"; exit 1; }
+      - name: 上傳宣傳影片（App 預覽）
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          python3 -m pip install -q pyjwt cryptography
+          python3 app/ci_appreview.py 1.2 appstore/preview/iphone-69.mp4 00:00:01:12
       - name: 檢查 App Store Connect 上的截圖
         if: always()
         env:
