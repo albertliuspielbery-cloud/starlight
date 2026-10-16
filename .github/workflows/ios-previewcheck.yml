@@ -1,0 +1,20 @@
+# 星光小冒險：查看 App Store Connect 上宣傳影片的處理狀態（只讀取，不會改任何東西）
+name: 查看宣傳影片
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: 查看 1.2 版的 App 預覽
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          python3 -m pip install -q pyjwt cryptography
+          python3 app/ci_previewcheck.py 1.2
