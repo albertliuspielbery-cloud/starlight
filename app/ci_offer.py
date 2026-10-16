@@ -73,18 +73,25 @@ else:
     terr = [t['id'] for t in all_pages(f'/v1/inAppPurchaseAvailabilities/{av["data"]["id"]}/availableTerritories?limit=200')]
     print('上架地區', len(terr))
     inc, refs, miss = [], [], []
+    # 先找台灣的免費價格點，再用「同等價格」一次拿到其他地區的（比一個一個地區查快很多）
+    tw = all_pages(f'/v2/inAppPurchases/{iap["id"]}/pricePoints?filter[territory]=TWN&limit=200')
+    free_tw = [p for p in tw if float(p['attributes'].get('customerPrice') or 0) == 0]
+    print('台灣最低價：', sorted(float(p['attributes'].get('customerPrice') or 0) for p in tw)[:3])
+    if not free_tw:
+        print('::error::台灣沒有免費價格點'); raise SystemExit(1)
+    pp = {'TWN': free_tw[0]['id']}
+    for q in all_pages(f'/v1/inAppPurchasePricePoints/{free_tw[0]["id"]}/equalizations?include=territory&limit=200'):
+        t = ((q.get('relationships') or {}).get('territory') or {}).get('data', {}).get('id')
+        if t:
+            pp[t] = q['id']
     for i, t in enumerate(terr):
-        pts = all_pages(f'/v2/inAppPurchases/{iap["id"]}/pricePoints?filter[territory]={t}&limit=200')
-        free = [p for p in pts if float(p['attributes'].get('customerPrice') or 0) == 0]
-        if i == 0:
-            print('第一個地區的最低價：', sorted(float(p['attributes'].get('customerPrice') or 0) for p in pts)[:3])
-        if not free:
+        if t not in pp:
             miss.append(t); continue
         rid = '${p%d}' % i
         refs.append({'type': 'inAppPurchaseOfferPrices', 'id': rid})
         inc.append({'type': 'inAppPurchaseOfferPrices', 'id': rid, 'relationships': {
             'territory': {'data': {'type': 'territories', 'id': t}},
-            'pricePoint': {'data': {'type': 'inAppPurchasePricePoints', 'id': free[0]['id']}}}})
+            'pricePoint': {'data': {'type': 'inAppPurchasePricePoints', 'id': pp[t]}}}})
     if miss:
         print('::warning::這些地區找不到免費價格，先略過：' + ','.join(miss))
     if not refs:
