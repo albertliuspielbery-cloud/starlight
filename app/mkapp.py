@@ -8,6 +8,8 @@ inj="<script>window.__APP=1;try{Object.defineProperty(window,'caches',{value:und
 assert h.count('<head>')==1;h=h.replace('<head>','<head>'+inj,1)
 h2=re.sub(r"<script>if\('serviceWorker' in navigator\)\{[^<]*</script>\n?",'',h)
 assert h2!=h,'sw register not found';h=h2
+# App 版不放孩子的真名（版本紀錄、王子版替換表裡的舊字串）
+h=h.replace('、Anita、','、').replace('Anita','小公主');assert 'Anita' not in h and '安妮塔' not in h
 if os.path.exists(DST):shutil.rmtree(DST)
 os.makedirs(DST+'/voice/c')
 if os.environ.get('SELFTEST'):

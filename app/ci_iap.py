@@ -76,7 +76,7 @@ try:
                 call('PATCH', f'/v1/territoryAvailabilities/{ta["id"]}', {'data': {'type': 'territoryAvailabilities', 'id': ta['id'], 'attributes': {'available': False}}})
                 off += 1
         eu_note = f'App 已從歐盟 {off} 個國家拿掉（原本就沒上的不算）'
-except SystemExit:
+except (SystemExit, Exception):
     eu_note = '歐盟地區可能沒有全部拿掉，請到 App Store Connect →「價格與供應狀況」確認歐盟國家都沒有勾選'
 
 report = []
@@ -92,13 +92,21 @@ for code, ref, name, desc, price in ITEMS:
             'relationships': {'app': {'data': {'type': 'apps', 'id': app_id}}}}})['data']
     iid = iap['id']
     a = iap['attributes']
+    # 已經送審／審查中／上架的商品不能再改，只回報狀態（重跑不會失敗）
+    st0 = a.get('state')
+    if st0 in ('WAITING_FOR_REVIEW', 'IN_REVIEW', 'APPROVED', 'PENDING_BINARY_APPROVAL', 'READY_FOR_SALE'):
+        report.append(f'{name}：狀態 {st0}（不用再改）')
+        print(pid, 'skip', st0)
+        continue
     if not a.get('familySharable') or not a.get('reviewNote'):
         call('PATCH', f'/v2/inAppPurchases/{iid}', {'data': {'type': 'inAppPurchases', 'id': iid,
              'attributes': {'familySharable': True, 'reviewNote': NOTE}}})
     # 2. 中文名稱、說明
     locs = call('GET', f'/v2/inAppPurchases/{iid}/inAppPurchaseLocalizations')['data']
     zh = [l for l in locs if l['attributes']['locale'] == 'zh-Hant']
-    if zh:
+    if zh and (zh[0]['attributes'].get('name'), zh[0]['attributes'].get('description')) == (name, desc):
+        pass
+    elif zh:
         call('PATCH', f'/v1/inAppPurchaseLocalizations/{zh[0]["id"]}', {'data': {'type': 'inAppPurchaseLocalizations',
              'id': zh[0]['id'], 'attributes': {'name': name, 'description': desc}}})
     else:
