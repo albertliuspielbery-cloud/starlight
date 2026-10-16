@@ -30,13 +30,21 @@ def call(method, path, body=None):
     url = path if path.startswith('http') else API + path
     req = urllib.request.Request(url, method=method, data=json.dumps(body).encode() if body is not None else None,
                                  headers={'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/json'})
-    try:
-        with urllib.request.urlopen(req) as r:
-            t = r.read()
-            return json.loads(t) if t else {}
-    except urllib.error.HTTPError as e:
-        msg = e.read().decode(errors='replace')
-        print(f'::error::App Store Connect API {method} {url.split("?")[0].replace(API, "")} {e.code}: {msg[:1500]}')
+    for k in range(6):
+        try:
+            with urllib.request.urlopen(req) as r:
+                t = r.read()
+                return json.loads(t) if t else {}
+        except urllib.error.HTTPError as e:
+            msg = e.read().decode(errors='replace'); code = e.code
+            if e.code >= 500 and k < 5:  # Apple 偶爾忙線，等一下再試
+                print(f'  Apple 回 {e.code}，{5 + k * 5} 秒後重試'); time.sleep(5 + k * 5)
+                req = urllib.request.Request(url, method=method, data=json.dumps(body).encode() if body is not None else None,
+                                             headers={'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/json'})
+                continue
+            break
+    if True:
+        print(f'::error::App Store Connect API {method} {url.split("?")[0].replace(API, "")} {code}: {msg[:1500]}')
         raise SystemExit(1)
 
 
