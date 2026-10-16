@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光公主">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-704b2ae1.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-704b2ae1.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-d5f53d24.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-d5f53d24.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -1195,6 +1195,15 @@ html{background:var(--sky3)}
 /* v3.7.0：卡片裡的小金色按鈕，字要看得清楚 */
 .card .btn.small{color:#3A2410}
 
+/* 3.8.1 地圖「回首頁」不要斷行 */
+#wback{white-space:nowrap}
+
+/* 3.8.1 關於頁字型授權 */
+.about .fontlic{margin:8px 0;font-size:13px;opacity:.85}.about .fontlic summary{cursor:pointer;color:#FFE7B0}.about .fontlic pre{white-space:pre-wrap;font-size:11px;max-height:40vh;overflow:auto;background:rgba(0,0,0,.2);padding:8px;border-radius:8px}
+/* 購買中被停用的按鈕變淡 */
+.iapcard button:disabled{opacity:.5}
+.about .fontlic p{font-size:12px;line-height:1.5;word-break:break-all}
+
 </style>
 </head>
 <body>
@@ -1969,7 +1978,7 @@ const ODD=[
  [['🍎','🍌','🍇','🚗'],'汽車不是水果喔！'],[['🐶','🐱','🐰','🍕'],'披薩不是動物！'],[['🚗','🚌','🚲','🐘'],'大象不是交通工具！'],
  [['🌸','🌼','🌻','🐟'],'小魚不是花！'],[['⭐','⭐','⭐','🌙'],'這個是月亮，其他都是星星！'],[['👕','👗','🧦','🍦'],'冰淇淋不能穿在身上！'],
  [['🥕','🥦','🌽','🧸'],'熊熊不是蔬菜！'],[['🎹','🥁','🎸','🍩'],'甜甜圈不是樂器！'],[['🐟','🐙','🐬','🦁'],'獅子不住在海裡！'],
- [['✏️','📏','📚','🍓'],'草莓不是文具！'],[['🍎','🍓','🌹','🍌'],'香蕉是黃色的，其他都是紅色的！'],[['🐤','🌻','🍋','🍇'],'葡萄是紫色的，其他都是黃色的！'],
+ [['✏️','📏','📚','🍓'],'草莓不是文具！'],[['🍎','🍓','🍒','🍌'],'香蕉是黃色的，其他都是紅色的！'],[['🍌','🍍','🍋','🍇'],'葡萄是紫色的，其他都是黃色的！'],
  [['⚽','🏀','🎾','🍉'],'西瓜不是球！'],[['🐦','🦋','🐝','🐢'],'烏龜不會飛！'],[['🌞','🔥','💡','🧊'],'冰塊是冷的，其他都會發熱發亮！'],
  [['🍪','🍩','🧁','🧦'],'襪子不能吃！'],[['🐣','🐥','🐔','🐶'],'小狗不是雞家族的！']
 ];
@@ -2007,7 +2016,7 @@ const STORIES=[
  ['🐰','小兔子早上吃了一根紅蘿蔔，下午去公園盪鞦韆。','小兔子早上吃了什麼？',['🥕','紅蘿蔔'],[['🍎','蘋果'],['🍌','香蕉']]],
  ['🐻','小熊今天去海邊，撿了三個漂亮的貝殼。','小熊撿了幾個貝殼？',['#3','三個'],[['#1','一個'],['#5','五個']]],
  ['🐱','小貓咪穿上紅色的雨鞋，開心地去踩水坑。','小貓咪穿了什麼顏色的雨鞋？',['i:bootred','紅色'],[['i:bootblue','藍色'],['i:bootyellow','黃色']]],
- ['🐷','小豬生日到了，媽媽送他一顆藍色的氣球。','媽媽送小豬什麼禮物？',['🎈','氣球'],[['🧸','熊熊'],['🚗','玩具車']]],
+ ['🐷','小豬生日到了，媽媽送他一顆藍色的氣球。','媽媽送小豬什麼禮物？',['i:balloonblue','氣球'],[['🧸','熊熊'],['🚗','玩具車']]],
  ['🦊','小狐狸晚上睡覺前，先刷牙，再聽媽媽講故事。','小狐狸睡覺前，先做什麼？',['🪥','刷牙'],[['🍭','吃糖'],['📺','看電視']]],
  ['🐶','小狗和好朋友一起堆積木，蓋了一座高高的城堡。','小狗和朋友蓋了什麼？',['🏰','城堡'],[['🚀','火箭'],['🚢','大船']]],
  ['🚸','小鴨子跟著鴨媽媽，排好隊，一起過馬路。','小鴨子跟著誰過馬路？',['🦆','鴨媽媽'],[['🐸','青蛙'],['🐢','烏龜']]],
@@ -2339,8 +2348,8 @@ chend(){
 }
 };
 
-const APP_VERSION='3.8.0';
-const VLOG=[['3.8.0','2026/10/15','跟著唸：錄完會聽聽看有沒有真的唸，太短或太小聲會鼓勵再唸一次'],['3.7.0','2026/10/15','App 版：家長可以在家長設定裡解鎖第六～二十章（網頁版不變）'],['3.6.7','2026/10/15','修正題目圖片：粽子、湯圓、蝌蚪、游泳圈、雨鞋、春聯等改成正確的圖'],['3.6.6','2026/10/8','跟著唸：錄完先聽自己的聲音，可以再聽一次、再錄一次，再按「下一題」；App 版畫冊可以存到相簿；切到別的 App 再回來，畫面不會變小。'],['3.6.5','2026/10/8','過關時等語音念完才出獎勵；App 版只顯示第一～五章拿得到的東西，畫冊存到相簿要先問爸爸媽媽。'],['3.6.4','2026/10/8','App 版：修正語音變成機器聲、念到一半被切掉（App 裡讀不到真人錄音檔）。'],['3.6.3','2026/10/8','App 版：手機切到靜音模式時，語音也聽得到。'],['3.6.2','2026/10/7','App 版首頁標題上方加上 App 名稱「星光小冒險」。'],['3.6.1','2026/10/7','修正「接星星」等地方的星星看不到（3.6 的問題）。分類題連點兩下不會被算錯。「今天玩夠了」和「休息時間」長按後要再答一題算術題才能跳過。注音氣球題的說明改成「找出對的注音」。iPad 直放時房間和寵物小屋變大。'],['3.6','2026/10/6','第二十章完成後有「星光王國大慶典」大結局：朋友們一起來道謝，國王頒發「星光小勇士」獎狀（大地圖右上角可以再看）。手機和小螢幕排版修正：章節完成畫面不再切到寵物，手機橫放時題目自動縮小、答案按鈕不會被擋住。補錄幾句缺少的語音。'],['3.5','2026/10/6','寵物小屋新增「玩具」和「才藝」：完成章節得到飛盤、毛線球、泡泡機、溜滑梯、鞦韆等 10 種玩具，每種都有動畫；好感度越高，寵物學會坐下、握手、轉圈、跳舞、翻滾；餵食時會練習數數、選健康的食物；公主房間新增許願清單（寶石不夠時記下想要的東西，看還差幾顆）；獨角獸、小狐狸、月亮兔、小天鵝、小企鵝、小海豚、青鳥重新畫得更細緻'],['3.4.1','2026/10/5','iPhone／iPad 開靜音模式時，遊戲也有聲音；準備 App 版'],['3.4','2026/10/5','公主房間跟著真實時間變化：窗外有早上、中午、傍晚、晚上的天空，牆上有會走的時鐘，點一下會報時；早上和睡前可以刷牙，吃飯時間可以餵寵物，晚上寵物會睡覺、窗外有流星；塗色本新增小狗、倉鼠、小鳥、烏龜、小雞、小豬、小羊、青蛙（照章節打開），還有小朋友設計的「風箏人」，也可以幫自己的寵物塗色；房間的新東西（木馬、小火車、星星燈、貓咪時鐘、雲朵床等）變成章節獎品；新玩家的遊樂園會照章節慢慢打開；修正網頁存一半會一直卡在載入畫面'],['3.3.2','2026/10/5','修正：網路慢的時候按「現在更新」會一直跳出更新、更新不上去'],['3.3.1','2026/10/5','修正：休息提醒會把昨天玩的時間算進來，一打開就要休息（現在關掉遊戲超過休息時間或換一天就重新計時）；小朋友點到喇叭關掉聲音時會提示怎麼打開，下次打開遊戲會自動恢復；iPad 聲音卡住時，點一下螢幕就會恢復'],['3.3','2026/10/5','第一次打開不用等那麼久：先下載前 3 章的語音就能玩，其他章節在背景慢慢下載；打開遊戲更快（先用存好的版本，新版在背景下載）；家長設定新增「這週的學習」：每天玩多久、答了幾題、一次就答對的比例、答對和常答錯的注音字母、小考結果'],['3.2.2','2026/10/4','關於頁的聯絡信箱改成客服信箱 starlight.kids.app@gmail.com'],['3.2.1','2026/10/4','修正：有些 iPhone／iPad 的 Safari 畫冊存不進去、跟著唸的錄音存不起來'],['3.2','2026/10/4','公主房間會動也可以玩了：點床睡覺、點檯燈關燈、拉窗簾、玩玩具、和寵物丟球，每天寵物還會藏一顆寶石；房間畫面變大（手機直拿可以左右滑）；小貓咪、小狗狗、泰迪熊等 9 隻寵物有完整的身體了'],['3.1.2','2026/10/4','小王子完成第十六、十九章，也會拿到恐龍玩偶和紅燈籠（之前完成的會補發）'],['3.1.1','2026/10/4','塗色本加上「新畫布」（要確認兩次，畫過的會先收進畫冊）；手機上顏色按鈕變大；網路慢時語音包也能慢慢下載完'],['3.1','2026/10/4','新增小王子版：第一次打開可以選小公主或小王子，王子要去找小飛龍火花，有男生的衣服和 700 個王子名字的真人語音；家長可以出考卷，考完拿獎章和學士帽，還可以和爸媽訂約定；一台裝置可以有好幾個小朋友；名字可以到 10 個字'],['3.0','2026/10/4','第二季開始！新的五章：時光恐龍谷、交通小城市、開心農場、節日和家人、星光運動會；新題目 160 題、新英文單字 40 個；新角色小恐龍阿古、乳牛、母雞、綿羊；新玩法「跟著唸」：錄下自己的聲音聽聽看，錄音只存在這台裝置；第十三～二十章的新衣服和道具；學得更牢：答錯會說明選到的是什麼，再答對會說「記住囉」，注音和字母有口訣和圖（ㄅ，爸爸的ㄅ；A is for apple），長得像的（ㄅㄆ、b d）會放在一起練，要在兩天都答對才算會了，太久沒練會再複習，每天第一關先暖身，新玩法「看字說說看」，中等和高難度每關多 1～2 題；想回去玩：每天一個小任務、朋友求救、中等和高難度全對拿皇冠、完成的章節可以直接選任何一關'],['2.7.1','2026/10/3','穿長裙也看得到鞋子了：蓬裙、蛋糕裙、拖尾裙改成前短後長，人魚裙露出鞋尖；換裝間的鞋子圖案變大變清楚'],['2.7','2026/10/3','新的三章！第十三章「環遊世界」、第十四章「心情花園」（認識心情、保護自己、不認識的東西不亂吃）、第十五章「回到天空」（準備上學和總複習，第一季完結）；新題目 59 題'],['2.6.2','2026/10/2','家長設定的語音狀態不再一直顯示過去的播放錯誤'],['2.6.1','2026/10/2','王子舞會更順：答對後把話說完才出下一題，等答案時王子和公主也繼續跳舞，下一題的聲音先準備好'],['2.6','2026/10/2','動態難度：字母和注音會了，就自動加新的（簡單從 A–J、ㄅ–ㄌ 開始，慢慢加到全部和小寫）；問答題增加到 200 題'],['2.5','2026/10/2','新的第十二章「台灣環島之旅」：台北101、夜市、太魯閣、熱氣球、阿里山、日月潭，新朋友台灣黑熊和小石虎；新題目 30 題：台灣 20 題、錢和買東西要先問爸爸媽媽 10 題；王子說話換成男生的聲音'],['2.4','2026/10/2','聲音全面檢查修正：切到別的 App 回來不會冒出一堆聲音、音樂不重疊；語音包分小塊下載，中途關掉下次接著下載；iPhone/iPad 固定用真人錄音；重新下載語音包會先確認'],['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、Anita、庭瑄…）改用真人感錄音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給 Anita 公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 真人感聲音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='3.8.1';
+const VLOG=[['3.8.1','2026/10/16','換掉幾張不清楚的圖（找不同、池塘、黃豆、藍色氣球、洗澡），房間的球換新花紋，關於頁加上字型授權'],['3.8.0','2026/10/15','跟著唸：錄完會聽聽看有沒有真的唸，太短或太小聲會鼓勵再唸一次'],['3.7.0','2026/10/15','修正幾個小地方'],['3.6.7','2026/10/15','修正題目圖片：粽子、湯圓、蝌蚪、游泳圈、雨鞋、春聯等改成正確的圖'],['3.6.6','2026/10/8','跟著唸：錄完先聽自己的聲音，可以再聽一次、再錄一次，再按「下一題」；App 版畫冊可以存到相簿；切到別的 App 再回來，畫面不會變小。'],['3.6.5','2026/10/8','過關時等語音念完才出獎勵；App 版只顯示第一～五章拿得到的東西，畫冊存到相簿要先問爸爸媽媽。'],['3.6.4','2026/10/8','App 版：修正語音變成機器聲、念到一半被切掉（App 裡讀不到語音檔）。'],['3.6.3','2026/10/8','App 版：手機切到靜音模式時，語音也聽得到。'],['3.6.2','2026/10/7','App 版首頁標題上方加上 App 名稱「星光小冒險」。'],['3.6.1','2026/10/7','修正「接星星」等地方的星星看不到（3.6 的問題）。分類題連點兩下不會被算錯。「今天玩夠了」和「休息時間」長按後要再答一題算術題才能跳過。注音氣球題的說明改成「找出對的注音」。iPad 直放時房間和寵物小屋變大。'],['3.6','2026/10/6','第二十章完成後有「星光王國大慶典」大結局：朋友們一起來道謝，國王頒發「星光小勇士」獎狀（大地圖右上角可以再看）。手機和小螢幕排版修正：章節完成畫面不再切到寵物，手機橫放時題目自動縮小、答案按鈕不會被擋住。補錄幾句缺少的語音。'],['3.5','2026/10/6','寵物小屋新增「玩具」和「才藝」：完成章節得到飛盤、毛線球、泡泡機、溜滑梯、鞦韆等 10 種玩具，每種都有動畫；好感度越高，寵物學會坐下、握手、轉圈、跳舞、翻滾；餵食時會練習數數、選健康的食物；公主房間新增許願清單（寶石不夠時記下想要的東西，看還差幾顆）；獨角獸、小狐狸、月亮兔、小天鵝、小企鵝、小海豚、青鳥重新畫得更細緻'],['3.4.1','2026/10/5','iPhone／iPad 開靜音模式時，遊戲也有聲音；準備 App 版'],['3.4','2026/10/5','公主房間跟著真實時間變化：窗外有早上、中午、傍晚、晚上的天空，牆上有會走的時鐘，點一下會報時；早上和睡前可以刷牙，吃飯時間可以餵寵物，晚上寵物會睡覺、窗外有流星；塗色本新增小狗、倉鼠、小鳥、烏龜、小雞、小豬、小羊、青蛙（照章節打開），還有小朋友設計的「風箏人」，也可以幫自己的寵物塗色；房間的新東西（木馬、小火車、星星燈、貓咪時鐘、雲朵床等）變成章節獎品；新玩家的遊樂園會照章節慢慢打開；修正網頁存一半會一直卡在載入畫面'],['3.3.2','2026/10/5','修正：網路慢的時候按「現在更新」會一直跳出更新、更新不上去'],['3.3.1','2026/10/5','修正：休息提醒會把昨天玩的時間算進來，一打開就要休息（現在關掉遊戲超過休息時間或換一天就重新計時）；小朋友點到喇叭關掉聲音時會提示怎麼打開，下次打開遊戲會自動恢復；iPad 聲音卡住時，點一下螢幕就會恢復'],['3.3','2026/10/5','第一次打開不用等那麼久：先下載前 3 章的語音就能玩，其他章節在背景慢慢下載；打開遊戲更快（先用存好的版本，新版在背景下載）；家長設定新增「這週的學習」：每天玩多久、答了幾題、一次就答對的比例、答對和常答錯的注音字母、小考結果'],['3.2.2','2026/10/4','關於頁的聯絡信箱改成客服信箱 starlight.kids.app@gmail.com'],['3.2.1','2026/10/4','修正：有些 iPhone／iPad 的 Safari 畫冊存不進去、跟著唸的錄音存不起來'],['3.2','2026/10/4','公主房間會動也可以玩了：點床睡覺、點檯燈關燈、拉窗簾、玩玩具、和寵物丟球，每天寵物還會藏一顆寶石；房間畫面變大（手機直拿可以左右滑）；小貓咪、小狗狗、泰迪熊等 9 隻寵物有完整的身體了'],['3.1.2','2026/10/4','小王子完成第十六、十九章，也會拿到恐龍玩偶和紅燈籠（之前完成的會補發）'],['3.1.1','2026/10/4','塗色本加上「新畫布」（要確認兩次，畫過的會先收進畫冊）；手機上顏色按鈕變大；網路慢時語音包也能慢慢下載完'],['3.1','2026/10/4','新增小王子版：第一次打開可以選小公主或小王子，王子要去找小飛龍火花，有男生的衣服和 700 個王子名字的語音；家長可以出考卷，考完拿獎章和學士帽，還可以和爸媽訂約定；一台裝置可以有好幾個小朋友；名字可以到 10 個字'],['3.0','2026/10/4','第二季開始！新的五章：時光恐龍谷、交通小城市、開心農場、節日和家人、星光運動會；新題目 160 題、新英文單字 40 個；新角色小恐龍阿古、乳牛、母雞、綿羊；新玩法「跟著唸」：錄下自己的聲音聽聽看，錄音只存在這台裝置；第十三～二十章的新衣服和道具；學得更牢：答錯會說明選到的是什麼，再答對會說「記住囉」，注音和字母有口訣和圖（ㄅ，爸爸的ㄅ；A is for apple），長得像的（ㄅㄆ、b d）會放在一起練，要在兩天都答對才算會了，太久沒練會再複習，每天第一關先暖身，新玩法「看字說說看」，中等和高難度每關多 1～2 題；想回去玩：每天一個小任務、朋友求救、中等和高難度全對拿皇冠、完成的章節可以直接選任何一關'],['2.7.1','2026/10/3','穿長裙也看得到鞋子了：蓬裙、蛋糕裙、拖尾裙改成前短後長，人魚裙露出鞋尖；換裝間的鞋子圖案變大變清楚'],['2.7','2026/10/3','新的三章！第十三章「環遊世界」、第十四章「心情花園」（認識心情、保護自己、不認識的東西不亂吃）、第十五章「回到天空」（準備上學和總複習，第一季完結）；新題目 59 題'],['2.6.2','2026/10/2','家長設定的語音狀態不再一直顯示過去的播放錯誤'],['2.6.1','2026/10/2','王子舞會更順：答對後把話說完才出下一題，等答案時王子和公主也繼續跳舞，下一題的聲音先準備好'],['2.6','2026/10/2','動態難度：字母和注音會了，就自動加新的（簡單從 A–J、ㄅ–ㄌ 開始，慢慢加到全部和小寫）；問答題增加到 200 題'],['2.5','2026/10/2','新的第十二章「台灣環島之旅」：台北101、夜市、太魯閣、熱氣球、阿里山、日月潭，新朋友台灣黑熊和小石虎；新題目 30 題：台灣 20 題、錢和買東西要先問爸爸媽媽 10 題；王子說話換成男生的聲音'],['2.4','2026/10/2','聲音全面檢查修正：切到別的 App 回來不會冒出一堆聲音、音樂不重疊；語音包分小塊下載，中途關掉下次接著下載；iPhone/iPad 固定用語音包；重新下載語音包會先確認'],['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、庭瑄…）改用 AI 語音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給小公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 語音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -2404,12 +2413,55 @@ function aboutPanel(){
  const ov=overlay(screen,`<div class="card left about"><button class="xclose" aria-label="關閉">✕</button><h2>星光公主大冒險</h2>
   <p class="small">給 4–6 歲小朋友的學習冒險遊戲：英文字母、注音、數字加減，還有生活、禮儀、安全和節日小知識。</p>
   <div class="arow"><span class="lab">版本</span><b>v${APP_VERSION}</b></div>
-  <div class="arow"><span class="lab">作者</span><b>Albert Liu</b></div>
-  <p class="dedic">這個遊戲是爸爸做給女兒的，<br>願我的女兒 Anita 公主快樂成長。</p>
+  <div class="arow"><span class="lab">作者</span><b>星光工作室 Starlight Studio</b></div>
+  <p class="dedic">這個遊戲是爸爸做給女兒的，<br>願每一位小朋友都快樂成長。</p>
+  <details class="fontlic"><summary>字型授權</summary><p>粉圓 Huninn：Copyright 2025 The Huninn Project Authors (https://github.com/justfont/Huninn)<br>Baloo 2：Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)<br>兩套字型都採用 SIL Open Font License 1.1 授權，全文如下。</p><pre>SIL OPEN FONT LICENSE
+
+Version 1.1 - 26 February 2007
+
+PREAMBLE
+
+The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold by themselves. The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided that any reserved names are not used by derivative works. The fonts and derivatives, however, cannot be released under any other type of license. The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+
+&quot;Font Software&quot; refers to the set of files released by the Copyright Holder(s) under this license and clearly marked as such. This may include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting, or substituting — in part or in whole — any of the components of the Original Version, by changing formats or by porting the Font Software to a new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of the Font Software, to use, study, copy, merge, embed, modify, redistribute, and sell modified and unmodified copies of the Font Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components, in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled, redistributed and/or sold with any software, provided that each copy contains the above copyright notice and this license. These can be included either as stand-alone text files, human-readable headers or in the appropriate machine-readable metadata fields within text or binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font Name(s) unless explicit written permission is granted by the corresponding Copyright Holder. This restriction only applies to the primary font name as presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font Software shall not be used to promote, endorse or advertise any Modified Version, except to acknowledge the contribution(s) of the Copyright Holder(s) and the Author(s) or with their explicit written permission.
+
+5) The Font Software, modified or unmodified, in part or in whole, must be distributed entirely under this license, and must not be distributed under any other license. The requirement for fonts to remain under this license does not apply to any document created using the Font Software.
+
+TERMINATION
+
+This license becomes null and void if any of the above conditions are not met.
+
+DISCLAIMER
+
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.</pre></details>
   <div class="arow"><span class="lab">產地</span><b>台灣製造<br>Made in the Republic of China (Taiwan)</b></div>
   <div class="arow"><span class="lab">聯絡</span><a href="mailto:starlight.kids.app@gmail.com">starlight.kids.app@gmail.com</a></div>
   <div><span class="lab">版本紀錄</span><div class="vlog">${VLOG.map(([v,d,t])=>`<div><b>v${v}</b><i>${d}</i><span>${t}</span></div>`).join('')}</div></div>
-  <p class="small">© 2026 Albert Liu・台灣製造 Made in the Republic of China (Taiwan)</p>
+  <p class="small">© 2026 星光工作室 Starlight Studio・台灣製造 Made in the Republic of China (Taiwan)</p>
   <button class="btn" id="adone">好</button></div>`);
  $('#adone',ov).onclick=()=>ov.remove();$('.xclose',ov).onclick=()=>ov.remove();
 }
@@ -2417,7 +2469,7 @@ function parentPanel(){
  const ov=overlay(screen,`<div class="card left"><button class="xclose" aria-label="關閉">✕</button><h2>家長設定</h2>
   <div><span class="lab">公主的名字</span><div class="vrow"><input id="pnm" class="pin" maxlength="10" value="${(S.name||'').replace(/"/g,'')}" placeholder="例如：小星" aria-label="公主的名字"><button class="btn2 small" id="pnmok">儲存</button></div></div>
   <div><span class="lab">難度</span><div class="seg">${Object.entries(DIFF).map(([k,v])=>`<button data-d="${k}" aria-pressed="${S.diff===k}">${v.name}</button>`).join('')}</div><p class="small" id="ddesc">${DIFF[S.diff].desc}</p></div>
-  <div><span class="lab">語音</span><div class="seg"><button data-vo="1" aria-pressed="${!!S.vo}">真人錄音（推薦）</button><button data-vo="0" aria-pressed="${!S.vo}">內建聲音</button></div><small id="vostat" class="small" style="display:block;margin-top:4px;opacity:.85"></small><button class="btn2 small" id="vore" style="margin-top:6px">重新下載語音包</button></div>
+  <div><span class="lab">語音</span><div class="seg"><button data-vo="1" aria-pressed="${!!S.vo}">AI 語音包（推薦）</button><button data-vo="0" aria-pressed="${!S.vo}">內建聲音</button></div><small id="vostat" class="small" style="display:block;margin-top:4px;opacity:.85"></small><button class="btn2 small" id="vore" style="margin-top:6px">重新下載語音包</button></div>
   <div><span class="lab">說故事的聲音（裝置內建時使用）</span><div class="vrow"><select id="vsel" class="vsel" aria-label="選擇語音"></select><button class="btn2 small" id="vtest">試聽</button></div></div>
   <div><span class="lab">背景音樂</span><div class="seg"><button data-m="1" aria-pressed="${S.music}">開</button><button data-m="0" aria-pressed="${!S.music}">關</button></div></div>
   <div><span class="lab">休息提醒</span><div class="seg">${[0,10,15,20].map(m=>`<button data-rest="${m}" aria-pressed="${S.rest===m}">${m?m+' 分鐘':'關閉'}</button>`).join('')}</div></div>
@@ -3081,7 +3133,7 @@ const HABITAT=[
  ['🐝','蜜蜂',['i:hive','蜂巢'],[['🌊','海裡'],['i:iceberg','冰山']]],['🐧','企鵝',['i:iceberg','冰天雪地'],[['🌋','火山'],['🌵','沙漠']]],
  ['🐫','駱駝',['🏜️','沙漠'],[['🌊','海裡'],['i:iceberg','冰山']]],['🐒','猴子',['🌴','森林的樹上'],[['i:iceberg','冰山'],['🌊','海底']]],
  ['🐄','乳牛',['🌾','農場'],[['🌊','海底'],['🌙','月亮上']]],['🐜','螞蟻',['🕳️','地下的洞'],[['☁️','雲上'],['🌊','海裡']]],
- ['🐙','章魚',['🌊','海底'],[['🌳','樹上'],['🏜️','沙漠']]],['🐸','青蛙',['🪷','池塘'],[['🏜️','沙漠'],['i:iceberg','冰山']]]
+ ['🐙','章魚',['🌊','海底'],[['🌳','樹上'],['🏜️','沙漠']]],['🐸','青蛙',['i:pond','池塘'],[['🏜️','沙漠'],['i:iceberg','冰山']]]
 ];
 const BABY=[
  ['🐣','小雞',['🐔','雞'],[['🦆','鴨子'],['🐦','小鳥']]],['🐛','毛毛蟲',['🦋','蝴蝶'],[['🐝','蜜蜂'],['🐞','瓢蟲']]],
@@ -3907,8 +3959,8 @@ SCREENS.pethouse=function(){
    <div class="pbig" id="pbig" style="--sc:${(1+(lv-1)*.07).toFixed(2)}">${myPet()}</div><div class="pfx" id="pfx"></div></div>
    <div class="pside"><div class="pname"><b>${it.name}</b><span class="plv">Lv.${lv}</span></div>
     <div class="love"><span>${'💗'.repeat(lv)}${'🤍'.repeat(5-lv)}</span><small>${nxt?`好感度 ${P.love} / ${nxt}`:'好感度滿滿！'}</small></div>
-    ${[['h','肚子','🍽️'],['c','乾淨','🫧'],['j','開心','🎾']].map(([k,n,e])=>`<div class="pbar2"><span>${n}</span><i><b style="width:${stat(P[k])}%"></b></i></div>`).join('')}
-    <div class="pacts"><button class="btn2" data-a="feed">🍎 餵食</button><button class="btn2" data-a="bath">🫧 洗澡</button><button class="btn2" data-a="brush">✨ 梳毛</button><button class="btn2" data-a="play">🎾 玩球</button></div>
+    ${[['h','肚子','🍽️'],['c','乾淨','🛁'],['j','開心','🎾']].map(([k,n,e])=>`<div class="pbar2"><span>${n}</span><i><b style="width:${stat(P[k])}%"></b></i></div>`).join('')}
+    <div class="pacts"><button class="btn2" data-a="feed">🍎 餵食</button><button class="btn2" data-a="bath">🛁 洗澡</button><button class="btn2" data-a="brush">✨ 梳毛</button><button class="btn2" data-a="play">🎾 玩球</button></div>
     ${pets.length>1?`<div class="pswitch">${pets.map(x=>`<button class="psw${x.id===S.look.pet?' on':''}" data-id="${x.id}" aria-label="${x.name}">${petSVG(x.id,'')}</button>`).join('')}</div>`:''}
    </div></div></div>`;
  bindBack();
@@ -4362,7 +4414,7 @@ const SHARE_IC=`<svg viewBox="0 0 24 24" width="22" height="22" style="vertical-
 function setupIntro(){
  const ov=overlay(screen,`<div class="card setup"><h2>爸爸媽媽好！</h2>
   <p>第一次使用，請爸爸媽媽花 3 分鐘，<br>幫小公主完成 3 個設定：</p>
-  <ol class="sulist"><li>加到主畫面（像 App 一樣打開）</li><li>下載真人語音</li><li>幫公主取名字</li></ol>
+  <ol class="sulist"><li>加到主畫面（像 App 一樣打開）</li><li>下載語音包</li><li>幫公主取名字</li></ol>
   <div class="row"><button class="btn" id="suGo">爸爸媽媽開始設定</button><button class="btn2" id="suLater">之後再說</button></div>
   <button class="linkbtn" id="suNever">不用了，不再提醒</button></div>`);
  $('#suGo',ov).onclick=()=>{ov.remove();parentGate(()=>setupWizard(0))};
@@ -4382,7 +4434,7 @@ function setupWizard(step=0){
   else body=`<h2>1. 加到桌面</h2><ol class="sulist"><li>Chrome／Edge：點網址列右邊的「<b class="gold">安裝</b>」圖示</li><li>或打開瀏覽器選單 →「安裝星光公主」</li><li>之後從桌面或開始選單打開</li></ol><p class="small">電腦上不安裝也可以直接玩。</p>`;
  }else if(step===1){
   const inSafariOnly=d.ios&&!d.standalone;
-  body=`<h2>2. 下載真人語音</h2>
+  body=`<h2>2. 下載語音包</h2>
    ${inSafariOnly?`<p class="warn">⚠️ 建議先完成第 1 步，從主畫面打開後再下載。<br>在 Safari 下載的語音，主畫面 App 用不到。</p>`:''}
    <ul class="sulist dotl"><li>先下載前 3 章的語音（大約 14 MB），好了就可以開始玩，建議連 <b class="gold">Wi-Fi</b></li><li>其他章節會在背景慢慢下載，下載中也可以先玩</li><li>中途關掉也沒關係，下次會接著下載</li></ul>
    <div class="vobox"><small id="vostat" class="small"></small><div class="row"><button class="btn2 small" id="suRe">重新下載語音包</button><button class="btn2 small" id="suTest">試聽</button></div></div>`;
@@ -4931,7 +4983,7 @@ addEventListener('unhandledrejection',e=>{const r=e&&e.reason;errLog('Promise: '
 const SCRHIST=[];const _show2=show;show=function(n,a){SCRHIST.push(n+(n==='stage'?`(${S.ch+1}-${S.level+1})`:''));if(SCRHIST.length>15)SCRHIST.shift();return _show2(n,a)};
 function bugReport(note){const d=new Date();const pad=n=>String(n).padStart(2,'0');const E=errGet();
  let ls=0;try{for(let k=0;k<localStorage.length;k++){const key=localStorage.key(k);ls+=(localStorage.getItem(key)||'').length}}catch(e){}
- const vo=(()=>{try{return `${S.vo?'真人錄音':'裝置內建'}；語音包${VO.idx?'已載入（'+Object.keys(VO.idx).length+' 句）':VO.fail?'載入失敗':'未載入'}；音效${ac&&ac.state?ac.state:'未啟動'}`}catch(e){return '?'}})();
+ const vo=(()=>{try{return `${S.vo?'AI 語音包':'裝置內建'}；語音包${VO.idx?'已載入（'+Object.keys(VO.idx).length+' 句）':VO.fail?'載入失敗':'未載入'}；音效${ac&&ac.state?ac.state:'未啟動'}`}catch(e){return '?'}})();
  const st=window.matchMedia&&matchMedia('(display-mode: standalone)').matches||navigator.standalone;
  return ['【星光公主問題回報】',`時間：${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`,`版本：v${APP_VERSION}`,
   note?`家長說明：${note}`:'',
@@ -5516,7 +5568,7 @@ say=function(parts,opt){if(document.hidden)return new Promise(res=>{const on=()=
 const IS_IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 if(IS_IOS&&!S.vo){S.vo=true;try{saveVo()}catch(e){}}
 function hideTTSUI(root){if(!IS_IOS||!root)return;
- const b0=root.querySelector('[data-vo="0"]');if(b0){const seg=b0.closest('.seg');if(seg)seg.style.display='none';const lab=seg&&seg.parentElement&&seg.parentElement.querySelector('.lab');if(lab)lab.textContent='語音（真人錄音）'}
+ const b0=root.querySelector('[data-vo="0"]');if(b0){const seg=b0.closest('.seg');if(seg)seg.style.display='none';const lab=seg&&seg.parentElement&&seg.parentElement.querySelector('.lab');if(lab)lab.textContent='語音（AI 語音包）'}
  const vs=root.querySelector('#vsel');if(vs){const box=vs.closest('.vrow');const blk=box&&box.parentElement;if(blk)blk.style.display='none'}}
 // 重新下載語音包：先確認，避免小朋友誤觸
 function confirmBox(title,msg,okText){return new Promise(res=>{const w=document.createElement('div');w.className='updpop';
@@ -6021,8 +6073,8 @@ QUIZ.push(
  ['恐龍','恐龍的名字裡，常常有哪一個字？',['🦖','龍'],[['🐱','貓'],['🐟','魚']],'暴龍、三角龍、劍龍，名字裡都有一個龍字！'],
  ['恐龍','只吃植物的恐龍，叫做什麼？',['🌿','草食性恐龍'],[['🍖','肉食性恐龍'],['🍭','糖果恐龍']],'只吃植物的恐龍，叫做草食性恐龍。'],
  ['恐龍','現在的小鳥，跟哪一種動物是親戚？',['🦖','恐龍'],[['🐟','魚'],['🐛','毛毛蟲']],'科學家發現，小鳥是恐龍的後代喔！'],
- ['恐龍','恐龍蛋跟雞蛋比，大部分是怎麼樣？',['🥚','大很多'],[['🤏','小很多'],['🟰','一模一樣']],'很多恐龍蛋比雞蛋大很多。'],
- ['恐龍','一隻恐龍和三隻恐龍，哪一邊比較多？',['#3','三隻那一邊'],[['#1','一隻那一邊'],['🟰','一樣多']],'三比一多，三隻那一邊比較多。'],
+ ['恐龍','恐龍蛋跟雞蛋比，大部分是怎麼樣？',['🥚','大很多'],[['🤏','小很多'],['⚖️','一模一樣']],'很多恐龍蛋比雞蛋大很多。'],
+ ['恐龍','一隻恐龍和三隻恐龍，哪一邊比較多？',['#3','三隻那一邊'],[['#1','一隻那一邊'],['⚖️','一樣多']],'三比一多，三隻那一邊比較多。'],
  ['恐龍','暴龍的手長得怎麼樣？',['🤏','短短小小的'],[['💪','長長大大的'],['🪶','長滿羽毛的翅膀']],'暴龍的頭很大，可是手短短小小的。'],
  ['恐龍','哪一種動物，跟恐龍一樣是爬蟲類？',['🐊','鱷魚'],[['🐶','小狗'],['🐷','小豬']],'鱷魚和恐龍一樣，都是爬蟲類。'],
  ['恐龍','挖化石的時候，要用什麼慢慢刷？',['🖌️','小刷子'],[['i:digger','大怪手'],['🧹','大掃把']],'化石很脆弱，要用小刷子慢慢刷。'],
@@ -6076,7 +6128,7 @@ QUIZ.push(
  ['農場','不喜歡吃的菜，可以怎麼做？',['😋','先吃一小口試試看'],[['🗑️','偷偷丟掉'],['😭','大哭大鬧']],'不喜歡的菜，先吃一小口試試看，說不定會喜歡。'],
  ['農場','葡萄長在哪裡？',['🍇','葡萄藤上'],[['🥕','土裡'],['🐟','水裡']],'葡萄一串一串長在葡萄藤上。'],
  ['農場','鳳梨長在哪裡？',['🍍','矮矮的植物中間'],[['🌳','高高的樹上'],['🌊','海裡']],'鳳梨長在矮矮的植物中間，不是長在樹上喔！'],
- ['農場','豆漿是用什麼做的？',['🫘','黃豆'],[['🍓','草莓'],['🍫','巧克力']],'豆漿是用黃豆磨出來的。'],
+ ['農場','豆漿是用什麼做的？',['i:soybean','黃豆'],[['🍓','草莓'],['🍫','巧克力']],'豆漿是用黃豆磨出來的。'],
  ['農場','乳牛最喜歡吃什麼？',['🌿','草'],[['🍖','肉'],['🍬','糖果']],'乳牛吃草，牛媽媽生了寶寶以後，就會有牛奶。'],
  ['農場','小豬為什麼喜歡在泥巴裡滾？',['🐷','讓身體涼涼的'],[['🛁','在洗澡'],['🎨','在畫畫']],'小豬不太會流汗，在泥巴裡滾一滾，身體就涼涼的。'],
  ['農場','剛拔出來的菜上面有泥土，要怎麼辦？',['🚰','洗乾淨再煮'],[['😋','直接吃'],['🗑️','丟掉']],'菜上面有泥土，要洗乾淨再煮來吃。'],
@@ -6982,7 +7034,7 @@ const BOYMAP=[
  ['這封信還沒找到喔！','這片鱗片還沒找到喔！'],['王子的信','火花的紙條'],['—— 王子','—— 火花'],
  ['海底王國好美喔！穿上漂亮的衣服，出發吧！','海底王國好美喔！穿上帥氣的衣服，出發吧！'],
  ['找回王子留下的魔法信','找回火花留下的鱗片'],['舞會跳舞','典禮跳舞'],['選一件漂亮的裙子','選一套帥氣的衣服'],['皇冠還是蝴蝶結？','王冠還是騎士頭盔？'],
- ['和王子一起跳舞',`和${NPCP}一起跳舞`],['找到王子以後打開','救出火花以後打開'],['有裙子、頭飾','有衣服、頭飾'],['Anita 公主',`Anita ${NPCP}`],['王子的舞會','小騎士典禮'],['王子舞會',`${NPCP}舞會`],['和王子跳舞',`和${NPCP}跳舞`],['封王子的信','片火花的鱗片'],['找到王子','救出火花']
+ ['和王子一起跳舞',`和${NPCP}一起跳舞`],['找到王子以後打開','救出火花以後打開'],['有裙子、頭飾','有衣服、頭飾'],['王子的舞會','小騎士典禮'],['王子舞會',`${NPCP}舞會`],['和王子跳舞',`和${NPCP}跳舞`],['封王子的信','片火花的鱗片'],['找到王子','救出火花']
 ].sort((a,b)=>b[0].length-a[0].length);
 const BOYRULES=[[/STARLIGHT PRINCESS/g,'STARLIGHT PRINCE'],[/星光公主大冒險/g,'星光小王子大冒險'],[/星光公主/g,'星光小王子'],[/親愛的公主/g,'親愛的王子'],[/小公主/g,'小王子'],[/公主/g,'王子'],[/城堡舞會/g,'騎士典禮'],
  [/漂漂亮亮/g,'帥帥氣氣'],[/最漂亮的衣服/g,'最帥氣的衣服'],[/漂亮的衣服/g,'帥氣的衣服'],[/最美的衣服/g,'最帥的衣服'],[/了，好漂亮喔！/g,'了，好帥氣喔！'],[/了！好漂亮喔！/g,'了！好帥氣喔！'],
@@ -7353,7 +7405,7 @@ function rmEnhance(fromTab){const wrap=$('.rwrap');const sc=$('.rscene2');if(!wr
  const cu=document.createElement('div');cu.className='rmcurt';cu.innerHTML='<i></i><i></i>';sc.appendChild(cu);
  const zz=document.createElement('div');zz.className='rmzz';zz.innerHTML='<b>Z</b><b>z</b><b>z</b>';sc.appendChild(zz);
  // 球
- const ball=document.createElement('button');ball.className='rmball';ball.setAttribute('aria-label','球');ball.innerHTML='<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#FF6F91"/><path d="M3 20 H37" stroke="#fff" stroke-width="4"/><circle cx="20" cy="20" r="5" fill="#fff"/><circle cx="14" cy="13" r="4" fill="#fff" opacity=".5"/></svg>';sc.appendChild(ball);
+ const ball=document.createElement('button');ball.className='rmball';ball.setAttribute('aria-label','球');ball.innerHTML='<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#FF6F91"/><path d="M6 12 Q20 20 34 12 M5 26 Q20 34 35 26" stroke="#FFD0DE" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M20 11 L22.6 17 L29 17.4 L24 21.4 L25.7 27.6 L20 24.1 L14.3 27.6 L16 21.4 L11 17.4 L17.4 17Z" fill="#FFE07A"/><circle cx="13" cy="11" r="3" fill="#fff" opacity=".5"/></svg>';sc.appendChild(ball);
  // 火花（王子版，有火花時在天上飛）
  let fire=null;if(window.HERO==='prince'&&owns('dragon')&&S.look.pet!=='dragon'){fire=document.createElement('button');fire.className='rmfire';fire.setAttribute('aria-label','火花');fire.innerHTML=petSVG('dragon','');sc.appendChild(fire)}
  rmApply(sc);
@@ -7900,6 +7952,7 @@ if(IS_APP){try{
  const _ppApp=parentPanel;
  parentPanel=function(){const r=_ppApp.apply(this,arguments);try{const ov=$$('.overlay').pop();if(!ov)return r;
   ['#vore','#psetup','#pupd'].forEach(id=>{const b=$(id,ov);if(b)b.style.display='none'});
+  $$('.lab',ov).forEach(l=>{if(/^目前版本 v/.test(l.textContent))l.textContent='目前版本 '+APP_STORE_VER});
   const vs=$('#vostat',ov);const blk=vs&&vs.closest('.card > div');if(blk)blk.style.display='none';
   const vsel=$('#vsel',ov);const vb=vsel&&vsel.closest('.card > div');if(vb)vb.style.display='none'}catch(e){}return r};
  // 5) 連到 App 外面（寄信等）：先請爸爸媽媽確認
@@ -7923,7 +7976,7 @@ const _wsApp=wState;wState=function(i){if(!appOpen(i))return 'soon';return _wsAp
  // 10) 關於：App 版用 App 的名字；不放小朋友的名字；不顯示網頁版的更新紀錄
  const _abApp=aboutPanel;aboutPanel=function(){const r=_abApp.apply(this,arguments);try{const ov=$$('.overlay').pop();if(ov){const vb=$('.arow b',ov);if(vb&&/^v\d/.test(vb.textContent))vb.textContent=APP_STORE_VER;const h=$('h2',ov);if(h)h.textContent='星光小冒險';const d=$('.dedic',ov);if(d)d.innerHTML='這個遊戲是爸爸做給女兒的，<br>願每一位小朋友都快樂成長。';const v=$('.vlog',ov);if(v&&v.parentElement)v.parentElement.style.display='none';$$('.arow',ov).forEach(r=>{const l=$('.lab',r);if(l&&l.textContent==='作者'){const b=$('b',r);if(b)b.textContent='星光工作室 Starlight Studio'}});$$('p.small',ov).forEach(p=>{if(/©/.test(p.textContent))p.textContent='© 2026 星光工作室 Starlight Studio・台灣製造 Made in the Republic of China (Taiwan)'})}}catch(e){}return r};
  // 9) 家長設定：App 裡要先答對算術題
- const _tApp=SCREENS.title;SCREENS.title=function(){try{if(!appOpen(S.ch))setCh(lastOpen())}catch(e){}const r=_tApp.apply(this,arguments);try{const b=$('#parent');if(b)b.onclick=()=>parentGate(parentPanel);const lg=$('.title .logo');if(lg&&!$('.appname',lg))lg.insertAdjacentHTML('afterbegin','<span class="appname">星光小冒險</span>')}catch(e){}return r};
+ const _tApp=SCREENS.title;SCREENS.title=function(){try{if(!appOpen(S.ch))setCh(lastOpen())}catch(e){}const r=_tApp.apply(this,arguments);try{const ab=$('#about');if(ab&&/^關於・v/.test(ab.textContent))ab.textContent='關於・'+APP_STORE_VER;const b=$('#parent');if(b)b.onclick=()=>parentGate(parentPanel);const lg=$('.title .logo');if(lg&&!$('.appname',lg))lg.insertAdjacentHTML('afterbegin','<span class="appname">星光小冒險</span>')}catch(e){}return r};
  // （首頁標題上方加 App 名稱：App Store 上叫「星光小冒險」，大標題是主角的故事名）
  const st=document.createElement('style');st.textContent=`.isapp #app{padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:calc(16px + env(safe-area-inset-left,0px));padding-right:calc(16px + env(safe-area-inset-right,0px))}.isapp #toast{top:calc(70px + env(safe-area-inset-top,0px))}.isapp .vochip,.isapp .updbar{display:none!important}.isapp .title .logo{align-items:center;text-align:center}.isapp .logo .appname{font-size:clamp(15px,2.2vw,20px);color:#FFF6DA;background:rgba(255,255,255,.12);border:1.5px solid var(--goldline);border-radius:999px;padding:2px 16px 3px;letter-spacing:.25em;margin-bottom:2px}.moresoon{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px;text-align:center;opacity:.85}.moresoon b{color:var(--gold);font-weight:400;font-size:20px}.moresoon span{font-size:15px;color:var(--text2)}`;document.head.appendChild(st);
 }catch(e){console.log('app',e)}}
@@ -8335,15 +8388,15 @@ if(IAP_ON){try{
  setTimeout(sync,1500);
  // 沒買的章節：顯示「解鎖」
  let products=null,bought=0;
- const loadProducts=async()=>{if(products&&Object.keys(products).length>=STAGES.length+1)return products;try{const r=await NP.getProducts({productIdentifiers:[...STAGES.map(s=>IAPP+s[0]),IAPP+'full']});products={};(r.products||[]).forEach(p=>{products[String(p.identifier||p.productIdentifier).replace(IAPP,'')]=p})}catch(e){products={}}return products};
- async function shop(){const P=await loadProducts();const price=id=>P[id]&&(P[id].priceString||P[id].localizedPrice)||'';
+ const loadProducts=async()=>{if(products&&Object.keys(products).length>=STAGES.length+1)return products;try{const r=await Promise.race([NP.getProducts({productIdentifiers:[...STAGES.map(s=>IAPP+s[0]),IAPP+'full']}),new Promise((_,no)=>setTimeout(()=>no(new Error('timeout')),12000))]);products={};(r.products||[]).forEach(p=>{products[String(p.identifier||p.productIdentifier).replace(IAPP,'')]=p})}catch(e){products={}}return products};
+ async function shop(){const need=!products||Object.keys(products).length<STAGES.length+1;let gone=false;const ld=need?overlay(screen,'<div class="card"><h2>解鎖新的冒險</h2><p>正在連接 App Store…</p><button class="btn2" id="iapldx">取消</button></div>'):null;if(ld)$('#iapldx',ld).onclick=()=>{gone=true;ld.remove()};const P=await loadProducts();if(gone)return;if(ld)ld.remove();const price=id=>P[id]&&(P[id].priceString||P[id].localizedPrice)||'';
   const btn=id=>price(id)?`<button class="btn small" data-buy="${id}">${price(id)}</button>`:'<i class="na">暫時無法購買，請確認網路後再打開一次</i>';
   const rows=STAGES.map(([id,n],k)=>`<div class="iaprow"><span><b>${n}</b></span>${stageOpen(id)?'<i>已解鎖 ✓</i>':k&&!stageOpen(STAGES[k-1][0])?'<i class="na">先解鎖上一段</i>':btn(id)}</div>`).join('');const anyStage=STAGES.some(([id])=>iapOwned().includes(id));
   const ov=overlay(screen,`<div class="card left iapcard"><h2>解鎖新的冒險</h2><p class="small">一次購買，永久使用；家人共享的家人也可以玩。</p>${rows}
    ${iapOwned().includes('full')||anyStage?'':`<div class="iaprow full"><span><b>第六～二十章合購</b><br><small>三段一次買，比分開買划算</small></span>${btn('full')}</div>`}
    <div class="row"><button class="btn2 small" id="iaprs">恢復購買</button><button class="btn2 small" id="iapcode">輸入兌換碼</button></div><button class="btn" id="iapx">好了</button></div>`);
   $('#iapx',ov).onclick=()=>{ov.remove();go(bought?'world':'title')};
-  $$('[data-buy]',ov).forEach(b=>b.onclick=async()=>{b.disabled=true;try{const t=await NP.purchaseProduct({productIdentifier:IAPP+b.dataset.buy,quantity:1});if(t){bought=1;iapSave(iapOwned().concat([b.dataset.buy]));toast('解鎖了！');confetti();ov.remove();shop();setTimeout(()=>sync(false),3000)}else{b.disabled=false;await sync(false);if(stageOpen(b.dataset.buy)){bought=1;ov.remove();shop()}}}catch(e){toast(/pending|deferred|ask/i.test(String(e&&e.message||e))?'已經送出，等家長同意後就會打開':'沒有完成購買');b.disabled=false}});
+  $$('[data-buy]',ov).forEach(b=>b.onclick=async()=>{if(ov.dataset.busy)return;const bt=b.textContent;const all=$$('button',ov);const reset=()=>{delete ov.dataset.busy;all.forEach(x=>x.disabled=false);b.textContent=bt;b.classList.remove('busy')};ov.dataset.busy=1;all.forEach(x=>x.disabled=true);b.textContent='處理中…';b.classList.add('busy');try{const t=await NP.purchaseProduct({productIdentifier:IAPP+b.dataset.buy,quantity:1});if(t){bought=1;iapSave(iapOwned().concat([b.dataset.buy]));toast('解鎖了！');confetti();ov.remove();shop();setTimeout(()=>sync(false),3000)}else{reset();await sync(false);if(stageOpen(b.dataset.buy)){bought=1;ov.remove();shop()}}}catch(e){toast(/pending|deferred|ask/i.test(String(e&&e.message||e))?'已經送出，等家長同意後就會打開':'沒有完成購買');reset()}});
   $('#iaprs',ov).onclick=async()=>{toast('恢復購買中…');try{await NP.restorePurchases()}catch(e){}const okSync=await sync();if(!okSync){toast('連不上 App Store，請稍後再試');return}if(iapOwned().length){bought=1;toast('恢復完成')}else toast('這個 Apple ID 沒有找到購買紀錄');ov.remove();shop()};
   $('#iapcode',ov).onclick=async()=>{try{await NP.presentOfferCodeRedeemSheet();for(const ms of [2500,8000]){setTimeout(async()=>{await sync(false);if(ov.isConnected){ov.remove();shop()}},ms)}}catch(e){toast('這台裝置不能輸入兌換碼')}}}
  // 小朋友點沒解鎖的章節：只說一句，不跳出商店（購買只在家長設定裡）
@@ -8352,7 +8405,7 @@ if(IAP_ON){try{
  const _sayIap=say;say=function(parts,opt){try{if(Array.isArray(parts)&&parts.some(p=>typeof p==='string'&&/新的冒險即將推出|，還在準備中，敬請期待！$/.test(p))){return _sayIap.call(this,['爸爸媽媽可以幫你打開新的冒險喔！'],opt)}}catch(e){}return _sayIap.call(this,parts,opt)};
  // 家長設定：恢復購買、兌換碼
  const _ppIap=parentPanel;parentPanel=function(){const r=_ppIap.apply(this,arguments);try{const ov=$$('.overlay').pop();const card=ov&&$('.card',ov);if(card){const d=document.createElement('div');d.innerHTML=`<span class="lab">購買</span><div class="vrow"><button class="btn2 small" id="ppshop">解鎖章節</button></div>`;const h2=$('h2',card);h2&&h2.nextSibling?card.insertBefore(d,h2.nextSibling):card.insertBefore(d,$('#pdone',card));$('#ppshop',d).onclick=()=>{ov.remove();shop()}}}catch(e){}return r};
- const st=document.createElement('style');st.textContent=`.iapcard{max-width:520px}.iaprow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.12)}.iaprow i{font-style:normal;color:#9FF0C6}.iaprow.full small{opacity:.7}.iaprow .na{font-style:normal;opacity:.6;font-size:14px}.iaprow .btn{color:#3A2410!important;font-weight:800;letter-spacing:.5px;min-width:110px;min-height:44px}`;document.head.appendChild(st);
+ const st=document.createElement('style');st.textContent=`.iapcard{max-width:520px}.iaprow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.12)}.iaprow i{font-style:normal;color:#9FF0C6}.iaprow.full small{opacity:.7}.iaprow .na{font-style:normal;opacity:.6;font-size:14px}.iaprow .btn{color:#3A2410!important;font-weight:800;letter-spacing:.5px;min-width:110px;min-height:44px}.iaprow .btn.busy{opacity:.6}.iapcard .btn2.small,#ppshop{min-height:44px}#pgok,#pgno,#iapx,#iapldx{min-height:44px}@media (max-height:500px){.iapcard .iaprow{padding:4px 0}.iapcard h2{margin:2px 0 4px}}`;document.head.appendChild(st);
 }catch(e){console.log('iap',e)}}
 
 
@@ -8433,6 +8486,9 @@ const A={
  fridge:`${sh(60,16)}<rect x="15" y="4" width="34" height="54" rx="5" fill="#E8F4FF" stroke="#9FC8EE" stroke-width="2"/><path d="M15 24 H49" stroke="#9FC8EE" stroke-width="2"/><rect x="41" y="10" width="3.4" height="9" rx="1.7" fill="#7FA8D0"/><rect x="41" y="29" width="3.4" height="14" rx="1.7" fill="#7FA8D0"/><path d="M22 12 L25 15 L22 18 M27 12 L30 15 L27 18" stroke="#6FC9FF" stroke-width="1.8" fill="none" stroke-linecap="round"/>${hl(21,36,2.4,9,0)}`,
  gull:`<path d="M4 52 Q16 48 28 52 Q40 56 60 50" stroke="#9FD8FF" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M8 26 Q20 16 30 28 Q40 16 56 24 Q42 22 32 36 Q24 24 8 26Z" fill="#F4F7FA" stroke="#B8C4D0" stroke-width="1.4"/><path d="M8 26 Q12 22 16 23" stroke="#3A3A5C" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M52 24 Q56 23 58 25" stroke="#3A3A5C" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="32" cy="33" rx="5" ry="4" fill="#F4F7FA" stroke="#B8C4D0" stroke-width="1.2"/><path d="M36 33 L41 34 L36 35.4Z" fill="#FFB020"/>`,
  sleepbag:`<rect x="4" y="4" width="56" height="56" rx="8" fill="#DCD6F7" opacity=".6"/><rect x="19" y="8" width="26" height="50" rx="13" fill="#8C6BDA"/><circle cx="32" cy="20" r="8" fill="#FFD9B8"/><path d="M27.5 20 Q29 22 30.5 20 M33.5 20 Q35 22 36.5 20" stroke="#3A2A5C" stroke-width="1.6" fill="none" stroke-linecap="round"/><rect x="12" y="32" width="40" height="5" rx="2" fill="#4A4A5C"/><rect x="12" y="46" width="40" height="5" rx="2" fill="#4A4A5C"/><text x="48" y="16" font-size="9" font-family="sans-serif" fill="#6A5ACD">z</text><text x="53" y="10" font-size="7" font-family="sans-serif" fill="#6A5ACD">z</text>`,
+ pond:`<ellipse cx="32" cy="42" rx="28" ry="13" fill="#7BC8F0"/><ellipse cx="32" cy="40" rx="24" ry="9" fill="#9EDCFA"/><path d="M14 40 Q20 37 26 40" stroke="#fff" stroke-width="1.8" fill="none" opacity=".8" stroke-linecap="round"/><path d="M36 46 Q42 43 48 46" stroke="#fff" stroke-width="1.8" fill="none" opacity=".8" stroke-linecap="round"/><path d="M40 37 A8 4.5 0 1 1 41 38 L46 36Z" fill="#5DBB63"/><path d="M8 36 Q7 20 10 14 M12 36 Q13 24 16 18 M54 38 Q56 24 53 16" stroke="#4FA35A" stroke-width="2.6" fill="none" stroke-linecap="round"/><ellipse cx="10" cy="14" rx="2.4" ry="5" fill="#8B5A2B"/><ellipse cx="53" cy="16" rx="2.4" ry="5" fill="#8B5A2B"/><circle cx="20" cy="45" r="3.4" fill="#FF9FC4"/><circle cx="20" cy="45" r="1.4" fill="#FFE07A"/>`,
+ soybean:`${sh(56,24)}<path d="M8 50 Q32 60 56 50 L52 42 Q32 48 12 42Z" fill="#C98A4B"/><ellipse cx="32" cy="43" rx="21" ry="6" fill="#A86E36"/>${[[20,38],[30,36],[40,37],[25,30],[36,29],[46,40],[17,42],[31,23]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="5.4" ry="4.4" fill="#F2D27A" stroke="#D9B356" stroke-width="1"/><circle cx="${x-1.6}" cy="${y-1.4}" r="1.2" fill="#fff" opacity=".7"/>`).join('')}`,
+ balloonblue:`<path d="M32 46 Q30 52 34 56 Q37 60 33 63" stroke="#8A8AA8" stroke-width="1.6" fill="none"/><ellipse cx="32" cy="24" rx="16" ry="20" fill="#4FA3FF"/><path d="M29 43 L35 43 L32 47Z" fill="#2F7FE0"/><ellipse cx="25" cy="16" rx="4" ry="6.5" fill="#fff" opacity=".55" transform="rotate(-20 25 16)"/>`,
 };
 // 自己畫的圖稍微放大一點（跟 emoji 差不多大）
 const boot=c=>A.rainboot.replace(/#FFC93C/g,c[0]).replace(/#F2A61E/g,c[1]);A.bootred=boot(['#FF5F6A','#D9404D']);A.bootblue=boot(['#4FA3FF','#2F7FE0']);A.bootyellow=A.rainboot;
