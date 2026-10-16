@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光公主">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-d5f53d24.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-d5f53d24.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-46ce7253.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-46ce7253.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -8418,6 +8418,8 @@ if(IAP_ON){try{
  const _ppIap=parentPanel;parentPanel=function(){const r=_ppIap.apply(this,arguments);try{const ov=$$('.overlay').pop();const card=ov&&$('.card',ov);if(card){const d=document.createElement('div');const all=STAGES.every(([id])=>stageOpen(id));d.className='iappp';d.innerHTML=all?`<span class="lab">購買</span><div class="vrow"><button class="btn2 small" id="ppshop">已解鎖・恢復購買／兌換碼</button></div>`:`<span class="lab">購買</span><button class="btn" id="ppshop"><span class="ic">${ICON.lock('#3A2A6A')}</span>解鎖第六～二十章</button><small class="iapppn">第一～五章免費；之後的章節一次購買、永久使用，可恢復購買</small>`;const h2=$('h2',card);h2&&h2.nextSibling?card.insertBefore(d,h2.nextSibling):card.insertBefore(d,$('#pdone',card));$('#ppshop',d).onclick=()=>{ov.remove();shop()}}}catch(e){}return r};
  const st=document.createElement('style');st.textContent=`.title .iaprow1{margin-top:2px}.iapcard{max-width:520px}.iaprow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.12)}.iaprow i{font-style:normal;color:#9FF0C6}.iaprow.full small{opacity:.7}.iaprow .na{font-style:normal;opacity:.6;font-size:14px}.iaprow .btn{color:#3A2410!important;font-weight:800;letter-spacing:.5px;min-width:110px;min-height:44px}.iaprow .btn.busy{opacity:.6}.iapcard .btn2.small,#ppshop{min-height:44px}#pgok,#pgno,#iapx,#iapldx{min-height:44px}.wnode.paidlock .wlk{background:#6A3FA0;border:2px solid #FFD24D;width:calc(var(--wb)*.42);height:calc(var(--wb)*.42);padding:1px;filter:none}.wnode.paidlock .wsub{color:#FFD24D}.iapmap{display:flex;justify-content:center;margin:4px 0 10px}.iapmap .btn2{min-height:44px;border-color:#FFD98A;color:#FFE7B0;font-weight:700}.iapmap .ic{display:inline-flex;width:18px;height:18px;margin-right:6px;vertical-align:-3px}.iappp{padding:10px 12px;margin:6px 0 10px;border-radius:14px;background:rgba(255,217,138,.14);border:1px solid rgba(255,217,138,.6)}.iappp .btn{display:block;width:100%;min-height:48px;margin:6px 0 4px;white-space:nowrap;font-size:clamp(15px,4.6vw,20px);padding-left:8px;padding-right:8px}.iappp .ic{display:inline-flex;width:18px;height:18px;margin-right:6px;vertical-align:-3px}.iapppn{display:block;opacity:.8;font-size:13px;line-height:1.5}.pbtn.iaptitle{border-color:#FFD98A;color:#FFE7B0}@media (max-height:500px){.iapcard .iaprow{padding:4px 0}.iapcard h2{margin:2px 0 4px}}`;document.head.appendChild(st);
 }catch(e){console.log('iap',e)}}
+// v3.8.3 首頁：寶石袋移到「遊樂園」旁邊，少一行，公主可以大一點
+{const _tGem=SCREENS.title;SCREENS.title=function(){const r=_tGem.apply(this,arguments);try{const pk=$('#parkbtn'),gp=pk&&[...document.querySelectorAll('.title .pill')].find(x=>x.textContent.includes('寶石袋'));if(pk&&gp&&!gp.classList.contains('gemmoved')){gp.classList.add('gemmoved');pk.insertAdjacentElement('afterend',gp)}}catch(e){}return r}}
 
 
 /* ================= v3.6.5 ================= */
