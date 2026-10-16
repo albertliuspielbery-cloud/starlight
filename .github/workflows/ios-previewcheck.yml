@@ -1,7 +1,11 @@
-# 星光小冒險：查看 App Store Connect 上宣傳影片的處理狀態（只讀取，不會改任何東西）
+# 星光小冒險：查看 App Store Connect 上宣傳影片的處理狀態；有填封面時間碼才會改封面
 name: 查看宣傳影片
 on:
   workflow_dispatch:
+    inputs:
+      tc:
+        description: '封面時間碼（空白＝只查看）例如 00:00:01:00'
+        default: ''
 permissions:
   contents: read
 jobs:
@@ -17,4 +21,4 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           python3 -m pip install -q pyjwt cryptography
-          python3 app/ci_previewcheck.py 1.2
+          python3 app/ci_previewcheck.py 1.2 "${{ inputs.tc }}"
