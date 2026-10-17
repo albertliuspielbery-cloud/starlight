@@ -9,7 +9,9 @@ BUNDLE = 'tw.starlight.adventure'
 PRODUCT = BUNDLE + '.full'
 OFFER = 'Friends free bundle'
 CODE = (sys.argv[1] if len(sys.argv) > 1 else 'STARLIGHT2026').strip().upper()
-COUNT = int(sys.argv[2]) if len(sys.argv) > 2 else 20
+COUNT = int(sys.argv[2]) if len(sys.argv) > 2 else 500
+OK_N = [500, 1000, 1500, 2000, 2500, 5000, 7500, 10000, 15000, 20000, 25000]  # Apple 只接受這些次數
+COUNT = next((n for n in OK_N if n >= COUNT), OK_N[-1])
 API = 'https://api.appstoreconnect.apple.com'
 OUT = os.environ.get('GITHUB_STEP_SUMMARY')
 import traceback

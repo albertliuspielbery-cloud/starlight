@@ -8,8 +8,8 @@ on:
         description: '兌換碼（英文大寫＋數字）'
         default: 'STARLIGHT2026'
       count:
-        description: '可以兌換幾次'
-        default: '20'
+        description: '可以兌換幾次（Apple 最少 500）'
+        default: '500'
 permissions:
   contents: read
 jobs:
