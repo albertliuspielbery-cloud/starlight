@@ -10,6 +10,9 @@ on:
       count:
         description: '可以兌換幾次（Apple 最少 500）'
         default: '500'
+      price:
+        description: '價格（台幣，0 = 免費）'
+        default: '0'
 permissions:
   contents: read
 jobs:
@@ -25,4 +28,4 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           python3 -m pip install -q pyjwt cryptography
-          python3 app/ci_offer.py "${{ inputs.code }}" "${{ inputs.count }}"
+          python3 app/ci_offer.py "${{ inputs.code }}" "${{ inputs.count }}" "${{ inputs.price }}"

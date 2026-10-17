@@ -7,11 +7,12 @@ import jwt
 
 BUNDLE = 'tw.starlight.adventure'
 PRODUCT = BUNDLE + '.full'
-OFFER = 'Friends free bundle'
 CODE = (sys.argv[1] if len(sys.argv) > 1 else 'STARLIGHT2026').strip().upper()
 COUNT = int(sys.argv[2]) if len(sys.argv) > 2 else 500
 OK_N = [500, 1000, 1500, 2000, 2500, 5000, 7500, 10000, 15000, 20000, 25000]  # Apple 只接受這些次數
 COUNT = next((n for n in OK_N if n >= COUNT), OK_N[-1])
+PRICE = float(sys.argv[3]) if len(sys.argv) > 3 and sys.argv[3].strip() else 0
+OFFER = 'Friends free bundle' if PRICE == 0 else 'Discount NT%g' % PRICE
 API = 'https://api.appstoreconnect.apple.com'
 OUT = os.environ.get('GITHUB_STEP_SUMMARY')
 import traceback
@@ -82,10 +83,14 @@ else:
     inc, refs, miss = [], [], []
     # 先找台灣的免費價格點，再用「同等價格」一次拿到其他地區的（比一個一個地區查快很多）
     tw = all_pages(f'/v2/inAppPurchases/{iap["id"]}/pricePoints?filter[territory]=TWN&limit=200')
-    free_tw = [p for p in tw if float(p['attributes'].get('customerPrice') or 0) == 0]
-    print('台灣最低價：', sorted(float(p['attributes'].get('customerPrice') or 0) for p in tw)[:3])
+    tw.sort(key=lambda p: abs(float(p['attributes'].get('customerPrice') or 0) - PRICE))
+    free_tw = tw[:1]
     if not free_tw:
-        print('::error::台灣沒有免費價格點'); raise SystemExit(1)
+        print('::error::台灣沒有價格點'); raise SystemExit(1)
+    GOT = float(free_tw[0]['attributes'].get('customerPrice') or 0)
+    print('台灣價格：NT$%g（想要 NT$%g）' % (GOT, PRICE))
+    if abs(GOT - PRICE) > 15:
+        print('::error::找不到接近 NT$%g 的價格，最接近 NT$%g' % (PRICE, GOT)); raise SystemExit(1)
     pp = {'TWN': free_tw[0]['id']}
     for q in all_pages(f'/v1/inAppPurchasePricePoints/{free_tw[0]["id"]}/equalizations?include=territory&limit=200'):
         t = ((q.get('relationships') or {}).get('territory') or {}).get('data', {}).get('id')
@@ -119,6 +124,7 @@ else:
         'attributes': {'customCode': CODE, 'numberOfCodes': COUNT},
         'relationships': {'offerCode': {'data': {'type': 'inAppPurchaseOfferCodes', 'id': offer['id']}}}}})
 say(f'## 兌換碼：{CODE}')
+say('- 價格：免費' if PRICE == 0 else '- 價格：NT$%g（原價合購 NT$290）' % PRICE)
 say(f'- 可以兌換 {COUNT} 次，不會過期；建好後最多要等 1 小時才能用')
 say(f'- 兌換網址：https://apps.apple.com/redeem?ctx=offercodes&id={app["id"]}&code={CODE}')
-say('- 兌換完回遊戲按「恢復購買」，第 6～20 章就會打開')
+say('- 兌換完回遊戲按「恢復購買」，第 6～20 章就會打開' if PRICE == 0 else '- 兌換時用折扣價付款，付完第 6～20 章就會打開')
