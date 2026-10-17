@@ -49,7 +49,7 @@ def call(method, path, body=None):
                 continue
             break
     if True:
-        print(f'::error::App Store Connect API {method} {url.split("?")[0].replace(API, "")} {code}: {msg[:1500]}')
+        print(f'::error::App Store Connect API {method} {url.split("?")[0].replace(API, "")} {code}: ' + msg[:1500].replace('\n', ' ').replace('\r', ''))
         raise SystemExit(1)
 
 
@@ -111,6 +111,7 @@ else:
 codes = all_pages(f'/v1/inAppPurchaseOfferCodes/{offer["id"]}/customCodes?limit=200')
 if any(c['attributes'].get('customCode', '').upper() == CODE for c in codes):
     print('代碼已經有了')
+    print('現有代碼：', [(c['attributes'].get('customCode'), c['attributes'].get('numberOfCodes'), c['attributes'].get('active')) for c in codes])
 else:
     call('POST', '/v1/inAppPurchaseOfferCodeCustomCodes', {'data': {'type': 'inAppPurchaseOfferCodeCustomCodes',
         'attributes': {'customCode': CODE, 'numberOfCodes': COUNT},
