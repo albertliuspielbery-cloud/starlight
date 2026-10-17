@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光小冒險">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-77872734.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-77872734.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-2cad0094.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-2cad0094.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -1537,6 +1537,12 @@ function princess(look,a='',vb='0 0 120 172'){
   moon:`<path d="M38 36 Q60 24 82 36" stroke="${gold}" stroke-width="3.4" fill="none" stroke-linecap="round"/><g ${glow}><path d="M66 8 A13 13 0 1 0 66 32 A10 10 0 1 1 66 8Z" fill="${gold}"/></g><circle cx="61" cy="21" r="3.4" fill="#9FF3FF" ${glow}/><circle class="tw" cx="44" cy="22" r="1.6" fill="#FFF6D0"/><circle class="tw" style="animation-delay:.8s" cx="78" cy="20" r="1.4" fill="#FFF6D0"/>`
  };
  const PR={
+  basketprop:`<g transform="translate(2 0)"><path d="M80 94 Q92 74 104 94" fill="none" stroke="#C98A4A" stroke-width="2.6" stroke-linecap="round"/>
+ <rect x="86" y="84" width="7" height="12" rx="1.5" fill="#FFFFFF" stroke="#9FC8F0" stroke-width="1"/><rect x="86" y="84" width="7" height="3.5" rx="1" fill="#6FB8FF"/>
+ <circle cx="97" cy="91" r="5" fill="#FF5A5A"/><path d="M97 86 q1 -3 3 -3" stroke="#5A8A3A" stroke-width="1.2" fill="none"/>
+ <path d="M82 92 l4 -6" stroke="#FF8A3A" stroke-width="3" stroke-linecap="round"/><path d="M86 86 l2 -3 M86 86 l-1 -3" stroke="#4FB86A" stroke-width="1.2" stroke-linecap="round"/>
+ <path d="M77 94 H107 L103 112 Q102 115 99 115 H85 Q82 115 81 112Z" fill="#F2B56A" stroke="#C98A4A" stroke-width="1.4"/>
+ <path d="M79 100 H105 M80 106 H104 M86 94 V114 M92 94 V115 M98 94 V114" stroke="#C98A4A" stroke-width="1" opacity=".8"/></g>`,
   examcup:`<g transform="translate(90 106)"><path d="M-9 -12 H9 Q9 2 0 4 Q-9 2 -9 -12Z" fill="${gold}" stroke="#E0962A"/><rect x="-2" y="4" width="4" height="6" fill="#E0962A"/><rect x="-7" y="10" width="14" height="4" rx="1.5" fill="#8A5A3A"/><path d="${starD(0,-5,4)}" fill="#FFFFFF"/></g>`,
   globeprop:`<rect x="86" y="112" width="14" height="4" rx="2" fill="#C98A4A"/><path d="M93 112 V104" stroke="#C98A4A" stroke-width="2"/><path d="M82 92 A12 12 0 0 0 104 98" stroke="#E0A040" stroke-width="1.6" fill="none"/><circle cx="93" cy="93" r="10" fill="#5AB0F0"/><path d="M87 88 Q90 85 93 88 Q94 92 90 93 Q87 92 87 88Z M95 94 Q99 92 100 96 Q98 100 95 99Z M89 97 Q91 96 92 99 Q90 101 89 99Z" fill="#7FD38A"/><path d="M86 89 Q90 86 94 87" stroke="#fff" stroke-width="1.4" fill="none" opacity=".6"/>`,
   flowerwand:`<line x1="84" y1="115" x2="96" y2="86" stroke="#6FD39A" stroke-width="2.6" stroke-linecap="round"/><path d="M90 102 Q84 98 86 94 Q90 96 90 102Z" fill="#6FD39A"/>${[0,72,144,216,288].map(a=>`<ellipse cx="97" cy="76" rx="4.6" ry="6.4" fill="#FF8FB8" transform="rotate(${a} 97 83)"/>`).join('')}<circle cx="97" cy="83" r="5" fill="#FFE27A"/><circle cx="95.4" cy="82.4" r=".8" fill="#5A3A2A"/><circle cx="98.6" cy="82.4" r=".8" fill="#5A3A2A"/><path d="M95.4 84.6 Q97 86 98.6 84.6" stroke="#5A3A2A" stroke-width=".8" fill="none"/>`,
@@ -2348,8 +2354,8 @@ chend(){
 }
 };
 
-const APP_VERSION='3.8.3';
-const VLOG=[['3.8.3','2026/10/16','王子的脖子接好了，不會看起來頭浮在半空；首頁按鈕太多時改成縮小公主圖、按鈕不變小；App 版兌換碼視窗關掉時不再跳錯誤訊息'],['3.8.2','2026/10/16','App 版：家長比較容易找到解鎖新章節的地方；全部語音重新錄製，句尾的「喔」照原文念'],['3.8.1','2026/10/16','換掉幾張不清楚的圖（找不同、池塘、黃豆、藍色氣球、洗澡），房間的球換新花紋，關於頁加上字型授權'],['3.8.0','2026/10/15','跟著唸：錄完會聽聽看有沒有真的唸，太短或太小聲會鼓勵再唸一次'],['3.7.0','2026/10/15','修正幾個小地方'],['3.6.7','2026/10/15','修正題目圖片：粽子、湯圓、蝌蚪、游泳圈、雨鞋、春聯等改成正確的圖'],['3.6.6','2026/10/8','跟著唸：錄完先聽自己的聲音，可以再聽一次、再錄一次，再按「下一題」；App 版畫冊可以存到相簿；切到別的 App 再回來，畫面不會變小。'],['3.6.5','2026/10/8','過關時等語音念完才出獎勵；App 版只顯示第一～五章拿得到的東西，畫冊存到相簿要先問爸爸媽媽。'],['3.6.4','2026/10/8','App 版：修正語音變成機器聲、念到一半被切掉（App 裡讀不到語音檔）。'],['3.6.3','2026/10/8','App 版：手機切到靜音模式時，語音也聽得到。'],['3.6.2','2026/10/7','App 版首頁標題上方加上 App 名稱「星光小冒險」。'],['3.6.1','2026/10/7','修正「接星星」等地方的星星看不到（3.6 的問題）。分類題連點兩下不會被算錯。「今天玩夠了」和「休息時間」長按後要再答一題算術題才能跳過。注音氣球題的說明改成「找出對的注音」。iPad 直放時房間和寵物小屋變大。'],['3.6','2026/10/6','第二十章完成後有「星光王國大慶典」大結局：朋友們一起來道謝，國王頒發「星光小勇士」獎狀（大地圖右上角可以再看）。手機和小螢幕排版修正：章節完成畫面不再切到寵物，手機橫放時題目自動縮小、答案按鈕不會被擋住。補錄幾句缺少的語音。'],['3.5','2026/10/6','寵物小屋新增「玩具」和「才藝」：完成章節得到飛盤、毛線球、泡泡機、溜滑梯、鞦韆等 10 種玩具，每種都有動畫；好感度越高，寵物學會坐下、握手、轉圈、跳舞、翻滾；餵食時會練習數數、選健康的食物；公主房間新增許願清單（寶石不夠時記下想要的東西，看還差幾顆）；獨角獸、小狐狸、月亮兔、小天鵝、小企鵝、小海豚、青鳥重新畫得更細緻'],['3.4.1','2026/10/5','iPhone／iPad 開靜音模式時，遊戲也有聲音；準備 App 版'],['3.4','2026/10/5','公主房間跟著真實時間變化：窗外有早上、中午、傍晚、晚上的天空，牆上有會走的時鐘，點一下會報時；早上和睡前可以刷牙，吃飯時間可以餵寵物，晚上寵物會睡覺、窗外有流星；塗色本新增小狗、倉鼠、小鳥、烏龜、小雞、小豬、小羊、青蛙（照章節打開），還有小朋友設計的「風箏人」，也可以幫自己的寵物塗色；房間的新東西（木馬、小火車、星星燈、貓咪時鐘、雲朵床等）變成章節獎品；新玩家的遊樂園會照章節慢慢打開；修正網頁存一半會一直卡在載入畫面'],['3.3.2','2026/10/5','修正：網路慢的時候按「現在更新」會一直跳出更新、更新不上去'],['3.3.1','2026/10/5','修正：休息提醒會把昨天玩的時間算進來，一打開就要休息（現在關掉遊戲超過休息時間或換一天就重新計時）；小朋友點到喇叭關掉聲音時會提示怎麼打開，下次打開遊戲會自動恢復；iPad 聲音卡住時，點一下螢幕就會恢復'],['3.3','2026/10/5','第一次打開不用等那麼久：先下載前 3 章的語音就能玩，其他章節在背景慢慢下載；打開遊戲更快（先用存好的版本，新版在背景下載）；家長設定新增「這週的學習」：每天玩多久、答了幾題、一次就答對的比例、答對和常答錯的注音字母、小考結果'],['3.2.2','2026/10/4','關於頁的聯絡信箱改成客服信箱 starlight.kids.app@gmail.com'],['3.2.1','2026/10/4','修正：有些 iPhone／iPad 的 Safari 畫冊存不進去、跟著唸的錄音存不起來'],['3.2','2026/10/4','公主房間會動也可以玩了：點床睡覺、點檯燈關燈、拉窗簾、玩玩具、和寵物丟球，每天寵物還會藏一顆寶石；房間畫面變大（手機直拿可以左右滑）；小貓咪、小狗狗、泰迪熊等 9 隻寵物有完整的身體了'],['3.1.2','2026/10/4','小王子完成第十六、十九章，也會拿到恐龍玩偶和紅燈籠（之前完成的會補發）'],['3.1.1','2026/10/4','塗色本加上「新畫布」（要確認兩次，畫過的會先收進畫冊）；手機上顏色按鈕變大；網路慢時語音包也能慢慢下載完'],['3.1','2026/10/4','新增小王子版：第一次打開可以選小公主或小王子，王子要去找小飛龍火花，有男生的衣服和 700 個王子名字的語音；家長可以出考卷，考完拿獎章和學士帽，還可以和爸媽訂約定；一台裝置可以有好幾個小朋友；名字可以到 10 個字'],['3.0','2026/10/4','第二季開始！新的五章：時光恐龍谷、交通小城市、開心農場、節日和家人、星光運動會；新題目 160 題、新英文單字 40 個；新角色小恐龍阿古、乳牛、母雞、綿羊；新玩法「跟著唸」：錄下自己的聲音聽聽看，錄音只存在這台裝置；第十三～二十章的新衣服和道具；學得更牢：答錯會說明選到的是什麼，再答對會說「記住囉」，注音和字母有口訣和圖（ㄅ，爸爸的ㄅ；A is for apple），長得像的（ㄅㄆ、b d）會放在一起練，要在兩天都答對才算會了，太久沒練會再複習，每天第一關先暖身，新玩法「看字說說看」，中等和高難度每關多 1～2 題；想回去玩：每天一個小任務、朋友求救、中等和高難度全對拿皇冠、完成的章節可以直接選任何一關'],['2.7.1','2026/10/3','穿長裙也看得到鞋子了：蓬裙、蛋糕裙、拖尾裙改成前短後長，人魚裙露出鞋尖；換裝間的鞋子圖案變大變清楚'],['2.7','2026/10/3','新的三章！第十三章「環遊世界」、第十四章「心情花園」（認識心情、保護自己、不認識的東西不亂吃）、第十五章「回到天空」（準備上學和總複習，第一季完結）；新題目 59 題'],['2.6.2','2026/10/2','家長設定的語音狀態不再一直顯示過去的播放錯誤'],['2.6.1','2026/10/2','王子舞會更順：答對後把話說完才出下一題，等答案時王子和公主也繼續跳舞，下一題的聲音先準備好'],['2.6','2026/10/2','動態難度：字母和注音會了，就自動加新的（簡單從 A–J、ㄅ–ㄌ 開始，慢慢加到全部和小寫）；問答題增加到 200 題'],['2.5','2026/10/2','新的第十二章「台灣環島之旅」：台北101、夜市、太魯閣、熱氣球、阿里山、日月潭，新朋友台灣黑熊和小石虎；新題目 30 題：台灣 20 題、錢和買東西要先問爸爸媽媽 10 題；王子說話換成男生的聲音'],['2.4','2026/10/2','聲音全面檢查修正：切到別的 App 回來不會冒出一堆聲音、音樂不重疊；語音包分小塊下載，中途關掉下次接著下載；iPhone/iPad 固定用語音包；重新下載語音包會先確認'],['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、庭瑄…）改用 AI 語音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給小公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 語音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
+const APP_VERSION='3.9.0';
+const VLOG=[['3.9.0','2026/10/17','第三季「星光小幫手」開始：第二十一章「星光小超市」（網頁版要請爸爸媽媽輸入密碼）；遊樂園新增「小超市收銀台」；新衣服、購物籃、小收銀機和購物車塗色圖'],['3.8.3','2026/10/16','王子的脖子接好了，不會看起來頭浮在半空；首頁按鈕太多時改成縮小公主圖、按鈕不變小；App 版兌換碼視窗關掉時不再跳錯誤訊息'],['3.8.2','2026/10/16','App 版：家長比較容易找到解鎖新章節的地方；全部語音重新錄製，句尾的「喔」照原文念'],['3.8.1','2026/10/16','換掉幾張不清楚的圖（找不同、池塘、黃豆、藍色氣球、洗澡），房間的球換新花紋，關於頁加上字型授權'],['3.8.0','2026/10/15','跟著唸：錄完會聽聽看有沒有真的唸，太短或太小聲會鼓勵再唸一次'],['3.7.0','2026/10/15','修正幾個小地方'],['3.6.7','2026/10/15','修正題目圖片：粽子、湯圓、蝌蚪、游泳圈、雨鞋、春聯等改成正確的圖'],['3.6.6','2026/10/8','跟著唸：錄完先聽自己的聲音，可以再聽一次、再錄一次，再按「下一題」；App 版畫冊可以存到相簿；切到別的 App 再回來，畫面不會變小。'],['3.6.5','2026/10/8','過關時等語音念完才出獎勵；App 版只顯示第一～五章拿得到的東西，畫冊存到相簿要先問爸爸媽媽。'],['3.6.4','2026/10/8','App 版：修正語音變成機器聲、念到一半被切掉（App 裡讀不到語音檔）。'],['3.6.3','2026/10/8','App 版：手機切到靜音模式時，語音也聽得到。'],['3.6.2','2026/10/7','App 版首頁標題上方加上 App 名稱「星光小冒險」。'],['3.6.1','2026/10/7','修正「接星星」等地方的星星看不到（3.6 的問題）。分類題連點兩下不會被算錯。「今天玩夠了」和「休息時間」長按後要再答一題算術題才能跳過。注音氣球題的說明改成「找出對的注音」。iPad 直放時房間和寵物小屋變大。'],['3.6','2026/10/6','第二十章完成後有「星光王國大慶典」大結局：朋友們一起來道謝，國王頒發「星光小勇士」獎狀（大地圖右上角可以再看）。手機和小螢幕排版修正：章節完成畫面不再切到寵物，手機橫放時題目自動縮小、答案按鈕不會被擋住。補錄幾句缺少的語音。'],['3.5','2026/10/6','寵物小屋新增「玩具」和「才藝」：完成章節得到飛盤、毛線球、泡泡機、溜滑梯、鞦韆等 10 種玩具，每種都有動畫；好感度越高，寵物學會坐下、握手、轉圈、跳舞、翻滾；餵食時會練習數數、選健康的食物；公主房間新增許願清單（寶石不夠時記下想要的東西，看還差幾顆）；獨角獸、小狐狸、月亮兔、小天鵝、小企鵝、小海豚、青鳥重新畫得更細緻'],['3.4.1','2026/10/5','iPhone／iPad 開靜音模式時，遊戲也有聲音；準備 App 版'],['3.4','2026/10/5','公主房間跟著真實時間變化：窗外有早上、中午、傍晚、晚上的天空，牆上有會走的時鐘，點一下會報時；早上和睡前可以刷牙，吃飯時間可以餵寵物，晚上寵物會睡覺、窗外有流星；塗色本新增小狗、倉鼠、小鳥、烏龜、小雞、小豬、小羊、青蛙（照章節打開），還有小朋友設計的「風箏人」，也可以幫自己的寵物塗色；房間的新東西（木馬、小火車、星星燈、貓咪時鐘、雲朵床等）變成章節獎品；新玩家的遊樂園會照章節慢慢打開；修正網頁存一半會一直卡在載入畫面'],['3.3.2','2026/10/5','修正：網路慢的時候按「現在更新」會一直跳出更新、更新不上去'],['3.3.1','2026/10/5','修正：休息提醒會把昨天玩的時間算進來，一打開就要休息（現在關掉遊戲超過休息時間或換一天就重新計時）；小朋友點到喇叭關掉聲音時會提示怎麼打開，下次打開遊戲會自動恢復；iPad 聲音卡住時，點一下螢幕就會恢復'],['3.3','2026/10/5','第一次打開不用等那麼久：先下載前 3 章的語音就能玩，其他章節在背景慢慢下載；打開遊戲更快（先用存好的版本，新版在背景下載）；家長設定新增「這週的學習」：每天玩多久、答了幾題、一次就答對的比例、答對和常答錯的注音字母、小考結果'],['3.2.2','2026/10/4','關於頁的聯絡信箱改成客服信箱 starlight.kids.app@gmail.com'],['3.2.1','2026/10/4','修正：有些 iPhone／iPad 的 Safari 畫冊存不進去、跟著唸的錄音存不起來'],['3.2','2026/10/4','公主房間會動也可以玩了：點床睡覺、點檯燈關燈、拉窗簾、玩玩具、和寵物丟球，每天寵物還會藏一顆寶石；房間畫面變大（手機直拿可以左右滑）；小貓咪、小狗狗、泰迪熊等 9 隻寵物有完整的身體了'],['3.1.2','2026/10/4','小王子完成第十六、十九章，也會拿到恐龍玩偶和紅燈籠（之前完成的會補發）'],['3.1.1','2026/10/4','塗色本加上「新畫布」（要確認兩次，畫過的會先收進畫冊）；手機上顏色按鈕變大；網路慢時語音包也能慢慢下載完'],['3.1','2026/10/4','新增小王子版：第一次打開可以選小公主或小王子，王子要去找小飛龍火花，有男生的衣服和 700 個王子名字的語音；家長可以出考卷，考完拿獎章和學士帽，還可以和爸媽訂約定；一台裝置可以有好幾個小朋友；名字可以到 10 個字'],['3.0','2026/10/4','第二季開始！新的五章：時光恐龍谷、交通小城市、開心農場、節日和家人、星光運動會；新題目 160 題、新英文單字 40 個；新角色小恐龍阿古、乳牛、母雞、綿羊；新玩法「跟著唸」：錄下自己的聲音聽聽看，錄音只存在這台裝置；第十三～二十章的新衣服和道具；學得更牢：答錯會說明選到的是什麼，再答對會說「記住囉」，注音和字母有口訣和圖（ㄅ，爸爸的ㄅ；A is for apple），長得像的（ㄅㄆ、b d）會放在一起練，要在兩天都答對才算會了，太久沒練會再複習，每天第一關先暖身，新玩法「看字說說看」，中等和高難度每關多 1～2 題；想回去玩：每天一個小任務、朋友求救、中等和高難度全對拿皇冠、完成的章節可以直接選任何一關'],['2.7.1','2026/10/3','穿長裙也看得到鞋子了：蓬裙、蛋糕裙、拖尾裙改成前短後長，人魚裙露出鞋尖；換裝間的鞋子圖案變大變清楚'],['2.7','2026/10/3','新的三章！第十三章「環遊世界」、第十四章「心情花園」（認識心情、保護自己、不認識的東西不亂吃）、第十五章「回到天空」（準備上學和總複習，第一季完結）；新題目 59 題'],['2.6.2','2026/10/2','家長設定的語音狀態不再一直顯示過去的播放錯誤'],['2.6.1','2026/10/2','王子舞會更順：答對後把話說完才出下一題，等答案時王子和公主也繼續跳舞，下一題的聲音先準備好'],['2.6','2026/10/2','動態難度：字母和注音會了，就自動加新的（簡單從 A–J、ㄅ–ㄌ 開始，慢慢加到全部和小寫）；問答題增加到 200 題'],['2.5','2026/10/2','新的第十二章「台灣環島之旅」：台北101、夜市、太魯閣、熱氣球、阿里山、日月潭，新朋友台灣黑熊和小石虎；新題目 30 題：台灣 20 題、錢和買東西要先問爸爸媽媽 10 題；王子說話換成男生的聲音'],['2.4','2026/10/2','聲音全面檢查修正：切到別的 App 回來不會冒出一堆聲音、音樂不重疊；語音包分小塊下載，中途關掉下次接著下載；iPhone/iPad 固定用語音包；重新下載語音包會先確認'],['2.3.4','2026/10/2','切到別的 App 再回來，不會沒聲音或一次冒出一堆聲音；iPhone 選「內建聲音」時改用一般聲音模式'],['2.3.3','2026/10/2','修正 iPhone 聲音恢復後背景音樂沒有聲音；修正內建聲音在部分手機念不出來；下載狀態不再遮到按鈕'],['2.3.1','2026/10/2','修正按「現在更新」會卡在更新中'],['2.3','2026/10/2','新王子造型；寵物飾品每隻分開戴；跳舞轉圈更立體；語音下載中先播常用句子、iPhone 聲音卡住會自動恢復；王子舞會不再卡住；更新提醒更準；鎖定畫面縮放'],['2.2','2026/10/2','使用時間：每天統計、每日上限、玩久了要休息，回來可以抽禮物；星光救援小狗隊（塗色 8 張、故事 2 個、小柴犬寵物）；芭蕾舞鞋和 25 件新衣服飾品；新題目：量詞、環保、植物；語音包更省記憶體、字型內建，開得更快'],['2.1','2026/10/1','英文字母、注音、數數改成「抽籤袋」輪流出，每一個都會練到，常錯的會多出一次；沒有字母注音題的關卡會多一題；家長報告新增學習地圖'],['2.0','2026/10/1','新的第十一章「小小職人街」和小星星的故事；大地圖可以看到全部 15 章；新題型：職業、心情、聽聲音、交通工具、描字；所有寵物都能戴裝備，還有 4 個新裝備；新增我的畫冊、圖鑑；家長設定可以把進度備份成檔案'],['1.13','2026/9/30','塗色本多了 10 張圖（小貓、皇冠、冰淇淋、小兔子…）和一張空白畫紙，畫畫的地方也變大了'],['1.12.1','2026/9/30','700 個常用公主名字（蜜寶、庭瑄…）改用 AI 語音打招呼'],['1.12','2026/9/30','第一次使用時，引導爸爸媽媽完成設定：加到主畫面、下載語音、公主名字；家長設定也可以再打開這個引導'],['1.11','2026/9/30','每次打開遊戲自動檢查新版本；背景音樂隨機換歌；遊戲關掉或切到背景時音樂和語音會停止'],['1.10.1','2026/9/30','語音包改成一包一包下載，顯示已下載幾 MB，失敗會自動重試'],['1.10','2026/9/30','家長設定可以改公主的名字；關於頁和家長設定右上角有 X 可以直接關閉；修正 iPad 直拿時首頁被切掉；寵物小屋窗戶、橫放迷宮版面微調'],['1.9.9','2026/9/30','遊樂園、寵物小屋、公主房間、換裝間改用錄音（補錄 699 句）；故事屋改用錄音'],['1.9.8','2026/9/30','補錄 755 句（故事、題目說明、選項）；答對後出現「點一下，下一題」提示'],['1.9.7','2026/9/30','答題後不會再卡很久才下一題；關於頁加上給小公主的話；產地英文改為 Made in the Republic of China (Taiwan)'],['1.9.6','2026/9/30','修正 iPhone 播放器被中斷後一直變回裝置聲音：會自動恢復播放'],['1.9.5','2026/9/30','修正 iPhone 進地圖或關卡時錄音被切掉；錄音播不出來時自動改用裝置聲音，不會安靜'],['1.9.4','2026/9/30','修正語音唸錯句子：語音包重新打包，下載後會核對檔案是否完整'],['1.9.3','2026/9/30','家長設定新增「重新下載語音包」按鈕'],['1.9.2','2026/9/30','iPad 播放錄音改用更相容的方式；語音包還沒下載完時先用裝置聲音，不會卡住；家長設定顯示播放測試結果'],['1.9.1','2026/9/30','家長設定顯示語音包狀態；切換語音時的試聽句子改用錄好的聲音'],['1.9','2026/9/30','語音改用預先錄好的 AI 語音（中文曉臻、英文 Jenny）；注音會加上例子，例如「ㄈ，飛機的ㄈ」；家長設定可切換回裝置內建聲音'],['1.8','2026/9/30','每關獎品隨機、不重複；新獎品：幸運轉盤、魔法氣球、房間驚喜、寵物點心；寶石有 8 種形狀、10 種顏色，地圖上會顯示拿到的寶石'],['1.7.1','2026/9/30','塗色本可以用手指塗畫（畫筆、倒顏料、橡皮擦、粗細）；「重新開始」要家長確認'],['1.7','2026/9/30','新增「星光遊樂園」：故事屋（10 個故事）、寵物小屋、公主房間、塗色本（8 張圖）、自由練習（10 種主題，練完有寶石和禮物）'],['1.6.1','2026/9/29','每章破關後，會引導到換裝間換上新衣服和寵物，換好按「穿好了！」回主畫面'],['1.6','2026/9/29','100 關全部完成（新增第六～十章：海底王國、雲朵天空城、冰雪城堡、糖果王國、星空神殿）；題庫再加 51 題；效能優化：開啟更快、換裝間更順、音效預先錄好'],['1.5.13','2026/9/29','背景音樂改成預先錄好再循環播放，節奏和音量不再忽快忽慢、忽大忽小'],['1.5.12','2026/9/29','全面檢查：修正結局愛心動畫；說話時音樂只輕微降低'],['1.5.11','2026/9/29','修正玩到一半自動重新啟動的問題：新版改在下次打開時才套用'],['1.5.10','2026/9/29','背景音樂音量平穩、節奏更穩；地圖箭頭改成順著路線指向下一關'],['1.5.9','2026/9/29','更新機制改良：有網路時自動抓最新版；家長設定可以「檢查更新」'],['1.5.8','2026/9/29','取名字有語音引導，爸媽不在時提示小朋友按「之後再說」；「我的公主」頁也有語音說明'],['1.5.7','2026/9/29','過馬路、跳舞、寶石雨也改成等說明唸完才開始'],['1.5.6','2026/9/29','接星星等題目唸完才開始掉星星；字母、注音唸得更慢更長'],['1.5.5','2026/9/29','字母、注音、數字改成：拉長慢慢唸，停一下，再唸一次'],['1.5.4','2026/9/29','新增換裝間教學：第一次進衣櫃會一步一步教，右上「？教學」可以再看一次'],['1.5.3','2026/9/29','英文字母、注音改成只唸一次、拉長慢慢唸；沒取名字時，會請爸爸媽媽幫公主取名'],['1.5.2','2026/9/29','修正手機上「接星星」擋到題目；小螢幕（如 iPhone SE）題目自動縮小不重疊'],['1.5.1','2026/9/29','效能優化：換裝間、地圖、星空背景更順暢；偵測到舊裝置會自動開啟流暢模式'],['1.5','2026/9/29','柔光繪本畫風；公主可選髮型、膚色、眼睛、取名字；會眨眼、轉圈、揮手；新增鞋子、手環等 22 件；圖案統一'],['1.4','2026/9/29','作者介紹、版本紀錄；新增 20 件飾品、道具和寵物配件'],['1.3','2026/9/28','新增 119 題、5 種新玩法、25 件服飾；每章有自己的音樂和背景'],['1.2','2026/9/28','五章 50 關全部完成、找到王子結局；語音更清楚；關卡隨機'],['1.1','2026/9','家長模式（跳關、寶石、備份存檔）、第三章城堡舞會'],['1.0','2026/9','第一、二章上線，可以加到主畫面離線玩']];
 let nameAsked=false;
 function nameAsk(manual){nameAsked=true;
  const ov=overlay(screen,`<div class="card nameask"><div class="face">${princess(S.look,'','22 8 76 76')}</div><h2>爸爸媽媽，請幫個忙</h2>
@@ -4281,7 +4287,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-b39ae180.json';
+const VOICE_INDEX='index-88f8d2d6.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -4551,7 +4557,7 @@ const ARCS=[
  {t:'王子的五封信',n:'第一段',from:0,ic:()=>WICON.letter,say:'先找到王子的五封信，'},
  {t:'五顆星星寶石',n:'第二段',from:5,ic:()=>gem('#7FD8FF'),say:'再找回五顆星星寶石，'},
  {t:'小星星的旅行',n:'第三段',from:10,ic:()=>WICON.stamp,say:'還要帶著小星星，去好多地方旅行！'}];
-const CHN=n=>['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十'][n]||String(n+1);
+const CHN=n=>['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','二十一','二十二','二十三','二十四','二十五'][n]||String(n+1);
 const wName=i=>CHAPTERS[i]?CHAPTERS[i].name:WORLD[i].name;
 function wState(i){if(!CHAPTERS[i])return 'soon';if(i>S.chDone)return 'lock';const cur=cont()?S.ch:S.chDone;if(i===cur)return 'now';if(i<S.chDone)return 'done';return 'open'}
 SCREENS.world=function(mode){
@@ -8292,7 +8298,7 @@ function grandFinale(){clearEnd();const tok=++grandTok;const live=()=>tok===gran
   <div class="gparade">${FR.map(([k],j)=>`<span class="gfr" style="animation-delay:${(1.2+j*.25).toFixed(2)}s">${animal(k)}</span>`).join('')}</div>
   <div class="trio"><div class="walkin">${princess(S.look)}</div><div class="fromdoor">${prince()}</div><div class="walkin u" style="animation-delay:.3s">${myPet()}</div></div>
   <h2 class="endh">星光王國大慶典！</h2><p class="endp">二十章的冒險，全部完成了！<br>大家都來謝謝你！</p>
-  <div class="endbtns"><button class="btn" id="gcert">看獎狀</button><button class="btn2" id="again">再玩一次</button><button class="btn2" id="endworld">大地圖</button><button class="btn2" id="home">回首頁</button></div></div>`;
+  <div class="endbtns">${CHAPTERS[20]?'<button class="btn" id="nextch">前往第三季</button>':''}<button class="${CHAPTERS[20]?'btn2':'btn'}" id="gcert">看獎狀</button><button class="btn2" id="again">再玩一次</button><button class="btn2" id="endworld">大地圖</button><button class="btn2" id="home">回首頁</button></div></div>`;
  const T=(ms,f)=>endTimers.push(setTimeout(f,reduced?0:ms));
  T(1700,()=>{const c=$('#ecastle');if(!c)return;const l=$('.dl',c),r=$('.dr',c);if(l)l.style.transform='scaleX(.08)';if(r)r.style.transform='scaleX(.08)';sfx('gem');burstEl(c,40)});
  for(let k=0;k<14;k++)T(2400+k*900,()=>{if(!live()||certDone)return;burst(innerWidth*(.12+Math.random()*.76),innerHeight*(.08+Math.random()*.3),46);if(k%3===0)sfx('gem')});
@@ -8301,6 +8307,7 @@ function grandFinale(){clearEnd();const tok=++grandTok;const live=()=>tok===gran
  for(let k=0;k<16;k++)T(3400+k*420,()=>{const e=$('.ending');if(!e||!live()||certDone)return;const h=document.createElement('div');h.className='heart';h.style.left=(8+Math.random()*84)+'%';h.style.width=(18+Math.random()*18)+'px';h.innerHTML=`<svg viewBox="0 0 20 20"><path d="${heartD(10,11,5.5)}" fill="${['#FF8FC8','#FFB3D9','#FF5FA6','#FFE07A','#9FD8FF'][k%5]}"/></svg>`;e.appendChild(h);setTimeout(()=>h.remove(),4200)});
  const cert=()=>{if(!live())return;certDone=1;clearEnd();hush();certShow(()=>{if(live())say(['謝謝你一路陪著大家，我們下次再一起冒險！'])})};
  $('#gcert').onclick=cert;
+ {const nc=$('#nextch');if(nc)nc.onclick=()=>{grandTok++;clearEnd();hush();setCh(20);if(S.prog>=NL)S.prog=0;S.walkFrom=null;save();go(S.prog===0?'story':'guide')}}
  $('#again').onclick=()=>{grandTok++;clearEnd();hush();S.prog=0;S.walkFrom=null;save();go('guide')};
  $('#endworld').onclick=()=>{grandTok++;clearEnd();hush();go('world')};
  $('#home').onclick=()=>{grandTok++;clearEnd();hush();go('title')};
@@ -8314,7 +8321,7 @@ function grandFinale(){clearEnd();const tok=++grandTok;const live=()=>tok===gran
   cert()})();
 }
 const _chend65=SCREENS.chend;
-SCREENS.chend=function(){if(S.ch===CHAPTERS.length-1&&S.ch>=19)return grandFinale();return _chend65.apply(this,arguments)};
+SCREENS.chend=function(){if(S.ch===19)return grandFinale();return _chend65.apply(this,arguments)};
 // 大地圖：拿到獎狀以後，右上角可以再看一次
 const _world65=SCREENS.world;
 SCREENS.world=function(){const r=_world65.apply(this,arguments);try{if(V2[CERTK()]){const sp=$('.whead .phsp');if(sp&&!$('#wcert')){const b=document.createElement('button');b.className='btn2 small';b.id='wcert';b.textContent='🏅 獎狀';b.onclick=()=>{hush();certShow()};sp.replaceWith(b)}}}catch(e){console.log('cert',e)}return r};
@@ -8427,12 +8434,12 @@ if(IAP_ON){try{
 if(ISBOY){const _naBoy=nameAsk;nameAsk=function(){const r=_naBoy.apply(this,arguments);try{const c=$('.nameask');if(c){const w=document.createTreeWalker(c,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode()))if(n.nodeValue.includes('小美'))n.nodeValue=n.nodeValue.replace(/小美/g,'小宇');const i=$('#nmin',c);if(i)i.placeholder='例如：小宇'}}catch(e){}return r}}
 // App 版：還沒打開（沒買）的章節，才拿得到的東西都不顯示，家長工具也只到打開的章節；畫冊分享要先過家長題
  const AO=i=>window.__appOpen?window.__appOpen(i):i<APP_CH; // i：第幾章（0 起算）
- const CN={'六':6,'七':7,'八':8,'九':9,'十':10,'二十':20};const cnN=t=>CN[t]||(t.length===2&&t[0]==='十'?10+(CN[t[1]]||'一二三四五'.indexOf(t[1])+1):0);
+ const CN={'六':6,'七':7,'八':8,'九':9,'十':10,'二十':20,'二十一':21,'二十二':22,'二十三':23,'二十四':24,'二十五':25};const cnN=t=>CN[t]||(t.length===2&&t[0]==='十'?10+(CN[t[1]]||'一二三四五'.indexOf(t[1])+1):0);
  const lockedTxt=(re,t)=>{const m=t.match(re);return !!(m&&!AO(cnN(m[1])-1))};
 if(IS_APP){try{
- const LATE=/完成第(六|七|八|九|十|十[一二三四五六七八九]|二十)章/;
+ const LATE=/完成第(六|七|八|九|十|十[一二三四五六七八九]|二十[一二三四五]?)章/;
  const lateItem=it=>it&&it.chapter&&!AO(it.chapter-1)&&!owns(it.id);
- const LATE2=/第(六|七|八|九|十|十[一二三四五六七八九]|二十)章/;
+ const LATE2=/第(六|七|八|九|十|十[一二三四五六七八九]|二十[一二三四五]?)章/;
  const sweep=()=>{try{
   $$('.opt[data-id]').forEach(b=>{if(b.style.display==='none')return;const it=ITEMS.find(x=>x.id===b.dataset.id);if(lateItem(it))b.style.display='none'});
   $$('button,[role="button"],.pbtn,.rmitem,.citem,li').forEach(b=>{if(b.style.display==='none'||b.classList.contains('wnode')||b.closest('.overlay .card.left'))return;
@@ -8618,6 +8625,359 @@ window.__homeHub=homeHub;
  .home2 .tiles{gap:18px}.home2 .tiles .tile{height:130px;font-size:24px;border-radius:28px}.home2 .tiles .tic{width:60px;height:60px}.home2 .tiles .tic svg{width:60px;height:60px}
  .home2 .pzone,.home2 .gembag{height:54px;font-size:19px;padding:0 20px}
 }`;document.head.appendChild(st)}
+
+/* ================= v3.9 第三季「星光小幫手」第二十一章「星光小超市」 ================= */
+// 公主新衣：小店長洋裝（珊瑚紅＋白點點）
+Object.assign(DRESS,{shopdress:{shape:'short',c:'#FF7A6A',l:'#FFE3DC',pat:'dot',pc:'#FFFFFF'}});
+// 王子新衣：小店長背心（外套款，領子和口袋比較明顯）
+const S3BOY={b_shop:{n:'小店長背心',k:'jacket',c:'#FF6F5E',l:'#FFD9CF',p:'#34508F',s:'#5A3A2A',emb:'star',pocket:1,chapter:21}};
+// 背景：星光小超市（走道、燈、冰箱、水果攤、收銀台、購物車）
+CHBG.market=function(W,H){const F=H*.74;let d=`<defs><linearGradient id="mkw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF8EC"/><stop offset="1" stop-color="#FFE9CF"/></linearGradient>
+ <linearGradient id="mkf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBD9C2"/><stop offset="1" stop-color="#D9C2A6"/></linearGradient>
+ <linearGradient id="mkg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DFF4FF"/><stop offset="1" stop-color="#A9D8F2"/></linearGradient></defs>`;
+ d+=`<rect x="-400" y="0" width="${W+800}" height="${F}" fill="url(#mkw)"/><rect x="-400" y="0" width="${W+800}" height="${H*.07}" fill="#F2E2CC"/>`;
+ // 天花板燈
+ for(let x=-360;x<W+400;x+=W*.22)d+=`<rect x="${x}" y="${H*.02}" width="${W*.12}" height="${H*.025}" rx="6" fill="#FFFFFF" stroke="#E6D6BE" stroke-width="2"/><ellipse cx="${x+W*.06}" cy="${H*.06}" rx="${W*.08}" ry="${H*.025}" fill="#FFFBE6" opacity=".7"/>`;
+ {let f=`<path d="M-400 ${H*.068} Q${W/2} ${H*.088} ${W+400} ${H*.068}" stroke="#D8B890" stroke-width="1.5" fill="none"/>`;for(let k=0;k<24;k++){const fx=W*(-0.02+k*.045),fy=H*.068+H*.02*(1-((fx-W/2)/(W/2+400))**2)*0.9;f+=`<path d="M${fx-W*.009} ${fy} L${fx+W*.009} ${fy} L${fx} ${fy+H*.022}Z" fill="${['#FF6F8F','#FFD24D','#6FC8F0','#8FDA7A'][k%4]}"/>`}d+=f}
+ // 地板：格子＋往裡面縮的走道線
+ d+=`<rect x="-400" y="${F}" width="${W+800}" height="${H-F}" fill="url(#mkf)"/>`;
+ for(let k=0;k<5;k++){const y=F+(H-F)*(k/5)**1.4;d+=`<line x1="-400" y1="${y}" x2="${W+400}" y2="${y}" stroke="#CDB394" stroke-width="1.5"/>`}
+ for(let k=-8;k<=8;k++)d+=`<line x1="${W/2+k*W*.05}" y1="${F}" x2="${W/2+k*W*.16}" y2="${H}" stroke="#CDB394" stroke-width="1.5"/>`;
+ // 吊牌
+ const tag=(x,t,c)=>`<line x1="${x}" y1="${H*.07}" x2="${x}" y2="${H*.1}" stroke="#B89A7A" stroke-width="2"/><rect x="${x-W*.065}" y="${H*.1}" width="${W*.13}" height="${H*.06}" rx="10" fill="${c}"/><text x="${x}" y="${H*.143}" text-anchor="middle" font-size="${H*.036}" font-weight="700" fill="#fff">${t}</text>`;
+ // 左邊：水果攤（木箱）
+ const fruit=(x,y,k)=>{const r=H*.02;return [
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="#FF5A5A"/><path d="M${x} ${y-r} q2 -6 6 -7" stroke="#6A8A3A" stroke-width="2" fill="none"/><ellipse cx="${x-r*.35}" cy="${y-r*.35}" rx="${r*.25}" ry="${r*.18}" fill="#fff" opacity=".5"/>`,
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="#FFA63A"/><circle cx="${x+r*.3}" cy="${y-r*.3}" r="${r*.2}" fill="#FFD08A"/>`,
+  `<path d="M${x-r*1.3} ${y-r*.2} Q${x} ${y+r*1.4} ${x+r*1.3} ${y-r*.6} Q${x} ${y+r*.6} ${x-r*1.3} ${y-r*.2}Z" fill="#FFE04A" stroke="#E0B02A" stroke-width="1.5"/>`,
+  [0,1,2,3,4,5].map(i=>`<circle cx="${x+((i%3)-1)*r*.6}" cy="${y-r*.5+Math.floor(i/3)*r*.6+(i>4?r*.5:0)}" r="${r*.38}" fill="#A86ADF"/>`).join('')][k%4]};
+ const crate=(x,y,w,k)=>{let s=`<rect x="${x}" y="${y}" width="${w}" height="${H*.08}" rx="4" fill="#D69A5E"/><rect x="${x}" y="${y+H*.035}" width="${w}" height="${H*.008}" fill="#B87A44"/>`;
+  for(let i=0;i<Math.floor(w/(H*.04));i++)s+=fruit(x+H*.03+i*H*.04,y+H*.01+(i%2)*H*.006,k);
+  return s+`<rect x="${x+w/2-H*.035}" y="${y+H*.045}" width="${H*.07}" height="${H*.028}" rx="3" fill="#FFFFFF"/><text x="${x+w/2}" y="${y+H*.067}" text-anchor="middle" font-size="${H*.022}" font-weight="700" fill="#E0503A">${[5,3,8,6][k%4]}元</text>`};
+ d+=`<rect x="${-W*.02}" y="${H*.36}" width="${W*.3}" height="${F-H*.36}" fill="#C98A5A"/>`;
+ [[.42,0],[.52,1],[.62,2]].forEach(([fy,k],j)=>{d+=crate(W*.0,H*fy,W*.13,k+j)+crate(W*.145,H*fy,W*.13,k+j+1)});
+ d+=tag(W*.14,'新鮮水果','#5CBF6A');
+ // 中間：貨架（餅乾、牛奶、果汁）
+ const shelfX=W*.32,shelfW=W*.3;d+=`<rect x="${shelfX}" y="${H*.22}" width="${shelfW}" height="${F-H*.22}" rx="6" fill="#F7D9B8" stroke="#E2BE96" stroke-width="2"/>`;
+ [0,1,2,3].forEach(k=>{const y=H*(.22+k*.13);d+=`<rect x="${shelfX}" y="${y+H*.115}" width="${shelfW}" height="${H*.018}" fill="#C98A5A"/>`;
+  for(let i=0;i<6;i++){const bx=shelfX+W*.012+i*shelfW/6.2,C=['#FF6F8F','#6FB8FF','#FFC24D','#7FD08A','#B99CFF','#FF8A5A'][(i+k)%6];
+   if(k===0)d+=`<rect x="${bx}" y="${y+H*.04}" width="${W*.035}" height="${H*.075}" rx="3" fill="${C}"/><circle cx="${bx+W*.0175}" cy="${y+H*.075}" r="${H*.014}" fill="#fff" opacity=".85"/>`;
+   else if(k===1)d+=`<rect x="${bx+W*.004}" y="${y+H*.035}" width="${W*.028}" height="${H*.08}" rx="4" fill="#FFFFFF" stroke="#CFE4F7" stroke-width="1.5"/><path d="M${bx+W*.004} ${y+H*.035} l${W*.014} -${H*.02} l${W*.014} ${H*.02}Z" fill="${C}"/><rect x="${bx+W*.008}" y="${y+H*.07}" width="${W*.02}" height="${H*.02}" rx="2" fill="${C}"/>`;
+   else if(k===2)d+=`<rect x="${bx+W*.008}" y="${y+H*.05}" width="${W*.022}" height="${H*.065}" rx="${W*.008}" fill="${C}" opacity=".9"/><rect x="${bx+W*.012}" y="${y+H*.035}" width="${W*.014}" height="${H*.018}" rx="2" fill="#EDEDF4"/><rect x="${bx+W*.008}" y="${y+H*.07}" width="${W*.022}" height="${H*.016}" fill="#fff" opacity=".7"/>`;
+   else d+=`<ellipse cx="${bx+W*.018}" cy="${y+H*.09}" rx="${W*.018}" ry="${H*.025}" fill="${C}"/><ellipse cx="${bx+W*.018}" cy="${y+H*.08}" rx="${W*.01}" ry="${H*.008}" fill="#fff" opacity=".6"/>`}
+  d+=`<rect x="${shelfX+shelfW*.42}" y="${y+H*.118}" width="${W*.04}" height="${H*.014}" rx="2" fill="#FFF6A0"/>`});
+ d+=tag(shelfX+shelfW/2,'牛奶餅乾','#6FA8E8');
+ // 右邊：冰箱（玻璃門＋冰淇淋、飲料）
+ const fx=W*.66,fw=W*.32;d+=`<rect x="${fx}" y="${H*.2}" width="${fw}" height="${F-H*.2}" rx="8" fill="#E9F2FA" stroke="#B9CCE0" stroke-width="3"/>`;
+ [0,1].forEach(j=>{const x=fx+W*.01+j*fw/2;d+=`<rect x="${x}" y="${H*.23}" width="${fw/2-W*.02}" height="${F-H*.27}" rx="5" fill="url(#mkg)" stroke="#9FB8D0" stroke-width="2"/>`;
+  [0,1,2].forEach(k=>{const y=H*(.25+k*.15);d+=`<rect x="${x}" y="${y+H*.11}" width="${fw/2-W*.02}" height="${H*.01}" fill="#9FB8D0"/>`;
+   for(let i=0;i<3;i++){const bx=x+W*.012+i*(fw/2-W*.03)/3,C=['#FF9FC8','#8FD8FF','#FFE07A','#9FE8B0'][(i+k+j)%4];
+    d+=k===2?`<path d="M${bx} ${y+H*.06} h${W*.03} l-${W*.015} ${H*.05}Z" fill="#E8B07A"/><circle cx="${bx+W*.015}" cy="${y+H*.055}" r="${W*.014}" fill="${C}"/>`:`<rect x="${bx}" y="${y+H*.035}" width="${W*.022}" height="${H*.075}" rx="5" fill="${C}"/><rect x="${bx}" y="${y+H*.06}" width="${W*.022}" height="${H*.02}" fill="#fff" opacity=".7"/>`}});
+  d+=`<path d="M${x+W*.015} ${H*.25} l${W*.03} ${H*.35}" stroke="#fff" stroke-width="5" opacity=".45"/><rect x="${x+(j?W*.012:fw/2-W*.045)}" y="${H*.42}" width="${W*.008}" height="${H*.1}" rx="3" fill="#B0C4D8"/>`});
+ d+=tag(fx+fw/2,'冰涼飲料','#5FB0E8');
+ // 收銀台（輸送帶、收銀機、掃描燈）
+ const cx=W*.36,cw=W*.36,cy=H*.62;d+=`<rect x="${cx}" y="${cy}" width="${cw}" height="${H*.16}" rx="10" fill="#5FA8E0"/><rect x="${cx}" y="${cy+H*.12}" width="${cw}" height="${H*.04}" rx="6" fill="#4A8CC4"/>
+  <rect x="${cx-W*.01}" y="${cy-H*.03}" width="${cw*.62}" height="${H*.04}" rx="6" fill="#3A3F52"/>${[0,1,2,3,4,5,6].map(i=>`<line x1="${cx+i*cw*.09}" y1="${cy-H*.03}" x2="${cx+i*cw*.09}" y2="${cy+H*.01}" stroke="#555B70" stroke-width="2"/>`).join('')}
+  <rect x="${cx+cw*.05}" y="${cy-H*.075}" width="${W*.04}" height="${H*.05}" rx="4" fill="#FF8A5A"/><circle cx="${cx+cw*.24}" cy="${cy-H*.05}" r="${H*.025}" fill="#FF5A5A"/><rect x="${cx+cw*.33}" y="${cy-H*.085}" width="${W*.025}" height="${H*.06}" rx="4" fill="#FFFFFF" stroke="#CFE4F7"/>
+  <rect x="${cx+cw*.64}" y="${cy-H*.035}" width="${cw*.34}" height="${H*.045}" rx="6" fill="#E8EEF6"/><path d="M${cx+cw*.66} ${cy-H*.02} h${cw*.12}" stroke="#FF4A4A" stroke-width="3" opacity=".8"/>
+  <rect x="${cx+cw*.72}" y="${cy-H*.17}" width="${cw*.22}" height="${H*.13}" rx="8" fill="#3A4A6A"/><rect x="${cx+cw*.74}" y="${cy-H*.155}" width="${cw*.18}" height="${H*.05}" rx="4" fill="#9FF0B0"/><text x="${cx+cw*.83}" y="${cy-H*.118}" text-anchor="middle" font-size="${H*.03}" font-weight="700" fill="#2A5A3A">16元</text>
+  ${[0,1,2].map(i=>`<rect x="${cx+cw*(.745+i*.06)}" y="${cy-H*.095}" width="${cw*.045}" height="${H*.02}" rx="3" fill="#E6ECF5"/>`).join('')}
+  <path d="M${cx+cw*.83} ${cy-H*.17} v-${H*.05}" stroke="#3A4A6A" stroke-width="3"/><circle cx="${cx+cw*.83}" cy="${cy-H*.225}" r="${H*.014}" fill="#FFD24D"/>`;
+ d+=`<rect x="${cx+cw*.1}" y="${cy-H*.2}" width="${W*.008}" height="${H*.12}" fill="#B89A7A"/><rect x="${cx+cw*.02}" y="${cy-H*.26}" width="${W*.09}" height="${H*.06}" rx="10" fill="#FF7A6A"/><text x="${cx+cw*.02+W*.045}" y="${cy-H*.218}" text-anchor="middle" font-size="${H*.036}" font-weight="700" fill="#fff">結帳</text>`;
+
+ // 購物車（金屬網籃、紅把手、兒童座椅、四個萬向輪，裝滿東西）
+ const cart=(x,y,s)=>{const P=(a,b)=>`${(x+a*s).toFixed(1)} ${(y+b*s).toFixed(1)}`;const sw=v=>(v*s).toFixed(2);
+  let c=`<ellipse cx="${x+100*s}" cy="${y+4*s}" rx="${96*s}" ry="${9*s}" fill="#6A4A2A" opacity=".16"/>`;
+  // 下層置物架
+  c+=`<path d="M${P(36,-30)} L${P(170,-30)} L${P(164,-20)} L${P(42,-20)}Z" fill="#C9D3E0" stroke="#7F8CA0" stroke-width="${sw(2)}"/>`;
+  for(let k=0;k<8;k++)c+=`<line x1="${(x+(48+k*16)*s).toFixed(1)}" y1="${(y-30*s).toFixed(1)}" x2="${(x+(48+k*16)*s).toFixed(1)}" y2="${(y-20*s).toFixed(1)}" stroke="#8F9BAE" stroke-width="${sw(1.2)}"/>`;
+  // 骨架
+  c+=`<path d="M${P(4,-128)} L${P(22,-128)} L${P(46,-24)} M${P(172,-118)} L${P(166,-24)} M${P(46,-24)} L${P(166,-24)}" fill="none" stroke="#6F7C92" stroke-width="${sw(5)}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  // 籃子裡的東西（先畫，網子蓋在前面）
+  c+=`<rect x="${x+58*s}" y="${y-150*s}" width="${26*s}" height="${40*s}" rx="${3*s}" fill="#FFD24D" stroke="#E0A82A" stroke-width="${sw(1.5)}"/><circle cx="${x+71*s}" cy="${y-135*s}" r="${7*s}" fill="#FF7A5A"/><rect x="${x+61*s}" y="${y-122*s}" width="${20*s}" height="${5*s}" rx="${2*s}" fill="#fff" opacity=".85"/>`;
+  c+=`<rect x="${x+88*s}" y="${y-158*s}" width="${18*s}" height="${42*s}" rx="${2*s}" fill="#FFFFFF" stroke="#9FC8F0" stroke-width="${sw(1.5)}"/><path d="M${P(88,-158)} l${9*s} ${-10*s} l${9*s} ${10*s}Z" fill="#6FB8FF"/><rect x="${x+90*s}" y="${y-142*s}" width="${14*s}" height="${10*s}" rx="${2*s}" fill="#6FB8FF"/>`;
+  c+=`<path d="M${P(108,-122)} Q${P(110,-146)} ${P(136,-148)} Q${P(162,-146)} ${P(160,-122)}Z" fill="#E8A65A" stroke="#C07A3A" stroke-width="${sw(1.5)}"/>${[0,1,2].map(k=>`<path d="M${P(120+k*12,-144)} q${3*s} ${6*s} 0 ${12*s}" stroke="#C07A3A" stroke-width="${sw(1.5)}" fill="none"/>`).join('')}`;
+  c+=`<path d="M${P(120,-130)} Q${P(136,-104)} ${P(158,-136)}" stroke="#F2C230" stroke-width="${sw(8)}" fill="none" stroke-linecap="round"/><path d="M${P(156,-138)} l${4*s} ${-4*s}" stroke="#7A5A2A" stroke-width="${sw(2.5)}" stroke-linecap="round"/>`;
+  [[46,-122,'#FF4A4A'],[52,-112,'#FF6A4A'],[150,-118,'#7FD04A']].forEach(([a,b,col])=>{c+=`<circle cx="${x+a*s}" cy="${y+b*s}" r="${8*s}" fill="${col}"/><ellipse cx="${x+(a-3)*s}" cy="${y+(b-3)*s}" rx="${2.4*s}" ry="${1.6*s}" fill="#fff" opacity=".55"/><path d="M${P(a,b-8)} q${1*s} ${-4*s} ${4*s} ${-5*s}" stroke="#5A7A2A" stroke-width="${sw(1.6)}" fill="none"/>`});
+  c+=`<path d="M${P(34,-118)} L${P(30,-160)}" stroke="#FF8A3A" stroke-width="${sw(7)}" stroke-linecap="round"/><path d="M${P(30,-160)} l${-5*s} ${-9*s} M${P(30,-160)} l${1*s} ${-11*s} M${P(30,-160)} l${6*s} ${-8*s}" stroke="#4FB86A" stroke-width="${sw(2.4)}" stroke-linecap="round"/>`;
+  // 網籃
+  const cid='mkcart'+Math.round(x);
+  c+=`<defs><clipPath id="${cid}"><path d="M${P(20,-122)} L${P(178,-122)} L${P(168,-52)} L${P(40,-52)}Z"/></clipPath></defs>`;
+  c+=`<path d="M${P(20,-122)} L${P(178,-122)} L${P(168,-52)} L${P(40,-52)}Z" fill="#DCE6F2" opacity=".55"/>`;
+  c+=`<g clip-path="url(#${cid})" stroke="#8C99AE" stroke-width="${sw(1.6)}">`;
+  for(let k=0;k<14;k++)c+=`<line x1="${(x+(16+k*13)*s).toFixed(1)}" y1="${(y-124*s).toFixed(1)}" x2="${(x+(34+k*11.2)*s).toFixed(1)}" y2="${(y-50*s).toFixed(1)}"/>`;
+  for(let k=0;k<6;k++)c+=`<line x1="${(x+10*s).toFixed(1)}" y1="${(y-(110-k*12)*s).toFixed(1)}" x2="${(x+190*s).toFixed(1)}" y2="${(y-(110-k*12)*s).toFixed(1)}"/>`;
+  c+=`</g><path d="M${P(20,-122)} L${P(178,-122)} L${P(168,-52)} L${P(40,-52)}Z" fill="none" stroke="#6F7C92" stroke-width="${sw(4)}" stroke-linejoin="round"/>`;
+  c+=`<path d="M${P(20,-122)} L${P(178,-122)}" stroke="#A9B6C9" stroke-width="${sw(2)}"/>`;
+  // 兒童座椅（紅色）＋把手
+  c+=`<path d="M${P(20,-122)} L${P(8,-140)}" stroke="#6F7C92" stroke-width="${sw(4)}" stroke-linecap="round"/><rect x="${x-6*s}" y="${y-148*s}" width="${30*s}" height="${11*s}" rx="${5.5*s}" fill="#E8403A" transform="rotate(-8 ${x+9*s} ${y-142*s})"/><rect x="${x-2*s}" y="${y-146*s}" width="${20*s}" height="${3*s}" rx="${1.5*s}" fill="#FF9A8A" transform="rotate(-8 ${x+9*s} ${y-142*s})"/>`;
+  // 輪子
+  [[46,-12],[164,-12],[64,-6],[150,-6]].forEach(([a,b],k)=>{const r=(k<2?9:7)*s;c+=`<path d="M${P(a,b-12)} v${4*s}" stroke="#6F7C92" stroke-width="${sw(3)}"/><circle cx="${x+a*s}" cy="${y+b*s}" r="${r}" fill="#3A4256"/><circle cx="${x+a*s}" cy="${y+b*s}" r="${r*.45}" fill="#B8C2D2"/>`});
+  return c};
+ d+=cart(W*.01,H*.975,H*.0021);
+ // 特價區：氣球＋小推車展示台
+ {const px=W*.79,py=H*.9;d+=`<ellipse cx="${px+W*.045}" cy="${py+H*.012}" rx="${W*.06}" ry="${H*.012}" fill="#6A4A2A" opacity=".14"/><rect x="${px}" y="${py-H*.12}" width="${W*.09}" height="${H*.12}" rx="6" fill="#FFB84D"/><rect x="${px}" y="${py-H*.12}" width="${W*.09}" height="${H*.03}" rx="6" fill="#FF7A5A"/><text x="${px+W*.045}" y="${py-H*.098}" text-anchor="middle" font-size="${H*.022}" font-weight="700" fill="#fff">特價</text>`;
+  for(let k=0;k<4;k++)d+=`<circle cx="${px+W*(.016+k*.019)}" cy="${py-H*.065}" r="${H*.017}" fill="${['#FF5A5A','#FFA63A','#7FD04A','#FF5A5A'][k]}"/>`;
+  for(let k=0;k<4;k++)d+=`<rect x="${px+W*(.01+k*.02)}" y="${py-H*.04}" width="${W*.016}" height="${H*.032}" rx="2" fill="${['#6FB8FF','#FF8FC8','#9FE07A','#FFE07A'][k]}"/>`;
+  [[-.012,'#FF8FC8',-.2],[.03,'#6FB8FF',-.24],[.07,'#FFD24D',-.21]].forEach(([dx,col,dy])=>{const bx=px+W*.045+W*dx,by=py+H*dy;d+=`<path d="M${bx} ${by+H*.04} Q${bx+6} ${by+H*.08} ${px+W*.045} ${py-H*.12}" stroke="#B89A7A" stroke-width="1.2" fill="none"/><ellipse cx="${bx}" cy="${by}" rx="${H*.026}" ry="${H*.033}" fill="${col}"/><ellipse cx="${bx-H*.008}" cy="${by-H*.01}" rx="${H*.006}" ry="${H*.01}" fill="#fff" opacity=".6"/>`})}
+ // 收銀台前面的花樣＋購物袋
+ {const cx=W*.36,cw=W*.36,cy=H*.62;d+=`<rect x="${cx+cw*.04}" y="${cy+H*.025}" width="${cw*.92}" height="${H*.08}" rx="8" fill="#7FBCEA"/>${[.2,.5,.8].map(f=>`<path d="${starD(cx+cw*f,cy+H*.065,H*.022)}" fill="#FFE27A"/>`).join('')}<rect x="${cx}" y="${cy}" width="${cw}" height="${H*.012}" fill="#8FCBF2"/>`;
+  const bx=cx+cw*.6,by=cy-H*.005;d+=`<path d="M${bx} ${by} l${W*.006} -${H*.09} h${W*.05} l${W*.006} ${H*.09}Z" fill="#D9A86A"/><path d="M${bx+W*.006} ${by-H*.09} l${W*.004} ${H*.012} h${W*.042} l${W*.004} -${H*.012}" fill="#C48E50"/><path d="M${bx+W*.02} ${by-H*.088} q${W*.012} -${H*.04} ${W*.026} 0" stroke="#B07A40" stroke-width="2.5" fill="none"/>
+   <path d="M${bx+W*.014} ${by-H*.09} l${W*.006} -${H*.05}" stroke="#E8B870" stroke-width="${H*.018}" stroke-linecap="round"/><circle cx="${bx+W*.042}" cy="${by-H*.098}" r="${H*.016}" fill="#7FD04A"/><path d="M${bx+W*.012} ${by-H*.05} h${W*.04}" stroke="#fff" stroke-width="2" opacity=".5"/>`}
+ // 地板反光
+ d+=`<path d="M${W*.3} ${H*.78} L${W*.42} ${H*.78} L${W*.36} ${H} L${W*.18} ${H}Z" fill="#fff" opacity=".12"/><path d="M${W*.6} ${H*.78} L${W*.66} ${H*.78} L${W*.74} ${H} L${W*.64} ${H}Z" fill="#fff" opacity=".1"/>`;
+ // 盆栽
+ d+=`<rect x="${W*.93}" y="${H*.85}" width="${W*.05}" height="${H*.08}" rx="4" fill="#E0874A"/><ellipse cx="${W*.955}" cy="${H*.82}" rx="${W*.04}" ry="${H*.05}" fill="#5CBF6A"/><ellipse cx="${W*.94}" cy="${H*.78}" rx="${W*.02}" ry="${H*.04}" fill="#7FD08A"/>`;
+ if(window.__mkPlain)d=d.replace(/<text[^>]*>[^<]*元<\/text>/g,'');
+ if(window.__mkVeil)d+=`<rect x="-400" y="0" width="${W+800}" height="${H}" fill="#FFF8EE" opacity=".5"/>`;
+ return d};
+// 房間新玩具：小收銀機（螢幕、按鍵、抽屜、收據、掃描器）
+const S3TOY={register:`<svg viewBox="0 0 100 100"><defs><linearGradient id="rgb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8F80"/><stop offset="1" stop-color="#F0604F"/></linearGradient></defs>
+ <ellipse cx="50" cy="94" rx="42" ry="4" fill="#000" opacity=".12"/>
+ <path d="M70 30 Q70 22 76 22 H82 Q86 22 86 28 V48 H70Z" fill="#FFFFFF" stroke="#E2D6CE" stroke-width="1.2"/><path d="M72 28 H84 M72 33 H82 M72 38 H84 M72 43 H80" stroke="#C8BEB6" stroke-width="1.2"/>
+ <rect x="18" y="20" width="42" height="24" rx="5" fill="#4A5A7A"/><rect x="22" y="24" width="34" height="14" rx="3" fill="#9FF0B0"/><text x="39" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#2A5A3A">16元</text><rect x="23" y="25" width="10" height="3" rx="1.5" fill="#fff" opacity=".6"/>
+ <rect x="36" y="44" width="8" height="8" fill="#4A5A7A"/>
+ <path d="M10 56 Q10 50 16 50 H84 Q90 50 90 56 V80 H10Z" fill="url(#rgb)"/>
+ ${[0,1,2].map(r=>[0,1,2].map(c=>`<rect x="${17+c*12}" y="${55+r*8}" width="10" height="6.5" rx="2" fill="#FFF3EE" stroke="#E8B0A6" stroke-width=".6"/><text x="${22+c*12}" y="${60+r*8}" text-anchor="middle" font-size="5" font-weight="700" fill="#C0504A">${r*3+c+1}</text>`).join('')).join('')}
+ <rect x="56" y="55" width="12" height="22" rx="3" fill="#FFD24D"/><text x="62" y="68" text-anchor="middle" font-size="6" font-weight="700" fill="#A06A10">OK</text>
+ <rect x="72" y="55" width="12" height="9" rx="2" fill="#5FB0E8"/><path d="M74 59.5 H82" stroke="#FF4A4A" stroke-width="1.6"/><rect x="72" y="67" width="12" height="10" rx="2" fill="#7FD08A"/>
+ <rect x="8" y="80" width="84" height="12" rx="3" fill="#C9504A"/><rect x="40" y="84" width="20" height="3" rx="1.5" fill="#FFD8D0"/>
+ <circle cx="24" cy="86" r="2.4" fill="#FFD24D"/><circle cx="30" cy="86" r="2.4" fill="#E0E0E8"/><circle cx="76" cy="86" r="2.4" fill="#FFD24D"/></svg>`};
+// 塗色本新圖：購物車
+const S3PIC={n:'購物車',ch:21,r:[CR('path','d="M30 50 H52 L70 140 H160 L175 75 H58"'),CR('path','d="M62 75 H175 L163 130 H72Z"'),CR('rect','x="80" y="55" width="24" height="30" rx="4"'),CR('circle','cx="128" cy="62" r="16"'),
+ CR('rect','x="140" y="45" width="18" height="34" rx="5"'),CR('circle','cx="82" cy="165" r="14"'),CR('circle','cx="150" cy="165" r="14"'),CR('rect','x="0" y="182" width="200" height="18"')]};
+
+// 第二十一章「星光小超市」題庫（60 題）：[tag, 題目, [圖, 正確], [[圖,錯],[圖,錯]], 說明]
+QUIZ.push(
+ // 去超市之前
+ ['超市','去超市買東西之前，可以先做什麼？',['📝','寫好購物清單'],[['🛌','先睡一覺'],['🎈','買氣球']],'先寫好要買什麼，就不會忘記，也不會亂買。'],
+ ['超市','去超市買東西，要用什麼付錢？',['🪙','錢'],[['🍃','樹葉'],['🪨','石頭']],'買東西要用錢付給店員。'],
+ ['超市','在超市看到想要的玩具，要怎麼做？',['👨‍👩‍👧','好好問爸爸媽媽'],[['😭','躺在地上哭'],['🏃','自己拿去玩']],'想要東西可以好好說，問爸爸媽媽可不可以買。'],
+ ['超市','在超市裡，要跟誰走在一起？',['👨‍👩‍👧','爸爸媽媽'],[['🐶','不認識的小狗'],['🚶','陌生人']],'超市人很多，要跟緊爸爸媽媽，不要自己亂跑。'],
+ ['超市','在超市找不到爸爸媽媽，可以怎麼做？',['🧑‍💼','請店員幫忙'],[['🚪','自己跑出去'],['🙈','躲起來']],'站在原地，請穿制服的店員幫忙找爸爸媽媽。'],
+ ['超市','裝買好的東西，用什麼最環保？',['👜','自己帶的購物袋'],[['🗑️','垃圾桶'],['🎩','帽子']],'自己帶購物袋，可以少用塑膠袋，保護地球。'],
+ ['超市','推購物車的時候，要怎麼推？',['🐢','慢慢推'],[['🏎️','用力衝'],['🎢','跳上去玩']],'購物車要慢慢推，才不會撞到別人。'],
+ ['超市','手推車用完了，要放回哪裡？',['🛒','推回推車區'],[['🛣️','停在馬路中間'],['🌳','丟在樹下']],'用完的手推車要推回推車區，下一個人才能用。'],
+ // 認識區域
+ ['超市','蘋果和香蕉，要去哪一區找？',['🍎','水果區'],[['🧻','衛生紙區'],['🧸','玩具區']],'水果都放在水果區。'],
+ ['超市','牛奶要放在哪裡才不會壞掉？',['i:fridge','冰箱'],[['☀️','太陽下面'],['🛏️','床上']],'牛奶要冰在冷藏櫃，才不會壞掉。'],
+ ['超市','冰淇淋放在哪裡？',['❄️','冷凍櫃'],[['📚','書架'],['🧺','洗衣籃']],'冰淇淋要放在很冷的冷凍櫃，不然會融化。'],
+ ['超市','青菜要去哪一區找？',['🥬','蔬菜區'],[['🍬','糖果區'],['🧴','洗髮精區']],'高麗菜、紅蘿蔔都在蔬菜區。'],
+ ['超市','麵包要去哪裡找？',['🍞','麵包區'],[['🐟','魚缸'],['🚗','停車場']],'麵包放在麵包區，香香的。'],
+ ['超市','牙刷和牙膏，在哪一區？',['🪥','生活用品區'],[['🍇','水果區'],['🥚','雞蛋區']],'牙刷、牙膏、肥皂都在生活用品區。'],
+ ['超市','付錢的地方叫做什麼？',['🧾','收銀台'],[['🎠','旋轉木馬'],['🛁','浴室']],'買好東西，要拿到收銀台付錢。'],
+ // 分類
+ ['超市','水果區裡，哪一個是水果？',['🍇','葡萄'],[['🥬','高麗菜'],['🧻','衛生紙']],'葡萄是水果，高麗菜是蔬菜。'],
+ ['超市','蔬菜區裡，哪一個是蔬菜？',['🥕','紅蘿蔔'],[['🍉','西瓜'],['🍭','棒棒糖']],'紅蘿蔔是蔬菜，西瓜是水果。'],
+ ['超市','哪一個不用放冰箱？',['🧻','衛生紙'],[['🥛','牛奶'],['🍦','冰淇淋']],'衛生紙放在櫃子裡就好，牛奶和冰淇淋要冰起來。'],
+ ['超市','哪一個不是吃的？',['🧽','海綿'],[['🍎','蘋果'],['🍞','麵包']],'海綿是用來洗碗的，不能吃。'],
+ ['超市','哪一個是喝的？',['🧃','果汁'],[['🥐','可頌'],['🍙','飯糰']],'果汁是喝的，飯糰是吃的。'],
+ ['超市','在超市買雞蛋，要先看看什麼？',['🥚','蛋有沒有破'],[['🎨','顏色漂不漂亮'],['🔔','會不會叫']],'買雞蛋要先打開盒子看看，有沒有破掉。'],
+ ['超市','哪一個是乳製品，是牛奶做的？',['🧀','起司'],[['🍅','番茄'],['🍚','白飯']],'起司和優格都是牛奶做的。'],
+ ['超市','超市的魚和肉，放在什麼樣的櫃子裡？',['❄️','冷冷的冷藏櫃'],[['🔥','熱熱的烤箱'],['📦','紙箱裡']],'魚和肉要放在冷藏櫃，才會新鮮。'],
+ // 健康選擇
+ ['超市','哪一個點心比較健康？',['🍎','蘋果'],[['🍭','棒棒糖'],['🥤','汽水']],'水果比糖果、汽水健康多了。'],
+ ['超市','飲料區裡，哪一個沒有加糖？',['💧','礦泉水'],[['🥤','汽水'],['🧋','珍珠奶茶']],'礦泉水沒有加糖，汽水和奶茶的糖很多。'],
+ ['超市','糖果可以吃很多嗎？',['🦷','不行，會蛀牙'],[['😋','可以一直吃'],['🍬','當早餐吃']],'糖果吃太多會蛀牙，偶爾吃一點就好。'],
+ ['超市','麵包區裡，哪一個是麵包？',['🥐','可頌'],[['🧀','起司'],['🥚','雞蛋']],'可頌是一種麵包，香香的。'],
+ ['超市','多吃什麼，身體會更健康？',['🥗','蔬菜水果'],[['🍩','甜甜圈'],['🍔','炸雞漢堡']],'多吃蔬菜水果，身體壯壯的。'],
+ ['超市','買東西前，看包裝上的什麼，可以知道會不會壞掉？',['📅','有效日期'],[['🎨','圖案'],['🎀','蝴蝶結']],'包裝上有日期，過期的東西不能吃。'],
+ ['超市','牛奶過期了，還可以喝嗎？',['🙅','不可以'],[['🙆','可以'],['🥤','加糖就可以']],'過期的食物會讓肚子痛，不能吃。'],
+ // 錢和數字
+ ['超市','一顆蘋果 5 元，買 2 顆要多少錢？',['#10','10 元'],[['#5','5 元'],['#7','7 元']],'5 元加 5 元，是 10 元。'],
+ ['超市','一瓶牛奶 10 元，你有 10 元，可以買幾瓶？',['#1','1 瓶'],[['#2','2 瓶'],['#5','5 瓶']],'10 元剛好買 1 瓶。'],
+ ['超市','糖果 3 元，你給店員 5 元，要找回多少錢？',['#2','2 元'],[['#3','3 元'],['#8','8 元']],'5 元減 3 元，找回 2 元。'],
+ ['超市','香蕉 4 元，餅乾 3 元，一共多少錢？',['#7','7 元'],[['#6','6 元'],['#1','1 元']],'4 元加 3 元，一共 7 元。'],
+ ['超市','1 個 10 元硬幣，等於幾個 1 元？',['#10','10 個'],[['#1','1 個'],['#5','5 個']],'10 元等於 10 個 1 元。'],
+ ['超市','你有 2 個 5 元，一共多少錢？',['#10','10 元'],[['#7','7 元'],['#2','2 元']],'5 元加 5 元，是 10 元。'],
+ ['超市','哪一個最多錢？',['#10','10 元'],[['#5','5 元'],['#1','1 元']],'10 元比 5 元、1 元都多。'],
+ ['超市','籃子裡有 3 顆橘子，又放進 2 顆，現在有幾顆？',['#5','5 顆'],[['#4','4 顆'],['#6','6 顆']],'3 加 2 等於 5。'],
+ ['超市','架子上有 6 盒牛奶，賣掉 2 盒，還剩幾盒？',['#4','4 盒'],[['#3','3 盒'],['#8','8 盒']],'6 減 2 等於 4。'],
+ ['超市','麵包 8 元，你只有 5 元，夠不夠買？',['🙅','不夠'],[['🙆','剛好夠'],['🤑','還有剩']],'5 元比 8 元少，不夠買。'],
+ ['超市','付錢的時候，要把錢交給誰？',['🧑‍💼','收銀員'],[['🐱','小貓'],['🚶','路人']],'付錢要交給收銀台的收銀員。'],
+ ['超市','店員找錢給你，要怎麼做？',['🙏','說謝謝，收好'],[['🗑️','丟掉'],['🙈','假裝沒看到']],'收到找的錢要說謝謝，放好不要弄丟。'],
+ // 禮貌與排隊
+ ['超市','結帳的人很多，要怎麼做？',['🧍','排隊等'],[['🏃','插到最前面'],['😤','推別人']],'排隊等一下，輪到我們再結帳。'],
+ ['超市','不小心把東西弄掉在地上，要怎麼做？',['🙋','先告訴大人'],[['🦶','踢到旁邊'],['🏃','跑走']],'先告訴爸爸媽媽或店員，摔破的東西不要自己撿。'],
+ ['超市','店員幫你拿東西，要說什麼？',['😊','謝謝'],[['😠','快一點'],['🤐','什麼都不說']],'別人幫忙，要說謝謝。'],
+ ['超市','超市的試吃，可以拿很多嗎？',['☝️','問大人，拿一個就好'],[['🤲','全部拿走'],['🎒','裝進書包']],'試吃要先問爸爸媽媽，拿一個就好，讓大家都嚐嚐。'],
+ ['超市','結帳的時候，要把東西放在哪裡？',['🧾','收銀台上'],[['🪑','椅子下面'],['🎒','自己的書包裡']],'把東西放到收銀台上，店員才能幫我們結帳。'],
+ ['超市','不想要的東西，要放回哪裡？',['↩️','放回原來的地方'],[['🗑️','丟在地上'],['🧸','藏在玩具裡']],'不買的東西要放回原位，店員才找得到。'],
+ ['超市','在超市可以大聲尖叫嗎？',['🤫','不可以，要小聲'],[['📢','可以'],['🎤','可以唱歌比賽']],'超市是大家的地方，要小聲說話。'],
+ ['超市','要拿高高架子上的東西，要怎麼做？',['🙋','請大人幫忙'],[['🧗','自己爬上去'],['🦘','一直跳']],'爬架子很危險，請大人幫忙拿。'],
+ // 超市裡的工作
+ ['超市','在收銀台「嗶」一聲，就知道多少錢的是什麼？',['🧾','條碼掃描器'],[['📞','電話'],['🔦','手電筒']],'收銀員用掃描器讀條碼，就知道多少錢。'],
+ ['超市','商品上黑白線條的貼紙叫什麼？',['🏷️','條碼'],[['🎫','電影票'],['⭐','星星貼紙']],'條碼裡面藏著商品的名字和價錢。'],
+ ['超市','誰把貨架上的東西排整齊？',['🧑‍💼','店員'],[['🦖','恐龍'],['🐒','小猴子']],'店員每天把東西排得整整齊齊。'],
+ ['超市','水果放在超市以前，是從哪裡來的？',['🌳','果園'],[['🌋','火山'],['🛰️','太空']],'農夫在果園種水果，再送到超市。'],
+ ['超市','超市的海鮮區，可以買到什麼？',['🐟','魚'],[['🧸','玩具熊'],['👟','鞋子']],'海鮮區有魚和蝦，都要冰起來。'],
+ ['超市','雞蛋是誰生的？',['🐔','母雞'],[['🐄','乳牛'],['🐷','小豬']],'雞蛋是母雞生的。'],
+ ['超市','米是從哪裡長出來的？',['🌾','稻田'],[['🌊','大海'],['🏔️','雪山']],'農夫在稻田種稻子，收成後變成白米。'],
+ // 回家以後
+ ['超市','買回家的東西，哪一個要最先放進冰箱？',['🍦','冰淇淋'],[['🧻','衛生紙'],['🧴','洗髮精']],'冰淇淋會融化，要最先放進冷凍庫。'],
+ ['超市','超市的青菜，要挑什麼樣的？',['🥬','新鮮綠綠的'],[['🍂','黃黃爛爛的'],['💧','泡在水裡的']],'新鮮的青菜綠綠的、脆脆的。'],
+ ['超市','回到家，可以幫忙做什麼？',['📦','幫忙把東西放好'],[['📺','只看電視'],['😴','馬上睡覺']],'幫忙把買來的東西放好，是好幫手！']
+);
+
+// ----- 第三季「星光小幫手」：第二十一章「星光小超市」 -----
+Object.assign(QTAG,{'超市':'#FFC08A'});
+// 衣服、道具（購物籃的圖在 repl.py 加進 PR）
+ITEMS.push({id:'basketprop',slot:'prop',name:'購物籃',price:0,chapter:21});
+if(ISBOY){Object.assign(BFIT,S3BOY);NEUTRAL_PROPS.push('basketprop');ITEMS.push({id:'b_shop',slot:'dress',name:'小店長背心',price:0,chapter:21})}
+else{ITEMS.push({id:'shopdress',slot:'dress',name:'小店長洋裝',price:0,chapter:21});OUTFITS.push([20,'shopdress','小店長洋裝','basketprop','購物籃'])}
+ITEMS.forEach(i=>{ITEM[i.id]=i});
+// 十個關卡
+const CH21=[
+ L_('超市門口','pig','market',['quiz:超市','count','letter'],'pick','歡迎光臨星光小超市！我是店長小豬，先拿一個購物籃吧！'),
+ L_('購物清單','owl','market',['quiz:超市','zhuyin','quiz:超市'],'box','咕咕，買東西之前，先看看購物清單上寫了什麼！'),
+ L_('水果區','squirrel','market',['quiz:超市','add','quiz:超市'],'chest','蘋果、香蕉和橘子，挑新鮮的水果放進籃子裡！'),
+ L_('牛奶冰箱','cow','market',['quiz:超市','word','quiz:超市'],'petgift','哞～牛奶要放在冰箱裡，才不會壞掉喔！'),
+ L_('麵包架','bear','market',['quiz:超市','quiz:算算看','letter'],'pick','剛烤好的麵包香香的，我們來算一算！'),
+ L_('零食區','mouse','market',['quiz:超市','money','sub'],'rain','吱吱！零食好多喔，想買要先問爸爸媽媽。'),
+ L_('排隊結帳','duck','market',['quiz:超市','manner','quiz:超市'],'box','呱呱！結帳要排隊，一個一個來。'),
+ L_('小收銀員','kitten','market',['quiz:超市','money','catch:letter'],'chest','喵～我們來當收銀員，算一算一共多少錢！'),
+ L_('環保購物袋','bunny','market',['quiz:超市','share','zhuyin'],'petgift','自己帶購物袋，就可以少用塑膠袋喔！'),
+ L_('超市大特賣','star','market',['quiz:超市','mix','money','quiz:超市'],'chapter','超市大特賣開始了！答對四個問題，一起把東西買回家！')];
+CHAPTERS.push({name:'星光小超市',title:'第二十一章・星光小超市',levels:CH21,bg:'market',mix:[...S2MIX,'quiz:超市','money'],
+ firstSay:'第二十一章，星光小超市！看價錢、排隊結帳，我們一起當小幫手！點一下發光的小豬，出發！',
+ letter:'親愛的公主：<br>謝謝你來星光小超市幫忙！你會看價錢、會排隊結帳，還記得帶購物袋。<br>下一次，我們要去科學實驗室喔！',
+ prize:[],gems:10,prizeName:'',endText:'下一站：第二十二章「科學實驗室」，敬請期待！'});
+{const C=CHAPTERS[20];
+ if(ISBOY){C.outfit=['b_shop','basketprop'];C.outfitName='小店長背心和購物籃';
+  C.letter='王子，謝謝你來星光小超市幫忙！<br>你推購物車推得慢慢的，沒有撞到別人，好棒！<br>下一次，我們要去科學實驗室喔！';C.boyLetter=1;DRAGON_SAY.add(voiceT(C.letter.replace(/<br>/g,'')))}
+ else{C.outfit=['shopdress','basketprop'];C.outfitName='小店長洋裝和購物籃';PRINCE_LETTERS.add(C.letter.replace(/<br>/g,''))}}
+// 第二十章結束：接著第三季
+try{const c20=CHAPTERS[19];c20.endText='星光公主大冒險，第二季完成！<br>下一站：第三季「星光小幫手」！'}catch(e){}
+// 大地圖：第五段
+WORLD.push({i:20,ic:()=>art('🛒'),c:['#FF8A6A','#8A3A2A'],name:'星光小超市'},{i:21,ic:()=>art('🔬'),c:['#6A8AE8','#2A3A8A'],name:'科學實驗室'},
+ {i:22,ic:()=>art('🌱'),c:['#6FC86A','#2A6A2A'],name:'植物小花園'},{i:23,ic:()=>art('♻️'),c:['#4AB8A0','#1A5A4A'],name:'環保小尖兵'},{i:24,ic:()=>art('🏘️'),c:['#E8A04A','#7A4A1A'],name:'社區小幫手'});
+ARCS.push({t:'星光小幫手',n:'第五段',from:20,ic:()=>WICON.star,say:'下一站：第三季「星光小幫手」！'});
+// 自由練習
+PTOPICS.push(['market','超市購物','🛒','pig','market',['quiz:超市','quiz:超市','money','quiz:超市','quiz:超市']]);
+// 房間：小收銀機
+RMPRIZE.push(['toy','register','小收銀機',21]);ROOMITEMS.toy.push(['register','小收銀機',999]);
+const _roomSVG71=roomSVG;roomSVG=function(){const R=_roomSVG71.apply(this,arguments);try{if(roomGet('toy')==='register')R.toy=S3TOY.register}catch(e){}return R};
+// 塗色本：購物車
+PICS.push(S3PIC);
+
+// ----- 第三季開場故事 -----
+const _story71=SCREENS.story;
+SCREENS.story=function(){if(S.ch!==20)return _story71.apply(this,arguments);
+ const bg=k=>`<svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${sbg(k)}</svg>`;
+ const sn=()=>V2.starName||'小星星';
+ const P=[{bg:'space',a:()=>`${princess(S.look)}<span class="bob">${animal('star','class="small"')}</span>`,t:()=>`運動會結束以後，${sn()}帶來五封新的信：快來星光小鎮當小幫手！`},
+  {bg:'market',a:()=>`${princess(S.look)}<span class="bob">${animal('pig')}</span>`,t:()=>'第一封信來自店長小豬：星光小超市開幕了，快來幫忙！'},
+  {bg:'market',a:()=>`${myPet('class="small"')}${princess(S.look)}<span class="bob">${animal('mouse')}</span>`,t:()=>'帶好購物袋，我們去超市囉！'}];
+ let i=0;
+ function render(){const p=P[i];const t=p.t();
+  screen.innerHTML=`<div class="story"><button class="skip" id="skip">跳過</button><div class="scard">
+   <div class="scene">${bg(p.bg)}<div class="actors">${p.a()}</div></div><p class="stext">${t}</p>
+   <div class="sdots">${P.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>
+   <button class="btn" id="next">${i<P.length-1?'下一頁':'去換裝'}</button></div></div>`;
+  say([t]);
+  $('#next').onclick=()=>{if(i<P.length-1){i++;sfx('pop');render()}else go('guide')};
+  $('#skip').onclick=()=>go('guide');
+ }
+ render()};
+
+// ----- 網頁版：第三季要先輸入密碼（測試用） -----
+const S3PW='5201314';
+const s3Ok=()=>IS_APP||!!V2.s3pw;
+function s3Gate(then){const ov=overlay(screen,`<div class="card"><h2>第三季搶先玩</h2><p>這裡要請爸爸媽媽幫忙喔！<br><span class="small">請輸入密碼</span></p>
+  <input id="s3pw" type="tel" inputmode="numeric" maxlength="12" autocomplete="off" style="font:inherit;font-size:24px;text-align:center;width:min(240px,70vw);padding:8px 12px;border-radius:14px;border:2px solid var(--gold);background:#fff;color:#2A2266">
+  <p class="small" id="s3err" style="min-height:1.4em;color:#FFB3B3"></p>
+  <div class="row"><button class="btn" id="s3ok">確定</button><button class="btn2" id="s3no">取消</button></div></div>`);
+ ov.classList.add('s3gate');say(['這裡要請爸爸媽媽幫忙喔！']);
+ const inp=$('#s3pw',ov);setTimeout(()=>{try{inp.focus()}catch(e){}},200);
+ const ok=()=>{if(inp.value.trim()===S3PW){V2.s3pw=1;save2();ov.remove();sfx('gem');then()}else{sfx('wrong');$('#s3err',ov).textContent='密碼不對喔';inp.value=''}};
+ $('#s3ok',ov).onclick=ok;inp.addEventListener('keydown',e=>{if(e.key==='Enter')ok()});
+ $('#s3no',ov).onclick=()=>{ov.remove();sfx('pop')}}
+const S3SCR=['story','guide','map','stage','chend'];
+const _show71=show;show=function(name,arg){if(!s3Ok()&&S3SCR.includes(name)&&S.ch>=20){setCh(19);S.screen='';_show71.call(this,'world');setTimeout(()=>s3Gate(()=>{setCh(20);go(S.progs&&S.progs[20]?'guide':'story')}),400);return}return _show71.apply(this,arguments)};
+window.__s3Gate=s3Gate;
+
+// ----- 遊樂園：小超市收銀台（完成第二十一章打開） -----
+const CASH_N=6;
+const CASH_ITEMS=[['🍎','蘋果'],['🍌','香蕉'],['🥛','牛奶'],['🍞','麵包'],['🥕','紅蘿蔔'],['🍪','餅乾'],['🧃','果汁'],['🥚','雞蛋'],['🍇','葡萄'],['🍊','橘子'],['🍓','草莓'],['🍦','冰淇淋']];
+const CASH_GUEST=['pig','bunny','bear','duck','kitten','mouse','dog','squirrel'];
+let cashTok=0;
+function cashQ(){const easy=S.diff==='easy',two=!easy||Math.random()<.5,max=easy?5:10;
+ const its=shuffle(CASH_ITEMS.slice()).slice(0,two?2:1);let p;
+ do{p=its.map(()=>1+Math.floor(Math.random()*(two?(easy?3:5):5)))}while(p.reduce((a,b)=>a+b,0)>max);
+ const t=p.reduce((a,b)=>a+b,0);const set=new Set([t]);while(set.size<3){const v=t+pick([-2,-1,1,2,3]);if(v>=1&&v<=max+2)set.add(v)}
+ return {its,p,t,opts:shuffle([...set]),guest:pick(CASH_GUEST)}}
+SCREENS.cashier=function(){const tok=++cashTok;const live=()=>tok===cashTok&&S.screen==='cashier';
+ screen.innerHTML=`<div class="dball cashier"><div class="phead"><button class="btn2 small" id="cback">離開收銀台</button><h2 class="gtitle">小超市收銀台</h2><span class="phsp"></span></div>
+  <div class="cfloor"><svg class="bg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMax slice">${(()=>{window.__mkPlain=1;try{return sbg('market')}finally{window.__mkPlain=0}})()}</svg>
+   <div class="cguest" id="cguest"></div><div class="ctable" id="ctable"></div><div class="cme">${princess(S.look)}</div></div>
+  <div class="dnotes" id="cnotes">${Array.from({length:CASH_N},(_,k)=>`<i data-k="${k}">★</i>`).join('')}</div>
+  <div class="dq" id="cq"><p class="dtip">客人要來了！</p></div></div>`;
+ $('#cback').onclick=()=>{cashTok++;hush();go('park')};
+ const cq=$('#cq'),cg=$('#cguest'),ct=$('#ctable');
+ (async()=>{
+  const fullIntro=V2.cashIntro!==today();V2.cashIntro=today();save2();
+  await Promise.race([say(fullIntro?['歡迎來到小超市收銀台！','客人來買東西了，算一算，一共幾元？']:['歡迎來到小超市收銀台！']),wait(9000)]);if(!live())return;
+  for(let r=0;r<CASH_N;r++){
+   const q=cashQ();
+   cg.innerHTML=`<span class="cin">${animal(q.guest)}</span>`;
+   ct.innerHTML=q.its.map(([e],k)=>`<span class="citem" style="--dl:${(k*.15).toFixed(2)}s"><span class="ce">${art(e)}</span><b>${q.p[k]}元</b></span>`).join('<i class="cplus">＋</i>');
+   cq.innerHTML=`<div class="dbubbles">${q.opts.map((o,k)=>`<button class="dbub cbub" data-v="${o}" style="--dl:${(k*.1).toFixed(1)}s">${o}元</button>`).join('')}</div><button class="speak dspeak" aria-label="再聽一次">${ICON.speaker('#2A2266')}</button>`;
+   say(['一共幾元？']);let tries=0;
+   const ok=await new Promise(res=>{let idle=setTimeout(function re(){if(!live())return res(false);say(['一共幾元？']);idle=setTimeout(re,9000)},9000);
+    $('.dspeak',cq).onclick=()=>say(['一共幾元？']);
+    $$('.dbub',cq).forEach(b=>b.onclick=()=>{if(!live())return;
+     if(+b.dataset.v===q.t){clearTimeout(idle);b.classList.add('win');burstEl(b,24);sfx('right');res(true)}
+     else{tries++;b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');sfx('wrong');
+      if(tries>=2){const t=$$('.dbub',cq).find(x=>+x.dataset.v===q.t);if(t)t.classList.add('hintglow');say(['看發光的那一個！'])}else{say(['我們一起數一數！']);try{countAlong($$('.citem b',ct))}catch(e){}}}})});
+   if(!ok||!live())return;
+   const nt=$(`#cnotes i[data-k="${r}"]`);if(nt)nt.classList.add('on');sfx('gem');
+   cq.innerHTML=`<p class="dtip">一共${q.t}元！謝謝光臨！</p>`;
+   await Promise.all([say([`一共${q.t}元！`,'謝謝光臨！']),wait(1800)]);if(!live())return;
+   const gi=$('.cin',cg);if(gi)gi.classList.add('cout');await wait(600);if(!live())return;
+  }
+  if(!live())return;confetti();
+  const first=V2.cashDay!==today();V2.cashDay=today();save2();const n=first?3:1;S.wallet+=n;save();renderBar();sfx('gem');
+  const ov=overlay(screen,`<div class="card"><div class="face big">${princess(S.look)}</div><h2>收銀台的工作完成了！</h2><p>客人都買到東西了！<br>得到 ${n} 顆寶石！</p><div class="row"><button class="btn" id="cagain">再玩一次</button><button class="btn2" id="cout">離開收銀台</button></div></div>`);
+  say(['收銀台的工作完成了！',first?'送你三顆寶石！':'送你一顆寶石！']);
+  $('#cagain',ov).onclick=()=>{ov.remove();SCREENS.cashier()};$('#cout',ov).onclick=()=>{ov.remove();cashTok++;go('park')};
+ })();
+};
+Object.assign(ICONART,{'🧾':IA(`<circle cx="32" cy="32" r="27" fill="#FFE9D8"/><rect x="12" y="30" width="40" height="18" rx="4" fill="#F0604F"/><rect x="16" y="14" width="22" height="14" rx="3" fill="#4A5A7A"/><rect x="18" y="16" width="18" height="8" rx="2" fill="#9FF0B0"/><rect x="24" y="28" width="6" height="4" fill="#4A5A7A"/>${[0,1,2].map(c=>`<rect x="${16+c*8}" y="34" width="6" height="4" rx="1" fill="#FFF3EE"/><rect x="${16+c*8}" y="40" width="6" height="4" rx="1" fill="#FFF3EE"/>`).join('')}<rect x="42" y="34" width="6" height="10" rx="1.5" fill="#FFD24D"/><path d="M40 14 h10 v14 h-10Z" fill="#fff" stroke="#E2D6CE"/>`)});
+const _park71=SCREENS.park;
+SCREENS.park=function(){const r=_park71.apply(this,arguments);try{const g=$('.pgrid');if(g&&!g.querySelector('[data-k="cashier"]')&&CHAPTERS[20]){const open=S.chDone>=21;
+ const b=document.createElement('button');b.className='pcard'+(open?'':' lockd');b.dataset.k='cashier';b.style.setProperty('--dl','.6s');
+ b.innerHTML=`<span class="pic">${art('🧾')}</span><b>小超市收銀台</b><span>${open?'當收銀員，算一算多少錢':'完成第二十一章就會打開'}</span>${open?'':`<span class="lk">${ICON.lock('#FFD98A')}</span>`}`;
+ b.onclick=()=>{if(!open){say(['完成第二十一章，就會打開喔！']);b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}sfx('pop');S.from='park';go('cashier')};
+ const d=g.querySelector('[data-k="dance"]');g.insertBefore(b,d?d.nextSibling:null)}}catch(e){console.log('park71',e)}return r};
+PARKS.push('cashier');
+(()=>{const st=document.createElement('style');st.textContent=`
+.cashier .cfloor{position:relative;flex:0 0 auto;height:min(50vh,58vw);overflow:hidden;border-radius:22px;margin:0 12px}
+.cashier .cfloor .bg{position:absolute;inset:0;width:100%;height:100%}
+.cashier .cme{position:absolute;right:6%;bottom:2%;width:min(26%,190px)}
+.cashier .cme svg{width:100%;height:auto}
+.cashier .cguest{position:absolute;left:5%;bottom:4%;width:min(24%,170px)}
+.cashier .cguest svg{width:100%;height:auto}
+.cashier .cin{display:block;animation:cin .7s ease-out both}.cashier .cin.cout{animation:cout .6s ease-in both}
+@keyframes cin{from{transform:translateX(-120%);opacity:0}to{transform:none;opacity:1}}@keyframes cout{to{transform:translateX(-140%);opacity:0}}
+.cashier .ctable{position:absolute;left:50%;bottom:18%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:20px;background:rgba(255,255,255,.88);box-shadow:0 6px 18px rgba(60,30,10,.18)}
+.cashier .citem{display:flex;flex-direction:column;align-items:center;animation:pop .45s var(--dl) both}
+.cashier .citem .ce{width:clamp(48px,9vw,78px);height:clamp(48px,9vw,78px);display:grid;place-items:center;font-size:clamp(40px,7vw,62px);line-height:1}
+.cashier .citem .ce svg{width:100%;height:100%}
+.cashier .citem b{font-weight:400;font-size:clamp(18px,3vw,26px);color:#E0503A;background:#FFF3D6;border-radius:10px;padding:0 8px;margin-top:2px}
+.cashier .cplus{font-style:normal;font-size:clamp(22px,4vw,34px);color:#8A5A3A}
+.cashier .dq{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:12px}
+.cashier .dbub.cbub{position:relative!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;transform:none!important;animation:pop .45s cubic-bezier(.3,1.6,.5,1) backwards var(--dl)!important}
+.cashier .dbub.cbub.hintglow{box-shadow:0 0 0 5px #FFE27A,0 0 26px #FFD24D!important}
+.cashier .cbub{font-size:clamp(22px,4vw,32px)}
+@media (max-width:560px){.cashier .phsp{width:0}.cashier .gtitle{font-size:20px;white-space:nowrap}.cashier .dbub.cbub{width:72px;font-size:20px}.cashier .dbubbles{gap:10px}.cashier .cme{width:30%}.cashier .cguest{width:28%}}
+.cashier .dbub.hintglow{z-index:2}
+`;document.head.appendChild(st)})();
+
+// 關卡地圖：第二十一章背景比較花，蓋一層淡淡的白；章名底框跟著字變寬
+const _map71=SCREENS.map;
+SCREENS.map=function(){window.__mkVeil=window.__mkPlain=S.ch===20?1:0;let r;try{r=_map71.apply(this,arguments)}finally{window.__mkVeil=window.__mkPlain=0}
+ try{const t=document.querySelector('.mapsvg text.banner');const rc=t&&t.previousElementSibling;if(rc&&rc.tagName==='rect'){const w=t.getBBox().width+56;if(w>+rc.getAttribute('width')){rc.setAttribute('width',w);rc.setAttribute('x',-w/2)}}}catch(e){}
+ return r};
 
 // 每次打開自動檢查新版本
 function updCheck(){if(!/^https?:/.test(location.protocol)||!navigator.onLine)return;
