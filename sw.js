@@ -1,6 +1,6 @@
 // 星光公主大冒險 — offline cache. Change VERSION when updating the game.
-const VERSION='starlight-v103';
-const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./font-hun-2cad0094.woff2','./font-baloo-abc191e4.woff2'];
+const VERSION='starlight-v104';
+const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./font-hun-f27d72af.woff2','./font-baloo-abc191e4.woff2'];
 const PAGE=()=>'./index.html?n='+Date.now(); // 網址加上時間，避免拿到 GitHub 的舊副本
 const timeout=ms=>new Promise(r=>setTimeout(r,ms));
 const HTML={'Content-Type':'text/html; charset=utf-8'};
