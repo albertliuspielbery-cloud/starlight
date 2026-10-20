@@ -14,6 +14,8 @@ ITEMS = [
     ('stage3', 'Chapters 11-15', '第十一～十五章', '解鎖第十一章到第十五章的冒險，一次購買永久使用', 120),
     ('stage4', 'Chapters 16-20', '第十六～二十章', '解鎖第十六章到第二十章的冒險，一次購買永久使用', 120),
     ('full', 'Chapters 6-20 Bundle', '第六～二十章合購', '一次解鎖第六章到第二十章（三段合購）', 290),
+    # App 1.3 新增：第三季（不包含在第六～二十章合購裡）
+    ('stage5', 'Chapters 21-25', '第二十一～二十五章', '解鎖第二十一章到第二十五章的冒險，一次購買永久使用', 120),
 ]
 NOTE = ('Non-consumable unlock for story chapters. The purchase screen is only reachable from Parent Settings, '
         'which is behind a parental gate (multiplication question). Children tapping a locked chapter only hear '
