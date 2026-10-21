@@ -6,6 +6,17 @@ SRC=str(HERE.parent);DST=str(HERE/'www')
 h=open(SRC+'/index.html',encoding='utf-8').read()
 inj="<script>window.__APP=1;try{Object.defineProperty(window,'caches',{value:undefined,configurable:true})}catch(e){}</script>"
 assert h.count('<head>')==1;h=h.replace('<head>','<head>'+inj,1)
+# App 1.3：第二十一～二十五章由 stage5 購買解鎖（不包含在第六～二十章合購裡）
+# 網頁版 4.2 還沒有 stage5（之後的網頁版從 v5/m67_iap.js 建置就會有）；沒有的話在這裡補上
+S4="['stage4','第十六～二十章',15,20]];"
+S5="['stage4','第十六～二十章',15,20],['stage5','第二十一～二十五章',20,25]];"
+if S5 not in h:
+  assert h.count(S4)==1,'找不到網頁版的 STAGES'
+  h=h.replace(S4,S5,1)
+  h=h.replace('解鎖第六～二十章</button><small class="iapppn">','解鎖新的章節</button><small class="iapppn">',1)
+assert h.count(S5)==1 and "const FULLSET=['stage2','stage3','stage4'];" in h,'stage5／合購設定不對'
+assert "const s3Ok=()=>IS_APP||" in h,'App 版不能出現網頁版的第三季密碼'
+
 h2=re.sub(r"<script>if\('serviceWorker' in navigator\)\{[^<]*</script>\n?",'',h)
 assert h2!=h,'sw register not found';h=h2
 # App 版不放孩子的真名（版本紀錄、王子版替換表裡的舊字串）

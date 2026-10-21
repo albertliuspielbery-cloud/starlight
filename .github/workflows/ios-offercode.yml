@@ -1,4 +1,4 @@
-# 星光小冒險：建立「第六～二十章合購」的免費兌換碼（給親友）
+# 星光小冒險：建立購買項目的兌換碼（給親友）；預設「第六～二十章合購」，第三季選 stage5
 # 在 GitHub 手機 App：Actions → 兌換碼 → Run workflow；跑完點進去，最上面會顯示兌換碼和兌換網址
 name: 兌換碼
 on:
@@ -13,6 +13,11 @@ on:
       price:
         description: '價格（台幣，0 = 免費）'
         default: '0'
+      product:
+        description: '商品：full＝第六～二十章合購；stage5＝第二十一～二十五章'
+        type: choice
+        options: [full, stage5]
+        default: full
 permissions:
   contents: read
 jobs:
@@ -28,4 +33,4 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           python3 -m pip install -q pyjwt cryptography
-          python3 app/ci_offer.py "${{ inputs.code }}" "${{ inputs.count }}" "${{ inputs.price }}"
+          python3 app/ci_offer.py "${{ inputs.code }}" "${{ inputs.count }}" "${{ inputs.price }}" "${{ inputs.product }}"
