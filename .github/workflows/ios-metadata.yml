@@ -31,7 +31,7 @@ jobs:
           fastlane deliver \
             --api_key_path "$RUNNER_TEMP/asc.json" \
             --app_identifier tw.starlight.adventure \
-            --app_version 1.3 --platform ios \
+            --app_version 1.4 --platform ios \
             --metadata_path appstore/metadata \
             --screenshots_path appstore/screenshots \
             --skip_binary_upload true --skip_app_version_update false \
@@ -48,7 +48,7 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           python3 -m pip install -q pyjwt cryptography
-          python3 app/ci_appreview.py 1.3 appstore/preview/iphone-69.mp4 00:00:01:00
+          python3 app/ci_appreview.py 1.4 appstore/preview/iphone-69.mp4 00:00:01:00
       - name: 檢查 App Store Connect 上的截圖
         if: always()
         env:
