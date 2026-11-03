@@ -69,9 +69,10 @@ def create_dist_cert(body):
         certs.sort(key=lambda c: c['attributes'].get('expirationDate') or '')
         old = [c for c in certs if _created_days_ago(c) >= min_age]
         if not old:
-            print('::error::上架憑證數量已達 Apple 上限，而且每一張都是 ' + str(min_age) + ' 天內建立的（可能有 App 正在審查或測試中），'
-                  '為了不讓那些 build 變成無效簽章，這次先不刪。請過幾天再上傳。 Apple 訊息：' + e.msg[:300])
-            raise SystemExit(1)
+            # 不刪任何憑證，改用 Apple 的雲端簽名（cloud-managed certificate，不佔憑證數量）；ios.yml 看到 cloud 檔就改走自動簽名
+            print('::warning::上架憑證數量已達 Apple 上限，而且每一張都是 ' + str(min_age) + ' 天內建立的；不刪憑證，改用 Apple 雲端簽名。')
+            open(f'{OUT}/cloud', 'w').write('1')
+            raise SystemExit(0)
         print('憑證已滿，刪除最舊的一張（約 ' + str(_created_days_ago(old[0])) + ' 天前建立）：' + old[0]['id'])
         call('DELETE', '/certificates/' + old[0]['id'])
         return call('POST', '/certificates', body)['data']
