@@ -1,5 +1,5 @@
 // 星光公主大冒險 — offline cache. Change VERSION when updating the game.
-const VERSION='starlight-v121';
+const VERSION='starlight-v122';
 const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./font-hun-b470b648.woff2','./font-baloo-abc191e4.woff2'];
 const PAGE=()=>'./index.html?n='+Date.now(); // 網址加上時間，避免拿到 GitHub 的舊副本
 const timeout=ms=>new Promise(r=>setTimeout(r,ms));
@@ -9,7 +9,7 @@ const whole=t=>typeof t==='string'&&t.length>100000&&t.includes("APP_VERSION='")
 async function putPage(c,txt){await c.put('./index.html',new Response(txt,{headers:HTML}));await c.put('./',new Response(txt,{headers:HTML}))}
 async function cachedPage(){try{for(const k of ['./index.html','./']){const h=await caches.match(k);if(!h)continue;const t=await h.text();if(whole(t))return t;
    // 壞掉的：每個快取都刪掉
-   for(const n of await caches.keys()){if(n==='starlight-v121oice')continue;const c=await caches.open(n);await c.delete(k)}}}catch(e){}return null}
+   for(const n of await caches.keys()){if(n==='starlight-v122oice')continue;const c=await caches.open(n);await c.delete(k)}}}catch(e){}return null}
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const c=await caches.open(VERSION);
   await Promise.all(CORE.filter(u=>u!=='./'&&u!=='./index.html').map(u=>Promise.race([fetch(u,{cache:'reload'}).then(r=>{if(r.ok)return c.put(u,r)}),timeout(8000)]).catch(()=>{})));
   try{await Promise.race([(async()=>{const r=await fetch(PAGE(),{cache:'reload'});if(!r.ok)return;const t=await r.text();if(!whole(t))return;await putPage(c,t);await saveVI(t).catch(()=>{})})(),timeout(45000)])}catch(_){}
@@ -17,7 +17,7 @@ self.addEventListener('install',e=>{e.waitUntil((async()=>{const c=await caches.
 self.addEventListener('activate',e=>{e.waitUntil((async()=>{
   // 新的快取沒拿到網頁本體（網路太慢）：先從舊的快取搬過來（要是完整的），離線才打得開
   try{const c=await caches.open(VERSION);const have=await c.match('./index.html');const ht=have&&await have.text();if(!whole(ht)){const t=await cachedPage();if(t)await putPage(c,t)}}catch(_){}
-  const ks=await caches.keys();await Promise.all(ks.filter(k=>k!==VERSION&&k!=='starlight-v121oice').map(k=>caches.delete(k)));
+  const ks=await caches.keys();await Promise.all(ks.filter(k=>k!==VERSION&&k!=='starlight-v122oice').map(k=>caches.delete(k)));
   await self.clients.claim()})())});
 const isPage=req=>req.mode==='navigate'||/\/(index\.html)?$/.test(new URL(req.url).pathname);
 // 新版網頁存起來之前，先把它需要的字型和語音目錄也存好（離線打開新版也有聲音、字型）；缺一樣就不換，繼續用舊版
@@ -29,7 +29,7 @@ async function stash(txt){
   await saveVI(txt);
   await putPage(c,txt)}
 async function saveVI(txt){const vi=(txt.match(/const VOICE_INDEX='([^']+)'/)||[])[1];if(!vi)return;
-  const vc=await caches.open('starlight-v121oice');const key=new URL('voice/'+vi,self.location).href;
+  const vc=await caches.open('starlight-v122oice');const key=new URL('voice/'+vi,self.location).href;
   if(!(await vc.match(key))){const r=await fetch(key,{cache:'reload'});if(!r.ok)throw new Error('voice index');await vc.put(key,new Response(await r.text(),{headers:{'Content-Type':'application/json'}}))}}
 self.addEventListener('fetch',e=>{
   const req=e.request;if(req.method!=='GET')return;
