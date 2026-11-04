@@ -14,9 +14,9 @@ on:
         description: '價格（台幣，0 = 免費）'
         default: '0'
       product:
-        description: '商品：full＝第六～二十章合購；stage5＝第二十一～二十五章'
+        description: '商品：full＝第六～二十章合購；stage5＝第二十一～二十五章；stage6＝第二十六～三十章；s5to6＝第二十一～三十章合購'
         type: choice
-        options: [full, stage5]
+        options: [full, stage5, stage6, s5to6]
         default: full
 permissions:
   contents: read

@@ -16,6 +16,10 @@ ITEMS = [
     ('full', 'Chapters 6-20 Bundle', '第六～二十章合購', '一次解鎖第六章到第二十章（三段合購）', 290),
     # App 1.3 新增：第三季（不包含在第六～二十章合購裡）
     ('stage5', 'Chapters 21-25', '第二十一～二十五章', '解鎖第二十一章到第二十五章的冒險，一次購買永久使用', 120),
+    # App 1.6 新增：第四季「星光大探險」（不包含在第六～二十章合購裡）
+    ('stage6', 'Chapters 26-30', '第二十六～三十章', '解鎖第二十六章到第三十章的冒險，一次購買永久使用', 120),
+    # App 1.6 新增：第三、四季合購（stage5＋stage6）。TODO 價格等 Albert 定，暫定 NT$200
+    ('s5to6', 'Chapters 21-30 Bundle', '第二十一～三十章合購', '一次解鎖第二十一章到第三十章（兩段合購）', 200),
 ]
 NOTE = ('Non-consumable unlock for story chapters. The purchase screen is only reachable from Parent Settings, '
         'which is behind a parental gate (multiplication question). Children tapping a locked chapter only hear '
