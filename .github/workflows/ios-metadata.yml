@@ -48,7 +48,7 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           python3 -m pip install -q pyjwt cryptography
-          python3 app/ci_appreview.py 1.6 appstore/preview/iphone-69.mp4 00:00:01:00
+          python3 app/ci_appreview.py 1.6 none  # 舊影片有「免費」字樣、只到第 25 章，1.6 先不放影片（Apple 2.3.7）
       - name: 檢查 App Store Connect 上的截圖
         if: always()
         env:

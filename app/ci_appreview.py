@@ -1,6 +1,6 @@
 # 雲端用：把宣傳影片（App 預覽）傳到指定版本的繁體中文頁面（6.9 吋 iPhone）
 # 同一格原本的影片會先刪掉再傳新的
-# 用法：python3 ci_appreview.py <版本 例如 1.2> <影片.mp4> [封面時間碼 例如 00:00:01:12]
+# 用法：python3 ci_appreview.py <版本 例如 1.2> <影片.mp4｜none> [封面時間碼 例如 00:00:01:12]（none＝只刪掉、不放影片）
 # 需要環境變數：ASC_KEY_ID、ASC_ISSUER_ID、ASC_KEY_P8
 import os, sys, json, time, hashlib, urllib.request, urllib.error
 import jwt
@@ -74,6 +74,8 @@ if not ps:
               'relationships': {'appStoreVersionLocalization': {'data': {'type': 'appStoreVersionLocalizations', 'id': loc['id']}}}}})['data']
 for old in all_pages(f'/v1/appPreviewSets/{ps["id"]}/appPreviews?limit=10'):
     print('刪掉舊的影片', old['id']); call('DELETE', f'/v1/appPreviews/{old["id"]}')
+if VIDEO == 'none':
+    say(f'## {VER} 版的宣傳影片已拿掉（不放影片）'); print('removed'); raise SystemExit(0)
 b = open(VIDEO, 'rb').read()
 r = call('POST', '/v1/appPreviews', {'data': {'type': 'appPreviews',
          'attributes': {'fileName': os.path.basename(VIDEO), 'fileSize': len(b), 'mimeType': 'video/mp4', 'previewFrameTimeCode': TC},
