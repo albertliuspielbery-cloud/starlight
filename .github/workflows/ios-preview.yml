@@ -6,7 +6,7 @@ on:
     inputs:
       version:
         description: '版本（例如 1.6）'
-        default: '1.7'
+        default: '1.8'
       video:
         description: '影片路徑，或 none 拿掉影片'
         default: 'none'

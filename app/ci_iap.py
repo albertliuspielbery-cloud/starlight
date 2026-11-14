@@ -20,6 +20,8 @@ ITEMS = [
     ('stage6', 'Chapters 26-30', '第二十六～三十章', '解鎖第二十六章到第三十章的冒險，一次購買永久使用', 120),
     # App 1.6 新增：第六～三十章合購（stage2～stage6），NT$390（Albert 11/04 定）
     ('s2to6', 'Chapters 6-30 Bundle', '第六～三十章合購', '一次解鎖第六章到第三十章（五段合購）', 390),
+    # App 1.8 新增：第五季「星光小管家」（不包含在第六～二十章、第六～三十章合購裡；價格級距同 stage6，家長 11/13 定）
+    ('stage7', 'Chapters 31-35', '第三十一～三十五章', '解鎖第三十一章到第三十五章的冒險，一次購買永久使用', 120),
 ]
 NOTE = ('Non-consumable unlock for story chapters. The purchase screen is only reachable from Parent Settings, '
         'which is behind a parental gate (multiplication question). Children tapping a locked chapter only hear '
