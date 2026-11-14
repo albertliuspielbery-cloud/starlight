@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光小冒險">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-3b0242cf.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-3b0242cf.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-0e2d0c47.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-0e2d0c47.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -8554,19 +8554,22 @@ function swan2(a,acc,g=nid()){return `<svg viewBox="0 0 120 110" ${a} aria-hidde
 {const _petSVG62b=petSVG;const NEWP={fox:fox2,moonrabbit:rabbit2,swan:swan2};
  petSVG=function(kind,acc,a=''){const f=NEWP[kind];if(f)return f(a,acc||'');return _petSVG62b.apply(this,arguments)}}
 // ---- 小企鵝、小海豚、青鳥（64x64 圖示，配件位置用原本的 ACCANCH）----
+// 2026-11-15 小企鵝翅膀重畫：從肩膀長出、貼著身體、尖端朝下外的鰭狀翅，不描邊（跟身體一樣），深一點的漸層＋淡淡亮光表現厚度。
+// 翅膀後面那條 fill="none" 的線只是佔位（塗色本用每一塊的順序存顏色，舊版這裡有一塊；保留才不會讓腳、嘴巴的顏色錯位），遊戲裡看不到。
 try{
 ICONART['🐧']=IA(`<ellipse cx="32" cy="61" rx="16" ry="2.4" fill="#3A2A7A" opacity=".18"/>
  <path d="M32 6 Q50 6 51 28 Q53 48 46 56 Q40 60 32 60 Q24 60 18 56 Q11 48 13 28 Q14 6 32 6Z" fill="url(#pgb)"/>
  <path d="M32 18 Q44 20 45 34 Q46 48 40 54 Q36 57 32 57 Q28 57 24 54 Q18 48 19 34 Q20 20 32 18Z" fill="#FBF8FF"/>
  <path d="M17.5 36 Q19 32 22 34 Q21 39 20 43 Q17 41 17.5 36Z M46.5 36 Q45 32 42 34 Q43 39 44 43 Q47 41 46.5 36Z" fill="#FFD65A"/>
- <path d="M14 30 Q5 40 8 51 Q13 50 18 42Z" fill="#4A5AB0" stroke="#9AAAF0" stroke-width="1.4"/><path d="M50 30 Q59 40 56 51 Q51 50 46 42Z" fill="#4A5AB0" stroke="#9AAAF0" stroke-width="1.4"/>
- <path d="M10 46 Q12 44 14 42 M54 46 Q52 44 50 42" stroke="#5A6AB8" stroke-width="1" opacity=".7"/>
+ <path d="M16.6 26.4 C12.2 27.4 9.6 31.6 8.7 37.2 C8 41.6 7.5 45.2 7.3 48.4 C7.2 49.6 8.2 50 9 49.2 C11.6 46.6 14.4 43 16.2 38.8 C17.4 35.6 18 30.4 16.6 26.4Z" fill="url(#pgw)"/><path d="M15 28.4 C12.6 29.4 11 32.6 10.3 36.6" stroke="#7A8AD8" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".55"/>
+ <path d="M47.4 26.4 C51.8 27.4 54.4 31.6 55.3 37.2 C56 41.6 56.5 45.2 56.7 48.4 C56.8 49.6 55.8 50 55 49.2 C52.4 46.6 49.6 43 47.8 38.8 C46.6 35.6 46 30.4 47.4 26.4Z" fill="url(#pgw)"/><path d="M49 28.4 C51.4 29.4 53 32.6 53.7 36.6" stroke="#7A8AD8" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".55"/>
+ <path d="M16.6 26.4 C12.2 27.4 9.6 31.6 8.7 37.2 C8 41.6 7.5 45.2 7.3 48.4 C7.2 49.6 8.2 50 9 49.2 C11.6 46.6 14.4 43 16.2 38.8 M47.4 26.4 C51.8 27.4 54.4 31.6 55.3 37.2 C56 41.6 56.5 45.2 56.7 48.4 C56.8 49.6 55.8 50 55 49.2 C52.4 46.6 49.6 43 47.8 38.8" fill="none"/>
  <ellipse cx="25" cy="59" rx="6" ry="2.6" fill="#FFA43A"/><ellipse cx="39" cy="59" rx="6" ry="2.6" fill="#FFA43A"/>
  <path d="M28.5 28 L35.5 28 L32 33Z" fill="#FFA43A"/><path d="M29.5 28.4 H34.5" stroke="#E07A1A" stroke-width=".8"/>
  <g class="blink" style="transform-origin:32px 24px"><ellipse cx="26.5" cy="24" rx="2.6" ry="3.2" fill="#2A2050"/><ellipse cx="37.5" cy="24" rx="2.6" ry="3.2" fill="#2A2050"/><circle cx="27.4" cy="22.8" r="1" fill="#fff"/><circle cx="38.4" cy="22.8" r="1" fill="#fff"/></g>
  <ellipse cx="23" cy="30" rx="2.6" ry="1.6" fill="#FF8FAB" opacity=".55"/><ellipse cx="41" cy="30" rx="2.6" ry="1.6" fill="#FF8FAB" opacity=".55"/>
  <path d="M24 9 Q30 7 34 9" stroke="#6A7ACF" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>`,
- '<linearGradient id="pgb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6474C8"/><stop offset="1" stop-color="#3E4C9A"/></linearGradient>');
+ '<linearGradient id="pgb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6474C8"/><stop offset="1" stop-color="#3E4C9A"/></linearGradient><linearGradient id="pgw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5363B5"/><stop offset="1" stop-color="#34418A"/></linearGradient>');
 ICONART['🐬']=IA(`<path d="M6 54 Q16 50 26 54 Q36 58 46 54 Q54 51 60 54" stroke="#9FD8FF" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/>
  <path d="M30 20 L37 6 Q43 12 42 22Z" fill="#3E86D0"/>
  <path d="M50 34 L60 24 Q57 33 63 42 Q56 40 50 40Z" fill="#3E86D0"/>
@@ -8916,7 +8919,8 @@ if(IS_APP){try{
  const LATE2=/第(六|七|八|九|十|十[一二三四五六七八九]|二十[一二三四五六七八九]?|三十)章/;
  const sweep=()=>{try{
   $$('.opt[data-id]').forEach(b=>{if(b.style.display==='none')return;const it=ITEMS.find(x=>x.id===b.dataset.id);if(lateItem(it))b.style.display='none'});
-  $$('button,[role="button"],.pbtn,.rmitem,.citem,li').forEach(b=>{if(b.style.display==='none'||b.classList.contains('wnode')||b.closest('.overlay .card.left'))return;
+  // 11/15：遊樂園卡片（各區 .pcard、繼續玩 .gzci）不藏，改成反灰＋鎖頭（m99zyg_parklock）
+  $$('button,[role="button"],.pbtn,.rmitem,.citem,li').forEach(b=>{if(b.style.display==='none'||b.classList.contains('wnode')||b.closest('.overlay .card.left')||b.classList.contains('pcard')||b.classList.contains('gzci'))return;
    const t=b.textContent||'';if(t.length<80&&(lockedTxt(LATE,t)||lockedTxt(LATE2,t)))b.style.display='none'});
   $$('.trow').forEach(r=>{const h=r.querySelector('h3');if(h&&!AO(5)&&/旅行紀念章|星星寶石/.test(h.textContent))r.style.display='none'});
  }catch(e){}};
@@ -15142,7 +15146,10 @@ const _voSpeak85=voSpeak;
 voSpeak=async function(p,opt,gen){
  try{const ob=typeof p==='object'&&p!=null;
   if(!S.vo||!VO.idx||(ob&&(p.en!=null||p.slow||p.who)))return _voSpeak85.apply(this,arguments);
-  const txt=String(ob?p.zh:p).trim();if(!txt||voHas('z|'+txt)||voHas('z|'+voCk(txt)))return _voSpeak85.apply(this,arguments);
+  const txt=String(ob?p.zh:p).trim();if(!txt)return _voSpeak85.apply(this,arguments);
+  // 11/15：整段（好幾句）有錄音就整段播（原本會拆成一句一句，單句沒錄音就退回裝置語音，例如窗外風景的「要看哪裡的風景呢？選一個去過的地方吧！」）
+  {const wk=voHas('z|'+txt)?'z|'+txt:voHas('z|'+voCk(txt))?'z|'+voCk(txt):null;
+   if(wk){if(voSents(txt).length>1){const b=await voBuf(wk);if(b&&gen===sayGen){const ok=await voPlay(b);if(ok!==false||gen!==sayGen)return}}return _voSpeak85.apply(this,arguments)}}
   const ss=voSents(txt);const segs=ss.map(s=>voResolve(s));
   if(!segs.some(r=>r.length>1&&r.every(g=>typeof g==='string')))return _voSpeak85.apply(this,arguments);
   for(let i=0;i<ss.length;i++){if(gen!==sayGen)return;const r=segs[i];
@@ -21098,6 +21105,8 @@ SCREENS.r99stage=function(arg){arg=arg||{};const tok=++edTok;const live=()=>tok=
     <div class="r99tray">${MOVES.map(m=>`<button class="r99card${moveOK(m[0])?'':' lock'}" data-id="${m[0]}" style="--cc:${m[3]}" aria-label="${m[2]}"><span class="r99fig">${R99.still(m[1])}</span><span class="r99sy">${SYM[m[0]]}</span>${moveOK(m[0])?'':`<span class="r99lk">${LOCK}</span>`}</button>`).join('')}</div></div>
     <div class="r99foot"><div class="r99mus">${MUS.map(([k,n,f,icf])=>`<button class="r99mb${musOK(k)?'':' lock'}" data-k="${k}" aria-label="${n}">${icf()}${musOK(k)?'':`<span class="r99lk">${LOCK}</span>`}</button>`).join('')}</div>
      <button class="btn r99go" aria-label="表演">${PLAY}<span>表演</span></button></div></div></div></div>`;
+ // 11/15：舞伴選擇鈕裡的舞伴小圖只取頭到胸口，跟寵物鈕一樣填滿（原本整個人縮在 58px 鈕裡很小）
+ try{const tsv=$('.r99tg[data-t="pt"] svg');if(tsv){tsv.setAttribute('viewBox','14 6 92 92');tsv.setAttribute('preserveAspectRatio','xMidYMin slice')}}catch(e){}
  const root=$('.r99ed'),slots=$('.r99slots',root),hero=$('.r99stage .r99h svg',root),pt=$('.r99stage .r99pt svg.rj',root),ptBox=$('.r99stage .r99pt',root),peBox=$('.r99stage .r99pe',root),goBtn=$('.r99go',root),add=$('.r99add',root);
  $('#r99back').onclick=()=>{sfx('pop');hush();edTok++;go_('park')};
  const go_=n=>{try{window.go?window.go(n):go(n)}catch(e){}};
@@ -21200,14 +21209,17 @@ html.r99on #bar{display:none!important}
 .r99stage{position:relative;flex:1;min-width:0;border-radius:22px;overflow:hidden;border:2px solid var(--goldline,#E8C873)}
 .r99bg{position:absolute;inset:0;width:100%;height:100%}.r99bg .icg{opacity:0}.r99bg .icw{opacity:1!important}
 .r99stage .r99cast{position:absolute;left:0;right:0;bottom:5%;height:66%;display:flex;justify-content:center;align-items:flex-end}
-.r99cast>div{height:100%;transition:opacity .3s,filter .3s}.r99cast svg{height:100%;width:auto;display:block;overflow:visible}
-.r99stage .r99pt{height:88%;margin-right:-4%}.r99stage .r99pe{height:40%;margin-left:-3%}
+.r99cast>div{height:100%;transition:opacity .3s}.r99cast svg{height:100%;width:auto;display:block;overflow:visible}
+/* 11/15 家長：舞台上王子比公主矮一截 → 跟主角一樣高（和首頁、王子舞會同比例）；
+   iPhone 上閒置時王子會反覆淡出又出現 → 舞伴自己一層（不跟背景一起重畫）、閒置不做呼吸動畫，只留眨眼 */
+.r99stage .r99pt{height:100%;margin-right:-6%;transform:translateZ(0);-webkit-transform:translateZ(0)}
+.r99stage .r99pt svg:not([class*="rjm-"]) .breathe{animation:none!important}.r99stage .r99pe{height:40%;margin-left:-3%}
 .r99cast .off{opacity:0}
 .r99pe.hop1{animation:r99hop .5s ease-in-out 2}.r99pe.hop{animation:r99hop var(--bt,.6s) ease-in-out}
 @keyframes r99hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-16%) rotate(-4deg)}}
 .r99tgs{display:flex;flex-direction:column;gap:8px;justify-content:center}
 .r99tg{width:58px;height:58px;border-radius:16px;border:3px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);padding:3px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;opacity:.55}
-.r99tg.on{border-color:#FFE27A;background:rgba(255,226,122,.28);opacity:1}.r99tg svg{height:100%;width:auto}
+.r99tg.on{border-color:#FFE27A;background:rgba(255,226,122,.28);opacity:1}.r99tg svg{height:100%;width:auto}.r99tg[data-t="pt"] svg{width:100%;height:100%}
 .r99ctl{display:flex;flex-direction:column;gap:8px;flex:1 1 auto;min-height:0}
 .r99scr{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;padding:2px}
 .r99foot{flex:0 0 auto}
@@ -21263,7 +21275,7 @@ html.r99on #bar{display:none!important}
 @keyframes r99sway{from{transform:rotate(var(--r0))}to{transform:rotate(var(--r1))}}
 .r99spot{position:absolute;left:50%;bottom:7%;width:min(80vw,640px);aspect-ratio:3.4;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,246,210,.9),rgba(255,226,122,.35) 60%,rgba(255,226,122,0))}
 .r99show .r99cast{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 96px);height:min(52vh,74vw);display:flex;justify-content:center;align-items:flex-end}
-.r99show .r99h{position:relative;z-index:2}.r99show .r99pt{height:86%;margin-right:-8%;z-index:1}.r99show .r99pe{height:34%;margin-left:-5%;z-index:3}
+.r99show .r99h{position:relative;z-index:2}.r99show .r99pt{height:100%;margin-right:-10%;z-index:1}.r99show .r99pe{height:34%;margin-left:-5%;z-index:3}
 .r99big{position:absolute;left:50%;top:26%;transform:translate(-50%,-50%);font:900 min(120px,22vw)/1 var(--latin,sans-serif);color:#FFE27A;text-shadow:0 6px 0 #C9468A,0 0 30px rgba(255,226,122,.8);z-index:4;pointer-events:none}
 .r99big.pop{animation:r99big .45s ease-out}@keyframes r99big{0%{transform:translate(-50%,-50%) scale(1.6);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
 .r99beat{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:4}
@@ -26213,7 +26225,7 @@ const SEG5={id:'stage7',r:'第三十一～三十五章',arc:'第五季・星光�
 if(IS_APPX()){try{const CN5={'三十一':31,'三十二':32,'三十三':33,'三十四':34,'三十五':35};const RE5=/第(三十[一二三四五])章/;
  const lockT=t=>{const m=String(t).match(RE5);return !!(m&&!appOk(CN5[m[1]]-1))};
  const sweep=()=>{try{$$('.opt[data-id]').forEach(b=>{if(b.style.display==='none')return;const it=ITEM[b.dataset.id];if(it&&it.chapter>30&&!appOk(it.chapter-1)&&!owns(it.id))b.style.display='none'});
-  $$('button,[role="button"],.pbtn,.rmitem,.citem,li').forEach(b=>{if(b.style.display==='none'||b.classList.contains('wnode')||b.closest('.overlay .card.left'))return;const t=b.textContent||'';if(t.length<80&&lockT(t))b.style.display='none'})}catch(e){}};
+  $$('button,[role="button"],.pbtn,.rmitem,.citem,li').forEach(b=>{if(b.style.display==='none'||b.classList.contains('wnode')||b.closest('.overlay .card.left')||b.classList.contains('pcard')||b.classList.contains('gzci'))return;const t=b.textContent||'';if(t.length<80&&lockT(t))b.style.display='none'})}catch(e){}};
  new MutationObserver(()=>sweep()).observe(document.body,{childList:true,subtree:true});
  const _sl5=say;say=function(parts,opt){try{if(Array.isArray(parts)&&parts.some(p=>typeof p==='string'&&/完成第三十[一二三四五]章/.test(p)&&lockT(p)))return Promise.resolve()}catch(e){}return _sl5.call(this,parts,opt)}}catch(e){console.log('applock5',e)}}
 
@@ -29298,7 +29310,9 @@ window.__s8={CATS,view:id=>{const c=QA('.s8card').pop();if(c)view(c,id)},cur:()=
 
 /* ================= m99zx9 房間窗外風景 —— 星光工作室 2026-11-13（著作權與 IP 屬於星光工作室） =================
  * 家長希望：公主／王子房間的窗外風景，可以換成孩子已經去過（破關過）的章節場景。
- * 1. 入口：窗台左下方一顆小按鈕（.win9btn）。點窗戶本身照舊是拉窗簾（m53／m99s 不動）。
+ * 1. 入口（11/15 家長改）：拿掉房間畫面上浮動的圓形按鈕；改成「點窗戶本身」打開選單（m53 的窗戶點擊區），
+ *    選單裡多一顆「拉上／打開窗簾」（原本點窗戶的拉窗簾合併進來）；「佈置房間」的分類列多一個「窗外風景」入口。
+ *    第一次進房間窗戶亮光邊框閃一下提示（不放大縮小），打開過一次就不再提示。今天的寶石藏在窗戶時，點窗戶照原本（找到寶石、拉窗簾）。
  * 2. 選擇畫面：第一個是「現在的天空」（原本跟著時段變的窗外）；接著每個去過的地方（同一張場景只列一次，以第一次出現的章節為準），
  *    縮圖＋地點名字（章節名像活動的改成地點，見 NAME，2026-11-13 家長同意），點了念名字（只念錄好的句子，見 s52/lines_room52.tsv；沒錄好就不念，不用裝置內建語音）。
  *    沒去過的：灰色剪影＋鎖，不顯示名字，點了只說「還沒去過」。
@@ -29397,11 +29411,27 @@ function refresh(force){try{if(S.screen!=='room')return;const sc=document.queryS
 const ICON=`<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="7" width="36" height="31" rx="5" fill="#8FD0FF"/><path d="M6 30Q16 22 24 28Q32 21 42 27V33Q42 38 37 38H11Q6 38 6 33Z" fill="#6CC27A"/><path d="M6 34Q18 29 26 33Q34 29 42 32V33Q42 38 37 38H11Q6 38 6 33Z" fill="#4FA868"/><circle cx="33" cy="16" r="5" fill="#FFD84A"/><path d="M12 16q3 -3 6 0q3 -3 6 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/><rect x="6" y="7" width="36" height="31" rx="5" fill="none" stroke="#fff" stroke-width="3.4"/><path d="M24 8V37M7 22.5H41" stroke="#fff" stroke-width="2.4" opacity=".9"/><rect x="3" y="37" width="42" height="5" rx="2.5" fill="#E8B84A"/><path d="M39 2l1.6 3.6 3.6 1.6-3.6 1.6L39 12.4l-1.6-3.6L33.8 7.2l3.6-1.6Z" fill="#FFF3B0" stroke="#E8B84A" stroke-width=".8"/></svg>`;
 const _rm=rmEnhance;
 rmEnhance=function(){const r=_rm.apply(this,arguments);try{addBtn()}catch(e){console.log('win9b',e)}return r};
-function addBtn(){const sc=document.querySelector('.rscene2');if(!sc||sc.querySelector('.win9btn'))return;
- const b=document.createElement('button');b.className='win9btn'+(V2&&V2.win9seen?'':' new');b.type='button';b.setAttribute('aria-label','換窗外的風景');b.innerHTML=`<span>${ICON}</span>`;
- b.onclick=e=>{e.stopPropagation();if(document.querySelector('.overlay'))return;openPicker()};sc.appendChild(b);
+function addBtn(){const sc=document.querySelector('.rscene2');if(!sc)return;
+ // 窗戶點擊區：換窗景；第一次亮光邊框提示
+ const hw=sc.querySelector('.rmhit[data-k="win"]');if(hw&&!hw.__win9){hw.__win9=1;hw.setAttribute('aria-label','窗戶（換窗外的風景）');
+  if(!(V2&&V2.win9seen)){hw.classList.add('win9hint');setTimeout(()=>{try{hw.classList.remove('win9hint')}catch(e){}},3200)}}
+ // 佈置房間：分類列加「窗外風景」
+ const tabs=document.querySelector('.rside .tabs');if(tabs&&!tabs.querySelector('.win9tab')){const t=document.createElement('button');t.type='button';t.className='tab win9tab';t.setAttribute('aria-label','窗外風景');
+  t.innerHTML=tabs.classList.contains('p88tabs')?`<i class="p88ti">${ICON}</i><span class="p88tl">窗外風景</span>`:`${ICON}<span>窗外風景</span>`;
+  t.onclick=e=>{e.stopPropagation();if(document.querySelector('.overlay'))return;openPicker()};tabs.appendChild(t)}
  // 已經選過場景：預先準備好圖（記憶體沒有才去 IndexedDB 拿／畫），好了就換上
  const k=cur();if(k&&!MEM.has('w|'+k))ensure('w',k).then(u=>{if(u&&cur()===k)refresh(false)})}
+
+/* ---------- 點窗戶 ---------- */
+let PASS=0;
+const rmObj=()=>{try{return typeof RM!=='undefined'?RM:null}catch(e){return null}};
+const curtOK=()=>!!document.querySelector('.rscene2 .rmhit[data-k="win"]');
+const curtTxt=()=>{const r=rmObj();return r&&r.closed?'打開窗簾':'拉上窗簾'};
+// 拉窗簾：照原本點窗戶的動作（m53）
+function curtain(){const h=document.querySelector('.rscene2 .rmhit[data-k="win"]');if(!h)return;PASS=1;try{h.click()}finally{PASS=0}}
+document.addEventListener('click',e=>{try{if(PASS||S.screen!=='room')return;const h=e.target&&e.target.closest&&e.target.closest('.rscene2 .rmhit[data-k="win"]');if(!h)return;
+ const r=rmObj();if(r&&r.gemAt==='win')return;        // 今天的寶石藏在窗戶：照原本（找到寶石）
+ e.stopImmediatePropagation();e.preventDefault();if(document.querySelector('.overlay'))return;openPicker()}catch(err){}},true);
 
 /* ---------- 選擇畫面 ---------- */
 const LOCK=`<svg viewBox="0 0 120 94" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="94" fill="#C9C4D6"/><path d="M0 60Q22 40 44 54Q66 34 92 50Q108 42 120 48V94H0Z" fill="#A9A3BA"/><path d="M0 72Q30 60 58 70Q86 58 120 68V94H0Z" fill="#938CA8"/><path d="M70 50V36h5v-6l6-4 6 4v6h5v14Z" fill="#A9A3BA"/><g transform="translate(60 44)"><rect x="-14" y="-4" width="28" height="22" rx="5" fill="#7A7290"/><path d="M-8 -4V-10Q-8 -18 0 -18Q8 -18 8 -10V-4" stroke="#7A7290" stroke-width="5" fill="none"/><circle cy="5" r="3.4" fill="#C9C4D6"/><rect x="-1.4" y="6" width="2.8" height="7" rx="1.4" fill="#C9C4D6"/></g></svg>`;
@@ -29414,12 +29444,13 @@ function openPicker(){const host=document.getElementById('screen')||document.que
   if(!ok)return `<button type="button" class="win9t lock" data-k="${k}" aria-label="還沒去過"><span class="win9th">${LOCK}</span><b class="win9n">？</b></button>`;
   return `<button type="button" class="win9t${on?' on':''}" data-k="${k}" aria-label="${p?p.n:L.sky}"><span class="win9th"><img alt="" decoding="async"></span><b class="win9n">${p?p.n:L.sky}</b></button>`};
  const tiles=[tile(null)].concat(P.map(tile)).join('');
- const ov=overlay(host,`<div class="card win9card" role="dialog" aria-label="窗外的風景"><button type="button" class="win9x" aria-label="關起來">✕</button><h2>窗外的風景</h2><p class="small win9sub">去過 ${nDone} 個地方・選一個放在窗外</p><div class="win9g">${tiles}</div></div>`);
+ const ov=overlay(host,`<div class="card win9card" role="dialog" aria-label="窗外的風景"><button type="button" class="win9x" aria-label="關起來">✕</button><h2>窗外的風景</h2><p class="small win9sub">去過 ${nDone} 個地方・選一個放在窗外</p><div class="win9g">${tiles}</div>${curtOK()?`<div class="win9cr"><button type="button" class="btn2 small win9cu">${curtTxt()}</button></div>`:''}</div>`);
  ov.classList.add('win9ov');
  const live=()=>tok===PK&&ov.isConnected;
  const close=()=>{PK++;try{ov.remove()}catch(e){}};
  ov.addEventListener('click',e=>{if(e.target===ov)close()});ov.querySelector('.win9x').onclick=()=>{snd('pop');close()};
- snd('pop');try{if(!V2.win9seen){V2.win9seen=1;save2();const b=document.querySelector('.win9btn');b&&b.classList.remove('new')}}catch(e){}
+ {const cu=ov.querySelector('.win9cu');if(cu)cu.onclick=e=>{e.stopPropagation();close();curtain()}}
+ snd('pop');try{if(!V2.win9seen){V2.win9seen=1;save2()}const h=document.querySelector('.rmhit.win9hint');h&&h.classList.remove('win9hint')}catch(e){}
  talk(L.open);
  // 縮圖：一張一張慢慢畫（畫過的存起來）
  const sel=ov.querySelector('.win9t.on');if(sel)try{sel.scrollIntoView({block:'nearest'})}catch(e){}
@@ -29446,6 +29477,10 @@ function flash(){try{if(calm())return;const sc=document.querySelector('.rscene2'
 
 /* ---------- 樣式 ---------- */
 const st=document.createElement('style');st.textContent=`
+.rscene2 .rmhit.win9hint{border-radius:10px;animation:win9hint 1.4s ease-in-out 2}
+@keyframes win9hint{0%,100%{box-shadow:0 0 0 0 rgba(255,226,122,0),inset 0 0 0 0 rgba(255,226,122,0)}50%{box-shadow:0 0 18px 4px rgba(255,226,122,.85),inset 0 0 0 4px rgba(255,236,160,.95)}}
+@media (prefers-reduced-motion:reduce){.rscene2 .rmhit.win9hint{animation:none;box-shadow:inset 0 0 0 4px rgba(255,236,160,.95)}}
+.win9cr{display:flex;justify-content:center;margin-top:10px}.win9tab svg{width:100%;height:100%}
 .rscene2 .win9btn{position:absolute;left:68.6%;top:55.6%;width:clamp(40px,5.4%,58px);aspect-ratio:1;transform:translate(-50%,-50%);z-index:7;border:0;padding:0;background:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .rscene2 .win9btn::after{content:'';position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
 .rscene2 .win9btn>span{display:block;width:100%;height:100%;box-sizing:border-box;border-radius:50%;padding:12%;background:radial-gradient(circle at 35% 30%,#FFFFFF,#FFF1D2 70%);border:2.5px solid #E8B84A;box-shadow:0 3px 8px rgba(70,30,90,.32),inset 0 -3px 0 rgba(232,184,74,.35);transition:transform .15s}
@@ -29595,7 +29630,9 @@ function decoPet(sv,kind){if(!sv||sv.__x91)return;sv.__x91=1;try{
  const pb=sv.querySelector('.pbbody');if(pb&&(kind==='kitty'||kind==='leopardcat')){const t=[...pb.children].filter(n=>n.tagName==='path'&&/^M68 86 C86 88/.test(n.getAttribute('d')||''));
   if(t.length){const L=[t[0]];const n2=t[0].nextElementSibling;if(n2&&n2.tagName==='path'&&/^M80 80 L86 76/.test(n2.getAttribute('d')||''))L.push(n2);wrap(L,'x91tl',70,84)}}
  // 企鵝的小翅膀、青鳥的翅膀
- if(kind==='penguin'){const P=kids(sv).filter(n=>n.tagName==='path');const l=P.find(n=>/^M14 30 Q5 40/.test(n.getAttribute('d')||'')),r=P.find(n=>/^M50 30 Q59 40/.test(n.getAttribute('d')||''));wrap([l],'x91fl',15,31);wrap([r],'x91fr',49,31);fam='wad'}
+ if(kind==='penguin'){const P=kids(sv).filter(n=>n.tagName==='path');const l=P.find(n=>/^M16\.6 26\.4 C/.test(n.getAttribute('d')||'')),r=P.find(n=>/^M47\.4 26\.4 C/.test(n.getAttribute('d')||''));
+  // 翅膀＋後面那條亮光一起動（從肩膀轉）
+  const hl=w=>{const n2=w&&w.nextElementSibling;return n2&&n2.tagName==='path'&&/^M(15|49) 28\.4 C/.test(n2.getAttribute('d')||'')?n2:null};wrap([l,hl(l)],'x91fl',16,28);wrap([r,hl(r)],'x91fr',48,28);fam='wad'}
  if(kind==='bluebird'){const P=kids(sv).filter(n=>n.tagName==='path');const w=P.find(n=>/^M30 28 Q44 26 48 38/.test(n.getAttribute('d')||''));if(w){const L=[w];const n2=w.nextElementSibling;if(n2&&/^M34 32/.test(n2.getAttribute('d')||''))L.push(n2);wrap(L,'x91wg',32,31)}}
  if(kind==='dolphin')fam='swim';
  if(kind==='swan')fam='swim';
@@ -31188,40 +31225,40 @@ const backO=p=>f2(sstep(-.2,-.6,Math.cos(TH(p)*Math.PI/180)));
 const UA_OX={g:[40,80],b:[41,79]};
 const armT=(p,side,kind,lite)=>{const a=uaT(p)*(side==='L'?1:-1);if(lite)return `transform:rotate(${f2(a)}deg)`;
  const c=Math.cos(TH(p)*Math.PI/180),k=c/sT(p),ox=UA_OX[kind][side==='L'?0:1];return `transform:translateX(${f2(60-ox)}px) scaleX(${f2(k)}) translateX(${f2(ox-60)}px) rotate(${f2(a)}deg)`};
+/* 11/15 家長實機回饋（王子舞會）：分層轉身轉到背面時「整片後腦勺＋皇冠、看不到臉，很恐怖」→ 改成 2D 卡通式轉圈：
+   整個人 scaleX 1→0→-1→0→1 快速翻一圈（臉一直是正面或鏡像的正面，不出現背面，頭不會 360 度轉），加小彈跳（只有上下移動，沒有擠壓放大）、
+   裙擺／頭髮／披風小小張開、腳下星星光環。家長：不要任何整體放大縮小。
+   約 0.7 秒；只動骨架裡面，外框大小不變（不用 RIG.fitScale），寬度只會變窄，兩個人跳舞各自原地轉、不會碰在一起。
+   後腦勺 .rj-cap、背面頭髮／披風／上衣（.rj-hbf／.rj-cpf／.rj-bc）、五官側滑 .rj-fc 都不動（保持平常看不到的樣子）。 */
+const F0=.14,F1=.80;                                   // 翻轉的時間窗（前面微蹲、後面落地小彈）
+const uF=p=>clamp((p-F0)/(F1-F0),0,1);
+const eIO=u=>u<.5?2*u*u:1-2*(1-u)*(1-u);
+const flipX=p=>Math.cos(2*Math.PI*eIO(uF(p)));          // 1 → 0 → -1 → 0 → 1
+const hopY=tab([[0,0],[.14,0],[.3,-6],[.47,-8],[.64,-6],[.8,0],[.9,-1.5],[1,0]]);
+const uaS=tab([[0,0],[.1,-8],[.2,30],[.74,30],[.86,52],[.94,52],[1,0]]);   // 手：轉的時候打開一點，落地「當當！」
+const faS=tab([[0,0],[.1,-20],[.2,-12],[.74,-12],[.86,8],[.94,8],[1,0]]);
+const flr=p=>{const u=uF(p);return u>0&&u<1?Math.pow(Math.sin(Math.PI*u),.75):0};
+const ringO2=tab([[0,0],[.14,0],[.24,.95],[.74,.95],[.9,0],[1,0]]);
 const SP={ // 每個部位：p(0..1) → CSS 宣告
- root:p=>`transform:translate(0px,${f2(rootY(p))}px) scale(${f2(rootSX(p))},${f2(rootSY(p))})`,
- shadow:p=>{const k=f2(1+clamp(rootY(p),-6,3)*.035);return `transform:scale(${k},${k})`},
- ring:p=>{const u=clamp((p-A0)/(B0-A0),0,1.3);return `transform:rotate(${f2(-540*u)}deg) scale(${f2(ringS(p))});opacity:${f2(ringO(p))}`},
- tor:p=>`transform:rotate(${f2(torR(p))}deg) scaleX(${f2(sT(p))})`,
- head:p=>{const c=Math.cos(TH_H(p)*Math.PI/180);return `transform:rotate(${f2(headR(p))}deg) scaleX(${f2((.94+.06*Math.abs(c))/sT(p))})`},
- fc:p=>fcVals(p),cap:p=>capVals(p),
- faL:p=>`transform:rotate(${f2(faT(p))}deg)`,faR:p=>`transform:rotate(${f2(-faT(p))}deg)`,
- propL:p=>`transform:rotate(${f2(-.85*(uaT(p)+faT(p)))}deg)`,propR:p=>`transform:rotate(${f2(.85*(uaT(p)+faT(p)))}deg)`,
- legL:p=>`transform:translate(${f2(6.2*(1-Math.abs(Math.cos(TH(p)*Math.PI/180))))}px,0px)`,
- legR:p=>`transform:translate(${f2(-6.2*(1-Math.abs(Math.cos(TH(p)*Math.PI/180))))}px,0px)`,
- skirt:p=>{const F=flare(p,.05);return `transform:rotate(${f2(-2.4*F)}deg) scale(${f2(1+.24*F)},${f2(1-.06*F)})`},
- hair:p=>{const F=flare(p,.11);return `transform:rotate(${f2(2.4*F)}deg) scale(${f2(1+.22*F)},${f2(1-.03*F)})`},
- cape:p=>{const F=flare(p,.08);return `transform:rotate(${f2(-2*F)}deg) scale(${f2(1+.3*F)},${f2(1-.05*F)})`},
- hbf:p=>`opacity:${backO(p)}`,bc:p=>`opacity:${backO(p)}`,cpf:p=>`opacity:${backO(p)}`
+ root:p=>`transform:translate(0px,${f2(hopY(p))}px) scaleX(${f2(flipX(p))})`,   // 只有左右翻轉，沒有整體放大縮小（家長：不要擠壓放大）
+ ring:p=>`transform:rotate(${f2(-360*eIO(uF(p)))}deg) scale(${f2(.8+.3*uF(p))});opacity:${f2(ringO2(p))}`,
+ uaL:p=>`transform:rotate(${f2(uaS(p))}deg)`,uaR:p=>`transform:rotate(${f2(-uaS(p))}deg)`,
+ faL:p=>`transform:rotate(${f2(faS(p))}deg)`,faR:p=>`transform:rotate(${f2(-faS(p))}deg)`,
+ propL:p=>`transform:rotate(${f2(-.85*(uaS(p)+faS(p)))}deg)`,propR:p=>`transform:rotate(${f2(.85*(uaS(p)+faS(p)))}deg)`,
+ skirt:p=>{const F=flr(p);return `transform:scale(${f2(1+.12*F)},${f2(1-.03*F)})`},
+ hair:p=>{const F=flr(p);return `transform:scale(${f2(1+.08*F)},1)`},
+ cape:p=>{const F=flr(p);return `transform:scale(${f2(1+.12*F)},${f2(1-.03*F)})`}
 };
-const SPL={ // 流暢模式：整個人翻面（最窄 .5）＋手＋五官／後腦勺
- root:p=>{const c=Math.cos(TH(p)*Math.PI/180),rs=(c<0?-1:1)*Math.max(.5,Math.abs(c));return `transform:translate(0px,${f2(rootY(p))}px) scale(${f2(rs*rootSX(p))},${f2(rootSY(p))})`},
- fc:p=>{const c=Math.cos(TH(p)*Math.PI/180);return fcVals(p,(c<0?-1:1)*Math.max(.5,Math.abs(c)))},
- cap:p=>{const c=Math.cos(TH(p)*Math.PI/180);return capVals(p,(c<0?-1:1)*Math.max(.5,Math.abs(c)))}
-};
+const SPIN_DUR=.7;
+const STILL=['shadow','tor','head','fc','cap','legL','legR','hbf','bc','cpf'];   // 轉圈時不動（不出現背面）
 const N=48;
 const kf=(name,fn)=>{let s=`@keyframes ${name}{`;for(let i=0;i<=N;i++){const p=i/N;s+=`${f2(p*100)}%{${fn(p)}}`}return s+'}\n'};
-const SPIN_DUR=1.6;
-const FULL=['root','shadow','ring','tor','head','fc','cap','uaL','uaR','faL','faR','propL','propR','legL','legR','skirt','hair','cape','hbf','bc','cpf'];
 let css='';
-const rule=(sel,name,dur,once)=>`${sel}{animation:${name} ${dur}s linear infinite}\n`;
-for(const p of FULL){if(p==='uaL'||p==='uaR')continue;css+=kf(`rz_spin_${p}`,SP[p]);css+=rule(`.rj.rjm-spin .rj-${p}`,`rz_spin_${p}`,SPIN_DUR)}
-for(const k of ['g','b'])for(const s of ['L','R']){css+=kf(`rz_spin_ua${s}_${k}`,p=>armT(p,s,k));
- css+=k==='g'?rule(`.rj.rjm-spin .rj-ua${s}`,`rz_spin_ua${s}_g`,SPIN_DUR):rule(`.rj[data-rig="b"].rjm-spin .rj-ua${s},.rj[data-rig="p"].rjm-spin .rj-ua${s}`,`rz_spin_ua${s}_b`,SPIN_DUR)}
-// 流暢模式
-for(const p of FULL){if(['root','fc','cap','uaL','uaR','faL','faR','propL','propR'].includes(p))continue;css+=`.rj.rj-lite.rjm-spin .rj-${p}{animation:none}\n`}
-for(const p of ['root','fc','cap']){css+=kf(`rz_spinL_${p}`,SPL[p]);css+=`.rj.rj-lite.rjm-spin .rj-${p}{animation:rz_spinL_${p} ${SPIN_DUR}s linear infinite}\n`}
-for(const s of ['L','R']){css+=kf(`rz_spinL_ua${s}`,p=>armT(p,s,'g',true));css+=`.rj.rj-lite.rjm-spin .rj-ua${s},.rj[data-rig].rj-lite.rjm-spin .rj-ua${s}{animation:rz_spinL_ua${s} ${SPIN_DUR}s linear infinite}\n`}
+const rule=(sel,name,dur)=>`${sel}{animation:${name} ${dur}s linear infinite}\n`;
+for(const p of Object.keys(SP)){css+=kf(`rz_spin2_${p}`,SP[p]);css+=rule(`.rj.rjm-spin .rj-${p},.rj[data-rig].rjm-spin .rj-${p}`,`rz_spin2_${p}`,SPIN_DUR)}
+for(const p of STILL)css+=`.rj.rjm-spin .rj-${p},.rj[data-rig].rjm-spin .rj-${p}{animation:none!important}\n`;
+// 流暢模式：只動整個人（翻轉＋彈跳）和手
+for(const p of ['ring','skirt','hair','cape','faL','faR','propL','propR'])css+=`.rj.rj-lite.rjm-spin .rj-${p},.rj[data-rig].rj-lite.rjm-spin .rj-${p}{animation:none}\n`;
 // 播一次
 css+=`.rj.rjm-spin.rj-once .rj-j{animation-iteration-count:1!important}\n`;
 // 減少動態：不轉，手打開、頭歪一點（也是「轉個圈」卡片的靜態圖）
@@ -31229,7 +31266,10 @@ css+=`.rj.rjm-spin.rj-once .rj-j{animation-iteration-count:1!important}\n`;
  for(const [p,v] of Object.entries(RM))css+=`.rj.rj-rm.rjm-spin .rj-${p},.rj[data-rig].rj-rm.rjm-spin .rj-${p}{animation:none!important;transform:${v}}\n`;
  css+=`.rj.rj-rm.rjm-spin .rj-cap,.rj.rj-rm.rjm-spin .rj-ring,.rj.rj-rm.rjm-spin .rj-hbf,.rj.rj-rm.rjm-spin .rj-bc,.rj.rj-rm.rjm-spin .rj-cpf{animation:none!important}\n`}
 // 靜止時的樣子（跟原本一樣）：後腦勺、背面衣服、光環都看不到
-css+=`.rj .rj-cap{opacity:0;transform:translateX(-52px);transition:transform .3s ease,opacity .25s ease}
+css+=`/* 11/15 家長：人物不動時「微微放大縮小」不喜歡 → 待機呼吸（m00b 的 hbBreathe、v4 的 breathe）改成極小的上下晃動，不縮放 */
+@keyframes hbBreathe{0%,100%{transform:translate(0,0)}50%{transform:translate(0,-.7px)}}
+@keyframes breathe{0%,100%{transform:translate(0,0)}50%{transform:translate(0,-.7px)}}
+.rj .rj-cap{opacity:0;transform:translateX(-52px);transition:transform .3s ease,opacity .25s ease}
 .rj .rj-fc{transition:transform .3s ease}
 .rj .rj-hbf,.rj .rj-cpf,.rj .rj-bc,.rj .rj-ring{opacity:0}
 .rj .rj-ring,.rj .rz-fcl,.rj .rj-hbf,.rj .rj-cpf,.rj .rj-bc{pointer-events:none}
@@ -31268,13 +31308,13 @@ try{const _dn=SCREENS.dance;if(_dn)SCREENS.dance=function(){const r=_dn.apply(th
  const tick=()=>{tm=0;if(!pair.isConnected||S.screen!=='dance')return;const m=(pair.className.match(LOOPMV)||[])[1];if(!m)return;
   tm=setTimeout(tick,m==='dm96-twin'?2000:m==='dm96-star'?1600:2600);
   if(RIG.rm()||pair.classList.contains('dwait')||pair.classList.contains('rj-busy'))return;
-  for(const sv of svgs(m)){if(!sv||RIG.busy(sv))continue;RIG.play(sv,'spin',{keep:true,nofit:true,dur:m==='dm96-star'?1.4:1.5})}};
+  for(const sv of svgs(m)){if(!sv||RIG.busy(sv))continue;RIG.play(sv,'spin',{keep:true,nofit:true,dur:SPIN_DUR})}};
  new MutationObserver(()=>{if(!pair.isConnected)return;const on=LOOPMV.test(pair.className);if(on&&!tm)tm=setTimeout(tick,350);if(!on&&tm){clearTimeout(tm);tm=0}}).observe(pair,{attributes:true,attributeFilter:['class']});
  if(LOOPMV.test(pair.className))tm=setTimeout(tick,600)}catch(e){}return r}}catch(e){}
 
 /* ---------- C2. 房間點主角：m53 的 rmspin（整張翻面）→ 骨架轉圈 ---------- */
 function roomHook(){const pr=document.querySelector('.rscene2 .rpr');if(!pr||pr.__rzh)return;pr.__rzh=1;
- new MutationObserver(()=>{if(!pr.isConnected)return;const on=pr.classList.contains('rmspin');if(on&&!pr.__rzs){pr.__rzs=1;const sv=pr.querySelector('svg');if(sv&&!RIG.busy(sv))RIG.play(sv,'spin',{keep:true,nofit:true,dur:1.2})}if(!on)pr.__rzs=0})
+ new MutationObserver(()=>{if(!pr.isConnected)return;const on=pr.classList.contains('rmspin');if(on&&!pr.__rzs){pr.__rzs=1;const sv=pr.querySelector('svg');if(sv&&!RIG.busy(sv))RIG.play(sv,'spin',{keep:true,nofit:true,dur:SPIN_DUR})}if(!on)pr.__rzs=0})
   .observe(pr,{attributes:true,attributeFilter:['class']})}
 try{if(typeof rmEnhance==='function'){const _rme=rmEnhance;rmEnhance=function(){const r=_rme.apply(this,arguments);try{roomHook()}catch(e){}return r}}}catch(e){}
 
@@ -31851,6 +31891,49 @@ const st=document.createElement('style');st.textContent=`
 @media (max-width:600px){.lrst .lrsbw{grid-column:2;flex-direction:row;flex-wrap:wrap}}
 `;document.head.appendChild(st);
 }catch(e){console.log('m99zyf',e)}})();
+
+/* ================= m99zyg 遊樂園上鎖卡（5.2.0／App 1.8）—— 星光工作室 2026-11-15（著作權與 IP 屬於星光工作室） =================
+ * 家長 11/15：
+ *  1. 遊樂園還沒打開的卡片看不出反灰 → 所有上鎖卡（各區卡片 .pcard、繼續玩列 .gzci）整張蓋一層灰紗（::before，跟卡片同圓角、不擋點擊），
+ *     標題、說明字變灰，鎖頭放大放在右上角（深色圓底）。不對 SVG 縮圖用 filter／opacity（iOS WebKit 會畫出粉紅線，見 m58 4.3.1 .ccard.lockd），改用蓋紗。
+ *     解鎖的卡完全不變。
+ *  2. App 版沒買的段落：原本整張藏起來（m68 看到「完成第X章」就藏）→ 一律顯示，用上面的反灰＋鎖頭，不顯示價格。
+ *     副標：章節還沒完成的照舊「完成第X章就會打開」；章節已完成、App 沒買的寫「請爸爸媽媽幫忙打開」。
+ *     點上鎖卡只念一句已錄好的「爸爸媽媽可以幫你打開新的冒險喔！」，不跳商店、不進遊戲。「繼續玩」列照舊不放上鎖卡（m99zx4）。
+ *  m68 的藏卡（sweep）同步改成不管遊樂園卡片（v5/m68_applock.js）。排在 m99zz_bkguard 前面。 */
+(function(){try{
+if(typeof SCREENS!=='object'||!SCREENS.park)return;
+const isApp=typeof IS_APP!=='undefined'&&!!IS_APP;
+const LINE='爸爸媽媽可以幫你打開新的冒險喔！';      // 已錄音（z|）
+const SUB_PARENT='請爸爸媽媽幫忙打開';
+// 卡片是第幾章打開（說明字裡沒有「完成第X章」時用）
+const NEEDCH={eact:3,dance:5,cashier:21,floatsink:22,farm:23,recyclesort:24,postgame:25,rocket26:26,fossil26:29,piggy5:31,chef5:33};
+const CNUM='零一二三四五六七八九';
+const cn=n=>n<=10?(n===10?'十':CNUM[n]):n<20?'十'+CNUM[n-10]:CNUM[Math.floor(n/10)]+'十'+(n%10?CNUM[n%10]:'');
+const unCn=t=>{t=String(t||'');if(/^\d+$/.test(t))return +t;let m=t.match(/^([一二三四五六七八九])?十([一二三四五六七八九])?$/);if(m)return (m[1]?CNUM.indexOf(m[1]):1)*10+(m[2]?CNUM.indexOf(m[2]):0);return CNUM.indexOf(t)>0?CNUM.indexOf(t):0};
+const appOpen=n=>{try{return typeof window.__appOpen==='function'?!!window.__appOpen(n-1):true}catch(e){return true}};
+const subOf=c=>[...c.children].find(x=>x.tagName==='SPAN'&&!x.classList.contains('pic')&&!x.classList.contains('lk')&&!x.classList.contains('uxhand'));
+const LOCKSVG=()=>{try{return ICON.lock('#FFD98A')}catch(e){return ''}};
+function chOf(c){const s=subOf(c);const m=s&&String(s.textContent).match(/完成第(.+?)章/);const n=m?unCn(m[1]):0;return n||NEEDCH[c.dataset.k]||0}
+function fixCards(){try{if(!isApp)return;const g=document.querySelector('#screen>.park .pgrid');if(!g)return;
+ g.querySelectorAll('.pcard[data-k]').forEach(c=>{const n=chOf(c);if(!n||appOpen(n))return;   // 只處理 App 沒買的段落
+  c.classList.add('lockd');c.dataset.applk='1';if(c.style.display==='none')c.style.display='';c.hidden=false;
+  const s=subOf(c);const want=(S.chDone||0)>=n?SUB_PARENT:`完成第${cn(n)}章就會打開`;if(s&&s.textContent!==want)s.textContent=want;
+  if(!c.querySelector('.lk')){const l=document.createElement('span');l.className='lk';l.innerHTML=LOCKSVG();c.appendChild(l)}})}catch(e){console.log('parklock',e)}}
+const _pk=SCREENS.park;SCREENS.park=function(){const r=_pk.apply(this,arguments);fixCards();try{requestAnimationFrame(fixCards)}catch(e){}return r};
+// 點 App 沒買的卡：只念一句，不跳商店、不進遊戲
+document.addEventListener('click',e=>{try{if(S.screen!=='park')return;const c=e.target&&e.target.closest&&e.target.closest('.pcard[data-applk="1"]');if(!c)return;
+ e.stopImmediatePropagation();e.preventDefault();try{hush()}catch(_){}try{say([LINE])}catch(_){}
+ try{sfx('hint')}catch(_){}c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake')}catch(err){}},true);
+window.__parklock={fixCards,chOf,cn};
+const st=document.createElement('style');st.id='m99zygcss';st.textContent=`
+.pcard.lockd,.gzci.lockd{opacity:1!important;position:relative}
+.pcard.lockd::before,.gzci.lockd::before{content:'';position:absolute;inset:0;border-radius:inherit;background:rgba(70,66,90,.55);pointer-events:none;z-index:2}
+.pcard.lockd>b,.pcard.lockd>span:not(.pic):not(.lk),.gzci.lockd>b{color:#B9B4C8!important}
+.pcard.lockd .lk{position:absolute;right:8px;top:8px;width:36px;height:36px;padding:6px;box-sizing:border-box;border-radius:50%;background:rgba(30,24,60,.85);box-shadow:0 0 0 2px rgba(255,217,138,.75);z-index:3;display:grid;place-items:center}
+.pcard.lockd .lk svg{width:100%;height:100%}
+`;(document.head||document.documentElement).appendChild(st);
+}catch(e){console.log('m99zyg',e)}})();
 
 /* ================= m99zz（4.9.2）備份還原保護 —— 星光工作室 2026-11-03（著作權屬星光工作室） =================
  * 要排在所有模組最後（檔名 m99zz_ 開頭）。
