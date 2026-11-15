@@ -10,7 +10,7 @@ BUNDLE = 'tw.starlight.adventure'
 ITEM = (sys.argv[4] if len(sys.argv) > 4 and sys.argv[4].strip() else 'full').strip()
 NAMES = {'full': ('第六～二十章合購', '第 6～20 章', 290), 'stage2': ('第六～十章', '第 6～10 章', 120),
          'stage3': ('第十一～十五章', '第 11～15 章', 120), 'stage4': ('第十六～二十章', '第 16～20 章', 120),
-         'stage5': ('第二十一～二十五章', '第 21～25 章', 120), 'stage6': ('第二十六～三十章', '第 26～30 章', 120),
+         'stage5': ('第二十一～二十五章', '第 21～25 章', 120), 'stage6': ('第二十六～三十章', '第 26～30 章', 120), 'stage7': ('第三十一～三十五章', '第 31～35 章', 120),
          's2to6': ('第六～三十章合購', '第 6～30 章', 390)}
 if ITEM not in NAMES:
     print('::error::不認得的商品 ' + ITEM + '（可以用 ' + '、'.join(NAMES) + '）'); raise SystemExit(1)
