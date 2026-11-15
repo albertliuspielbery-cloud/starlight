@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光小冒險">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-0e2d0c47.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-0e2d0c47.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-880c36fa.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-880c36fa.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -4318,7 +4318,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-570f03c8.json';
+const VOICE_INDEX='index-9414eb74.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -31450,6 +31450,216 @@ addEventListener('animationstart',e=>{try{if(e.animationName!=='walkin')return;c
  const n=walk(sv,{T:Tt*.85,steps,dir:1});if(n)face(n,1)}catch(_){}},true);
 }catch(e){try{console.log('m99zxf walk off',e&&e.message)}catch(_){}}
 })();
+
+/* ================= m99zxg（1.9 美術提案）房間的衣櫃和書桌 —— 星光工作室 2026-11-15（著作權與 IP 屬於星光工作室 Starlight Studio） =================
+ * 家長需求：公主房間（王子版是王子房間）加「衣櫃」和「書桌」。
+ *  - 點衣櫃：主角走到旁邊，兩扇門往外打開（畫門板角度，不用整體放大縮小），裡面的小衣服閃一下 → 進「換裝間」（go('wardrobe')）；
+ *    從這裡進去的，換裝間按「穿好了！」回到房間。
+ *  - 點書桌：主角走過去伸手，桌上的檯燈亮起來、抽屜拉出來 → 小選單「描描寫寫／練習區」。
+ *    描描寫寫：進自由練習，直接點「描描寫寫」那張卡（write4 或 write；還沒學寫字、還沒開放時照那張卡原本的說明）；
+ *    練習區：go('practice')；先不要：抽屜關上、燈關掉、主角回原位。
+ * 位置（房間 800×400 座標）：
+ *  - 衣櫃 x440–516、y118–296：主角原位的右邊、時鐘下面（時鐘底在 y113），不碰窗簾（x512 起是窗簾桿外緣，衣櫃身體到 x514）。
+ *  - 書桌 x592–728、y176–296：窗戶下面右半邊（窗台底 y204，桌面 y214），在泰迪熊（x496–600）右邊、寵物和小盆栽後面。
+ *  - 家具畫在一層獨立的 SVG（.r19f），疊在房間背景上、窗簾（.rmcurt）上面、玩具／主角／寵物後面；佈置房間換牆、床、地毯、檯燈、窗簾、玩具都不影響。
+ * 配色：公主版粉紫（奶油白＋粉紅門板＋金色把手＋木頭頂板，跟床頭櫃同一套木色）；王子版藍系。
+ * 減少動態（系統或遊戲設定）：主角不走路，門和抽屜直接打開，不閃。
+ * 語音：只念有錄音的句子（新台詞見 s52/lines_room19.tsv），沒錄音只出字卡，不用裝置內建語音。 */
+(function(){try{
+if(typeof SCREENS==='undefined'||typeof rmEnhance!=='function')return;
+const NS='http://www.w3.org/2000/svg';
+const calm=()=>{try{return !!reduced||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){return false}};
+const boy=()=>{try{return window.HERO==='prince'}catch(e){return false}};
+/* ---------- 語音：只念有錄音的 ---------- */
+const L={ward:'衣櫃打開了！我們去換裝間換衣服吧！',desk:'檯燈亮了！要描描寫寫，還是去練習區呢？',write:'描描寫寫！',prac:'練習區！'};
+const has=t=>{try{if(!S.vo)return true;if(!VO.idx)return false;const u=(typeof heroT==='function'?heroT(t):t).replace(/⁠/g,'');return voHas('z|'+u)||voHas('z|'+voCk(u))}catch(e){return false}};
+const sayR=t=>{if(!has(t))return false;try{hush();say([t])}catch(e){}return true};
+const sfx2=k=>{try{sfx(k)}catch(e){}};
+const tn=(f,d,l,w,v)=>{try{tone(f,d,l,w,v)}catch(e){}};
+/* ---------- 書桌選單：還沒開放的鎖住（家長 11/15）：反灰＋鎖頭，點了只念已錄好的提示，不進去 ---------- */
+// 練習區：遊樂園照章節開（m60 PARKGATE.practice=3）。描描寫寫：第二十六章的 write4（m99z_season4／m99zx2 的 paid、reached），再加 m99x「學會寫字」。
+const LK={ch:['還沒到喔！','出發去冒險吧！'],buy:['爸爸媽媽可以幫你打開新的冒險喔！'],learn:['學會寫字以後，這裡就會打開喔！']};
+function lock19(){const o={prac:null,write:null};try{
+ if(V2.parkGate&&(S.chDone||0)<3)o.prac='ch';
+ const i=25;let paid=true;try{paid=(typeof window.__appOpen==='function'?!!window.__appOpen(i):true)&&(IS_APP||(typeof s3Ok==='function'?!!s3Ok():!!V2.s3pw))}catch(e){paid=false}
+ const reached=S.chDone>i||(S.ch===i&&(S.progs[i]||0)>=1);
+ let learnt=true;try{const WR=window.__WR,w=(typeof BAG!=='undefined'&&BAG.w)||{};if(WR&&WR.chars)learnt=WR.chars.some(c=>w[c]&&w[c].st&&Object.keys(w[c].st).length)}catch(e){}
+ o.write=o.prac||(!paid?'buy':!reached?'ch':!learnt?'learn':null)}catch(e){}return o}
+const sayLock=k=>{try{hush()}catch(e){}const a=(LK[k]||LK.ch).filter(has);if(a.length)try{say(a)}catch(e){}};
+/* ---------- 配色 ---------- */
+const PAL=()=>boy()?{body:['#F7FAFF','#DCE7FA'],line:'#B4C6E8',panel:['#BFD8FF','#8FB4F0'],pline:'#6F95D8',inner:['#3E5A9E','#22346A'],emb:'star',
+  clothes:[['#5A8CE0','#2F5FB8'],['#E2605A','#B23A3A'],['#5FC08A','#3A9A66']],shade:['#BFD8FF','#7FA6E8'],cup:'#8FB4F0',books:['#FF8E8E','#7FB8FF','#FFD27A']}
+ :{body:['#FFFDFE','#F8E2F0'],line:'#E6C4DA',panel:['#FFC4E0','#FF8EC4'],pline:'#E2589E',inner:['#7A4E92','#4A2E6A'],emb:'heart',
+  clothes:[['#FF9BCB','#E2589E'],['#D6C2FF','#A98AF0'],['#FFE58A','#F2B544']],shade:['#E6D6FF','#C9A8FF'],cup:'#FF8EC4',books:['#7FB8FF','#FF8EC4','#FFD27A']};
+const f=n=>Math.round(n*10)/10;
+const star5=(cx,cy,R,k=.45)=>{let d='';for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?R*k:R;d+=(i?'L':'M')+f(cx+r*Math.cos(a))+' '+f(cy+r*Math.sin(a))}return d+'Z'};
+const heart=(cx,cy,s)=>`M${f(cx)} ${f(cy+s*.9)}C${f(cx-s*1.3)} ${f(cy+s*.1)} ${f(cx-s*.9)} ${f(cy-s*.9)} ${f(cx)} ${f(cy-s*.35)}C${f(cx+s*.9)} ${f(cy-s*.9)} ${f(cx+s*1.3)} ${f(cy+s*.1)} ${f(cx)} ${f(cy+s*.9)}Z`;
+const spark=(cx,cy,r)=>`M${f(cx)} ${f(cy-r)}Q${f(cx+r*.16)} ${f(cy-r*.16)} ${f(cx+r)} ${f(cy)}Q${f(cx+r*.16)} ${f(cy+r*.16)} ${f(cx)} ${f(cy+r)}Q${f(cx-r*.16)} ${f(cy+r*.16)} ${f(cx-r)} ${f(cy)}Q${f(cx-r*.16)} ${f(cy-r*.16)} ${f(cx)} ${f(cy-r)}Z`;
+/* ---------- 衣櫃的門：hinge 不動，另一邊照角度往外轉（畫成梯形，靠近的那邊比較高＝透視），不是縮放 ---------- */
+const DY=142,DH=136,DW=31;   // 門的上緣、高、寬
+function doorPts(side,deg){const a=deg*Math.PI/180,hx=side<0?446:510,dir=side<0?1:-1;   // 左門鉸鏈在左邊，右門在右邊
+ const fx=hx+dir*DW*Math.cos(a),grow=DW*Math.sin(a)*.16;
+ return {hx,fx,t0:DY,b0:DY+DH,t1:DY-grow,b1:DY+DH+grow,back:deg>90}}
+function doorPath(p){return `M${f(p.hx)} ${p.t0}L${f(p.fx)} ${f(p.t1)}L${f(p.fx)} ${f(p.b1)}L${f(p.hx)} ${p.b0}Z`}
+// 門板上的內框和把手，跟著同一個梯形內插
+function doorDeco(p,deg){const lerp=(u,v)=>{const x=p.hx+(p.fx-p.hx)*u;const t=p.t0+(p.t1-p.t0)*u,b=p.b0+(p.b1-p.b0)*u;return [x,t+(b-t)*v]};
+ const q=(u0,u1,v0,v1)=>{const a=lerp(u0,v0),b=lerp(u1,v0),c=lerp(u1,v1),d=lerp(u0,v1);return `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}L${f(c[0])} ${f(c[1])}L${f(d[0])} ${f(d[1])}Z`};
+ const k=lerp(.86,.5),em=lerp(.5,.17);return {p1:q(.16,.84,.08,.44),p2:q(.16,.84,.56,.92),kx:k[0],ky:k[1],ex:em[0],ey:em[1],sx:Math.abs(Math.cos(deg*Math.PI/180))}}
+function setDoor(g,side,deg){const p=doorPts(side,deg),d=doorDeco(p,deg);
+ const el=n=>g.querySelector('.'+n);
+ el('df').setAttribute('d',doorPath(p));el('df').setAttribute('fill',p.back?`url(#r19dbk)`:`url(#r19db)`);
+ el('dp1').setAttribute('d',d.p1);el('dp2').setAttribute('d',d.p2);
+ [el('dp1'),el('dp2'),el('dk'),el('de')].forEach(x=>x.style.opacity=p.back?0:1);
+ el('dk').setAttribute('cx',f(d.kx));el('dk').setAttribute('cy',f(d.ky));el('dk').setAttribute('rx',f(Math.max(.6,3*d.sx)));
+ const de=el('de');de.setAttribute('d',squeeze(de.dataset.b,d.ex,d.ey,Math.max(.05,d.sx)))}   // 門上小愛心／星星跟著門轉窄：重算路徑座標（不用 scale）
+// 原點畫好的路徑（只有 M/L/C/Z 絕對座標）→ x 乘 sx 再平移
+function squeeze(b,ox,oy,sx){let i=0;return String(b||'').replace(/-?\d*\.?\d+/g,m=>{const v=+m;return f((i++%2)?v+oy:v*sx+ox)})}
+/* ---------- 家具 SVG（800×400，跟房間同座標） ---------- */
+function furniSVG(){const P=PAL();
+ const emb=(x,y,s,c)=>P.emb==='heart'?`<path d="${heart(x,y,s)}" fill="${c}"/>`:`<path d="${star5(x,y,s*1.3)}" fill="${c}"/>`;
+ const dress=(x,c,i)=>boy()
+  ?`<path d="M${x-1.6} 151Q${x} 147 ${x+1.6} 151" stroke="#E8D49A" stroke-width="1.4" fill="none"/><path d="M${x-9} 158L${x+9} 158L${x+8} 196H${x-8}Z" fill="${c[0]}" stroke="${c[1]}" stroke-width="1.2" stroke-linejoin="round"/><path d="M${x-9} 158L${x-13} 178M${x+9} 158L${x+13} 178" stroke="${c[1]}" stroke-width="4" stroke-linecap="round"/><path d="M${x-3} 158L${x} 166L${x+3} 158" fill="#fff"/><path d="M${x} 166V194" stroke="${c[1]}" stroke-width="1"/>${[172,180,188].map(y=>`<circle cx="${x+2.4}" cy="${y}" r="1.1" fill="#FFE27A"/>`).join('')}`
+  :`<path d="M${x-1.6} 151Q${x} 147 ${x+1.6} 151" stroke="#E8D49A" stroke-width="1.4" fill="none"/><path d="M${x-4} 158H${x+4}L${x+3} 170Q${x+12} 188 ${x+11} 198H${x-11}Q${x-12} 188 ${x-3} 170Z" fill="${c[0]}" stroke="${c[1]}" stroke-width="1.2" stroke-linejoin="round"/><path d="M${x-4} 158Q${x-8} 160 ${x-7} 165M${x+4} 158Q${x+8} 160 ${x+7} 165" stroke="${c[0]}" stroke-width="3.4" stroke-linecap="round"/><path d="M${x-3} 170H${x+3}" stroke="#fff" stroke-width="1.6" opacity=".8"/><path d="M${x-9} 194Q${x} 198 ${x+9} 194" stroke="#fff" stroke-width="1.2" fill="none" opacity=".7"/>${i===1?`<path d="${spark(x+4,184,2.4)}" fill="#fff"/>`:''}`;
+ const embD=P.emb==='heart'?heart(0,0,4.2):star5(0,0,4.2*1.3);
+ const door=side=>`<g class="r19door ${side<0?'l':'r'}"><path class="df" stroke="${P.line}" stroke-width="1.6" stroke-linejoin="round"/><path class="dp1" fill="none" stroke="${P.pline}" stroke-width="1.4" opacity=".7"/><path class="dp2" fill="url(#r19pn)" stroke="${P.pline}" stroke-width="1.2" stroke-linejoin="round"/><path class="de" data-b="${embD}" fill="${P.panel[1]}"/><ellipse class="dk" ry="3" fill="#F5D27A" stroke="#C99A3A" stroke-width="1"/></g>`;
+ let d=`<defs>
+<linearGradient id="r19b" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${P.body[0]}"/><stop offset="1" stop-color="${P.body[1]}"/></linearGradient>
+<linearGradient id="r19db" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.body[0]}"/><stop offset="1" stop-color="${P.body[1]}"/></linearGradient>
+<linearGradient id="r19dbk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${P.body[1]}"/><stop offset="1" stop-color="${P.line}"/></linearGradient>
+<linearGradient id="r19pn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.panel[0]}"/><stop offset="1" stop-color="${P.panel[1]}"/></linearGradient>
+<linearGradient id="r19in" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.inner[0]}"/><stop offset="1" stop-color="${P.inner[1]}"/></linearGradient>
+<linearGradient id="r19wd" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E8BC88"/><stop offset="1" stop-color="#B9834F"/></linearGradient>
+<linearGradient id="r19gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7A3"/><stop offset="1" stop-color="#D9A845"/></linearGradient>
+<radialGradient id="r19sh"><stop offset="0" stop-color="#3A2050" stop-opacity=".3"/><stop offset="1" stop-color="#3A2050" stop-opacity="0"/></radialGradient>
+<radialGradient id="r19gl"><stop offset="0" stop-color="#FFF6C8" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE9A0" stop-opacity=".45"/><stop offset="1" stop-color="#FFE9A0" stop-opacity="0"/></radialGradient>
+<linearGradient id="r19cone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF3B0" stop-opacity=".85"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></linearGradient>
+</defs>`;
+ /* ===== 衣櫃 ===== */
+ d+=`<g class="r19ward"><ellipse cx="478" cy="297" rx="46" ry="5.5" fill="url(#r19sh)"/>
+<rect x="447" y="284" width="7" height="11" rx="2" fill="#9A6A3A"/><rect x="502" y="284" width="7" height="11" rx="2" fill="#9A6A3A"/>
+<path d="M446 134Q478 104 510 134Z" fill="url(#r19pn)" stroke="${P.pline}" stroke-width="1.6" stroke-linejoin="round"/>${emb(478,124,5.2,'#FFE27A')}<path d="${spark(463,128,2.6)}" fill="#fff" opacity=".8"/>
+<rect x="442" y="134" width="72" height="152" rx="8" fill="url(#r19b)" stroke="${P.line}" stroke-width="2"/>
+<rect x="438" y="130" width="80" height="9" rx="4" fill="url(#r19wd)"/><rect x="440" y="130" width="76" height="2.6" rx="1.3" fill="#fff" opacity=".35"/>
+<rect x="447" y="141" width="62" height="139" rx="3" fill="url(#r19in)"/>
+<g class="r19inside"><ellipse class="r19inglow" cx="478" cy="196" rx="34" ry="58" fill="url(#r19gl)"/>
+<path d="M449 151H507" stroke="url(#r19gd)" stroke-width="2.6" stroke-linecap="round"/>
+${P.clothes.map((c,i)=>dress(460+i*18,c,i)).join('')}
+<rect x="449" y="236" width="58" height="4" rx="2" fill="url(#r19wd)"/>
+${boy()?`<path d="M455 236V228Q455 224 459 224H469Q473 224 473 228V236Z" fill="#5A8CE0" stroke="#2F5FB8" stroke-width="1"/><path d="M480 236L486 222L492 236Z" fill="#E2605A" stroke="#B23A3A" stroke-width="1"/><path d="${star5(500,230,5)}" fill="#FFE27A" stroke="#E8B84A" stroke-width=".8"/>`
+ :`<path d="M454 236Q454 226 463 226Q472 226 472 236Z" fill="#FF9BCB" stroke="#E2589E" stroke-width="1"/><path d="M459 226Q463 220 467 226" stroke="#FFE27A" stroke-width="1.6" fill="none"/><path d="M480 236L483 226L487 231L490 224L493 231L497 226L500 236Z" fill="#FFE27A" stroke="#E8B84A" stroke-width="1" stroke-linejoin="round"/><circle cx="490" cy="231" r="1.4" fill="#FF8EC4"/>`}
+<path d="M452 270Q462 262 472 270H452ZM484 270Q494 262 504 270H484Z" fill="${P.clothes[0][0]}" stroke="${P.clothes[0][1]}" stroke-width="1"/><rect x="449" y="270" width="58" height="3.6" rx="1.8" fill="url(#r19wd)"/>
+${[[456,170],[500,200],[470,250]].map(([x,y],i)=>`<path class="r19tw t${i}" d="${spark(x,y,3.4)}" fill="#FFF6C8"/>`).join('')}</g>
+${door(-1)}${door(1)}
+<rect x="444" y="280" width="68" height="6" rx="3" fill="url(#r19wd)"/></g>`;
+ /* ===== 書桌 ===== */
+ d+=`<g class="r19desk"><ellipse cx="660" cy="297" rx="74" ry="5.5" fill="url(#r19sh)"/>
+<rect x="600" y="222" width="11" height="73" rx="3" fill="url(#r19b)" stroke="${P.line}" stroke-width="1.6"/><rect x="709" y="222" width="11" height="73" rx="3" fill="url(#r19b)" stroke="${P.line}" stroke-width="1.6"/>
+<path d="M611 262H709" stroke="${P.line}" stroke-width="3" stroke-linecap="round"/>
+<rect x="606" y="220" width="108" height="34" rx="4" fill="url(#r19b)" stroke="${P.line}" stroke-width="1.6"/>
+<g class="r19dbox"><rect x="613" y="224" width="94" height="10" rx="2" fill="url(#r19in)"/>
+${['#FF6F91','#FFB84D','#FFE07A','#6FE3A8','#7FB8FF','#B99CFF'].map((c,i)=>`<rect x="${620+i*7}" y="226" width="5" height="9" rx="1" fill="${c}"/><path d="M${620+i*7} 226L${622.5+i*7} 223L${625+i*7} 226Z" fill="${c}"/>`).join('')}
+<rect x="668" y="226" width="30" height="8" rx="1.5" fill="#FFFFFF"/><path d="M672 229H694M672 232H688" stroke="#C8D6F0" stroke-width="1"/></g>
+<g class="r19drw"><rect x="612" y="225" width="96" height="24" rx="4" fill="url(#r19pn)" stroke="${P.pline}" stroke-width="1.4"/><rect x="616" y="228" width="88" height="18" rx="3" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55"/><rect x="651" y="234" width="18" height="5.6" rx="2.8" fill="#F5D27A" stroke="#C99A3A" stroke-width="1"/>${emb(626,237,3,'#fff')}${emb(694,237,3,'#fff')}</g>
+<rect x="592" y="213" width="136" height="9" rx="4" fill="url(#r19wd)"/><rect x="594" y="213" width="132" height="2.6" rx="1.3" fill="#fff" opacity=".35"/>
+<rect x="612" y="205" width="30" height="8" rx="1.6" fill="${P.books[0]}"/><rect x="615" y="198.5" width="26" height="6.5" rx="1.6" fill="${P.books[1]}"/><rect x="613" y="192.5" width="24" height="6" rx="1.6" fill="${P.books[2]}"/><path d="M616 209H638M618 201.5H637M616 195.5H633" stroke="#fff" stroke-width="1" opacity=".7"/>
+<path d="M654 213L652 196H668L666 213Z" fill="${P.cup}" stroke="${P.pline}" stroke-width="1.2" stroke-linejoin="round"/>
+<path d="M656 196L654 182M660 196V178M664 196L667 184" stroke-width="3" stroke-linecap="round" stroke="#FFB84D"/><path d="M660 196V178" stroke="#7FB8FF" stroke-width="3" stroke-linecap="round"/><path d="M664 196L667 184" stroke="#6FE3A8" stroke-width="3" stroke-linecap="round"/>
+<path d="M655 201H665" stroke="#fff" stroke-width="1.2" opacity=".7"/>
+<g class="r19lamp"><ellipse class="r19pool" cx="660" cy="214" rx="44" ry="4" fill="#FFF6C8"/><path class="r19cone" d="M671 191L692 200L712 214H624Z" fill="url(#r19cone)"/><circle class="r19lglow" cx="680" cy="194" r="42" fill="url(#r19gl)"/>
+<ellipse cx="709" cy="212" rx="12" ry="3.4" fill="${P.shade[1]}"/><path d="M709 211L705 186L692 176" stroke="${P.shade[1]}" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="705" cy="186" r="3" fill="#F5D27A" stroke="#C99A3A" stroke-width=".8"/>
+<g transform="translate(684 186) rotate(28)"><path class="r19shade" d="M-16 4Q-15 -13 0 -13Q15 -13 16 4Z" fill="${P.shade[0]}" stroke="${P.shade[1]}" stroke-width="1.8" stroke-linejoin="round"/><path d="M-9 -6Q-6 -10 -1 -10" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/><circle cx="7" cy="-15" r="2.4" fill="#F5D27A"/><ellipse class="r19bulb" cx="0" cy="4.6" rx="9" ry="3" fill="#FFF6C8"/></g></g></g>`;
+ return d}
+/* ---------- 掛進房間 ---------- */
+const _rm19=rmEnhance;
+rmEnhance=function(fromTab){const r=_rm19.apply(this,arguments);try{room19()}catch(e){console.log('r19room',e)}return r};
+let T19=[];
+function room19(){const sc=document.querySelector('.rscene2');if(!sc||sc.querySelector('.r19f'))return;
+ const pr=sc.querySelector('.rpr');if(!pr)return;
+ const tok=RM.tok,live=()=>tok===RM.tok&&S.screen==='room'&&sc.isConnected;
+ T19.forEach(clearTimeout);T19=[];const later=(fn,ms)=>{T19.push(setTimeout(()=>{if(live())fn()},ms))};
+ const busy=()=>Date.now()<RM.busy,lock=ms=>{RM.busy=Date.now()+ms};
+ // 家具層：窗簾布（.rmcurt）後面插入 → 檯燈、書桌在拉上的窗簾前面
+ const svg=document.createElementNS(NS,'svg');svg.setAttribute('class','r19f');svg.setAttribute('viewBox','0 0 800 400');svg.setAttribute('preserveAspectRatio','xMidYMid slice');svg.setAttribute('aria-hidden','true');
+ svg.innerHTML=furniSVG();const cu=sc.querySelector('.rmcurt');if(cu)cu.after(svg);else sc.querySelector('svg.bg').after(svg);
+ const dl=svg.querySelector('.r19door.l'),dr=svg.querySelector('.r19door.r');
+ let doorDeg=0;const doors=deg=>{doorDeg=deg;setDoor(dl,-1,deg);setDoor(dr,1,deg)};doors(0);
+ const animDoors=(to,ms)=>{if(calm()){doors(to);return}const from=doorDeg,t0=performance.now();const step=now=>{if(!sc.isConnected)return;let u=Math.min(1,(now-t0)/ms);u=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;doors(from+(to-from)*u);if(u<1)requestAnimationFrame(step)};requestAnimationFrame(step)};
+ // 點擊區
+ const hit=(k,label,css)=>{const b=document.createElement('button');b.className='rmhit r19hit';b.dataset.k19=k;b.setAttribute('aria-label',label);b.style.cssText=css;sc.appendChild(b);return b};
+ const hw=hit('ward','衣櫃','left:55%;top:29%;width:9.6%;height:45%');
+ const hd=hit('desk','書桌','left:74.4%;top:49%;width:16.6%;height:25%');   // 桌面到桌腳（y196–296）；左邊不蓋到泰迪熊（x≤600）
+ const hl=hit('desk','書桌的檯燈','left:83%;top:43%;width:6.4%;height:10%');
+ // 主角走路（跟房間其他動作一樣用 R99 骨架；減少動態時不走）
+ const rig=()=>{try{const s=pr.querySelector('svg');if(!s||!window.R99)return null;return s.classList.contains('rj')?s:R99.prep(s)}catch(e){return null}};
+ const pose=(m,o)=>{try{const n=rig();if(n)R99.set(n,m,o)}catch(e){}};
+ const follow=c=>{try{const scr=document.querySelector('.rmscroll');if(!scr||scr.scrollWidth<=scr.clientWidth+4)return;const x=Math.max(0,Math.min(scr.scrollWidth-scr.clientWidth,c/100*scr.scrollWidth-scr.clientWidth/2));scr.scrollTo({left:x,behavior:calm()?'auto':'smooth'})}catch(e){}};
+ const walk=(l,ms,c)=>{follow(c);if(calm())return 0;pr.classList.remove('rmidle');pr.style.left=l+'%';pr.style.bottom='4%';pose('march');later(()=>{const m=rig();if(m&&/rjm-march/.test(m.getAttribute('class')||''))pose(null)},ms);return ms};
+ const home=()=>{const n=pr.querySelector('svg');if(n&&n.__rj){try{RIG.stop(n)}catch(e){}}pr.style.left='';pr.style.bottom='';pr.classList.add('rmidle')};
+ /* ---- 衣櫃 → 換裝間 ---- */
+ const ward=()=>{if(busy())return;lock(4000);const w=walk(33,800,50);   // 手機直向：畫面停在主角和衣櫃中間
+  later(()=>{pose('r_open');sfx2('pop');tn(523,.12,0,'sine',.12);svg.classList.add('r19wopen');animDoors(124,700);
+   later(()=>tn(784,.18,0,'sine',.1),500);
+   const spoke=sayR(L.ward);if(!spoke)try{toast(L.ward)}catch(e){}
+   later(()=>{window.__r19ward=1;go('wardrobe')},spoke?2700:1900)},w);};
+ /* ---- 書桌 → 檯燈、抽屜 → 小選單 ---- */
+ const desk=()=>{if(busy())return;lock(2600);const w=walk(57,800,73);   // 手機直向：畫面停在書桌
+  later(()=>{pose('r_reach');
+   later(()=>{svg.classList.add('r19lit');tn(660,.1,0,'sine',.12)},250);
+   later(()=>{svg.classList.add('r19dopen');sfx2('pop')},650);
+   later(()=>{const spoke=sayR(L.desk);menu(spoke)},1250)},w)};
+ const closeDesk=()=>{svg.classList.remove('r19dopen');later(()=>svg.classList.remove('r19lit'),600);later(home,700);later(()=>{RM.busy=0},800)};
+ function menu(spoke){lock(60000);const icP=(()=>{try{return window.__z7.svg(window.__z7.zone.practice)}catch(e){return art('📚')}})();
+  const K=lock19(),lkI=(()=>{try{return ICON.lock('#FFD98A')}catch(e){return art('🔒')}})();
+  const pk=(g,ic,n)=>`<button class="r19pick${K[g]?' r19lk':''}" data-g="${g}"${K[g]?` data-lk="${K[g]}" aria-label="${n}（還沒打開）"`:''}><span class="ic">${ic}</span><b>${n}</b>${K[g]?`<span class="r19lki">${lkI}</span>`:''}</button>`;
+  const ov=overlay(screen,`<div class="card r19card${boy()?' boy':''}"><h2>書桌</h2><div class="r19row">
+   ${pk('write',art('✏️'),'描描寫寫')}
+   ${pk('prac',icP,'練習區')}</div>
+   <button class="btn2 small" id="r19no">先不要</button></div>`);
+  ov.querySelectorAll('.r19pick').forEach(b=>b.onclick=()=>{const g=b.dataset.g;
+   if(b.dataset.lk){sfx2('hint');sayLock(b.dataset.lk);b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
+   sfx2('pop');
+   if(g==='write'){sayR(L.write);ov.remove();window.__pmOpen='zy';go('practice');pickWrite()}
+   else{sayR(L.prac);ov.remove();go('practice')}});
+  ov.querySelector('#r19no').onclick=()=>{sfx2('pop');ov.remove();closeDesk()}}
+ hw.onclick=ward;hd.onclick=desk;hl.onclick=desk;
+}
+// 進自由練習之後，點「描描寫寫」那張卡（卡片原本的開放、付費、還沒學寫字的說明都照舊）
+function pickWrite(){let n=0;const iv=setInterval(()=>{n++;if(n>40){clearInterval(iv);return}if(S.screen!=='practice'||typeof going!=='undefined'&&going)return;
+ const c=document.querySelector('.tcard[data-k="write4"]')||document.querySelector('.tcard[data-k="write"]');if(!c)return;clearInterval(iv);setTimeout(()=>{try{if(S.screen==='practice')c.click()}catch(e){}},350)},100)}
+// 從房間的衣櫃進換裝間：「穿好了！」回房間
+{const _w=SCREENS.wardrobe;SCREENS.wardrobe=function(){const r=_w.apply(this,arguments);try{if(window.__r19ward){const d=document.getElementById('done');if(d){const o=d.onclick;d.onclick=function(e){if(window.__r19ward){window.__r19ward=0;go('room');return}return o&&o.call(this,e)}}}}catch(e){}return r}}
+{const _sh=show;show=function(name){if(name!=='wardrobe')window.__r19ward=0;return _sh.apply(this,arguments)}}
+/* ---------- 樣式 ---------- */
+const st=document.createElement('style');st.textContent=`
+.rscene2 .r19f{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.rscene2 .r19hit{z-index:2}
+.r19f .r19inglow,.r19f .r19tw{opacity:0;transition:opacity .5s}
+.r19f.r19wopen .r19inglow{opacity:1}
+.r19f.r19wopen .r19tw{animation:r19tw 1.1s ease-in-out infinite}.r19f .r19tw.t1{animation-delay:.35s}.r19f .r19tw.t2{animation-delay:.7s}
+@keyframes r19tw{0%,100%{opacity:0}50%{opacity:1}}
+.r19f .r19drw,.r19f .r19dbox{transition:transform .45s cubic-bezier(.3,.7,.4,1)}
+.r19f.r19dopen .r19drw{transform:translateY(11px)}.r19f.r19dopen .r19dbox{transform:translateY(4px)}
+.r19f .r19cone,.r19f .r19lglow,.r19f .r19pool{opacity:0;transition:opacity .4s}
+.r19f.r19lit .r19cone{opacity:.9}.r19f.r19lit .r19pool{opacity:.6}.r19f.r19lit .r19lglow{opacity:1}
+.r19f .r19shade{transition:fill .3s}.r19f.r19lit .r19shade{fill:#FFF3B0}
+.r19f .r19bulb{opacity:.35;transition:opacity .3s}.r19f.r19lit .r19bulb{opacity:1}
+.r19card{text-align:center;max-width:min(92vw,460px)}
+.r19card h2{margin:0 0 10px}
+.r19row{display:flex;gap:14px;justify-content:center;margin:4px 0 14px}
+.r19pick{flex:1 1 0;min-width:136px;max-width:190px;white-space:nowrap;min-height:132px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 8px;border-radius:22px;border:3px solid #FFE27A;
+ background:linear-gradient(170deg,#FFF6FB,#FFD9EC);color:#5A2A6A;font:inherit;font-size:20px;cursor:pointer;box-shadow:0 5px 0 rgba(90,40,110,.25)}
+.r19card.boy .r19pick{background:linear-gradient(170deg,#F4F8FF,#D6E6FF);color:#22346A}
+.r19pick .ic{width:64px;height:64px;display:block}.r19pick .ic svg,.r19pick .ic img,.r19pick .ic .emoji{width:100%;height:100%;display:block;font-size:52px;line-height:64px}
+.r19pick:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(90,40,110,.25)}
+.r19pick{position:relative}
+.r19pick.r19lk,.r19card.boy .r19pick.r19lk{background:linear-gradient(170deg,#E4E1EA,#C9C5D3);border-color:#B9B4C8;color:#8A8598;box-shadow:0 5px 0 rgba(60,56,80,.2)}
+.r19pick.r19lk .ic{opacity:.45}
+.r19pick .r19lki{position:absolute;right:8px;top:8px;width:34px;height:34px;padding:6px;box-sizing:border-box;border-radius:50%;background:rgba(30,24,60,.85);box-shadow:0 0 0 2px rgba(255,217,138,.75);display:grid;place-items:center}
+.r19pick .r19lki svg{width:100%;height:100%;display:block}
+@media (prefers-reduced-motion:reduce){.r19f *{transition:none!important;animation:none!important}.r19f.r19wopen .r19tw{opacity:1}}
+`;document.head.appendChild(st);
+window.__r19={ver:'2026-11-15',svg:furniSVG,lock:lock19};
+}catch(e){console.log('m99zxg',e)}})();
 
 /* ================= m99zy（5.0.3）小螢幕版面修正 —— 星光工作室 2026-11-05（著作權屬星光工作室） =================
  * 第二十六～三十章品質審查（scratchpad qa50）找到的小螢幕問題，一起修（第一～二十五章用到同樣版面的也一起好）：
