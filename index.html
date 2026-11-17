@@ -9002,7 +9002,7 @@ Object.entries(A).forEach(([k,b])=>{ICONART['i:'+k]=IA(b).replace('viewBox="0 0 
 // ---- 名字統一：星光小冒險（網頁、App、王子版都一樣） ----
 try{CHAPTERS.forEach(c=>{['giftText','giftSay','endText'].forEach(k=>{if(typeof c[k]==='string')c[k]=c[k].replace(/星光(公主|小王子)大冒險/g,'星光小冒險')})})}catch(e){}
 try{document.title='星光小冒險'}catch(e){}
-{const _ab70=aboutPanel;aboutPanel=function(){const r=_ab70.apply(this,arguments);try{const ov=$$('.overlay').pop();const h=ov&&$('h2',ov);if(h&&/大冒險/.test(h.textContent))h.textContent='星光小冒險';const sm=ov&&$('p.small',ov);if(sm)sm.textContent='給 4～6 歲小朋友的學習冒險遊戲：注音、英文字母、數學，還有生活常識、禮貌、安全和節日小知識。現在有五季、三十五章。';const vr=ov&&$('.arow',ov);if(vr&&!$('.abnew',ov)){const n=document.createElement('p');n.className='small abnew';n.textContent='這一版新增：第五季「星光小管家」第三十一～三十五章、遊樂園大門四區、存錢小豬咚咚、小小廚師、特別衣服的小特效、房間窗外風景、房間和寵物互動、家長專區新分類、文字備份。';vr.after(n)}}catch(e){}return r}}
+{const _ab70=aboutPanel;aboutPanel=function(){const r=_ab70.apply(this,arguments);try{const ov=$$('.overlay').pop();const h=ov&&$('h2',ov);if(h&&/大冒險/.test(h.textContent))h.textContent='星光小冒險';const sm=ov&&$('p.small',ov);if(sm)sm.textContent='給 4～6 歲小朋友的學習冒險遊戲：注音、英文字母、數學，還有生活常識、禮貌、安全和節日小知識。現在有六季、四十章。';const vr=ov&&$('.arow',ov);if(vr&&!$('.abnew',ov)){const n=document.createElement('p');n.className='small abnew';n.textContent='這一版新增：第五季「星光小管家」第三十一～三十五章、遊樂園大門四區、存錢小豬咚咚、小小廚師、特別衣服的小特效、房間窗外風景、房間和寵物互動、家長專區新分類、文字備份。';vr.after(n)}}catch(e){}return r}}
 // ---- 首頁那句話（會念出來，所以都用國字數字，跟錄音一致） ----
 const ZHC=n=>n===2?'兩':ZHN(n);// 數量用「兩」
 const ZHN=n=>{const d='零一二三四五六七八九';if(n<=10)return n===10?'十':d[n];if(n<20)return '十'+d[n%10];return d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:'')};
@@ -19486,7 +19486,7 @@ window.__iapShopHook=function(ov,price){const card=$('.card',ov);if(!card)return
  const facts=['一次買斷','不是訂閱','沒有廣告','不賣寶石和衣服'].concat(F3FS()?['家人共享']:[],['可恢復購買']);
  const top=f3from==='cert'?`<div class="f3hello"><b>${f3esc((S.name||'').trim()||(F3BOY()?'小王子':'小公主'))}完成了第一～五章！</b><span>${F3BOY()?'找回火花的五片鱗片':'找到王子的五封信'}，拿到「星光小探險家」獎狀。這五章練習了注音、英文字母、數數和加減、看時鐘、認識錢幣，還有禮貌和生活習慣。</span></div>`:'';
  const how=[fp?`每段 ${f3esc(fp)}，買一次就一直能玩，不會每個月扣款。`:'每段買一次就一直能玩，不會每個月扣款。',
-  ((o=>!o.length)((typeof iapOwned==='function'?iapOwned():[]).filter(x=>x==='full'||x==='s2to6'||/^stage[2-6]$/.test(x)))?`想一次打開第六～三十章，可以買「第六～三十章合購」${price('s2to6')?' '+f3esc(price('s2to6')):''}。也可以只買第六～二十章合購${full?' '+f3esc(full):''}，第二十一～三十五章再分段買（第三十一～三十五章不包含在合購裡）。`:'第二十一～三十五章不包含在第六～二十章合購裡、第三十一～三十五章不包含在第六～三十章合購裡，可以分段買。'),
+  ((o=>!o.length)((typeof iapOwned==='function'?iapOwned():[]).filter(x=>x==='full'||x==='s2to6'||/^stage[2-6]$/.test(x)))?`想一次打開第六～三十章，可以買「第六～三十章合購」${price('s2to6')?' '+f3esc(price('s2to6')):''}。也可以只買第六～二十章合購${full?' '+f3esc(full):''}，第二十一～四十章再分段買（第三十一章以後不包含在合購裡）。`:'第二十一～四十章不包含在第六～二十章合購裡、第三十一～四十章不包含在第六～三十章合購裡，可以分段買。'),
   '寶石、衣服、寵物都是玩遊戲得到的，App 裡沒有別的東西要付錢，也沒有廣告。'].concat(F3FS()?['開了「家人共享」的家人，用自己的 Apple ID 也能玩。']:[],
   ['換手機、刪掉重裝：在這裡按「恢復購買」。','有設定「購買前詢問」的家庭，要等家長在自己的手機上同意。']);
  const d=document.createElement('div');d.className='f3intro';
@@ -19534,7 +19534,7 @@ window.__f3guide=f3guide;
  const all=(()=>{try{return STAGES.every(([id])=>stageOpen(id))}catch(e){return true}})();
  const mk=(k,ic,t,s,g)=>{const b=document.createElement('button');b.className='hrow'+(g?' gold':'');b.dataset.k=k;b.innerHTML=`<span class="hic">${ic}</span><span class="htx"><b>${t}</b><small>${s}</small></span><i>›</i>`;return b};
  const buy=$('.hrow[data-k="buy"]',card);
- if(buy){const nb=mk('intro',HICO.bag,all?'購買紀錄':'完整版介紹',all?'已全部解鎖・恢復購買／兌換碼':'第六～三十五章有什麼・價格・購買／恢復購買',1);buy.replaceWith(nb);nb.onclick=()=>{ov.remove();f3openIntro()}}
+ if(buy){const nb=mk('intro',HICO.bag,all?'購買紀錄':'完整版介紹',all?'已全部解鎖・恢復購買／兌換碼':'第六～四十章有什麼・價格・購買／恢復購買',1);buy.replaceWith(nb);nb.onclick=()=>{ov.remove();f3openIntro()}}
  const gd=mk('guide',HICO.info,'遊戲功能介紹','學什麼・寶石設定・備份與還原・學習報告');
  const after=$('.hrow[data-k="intro"]',card);if(after)after.after(gd);else{const f=$('.hrow',card);f?f.before(gd):card.appendChild(gd)}
  gd.onclick=()=>{ov.remove();f3guide()};
