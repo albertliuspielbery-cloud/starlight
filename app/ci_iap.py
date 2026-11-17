@@ -37,7 +37,7 @@ def token():
                       os.environ['ASC_KEY_P8'], algorithm='ES256', headers={'kid': os.environ['ASC_KEY_ID'], 'typ': 'JWT'})
 
 
-def call(method, path, body=None, ok404=False):
+def call(method, path, body=None, ok404=False, _try=0):
     url = path if path.startswith('http') else API + path
     req = urllib.request.Request(url, method=method, data=json.dumps(body).encode() if body is not None else None,
                                  headers={'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/json'})
@@ -49,6 +49,13 @@ def call(method, path, body=None, ok404=False):
         msg = e.read().decode(errors='replace')
         if ok404 and e.code == 404:
             return None
+        # Apple 偶爾回 500：GET 等一下重試，最後一次把 limit 改小
+        if e.code >= 500 and method == 'GET' and _try < 4:
+            print(f'Apple {e.code}，{20 * (_try + 1)} 秒後重試')
+            time.sleep(20 * (_try + 1))
+            if _try == 3:
+                path = path.replace('limit=200', 'limit=50')
+            return call(method, path, body, ok404, _try + 1)
         print(f'::error::App Store Connect API {method} {url.split("?")[0].replace(API, "")} {e.code}: {msg[:900]}')
         raise SystemExit(1)
 
