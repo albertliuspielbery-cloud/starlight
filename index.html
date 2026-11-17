@@ -7601,9 +7601,9 @@ function heroChooser(){const P=window.PROF;
   <button class="herocard" data-h="princess">${_princessBoy0({dress:'star',hs:'long',hair:'brown',head:'crown'},'class="hcimg"')}<b>小公⁠主</b></button>
   <button class="herocard" data-h="prince">${boySVG({dress:'b_royal',head:'b_crown',hs:'b_side',hair:'brown',eye:'blue'},'class="hcimg"')}<b>小王子</b></button></div>
   <p class="small">之後爸爸媽媽可以在家長設定裡換。</p></div>`);
- say(['選一個主角吧！要當小公⁠主，還是小王子呢？']);
+ say(['選一個主角吧！','要當小公主，還是小王子呢？']);
  $$('.herocard',ov).forEach(b=>b.onclick=()=>{const h=b.dataset.h;const kid=P.kids.find(k=>k.id===P.cur);kid.chosen=1;sfx('pop');
-  if(h===(kid.hero||'princess')){profSave();ov.remove();say([h==='prince'?'你是小王子！':'你是小公⁠主！']);setTimeout(()=>{if(S.screen!=='title'||$('.overlay'))return;if(!setupState()&&!(()=>{try{return sessionStorage.getItem(SETUP_KEY)}catch(e){return 0}})())setupIntro();else if(!S.name)nameAsk()},900);return}
+  if(h===(kid.hero||'princess')){profSave();ov.remove();say([h==='prince'?'你是小王子！':'你是小公主！']);setTimeout(()=>{if(S.screen!=='title'||$('.overlay'))return;if(!setupState()&&!(()=>{try{return sessionStorage.getItem(SETUP_KEY)}catch(e){return 0}})())setupIntro();else if(!S.name)nameAsk()},900);return}
   profGo(P.cur,h)})}
 const _titleHero=SCREENS.title;
 SCREENS.title=function(){const r=_titleHero.apply(this,arguments);try{const P=window.PROF;const kid=P&&P.kids.find(k=>k.id===P.cur);if(!kid||kid.chosen)return r;
