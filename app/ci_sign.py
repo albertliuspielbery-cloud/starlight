@@ -78,7 +78,19 @@ def create_dist_cert(body):
             raise SystemExit(0)
         print('憑證已滿，刪除最舊的一張（約 ' + str(_created_days_ago(old[0])) + ' 天前建立）：' + old[0]['id'])
         call('DELETE', '/certificates/' + old[0]['id'])
-        return call('POST', '/certificates', body)['data']
+        # 刪完 Apple 有時要一下子才算數；等一下再試，還是不行就改用雲端簽名，不再刪第二張
+        for wait in (10, 30, 60):
+            time.sleep(wait)
+            try:
+                return call('POST', '/certificates', body, soft=True)['data']
+            except ApiError as e2:
+                if e2.code != 409:
+                    print(f'::error::App Store Connect API POST /certificates {e2.code}: {e2.msg[:700]}')
+                    raise SystemExit(1)
+                print(f'刪除後 Apple 還沒放行（409），{wait} 秒後再試')
+        print('::warning::刪除舊憑證後 Apple 仍不讓建立新的；改用 Apple 雲端簽名。')
+        open(f'{OUT}/cloud', 'w').write('1')
+        raise SystemExit(0)
 
 
 # 1. App 識別碼
