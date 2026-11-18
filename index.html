@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="星光小冒險">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="preload" as="font" type="font/woff2" href="font-hun-f6ca8ab5.woff2" crossorigin>
-<style>@font-face{font-family:"Huninn";src:url(font-hun-f6ca8ab5.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
+<link rel="preload" as="font" type="font/woff2" href="font-hun-b02bbfdd.woff2" crossorigin>
+<style>@font-face{font-family:"Huninn";src:url(font-hun-b02bbfdd.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Baloo 2";src:url(font-baloo-abc191e4.woff2) format("woff2");font-weight:400 800;font-display:swap}</style>
 <style>
 [hidden]{display:none!important}
 :root{
@@ -4318,7 +4318,7 @@ REWARD.wheel=function(card,finish){
 `;document.head.appendChild(st)})();
 
 /* ================= v1.9: 真人感語音包（Azure 曉臻 / Jenny 預先錄好） ================= */
-const VOICE_INDEX='index-736d13a2.json';
+const VOICE_INDEX='index-b4e8814c.json';
 const VO={idx:null,files:null,packs:{},bufs:new Map(),cur:null,ready:null,fail:false};
 if(S.vo===undefined)S.vo=true;
 try{const sv=JSON.parse(localStorage.getItem('pp4')||'{}');if(sv.vo===false)S.vo=false}catch(e){}
@@ -36812,6 +36812,229 @@ const st=document.createElement('style');st.textContent=`
 .ropts.fs9box .ropt.fs9o.fsaWait .p88st.fsaD svg{width:18px;height:18px}
 `;document.head.appendChild(st);
 }catch(e){try{console.log('m99zzzzzzz_festauto off',e&&e.message)}catch(_){}}})();
+
+/* ================= 5.3.0 大地圖修正（2026-11-18　星光工作室） =================
+ * iPhone 上點還沒開的章節時，章節按鈕會搖一下、冒星星。搖動時，面板底部的地景（山和小路）
+ * 會被畫到別的地方，看起來像字後面出現一塊米色方塊（Safari/WebKit 合成圖層的問題）。
+ * 修法：每個面板自成一層、地景固定在自己的圖層，搖動的按鈕也先放到自己的圖層，不再互相干擾。
+ */
+(()=>{const st=document.createElement('style');st.textContent=`
+.world .arc.rd41a{isolation:isolate;-webkit-transform:translateZ(0);transform:translateZ(0)}
+.arc.rd41a>.rd41arcw{-webkit-transform:translateZ(0);transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;contain:paint}
+.world .wnode{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+`;document.head.appendChild(st)})();
+
+/* ================= m99zzzzzzzz_parent19（1.9）家長設定：答對後聽完講解、故事要聽完、每天先複習 5 關才能去遊樂園 —— 星光工作室 2026-11-18（全部原創，著作權與 IP 屬於星光工作室 Starlight Studio） =================
+ * 家長專區 → 遊戲設定 →「學習」，三個開關，預設都關（V2.p19exp／V2.p19story／V2.p19park === true 才算開；兩個主角共用設定）。
+ * 1. 答對後聽完講解（p19exp）：right(el,parts) 的 parts 除了誇獎還有別的句子（＝有講解）時，念完才到下一題：
+ *    原本「點一下，下一題」（tapSkip＋.nexthint）先不出現，自動前進本來就等 say 念完。
+ *    保底：字數 × 0.35 秒（最多 15 秒）還沒念完，就回到原本「點一下，下一題」，不會卡住。沒有講解的題照原本。
+ * 2. 故事要聽完（p19story）：開場故事（SCREENS.story，各季）、1.9 拆段故事（story19 的鉤子、關卡之間的小段）：
+ *    「跳過」藏起來（故事屋「完整故事」是孩子自己點來看的，留著「跳過」可以離開）；
+ *    正在念的時候「下一頁／出發／繼續冒險」不出現、不能按，點朋友、點對話框也等這句念完。
+ *    做法：故事畫面上的 say() 記下來，念完（或保底：字數 × 0.35 秒、最多 15 秒）才放開。沒有錄音、沒念的頁不用等。
+ * 3. 每天先複習 5 關才能去遊樂園（p19park）：今天（本機日期 00:00 換日）第一次從首頁、地圖等外面進遊樂園前，
+ *    要先重玩 5 關「已經過關」的關卡（不同的關，各算 1 關；朋友求救也算），今天的「星星小考」從這裡做完算 1 關。
+ *    門檻＝min(5, 已過關卡數)，0 關直接放行。公主、王子各自計算（V2.p19rv_princess／V2.p19rv_prince）。
+ *    還沒到：出現友善提示＋星星進度，「去複習」帶到地圖選玩過的關。只有鼓勵的話，沒有罰則。
+ *    已經在遊樂園裡（從遊樂園的小遊戲、故事屋、自由練習回來）不擋。
+ * 新台詞：s52/lines_parent19.tsv（PR19_*），只念錄好的真人錄音，沒錄好只顯示文字，不用裝置語音。
+ * 不改既有模組：包 right／tapSkip／say／startLevel／levelDone／go／show／parentPanel（setTimeout 0，在所有模組之後包，才是最外層）。 */
+(function(){try{
+if(typeof SCREENS!=='object'||typeof right!=='function'||typeof say!=='function')return;
+const sv2=()=>{try{save2()}catch(e){}};
+const on=k=>{try{return V2[k]===true}catch(e){return false}};
+const ON={exp:()=>on('p19exp'),story:()=>on('p19story'),park:()=>on('p19park')};
+const HERO=()=>window.HERO==='prince'?'prince':'princess';
+const td=()=>{try{return today()}catch(e){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}};
+const RM=()=>{try{return !!reduced||!!S.lite}catch(e){return false}};
+/* ---------- 台詞（id 見 s52/lines_parent19.tsv） ---------- */
+/*LINESP19*/
+const L={
+"need1":"今天再複習一關，就可以去遊樂園囉！",
+"need2":"今天再複習兩關，就可以去遊樂園囉！",
+"need3":"今天再複習三關，就可以去遊樂園囉！",
+"need4":"今天再複習四關，就可以去遊樂園囉！",
+"need5":"今天再複習五關，就可以去遊樂園囉！",
+"pick":"我們去選一關玩過的關卡吧！",
+"quiz":"星星小考答完，也算複習一關喔！",
+"open":"今天的複習完成了，遊樂園開門囉！"
+};
+/*END*/
+const rec=t=>{try{if(!t||!S.sound||!S.vo||typeof VO==='undefined'||!VO.idx)return false;return voHas('z|'+t)||voHas('z|'+voCk(t))}catch(e){return false}};
+const sayRec=(...a)=>{const l=a.filter(rec);if(!l.length)return Promise.resolve();try{hush()}catch(e){}try{return say(l)||Promise.resolve()}catch(e){return Promise.resolve()}};
+// 保底時間：字數 × 0.35 秒，最多 15 秒
+const chars=parts=>(Array.isArray(parts)?parts:[parts]).reduce((n,p)=>{if(p==null)return n;if(typeof p==='string')return n+p.replace(/\s/g,'').length;
+ if(typeof p==='object'){if(p.zh!=null)return n+String(p.zh).replace(/\s/g,'').length*(p.slow?2:1);if(p.en!=null)return n+Math.ceil(String(p.en).length/2)*(p.slow?2:1)}return n},0);
+const capMs=parts=>Math.min(15000,Math.max(1000,chars(parts)*350));
+const bodyCls=(c,v)=>{try{document.body.classList.toggle(c,!!v)}catch(e){}};
+
+/* ================= 1. 答對後聽完講解 ================= */
+const EX={want:null,tok:0};
+function exClear(){EX.want=null;EX.tok++;bodyCls('pr19exp',false)}
+function wrapExp(){
+ const _right=right;
+ right=function(el,parts){
+  if(!S.lock&&ON.exp()&&S.screen==='stage'){const ps=(Array.isArray(parts)?parts:[]).filter(x=>x!=null&&x!=='');
+   if(ps.length>=2){EX.want={cap:capMs(ps)+1300,q:S.q,qs:S.qs}}else EX.want=null}else if(!S.lock)EX.want=null;
+  const live=!S.lock;const r=_right.apply(this,arguments);
+  // 這一題結束（下一題、過關）：保底計時作廢
+  if(live)try{const t=EX.tok;Promise.resolve(r).then(()=>{if(EX.tok===t+1||EX.tok===t)exClear()},()=>exClear())}catch(e){}
+  return r};
+ const _tap=tapSkip;
+ tapSkip=function(min){const w=EX.want;
+  if(!w||!ON.exp()||S.screen!=='stage'||w.qs!==S.qs||w.q!==S.q)return _tap.apply(this,arguments);
+  EX.want=null;const tok=++EX.tok;bodyCls('pr19exp',true);
+  // 念完：right() 裡的 Promise.all 會先結束，自己往下走；保底時間到了還沒念完，才讓孩子點一下到下一題
+  return new Promise(res=>{setTimeout(()=>{if(tok!==EX.tok)return;bodyCls('pr19exp',false);
+   if(S.screen!=='stage')return res();try{const h=document.createElement('div');h.className='nexthint';h.textContent='點一下，下一題 ▶';if(!document.querySelector('.nexthint'))document.body.appendChild(h)}catch(e){}
+   _tap.call(this,0).then(res)},Math.max(w.cap,(+min||0)))})};
+ if(typeof renderQ==='function'){const _rq=renderQ;renderQ=function(){exClear();return _rq.apply(this,arguments)}}
+ // 講解中：再按題目喇叭會把講解打斷（等於跳過），先不能按（CSS body.pr19exp .speak）
+}
+
+/* ================= 2. 故事要聽完 ================= */
+const STORY=['story','story19'];
+const inStory=()=>STORY.includes(S.screen);
+const fullMode=()=>!!document.querySelector('#screen .st19.m-full');
+const SL={tok:0,busy:false};
+function slSet(pr,parts){const tok=++SL.tok;SL.busy=true;bodyCls('pr19sw',true);
+ const rel=delay=>{setTimeout(()=>{if(SL.tok!==tok)return;SL.busy=false;bodyCls('pr19sw',false)},delay)};
+ Promise.resolve(pr).then(()=>rel(300),()=>rel(300));
+ setTimeout(()=>{if(SL.tok!==tok)return;SL.busy=false;bodyCls('pr19sw',false)},capMs(parts)+300)}
+function slClear(){SL.tok++;SL.busy=false;bodyCls('pr19sw',false)}
+function storyCls(){bodyCls('pr19st',ON.story())}
+function wrapStory(){
+ const _say=say;
+ say=function(parts){const r=_say.apply(this,arguments);
+  try{if(ON.story()&&inStory()&&S.sound&&Array.isArray(parts)&&parts.some(x=>x!=null&&x!==''))slSet(r,parts)}catch(e){}
+  return r};
+ // 念的時候：下一頁、出發、點朋友、點對話框都先不理（不出聲、不罵）
+ document.addEventListener('click',e=>{try{if(!SL.busy||!ON.story()||!inStory())return;
+  const t=e.target&&e.target.closest&&e.target.closest('#next,.st19next,.st19tap,.st19bub');if(!t)return;
+  e.stopImmediatePropagation();e.preventDefault()}catch(err){}},true);
+ // 跳過：開的時候不給按（完整故事除外）
+ document.addEventListener('click',e=>{try{if(!ON.story()||!inStory()||fullMode())return;
+  const t=e.target&&e.target.closest&&e.target.closest('#skip,.story .skip,#st19skip');if(!t)return;
+  e.stopImmediatePropagation();e.preventDefault()}catch(err){}},true);
+}
+
+/* ================= 3. 每天先複習 5 關才能去遊樂園 ================= */
+const NEED=5;
+const RVK=()=>'p19rv_'+HERO();
+function RV(){let o=null;try{o=V2[RVK()]}catch(e){}const d=td();
+ if(!o||typeof o!=='object'||Array.isArray(o)||o.day!==d){o={day:d,done:[],ok:0,said:0};try{V2[RVK()]=o}catch(e){}}
+ if(!Array.isArray(o.done))o.done=[];return o}
+const lvPassed=(c,i)=>{try{return c<(S.chDone||0)||((S.progs&&S.progs[c])||0)>i}catch(e){return false}};
+function passedCount(){let n=0;try{CHAPTERS.forEach((C,c)=>(C.levels||[]).forEach((_,i)=>{if(lvPassed(c,i))n++}))}catch(e){}return n}
+const need=()=>Math.min(NEED,passedCount());
+const left=()=>{const o=RV();if(o.ok)return 0;return Math.max(0,need()-o.done.length)};
+function addDone(k){const o=RV();if(o.ok||o.done.includes(k))return false;o.done.push(k);if(o.done.length>=need())o.ok=1;sv2();return true}
+let CAND=null;
+function wrapLevels(){
+ const _sl=startLevel;
+ startLevel=function(i){let c=null;try{c=S.ch;const pm=S.pmode;CAND=(!pm||pm.k==='sos')&&lvPassed(c,i)?{c,i}:null}catch(e){CAND=null}
+  return _sl.apply(this,arguments)};
+ const _ld=levelDone;
+ levelDone=function(){try{const k=CAND;CAND=null;
+  if(k&&ON.park()&&S.level===k.i&&S.ch===k.c){const o=RV();const was=o.ok;if(addDone(k.c+'-'+k.i)&&!was){const n=left();
+    setTimeout(()=>{try{toast(n?`今天複習了 ${o.done.length} 關，再 ${n} 關就可以去遊樂園囉！`:'今天的複習完成了，可以去遊樂園囉！')}catch(e){}},900)}}}catch(e){console.log('pr19 ld',e)}
+  return _ld.apply(this,arguments)}}
+// 遊樂園裡面的畫面（從這些地方回遊樂園不擋）
+const OUTSIDE=['title','world','map','chapters','chend','story','story19','guide','finale','wardrobe','rest','limit',''];
+function fromOutside(prev){if(prev==='stage')return !S.pmode;return OUTSIDE.includes(prev||'')}
+function blocked(prev){if(!ON.park()||!fromOutside(prev))return false;const o=RV();if(o.ok)return false;
+ if(left()<=0){o.ok=1;sv2();return false}return true}
+let justOpened=false;
+function wrapPark(){
+ const _go=go;
+ go=function(name){try{if(name==='park'&&blocked(S.screen)){gate();return}if(name==='park')justOpened=true}catch(e){console.log('pr19 go',e)}return _go.apply(this,arguments)};
+ const _show=show;
+ show=function(name){try{if(name==='park'&&blocked(S.screen)){gate();return}}catch(e){console.log('pr19 show',e)}
+  if(name!=='park')justOpened=false;
+  slClear();storyCls();
+  const r=_show.apply(this,arguments);
+  try{if(name==='park'&&justOpened){justOpened=false;const o=RV();if(ON.park()&&o.ok&&o.done.length&&!o.said&&!quizWillPop()){o.said=1;sv2();setTimeout(()=>{if(S.screen==='park'&&!document.querySelector('#rv181'))sayRec(L.open)},500)}}}catch(e){}
+  return r}}
+const STARSVG=on=>`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3.5l4.7 10 10.9 1.2-8.1 7.4 2.3 10.8L20 27.4l-9.8 5.5 2.3-10.8-8.1-7.4 10.9-1.2z" fill="${on?'#FFD24D':'rgba(255,255,255,.12)'}" stroke="${on?'#B8801A':'rgba(255,226,150,.65)'}" stroke-width="1.8" stroke-linejoin="round"/>${on?'<path d="M14 15.5l3-.4 1.6-3.4" stroke="#FFF8D8" stroke-width="1.6" fill="none" stroke-linecap="round"/>':''}</svg>`;
+const quizWillPop=()=>{try{const X=window.__rv181;return !!X&&V2.rvDaily!==false&&!X.D().d.done&&X.learnedTypes().length>0}catch(e){return false}};
+function quizAvail(){try{const X=window.__rv181;if(!X||V2.rvDaily===false)return false;const r=X.D();if(r.d.done)return false;if(!X.learnedTypes().length)return false;
+ return !RV().done.includes('quiz')}catch(e){return false}}
+function gate(){try{
+ document.querySelectorAll('.pr19gate').forEach(x=>{const o=x.closest('.overlay');(o||x).remove()});try{hush()}catch(e){}
+ const o=RV(),N=need(),n=left(),got=N-n;
+ const host=document.querySelector('#screen')||document.body;
+ const ov=overlay(host,`<div class="card pr19gate" role="dialog" aria-label="今天的複習">
+  <div class="pr19team" aria-hidden="true">${(()=>{try{return teamHTML()}catch(e){return ''}})()}</div>
+  <h2>今天的複習</h2>
+  <div class="pr19stars" role="img" aria-label="已經複習 ${got} 關，共 ${N} 關">${Array.from({length:N},(_,i)=>`<i class="${i<got?'on':''}">${STARSVG(i<got)}</i>`).join('')}</div>
+  <p class="pr19msg">今天再複習 <b>${n}</b> 關，就可以去遊樂園囉！</p>
+  <p class="pr19sub">玩一關玩過的關卡，就亮一顆星星。</p>
+  <div class="pr19btns"><button class="btn pr19go" type="button">去複習</button>${quizAvail()?'<button class="btn2 pr19quiz" type="button">星星小考</button>':''}</div>
+  <button class="btn2 small pr19x" type="button">等一下</button></div>`);
+ ov.classList.add('pr19ov');
+ const card=ov.querySelector('.pr19gate');
+ card.querySelector('.pr19x').onclick=()=>{try{sfx('pop')}catch(e){}try{hush()}catch(e){}ov.remove()};
+ card.querySelector('.pr19go').onclick=()=>{try{sfx('pop')}catch(e){}ov.remove();
+  const tgt=(S.progs&&(S.progs[S.ch]||0)>0)?'map':'world';sayRec(L.pick);
+  if(S.screen===tgt){try{SCREENS[tgt]()}catch(e){}}else go(tgt)};
+ const qb=card.querySelector('.pr19quiz');
+ if(qb)qb.onclick=()=>{try{sfx('pop')}catch(e){}ov.remove();const X=window.__rv181;
+  try{X.openDaily('pr19')}catch(e){}
+  // openDaily 要等整份小考做完才回來，所以不等它：看小考視窗有沒有打開、什麼時候關掉，關掉後看有沒有做完
+  const chk=()=>{try{if(X.ui&&X.ui.el){setTimeout(chk,400);return}if(X.D().d.done){addDone('quiz')}}catch(e){}
+   if(ON.park()&&!['stage','park'].includes(S.screen)){if(left()>0)gate();else{RV();go('park')}}};
+  setTimeout(chk,300)};
+ sayRec(L['need'+Math.min(5,Math.max(1,n))],quizAvail()?L.quiz:null);
+}catch(e){console.log('pr19 gate',e)}}
+
+/* ================= 家長專區 → 遊戲設定 →「學習」 ================= */
+function wrapParent(){if(typeof parentPanel!=='function')return;const _pp=parentPanel;
+ parentPanel=function(){const r=_pp.apply(this,arguments);try{const ov=[...document.querySelectorAll('.overlay')].pop();const card=ov&&ov.querySelector('.card');
+  if(!card||!card.querySelector('#pdone')||card.querySelector('.pr19pp'))return r;
+  const row=(k,lab,desc)=>`<div class="pr19set" data-pr19k="${k}"><span class="lab">${lab}</span><div class="seg"><button type="button" data-pr19="${k}" data-v="1" aria-pressed="${on(k)}">開</button><button type="button" data-pr19="${k}" data-v="0" aria-pressed="${!on(k)}">關</button></div><p class="small">${desc}</p></div>`;
+  const d=document.createElement('div');d.className='s8blk pr19pp';d.dataset.s8own='1';d.dataset.s8='learn';d.style.order='36';
+  d.innerHTML=row('p19exp','答對後聽完講解','答對後的說明念完，才到下一題。')
+   +row('p19story','故事要聽完','故事念完才能往下，不能跳過。')
+   +row('p19park','每天先複習 5 關才能去遊樂園',`每天第一次去遊樂園前，先重玩 5 關玩過的關卡（星星小考算 1 關）。公主、王子分開算。`);
+  const pd=card.querySelector('#pdone');const host=pd&&pd.closest('.card > *');if(host&&host.parentNode===card)card.insertBefore(d,host);else card.appendChild(d);
+  d.querySelectorAll('[data-pr19]').forEach(b=>b.onclick=()=>{const k=b.dataset.pr19;try{if(b.dataset.v==='1')V2[k]=true;else delete V2[k];sv2()}catch(e){}
+   d.querySelectorAll(`[data-pr19="${k}"]`).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));try{sfx('pop')}catch(e){}storyCls()})}catch(e){console.log('pr19 pp',e)}return r}}
+
+setTimeout(()=>{try{wrapExp();wrapStory();wrapLevels();wrapPark();wrapParent();storyCls()}catch(e){console.log('pr19 wrap',e)}},0);
+window.__p19={L,RV,need,left,passedCount,addDone,gate,blocked,capMs,chars,SL,EX,quizAvail,slSet};
+
+/* ---------- 樣式（淡入、亮光；不放大縮小） ---------- */
+const css=document.createElement('style');css.id='pr19css';css.textContent=`
+body.pr19exp .nexthint{display:none!important}
+body.pr19exp #screen .stage .speak{pointer-events:none!important;opacity:.5}
+body.pr19st #screen .story .skip,body.pr19st #screen .story #skip,body.pr19st #screen .st19:not(.m-full) .st19skip{display:none!important}
+body.pr19st.pr19sw #screen .story #next{opacity:.35!important;pointer-events:none!important;transition:opacity .3s}
+body.pr19st.pr19sw #screen .st19next{opacity:0!important;pointer-events:none!important}
+body.pr19st.pr19sw #screen .st19tap{cursor:default}
+.pr19set+.pr19set{margin-top:12px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.16)}
+.pr19set .lab{display:block}
+.overlay.pr19ov{z-index:60}
+.card.pr19gate{width:min(460px,92vw);box-sizing:border-box;text-align:center;align-items:center;gap:8px;animation:pr19in .45s ease-out both}
+.card.pr19gate h2{margin:2px 0 0}
+.pr19team{height:clamp(92px,16vh,140px);display:flex;justify-content:center}
+.pr19team .team2{height:100%;display:flex;align-items:flex-end;gap:6px}
+.pr19team .team2 svg{height:100%;width:auto}
+.pr19team .team2 .petw{height:62%;display:flex}.pr19team .team2 .petw svg{height:100%}
+.pr19stars{display:flex;gap:6px;justify-content:center;margin:4px 0}
+.pr19stars i{display:flex;width:clamp(40px,11vw,54px);height:clamp(40px,11vw,54px)}
+.pr19stars i svg{width:100%;height:100%}
+.pr19stars i.on svg{filter:drop-shadow(0 0 6px rgba(255,226,122,.85))}
+.pr19msg{margin:2px 0;font-size:clamp(20px,2vmin + 12px,28px);line-height:1.45}
+.pr19msg b{color:#FFD24D;font-weight:400;font-size:1.2em}
+.pr19sub{margin:0;opacity:.85;font-size:clamp(15px,1vmin + 11px,19px)}
+.pr19btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.pr19btns .btn,.pr19btns .btn2{min-height:60px;min-width:150px;font-size:clamp(20px,1.6vmin + 12px,26px)}
+.pr19x{margin-top:4px;min-height:44px}
+@keyframes pr19in{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion:reduce){.card.pr19gate{animation:none}}
+`;document.head.appendChild(css);
+}catch(e){try{console.log('m99zzzzzzzz_parent19 off',e&&e.message)}catch(_){}}})();
 
 // 每次打開自動檢查新版本
 function updCheck(){if(!/^https?:/.test(location.protocol)||!navigator.onLine)return;
