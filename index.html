@@ -36822,6 +36822,17 @@ const st=document.createElement('style');st.textContent=`
 .world .arc.rd41a{isolation:isolate;-webkit-transform:translateZ(0);transform:translateZ(0)}
 .arc.rd41a>.rd41arcw{-webkit-transform:translateZ(0);transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;contain:paint}
 .world .wnode{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+/* 直式手機：故事頁的圖框跟著縮，讓對話框和「下一頁／出發」永遠在畫面內，對話框也不會蓋到圖 */
+@media (max-aspect-ratio:1/1){
+ .st19 .st19frame{flex:1 1 auto;height:auto;max-height:min(60vh,112vw);min-height:min(24vh,240px)}
+ .st19 .st19side{flex:0 0 auto;justify-content:flex-start}
+ .st19 .st19row{padding-bottom:max(6px,env(safe-area-inset-bottom))}
+ .st19 .st19main{overflow-y:auto;-webkit-overflow-scrolling:touch}
+}
+@media (max-aspect-ratio:1/1) and (max-height:720px){
+ .st19 .st19text{font-size:19px;line-height:1.45}
+ .st19 .st19bub{padding:9px 14px}
+}
 `;document.head.appendChild(st)})();
 
 /* ================= m99zzzzzzzz_parent19（1.9）家長設定：答對後聽完講解、故事要聽完、每天先複習 5 關才能去遊樂園 —— 星光工作室 2026-11-18（全部原創，著作權與 IP 屬於星光工作室 Starlight Studio） =================
