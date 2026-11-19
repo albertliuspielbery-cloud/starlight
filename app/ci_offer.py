@@ -140,4 +140,4 @@ say(f'- 可以兌換 {COUNT} 次，不會過期；建好後最多要等 1 小時
 say(f'- 兌換網址：https://apps.apple.com/redeem?ctx=offercodes&id={app["id"]}&code={CODE}')
 say(f'- 兌換完回遊戲按「恢復購買」，{ICH}就會打開' if PRICE == 0 else f'- 兌換時用折扣價付款，付完{ICH}就會打開')
 if ITEM == 'full':
-    say('- 注意：合購只包含第 6～20 章；第 21～25 章、第 26～30 章要另外用 stage5、stage6 的兌換碼（或直接用 s2to6，第 6～30 章全開）')
+    say('- 注意：合購只包含第 6～20 章；第 21～25 章、第 26～30 章要另外用 stage5、stage6 的兌換碼（或直接用 s2to6，第 6～30 章全開；第 21～40 章可用 s5to8）')
