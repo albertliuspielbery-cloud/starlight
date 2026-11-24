@@ -12,3 +12,4 @@
 - [11/24 20:51] Albert：審查不做特別捷徑（照順序玩，備註寫清楚）。
 - 故事屋新書已接（m7g），待錄 fixBooks 3 句、fixB S7G_0001，併入 rec76。
 - [11/24 21:03] Albert：網頁版不再更新（只出 App 2.0）。repo main 的網頁不要動，App 從 app-2.0 分支建置。
+- rec76 31 句 → pack59 / index-f668d46e

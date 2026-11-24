@@ -10,7 +10,7 @@
  *    以上版面都放得下，就不讓舊的整塊縮小（fitNow 的 zoom）把按鈕縮小。
  * 2. 第 41 章拆段故事 6 顆線索：窄螢幕線索變小，「跳過」一定在畫面裡。
  * 3. 手機橫放：關卡開場卡左圖右字、字母歌兩排、攝影師大照片左圖右字。
- * 4. 章節地圖第 1 關名牌下緣不被切；相簿面板在窄螢幕不超出畫面；收集冊分頁 7 個以上在手機直放排兩排、名字不切；寵物小屋自動捲到選中的寵物；破關小劇場標題加深色底。
+ * 4. 換裝間：已拿到的章節獎品排在分頁最前面（新章節在前）；章節地圖第 1 關名牌下緣不被切；相簿面板在窄螢幕不超出畫面；收集冊分頁 7 個以上在手機直放排兩排、名字不切；寵物小屋自動捲到選中的寵物；破關小劇場標題加深色底。
  * 動畫：只有透明度和亮光，沒有放大縮小。 */
 (function(){if(typeof window.__ev!=='function'){console.log('fixB: 找不到 __ev，沒有接上');return}window.__ev('('+(function(){try{
 if(typeof BUILD==='undefined')return;
@@ -65,7 +65,7 @@ if(Q7&&Q7.B7){const B7=Q7.B7;
  // 方格地圖
  after('s7grid',play=>{const w=play.querySelector('.g7wrap');if(!w)return;w.classList.add('fxbM','fxbG');soon()});
  // 序數：8 個以上
- after('s7ord',play=>{const w=play.querySelector('.o7wrap');if(w&&play.querySelectorAll('.o7it').length>=8)w.classList.add('fxbO8')});
+ after('s7ord',play=>{const w=play.querySelector('.o7wrap');if(!w)return;w.classList.add('fxbO');if(play.querySelectorAll('.o7it').length>=8)w.classList.add('fxbO8')});
  // 積木量身高：念完題目接著念操作提示（錄好才念），畫面上也寫
  {const o=B7.s7blk;if(typeof o==='function')B7.s7blk=function(play){let pa=null;const sp0=setPrompt;setPrompt=function(){pa=[...arguments]};let r;
    try{r=o.apply(this,arguments)}finally{setPrompt=sp0}
@@ -87,6 +87,19 @@ try{if(SCREENS.pethouse){const _ph=SCREENS.pethouse;SCREENS.pethouse=function(){
 function mapLab(){try{document.querySelectorAll('.map svg.mapsvg text.nlab').forEach(t=>{const y=+t.getAttribute('y');if(y>=994&&!t.dataset.fxby){t.dataset.fxby=y;t.setAttribute('y',String(y-9))}})}catch(e){}}
 try{if(SCREENS.map){const _mp=SCREENS.map;SCREENS.map=function(){const r=_mp.apply(this,arguments);mapLab();[60,400,1200].forEach(t=>setTimeout(mapLab,t));return r}}}catch(e){console.log('fixB map',e)}
 addEventListener('resize',()=>setTimeout(mapLab,300));
+
+/* ---------- 換裝間：每個分頁裡，已經拿到的章節獎品排最前面（章節新的在前）（Albert 11/24 同意） ----------
+ * 通用規則：ITEMS 有 chapter、而且已經拿到（沒有鎖頭）的選項，依章節由新到舊排到最前面；其他照原本順序。
+ * 只搬畫面上的按鈕，不改資料、存檔和目前穿著的選擇。 */
+function wardSort(){try{const o=document.querySelector('.ward #opts');if(!o||typeof ITEMS==='undefined')return;
+ const ch={};ITEMS.forEach(i=>{if(i&&i.id&&+i.chapter>0)ch[i.id]=+i.chapter});
+ const kids=[...o.children];const pr=kids.filter(b=>b.classList.contains('opt')&&!b.classList.contains('locked')&&ch[b.dataset.id]);if(!pr.length)return;
+ pr.sort((a,b)=>ch[b.dataset.id]-ch[a.dataset.id]||kids.indexOf(a)-kids.indexOf(b));
+ if(pr.every((k,i)=>kids[i]===k))return;
+ for(let i=pr.length-1;i>=0;i--)o.insertBefore(pr[i],o.firstChild)}catch(e){console.log('fixB ward',e)}}
+window.__wardSortB=wardSort;
+{let wr=0;try{new MutationObserver(()=>{if(wr||!document.querySelector('.ward #opts'))return;wr=requestAnimationFrame(()=>{wr=0;wardSort()})}).observe(document.body,{childList:true,subtree:true})}catch(e){}}
+try{if(SCREENS.wardrobe){const _wd=SCREENS.wardrobe;SCREENS.wardrobe=function(){const r=_wd.apply(this,arguments);wardSort();return r}}}catch(e){}
 
 /* ---------- 樣式 ---------- */
 const st=document.createElement('style');st.id='fixBcss';st.textContent=`
@@ -186,12 +199,14 @@ const st=document.createElement('style');st.id='fixBcss';st.textContent=`
  .stage:has(.g7wrap.fxbG) .g7pad{margin:0}
 }
 
-/* ---- 序數 8 個以上：手機直放 ---- */
+/* ---- 序數（排隊、書架）：手機直放整排不超出畫面，櫃台移到上面；8 個以上再拉到螢幕邊 ---- */
 @media (orientation:portrait) and (max-width:600px){
- .o7wrap.fxbO8{max-width:100%;width:100%}
- .o7wrap.fxbO8 .o7row{width:100%;flex-wrap:wrap;gap:0;padding:4px 2px 8px;border-radius:12px}
- .o7wrap.fxbO8 .o7desk{flex:0 0 100%;flex-direction:row;align-items:center;justify-content:flex-start;gap:6px;margin:0 0 2px 6px;font-size:26px}
- .o7wrap.fxbO8 .o7it{flex:1 1 0;min-width:0;max-width:none;height:clamp(48px,7vh,64px)}
+ .o7wrap.fxbO{max-width:100%;width:100%;box-sizing:border-box}
+ .o7wrap.fxbO .o7row{width:100%;max-width:100%;flex-wrap:wrap;gap:2px;padding:4px 4px 8px;border-radius:12px}
+ .o7wrap.fxbO8 .o7row{gap:0;padding:4px 2px 8px}
+ .o7wrap.fxbO .o7desk{flex:0 0 100%;flex-direction:row;align-items:center;justify-content:flex-start;gap:6px;margin:0 0 2px 6px;font-size:26px}
+ .o7wrap.fxbO .o7it{flex:1 1 0;min-width:0;max-width:64px;height:clamp(48px,7vh,64px)}
+ .o7wrap.fxbO8 .o7it{max-width:none}
 }
 
 /* ---- 第 41 章拆段故事：線索 6 顆時，窄螢幕縮小線索，「跳過」一定在畫面裡 ---- */
@@ -228,6 +243,9 @@ const st=document.createElement('style');st.id='fixBcss';st.textContent=`
 .ph8ov .card.ph8big{width:min(420px,100%);max-width:100%;max-height:100%;overflow:auto}
 @media (max-width:420px){.ph8ov .card.ph8end{padding:8px}.ph8end .ph8book{padding:8px 4px}.ph8end .ph8pics{gap:6px;padding:4px 2px 8px}.ph8end .ph8pol{width:clamp(78px,calc((100vw - 112px) / 3),150px)}.ph8end .ph8pol b{font-size:15px}.ph8end .ph8pol small{font-size:12px}.ph8end .row .btn,.ph8end .row .btn2{font-size:18px;padding:.35em .9em}}
 @media (orientation:landscape) and (max-height:500px){
+ .ph8ov .card.ph8end{padding:8px 12px}.ph8end .ph8book{padding:6px 10px}.ph8end .ph8book h2{margin:0 0 2px;font-size:22px}
+ .ph8end .ph8pics{padding:4px 4px 6px;gap:10px}.ph8end .ph8pol{width:clamp(64px,calc((100vh - 300px) * 1.1),150px)}.ph8end .ph8pol b{font-size:14px}.ph8end .ph8pol small{font-size:11px}
+ .ph8end .ph8gem{margin:2px 0 0}.ph8end .row{margin-top:6px}.ph8end .row .btn,.ph8end .row .btn2{font-size:18px;padding:.3em .9em;min-height:44px}
  .ph8ov .card.ph8big{display:grid;grid-template-columns:auto auto;align-items:center;justify-items:center;column-gap:16px;width:auto;padding:12px 16px}
  .ph8ov .card.ph8big img{grid-row:1 / span 3;width:auto;height:min(62vh,calc(100vh - 140px));max-width:52vw}
  .ph8ov .card.ph8big h2,.ph8ov .card.ph8big .ph8en,.ph8ov .card.ph8big .row{grid-column:2}
@@ -239,6 +257,26 @@ const st=document.createElement('style');st.id='fixBcss';st.textContent=`
  .cbtabs:has(>.cbtab:nth-child(7))>.cbtab{flex:1 1 calc(25% - 6px);max-width:none;padding:4px 2px 5px}
  .cbtabs:has(>.cbtab:nth-child(7))>.cbtab .cbti{width:28px;height:28px}
  .cbtabs:has(>.cbtab:nth-child(7))>.cbtab b{font-size:13px;overflow:visible;text-overflow:clip}
+}
+
+/* ---- 小小攝影師：矮的橫放手機（667×375）快門鈕不超出畫面 ---- */
+@media (max-height:400px){.ph8 .ph8stage{min-height:160px}.ph8 .ph8bar{padding-bottom:4px}}
+
+/* ---- 地球儀國家小卡：關閉鈕 44px；矮的橫放手機小卡加寬，「再聽一次」不斷行 ---- */
+.gl8 .gl8card .gl8x{width:44px;height:44px;font-size:18px;right:4px;top:4px}
+.gl8:not(.land) .gl8card{padding-right:52px}
+.gl8.land .gl8card{padding-top:52px}
+.gl8 .gl8hear{white-space:nowrap;min-height:44px}
+@media (max-height:460px){
+ .gl8.land .gl8card{padding:8px 52px 8px 8px}
+ .gl8.land .gl8txt p{font-size:15px}
+}
+@media (max-height:460px) and (max-width:700px){.gl8.land .gl8card{width:300px;min-width:300px}}
+
+/* ---- 故事屋閱讀頁：手機直放書名一行（420 寬以下舊規則已經一行；這裡補 421～600 寬） ---- */
+@media (orientation:portrait) and (max-width:600px){
+ .reader.r99>.phead .gtitle{white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:clamp(17px,5.2vw,24px)}
+ .reader.r99>.phead .phsp{min-width:0}
 }
 
 /* ---- 破關小劇場：標題加深色底，淺色背景上也看得清楚 ---- */

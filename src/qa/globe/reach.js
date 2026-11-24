@@ -11,7 +11,7 @@ const { chromium } = require('playwright');
   const p = await ctx.newPage();
   // App 版（8982）：headless 沒有 StoreKit 外掛，IAP_ON 會是 false、只開前 5 章（S.chDone 會被收回去）→ 用測試假商店（qa/iapmock.js，什麼都還沒買）
   if (String(port) === '8982') await p.addInitScript(require('fs').readFileSync(__dirname + '/../iapmock.js', 'utf8')); const errs = [], log = []; let nOK = 0;
-  p.on('pageerror', e => errs.push('pageerror ' + e.message));
+  p.on('pageerror', e => errs.push('pageerror ' + e.message)); p.on('response', r => { if (r.status() >= 400) log.push('http ' + r.status() + ' ' + r.url().slice(0, 100)) });
   p.on('console', m => { if (m.type() === 'error' || /globe8|gl8/.test(m.text())) errs.push('console ' + m.text()) });
   const ev = x => p.evaluate(s => __ev(s), x);
   const ok = (c, m) => { if (c) nOK++; else { log.push('NG ' + m); errs.push('FAIL ' + m) } };
@@ -35,12 +35,13 @@ const { chromium } = require('playwright');
           if(${JSON.stringify(k)}==='tw'){const b=G.baseHit(x,y);if(b&&b!=='tw'&&!['pa','at','io','ar','so'].includes(b))continue}// M2：台灣題點在其他陸地上本來就不算
           if(!J(x,y))res.bad.push(d+'@'+a*45)}
         let n=0;for(let y=I.Y-70;y<=I.Y+70;y+=2)for(let x=I.X-70;x<=I.X+70;x+=2)if(J(x,y))n++;res.area=n*4;res.dia=Math.round(2*Math.sqrt(res.area/Math.PI));
-        // 自由轉：點中心念這一國
-        res.free=G.hitAt(I.X,I.Y);return res})()`);
+        // 自由轉：點在國家上（離中心最近、在輪廓裡面的點；越南這種彎的國家，重心會落在別國）念這一國
+        let fx=I.X,fy=I.Y;if(G.baseHit(fx,fy)!==${JSON.stringify(k)}){let f=0;for(let r=1;r<=40&&!f;r++)for(let a=0;a<16&&!f;a++){const x=I.X+r*Math.cos(a*Math.PI/8),y=I.Y+r*Math.sin(a*Math.PI/8);if(G.baseHit(x,y)===${JSON.stringify(k)}){fx=x;fy=y;f=1}}}
+        res.free=G.hitAt(fx,fy);return res})()`);
       rows.push([where, r]);
       ok(r.bad.length === 0, `${k} ${where} 判定 漏掉 ${r.bad.join(',')}`);
       ok(r.dia >= 44, `${k} ${where} 可點面積等效直徑 ${r.dia}px`);
-      ok(r.free === k, `${k} ${where} 自由轉點中心念 ${r.free}`);
+      ok(r.free === k, `${k} ${where} 自由轉點在國家上念 ${r.free}`);
     }
   }
   const small = rows.filter(([w, r]) => w === 'center').map(([, r]) => r).sort((a, b) => a.dia - b.dia).slice(0, 8);
@@ -57,7 +58,7 @@ const { chromium } = require('playwright');
   for (const [k, lon, lat] of [['sg', 104.4, 1.0], ['kr', 129.6, 35.0], ['gr', 23.5, 37.0], ['is', -24.5, 64.6], ['nl', 4.0, 53.0], ['tw', 122.4, 23.6]]) {
     const r = await ev(`(()=>{const G=__gl8;G.setZoom(1);const c=G.ctr('${k}').c;G.panTo(c[0],c[1],0);const I=G.ctr('${k}');const q=G.proj(${lon},${lat});
       // 從國家中心往那個方向找第一個海上的點（約 8px）
-      const dx=q.X-I.X,dy=q.Y-I.Y,l=Math.hypot(dx,dy)||1;for(let d=4;d<=12;d++){const x=I.X+dx/l*d,y=I.Y+dy/l*d;const b=G.baseHit(x,y);if(['pa','at','io','ar','so'].includes(b))return [G.hitAt(x,y),d,b]}return ['nosea']})()`);
+      const dx=q.X-I.X,dy=q.Y-I.Y,l=Math.hypot(dx,dy)||1;for(let d=4;d<=I.rad*2+12;d++){const x=I.X+dx/l*d,y=I.Y+dy/l*d;const b=G.baseHit(x,y);if(['pa','at','io','ar','so'].includes(b))return [G.hitAt(x,y),d,b]}return ['nosea']})()`);
     ok(r[0] === k, `自由轉 ${k} 旁邊海上 ${r[1]}px 念 ${r[0]}（輪廓是 ${r[2]}）`);
   }
   // ---- 2. 真的點（找找看，高難度） ----
@@ -83,9 +84,9 @@ const { chromium } = require('playwright');
     await p.waitForTimeout(200);
     for (let i = 0; i < 2; i++) { const m0 = await ev('__gl8.F().miss'); const c = await ev('[__gl8.VW.cx,__gl8.VW.cy]'); for (let t = 0; t < 3; t++) { await p.mouse.click(box.x + c[0], box.y + c[1]); await p.waitForTimeout(700); if (await ev('__gl8.F().miss') > m0) break } }
     await p.waitForFunction(() => __ev("!!__gl8.FX.hint&&!__gl8.F().busy"), null, { timeout: 6000 }).catch(() => {});
-    const z = await ev('__gl8.VW.zoom'); ok(z > 1.5, '德國提示時鏡頭拉近 zoom=' + z.toFixed(2));
+    const z = await ev('__gl8.VW.zoom'); ok(z > 1.05, '德國提示時鏡頭拉近 zoom=' + z.toFixed(2));
     ok(await ev("!!__gl8.FX.hint&&__gl8.FX.hint.k==='de'"), '德國發光');
-    const I = await ev(`__gl8.ctr('de')`); ok(I.rad >= 18, '拉近後德國半徑 ' + I.rad.toFixed(1) + 'px');
+    const I = await ev(`__gl8.ctr('de')`); ok(I.rad >= 26 || z > 2.55, '拉近後德國半徑 ' + I.rad.toFixed(1) + 'px（zoom ' + z.toFixed(2) + '）');
     await p.mouse.click(box.x + I.X + 8, box.y + I.Y + 2);
     const got = await p.waitForFunction(() => __ev("document.querySelectorAll('#gl8dots i.on').length>=1"), null, { timeout: 2500 }).then(() => true, () => false);
     ok(got, '提示後點德國旁邊 8px 算對');

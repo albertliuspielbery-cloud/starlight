@@ -386,7 +386,7 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   * 2026-11-24（UX 審查 必修 3：小國家點不到）：
   *  - baseHit：照輪廓判定（台灣 M2 規則不變：點在其他陸地上不算台灣）。
   *  - hitAt（自由轉，也是點錯時念的名字）：在畫面上大的國家照輪廓；畫面上小的國家（等面積半徑 < SMALL 像素）用「離誰最近」分，
-  *    不再用固定的圓互相蓋住。點在海上、離小國 MSEA 像素內，或點在沒標名字的陸地上、離小國 MLAND 像素內，念那一國。
+  *    不再用固定的圓互相蓋住。點在海上、離小國海岸 MSEA 像素內，或點在沒標名字的陸地上、離小國 MLAND 像素內，念最近的那一國。
   *    台灣只在海上吸附（M2：點在廈門、福州等陸地上念「亞洲」）。
   *  - judge（找找看）：題目優先。點在題目國家中心 max(22×√放大倍數, 國家半徑＋12) 像素內、或離它的海岸 EDGE 像素內，就算找到。
   *    台灣題只有點在海上或台灣島上才放寬（點在其他陸地上還是不算），海上的範圍放大到 30×√放大倍數 像素。 */
@@ -415,10 +415,12 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
  const isSea=k=>k==='pa'||k==='at'||k==='io'||k==='ar'||k==='so';
  function hitAt(x,y){const k0=baseHit(x,y);if(!k0)return null;
   if(CTOF[k0]&&k0!=='tw'&&ctrInfo(k0).rad>=SMALL)return k0;
+  // 分數＝離那一國海岸幾像素（點在輪廓裡面＝-1）；特別小的（半徑不到 4px，例如新加坡、荷蘭）再減 4，旁邊的大國才不會把它吃掉
   const sea=isSea(k0)||k0==='arc',land=!!CONT[k0];let best=null,bs=1e9;
-  for(const [k] of CT){const I=ctrInfo(k);if(I.p.z<.1)continue;let s=Math.hypot(I.p.X-x,I.p.Y-y)-I.rad;
-   if(k===k0)s=Math.min(s,-1);
-   else{if(I.rad>=SMALL)continue;if(k==='tw'&&!sea)continue;const M=sea?MSEA:land?MLAND:0;if(s>M)continue}
+  for(const [k] of CT){const I=ctrInfo(k);if(I.p.z<.1)continue;let s;
+   if(k===k0)s=-1;
+   else{if(I.rad>=SMALL)continue;if(k==='tw'&&!sea)continue;const M=sea?MSEA:land?MLAND:0;if(Math.hypot(I.p.X-x,I.p.Y-y)-I.rad>M+40)continue;
+    const e=Math.min(edgeDist(MAP.ctry[k].rings,x,y),Math.hypot(I.p.X-x,I.p.Y-y));if(e>M)continue;s=e-(I.rad<4?4:0)}
    if(s<bs){bs=s;best=k}}
   return best||k0}
  // 離一個地方的海岸（只算看得到的邊）最近幾像素

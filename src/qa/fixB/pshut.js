@@ -1,0 +1,5 @@
+const L=require('../s7/lib');const VP={padL:[1180,820],padP:[820,1180],ip:[390,844],se:[375,667],land:[844,390],landse:[667,375]};
+(async()=>{const b=await L.chromium.launch();for(const v of Object.keys(VP)){const {page,ctx}=await L.open(b,{ver:'app',hero:'princess',owned:['full'],vp:{width:VP[v][0],height:VP[v][1]},save:L.save40('princess',{chDone:45,ch:44,progs:Array(45).fill(10)}),v2:{gateTour:1,rvDaily:false,rvMid:false}});
+ await page.evaluate(()=>__ev(`go('photo8')`));await page.waitForTimeout(2500);await page.evaluate(()=>{const o=document.querySelector('.ph8opt[data-v="easy"]');o&&o.click();document.querySelector('#ph8go').click()});await page.waitForTimeout(2500);
+ const r=await page.evaluate(()=>{const W=innerWidth,H=innerHeight;return ['#ph8shut','.ph8flash','.ph8stage','#ph8vf'].map(s=>{const e=document.querySelector(s);if(!e)return s+' none';const r=e.getBoundingClientRect();return s+`[${r.left|0},${r.top|0},${r.right|0},${r.bottom|0} ${r.width|0}x${r.height|0}]`+((r.right>W+1||r.bottom>H+1)?' OFF':'')}).join(' ')});
+ console.log(v,r);await page.screenshot({path:`${__dirname}/shots/v4_photo_app_${v}.png`});await ctx.close()}await b.close()})();

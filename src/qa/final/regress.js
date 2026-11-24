@@ -1,4 +1,4 @@
-// 5.4.0 回歸測試：舊章抽關、大地圖、遊樂園大門和各小遊戲進出、換裝間、房間、寵物小屋、收集冊、家長專區、故事屋。node regress.js <web|app> <princess|prince>
+// 5.4.0 回歸測試（11/24 最終驗收：clickThrough 補上「點三下」神秘禮物盒的點法，照 test_s7）：舊章抽關、大地圖、遊樂園大門和各小遊戲進出、換裝間、房間、寵物小屋、收集冊、家長專區、故事屋。node regress.js <web|app> <princess|prince>
 const L=require('../s7/lib');const Q=require('../s7/qtest');const fs=require('fs');
 const ver=process.argv[2]||'web',hero=process.argv[3]||'princess';const tag=`${ver}_${hero}`;const SH=__dirname+'/shots/reg_'+tag+'_';
 const T0=Date.now();const R=[];const ok=(k,v,d='')=>{R.push([v?'PASS':'FAIL',k,d]);console.log(v?'PASS':'FAIL',k,d,'@'+Math.round((Date.now()-T0)/1000)+'s')};
@@ -7,9 +7,9 @@ async function clickThrough(page,until,max=60){
  for(let i=0;i<max;i++){const st=await ev(page,`({scr:S.screen,ov:!!document.querySelector('.overlay'),prog:S.prog,ch:S.ch})`);if(await until(st))return true;
   await page.evaluate(()=>{const vis=e=>e&&e.offsetParent!==null&&!e.disabled;const CK=window.__ctClicked=window.__ctClicked||new WeakSet();const fresh=e=>vis(e)&&!CK.has(e)&&!e.classList.contains('popd')&&!(e.dataset&&e.dataset.p);const pick=l=>l.find(fresh)||l.find(vis);
    const ov=[...document.querySelectorAll('.overlay')].pop();let b=null;
-   if(ov){b=pick([...ov.querySelectorAll('#next,#cont,#ok,#certok,#ck,.btn')])||pick([...ov.querySelectorAll('button,[role=button]')])||[...ov.querySelectorAll('.rbody *')].find(e=>fresh(e)&&typeof e.onclick==='function')}
+   if(ov){b=pick([...ov.querySelectorAll('#next,#cont,#ok,#certok,#ck,.btn')])||pick([...ov.querySelectorAll('button,[role=button]')])||[...ov.querySelectorAll('.rbody *')].find(e=>fresh(e)&&typeof e.onclick==='function')||[...ov.querySelectorAll('.rbody *')].find(e=>fresh(e)&&getComputedStyle(e).cursor==='pointer')}
    if(!b){b=[...document.querySelectorAll('#st19skip,#next,#go,.st19next,.btn')].find(vis)}
-   if(b){CK.add(b);b.click()}else document.body.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}))});
+   if(b){CK.add(b);if(typeof b.click==='function')b.click();else b.dispatchEvent(new MouseEvent('click',{bubbles:true}))}else document.body.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}))});
   await page.waitForTimeout(700)}return false}
 async function playLevel(page,ch,lv){
  await ev(page,`(()=>{hush();document.querySelectorAll('.overlay').forEach(o=>o.remove());S.pmode=null;S.rest=0;TM.since=0;setCh(${ch-1});S.prog=Math.max(S.prog,${lv});save();going=false;startLevel(${lv})})()`);
