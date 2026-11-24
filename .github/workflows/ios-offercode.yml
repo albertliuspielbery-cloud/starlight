@@ -1,4 +1,4 @@
-# 星光小冒險：建立購買項目的兌換碼（給親友）；預設「第六～二十章合購」，第三季選 stage5
+# 星光小冒險：建立購買項目的兌換碼（給親友）；預設「完整版」full（App 2.0 起＝第六章以後全部章節）
 # 在 GitHub 手機 App：Actions → 兌換碼 → Run workflow；跑完點進去，最上面會顯示兌換碼和兌換網址
 name: 兌換碼
 on:
@@ -14,7 +14,7 @@ on:
         description: '價格（台幣，0 = 免費）'
         default: '0'
       product:
-        description: '商品：full＝第六～二十章合購；stage5＝第二十一～二十五章；stage6＝第二十六～三十章；s2to6＝第六～三十章合購；stage7＝第三十一～三十五章；stage8＝第三十六～四十章；s5to8＝第二十一～四十章合購'
+        description: '商品：full＝完整版（第六章以後全部章節；App 2.0 起只賣這個）；以下是舊商品：stage5＝第二十一～二十五章；stage6＝第二十六～三十章；s2to6＝第六～三十章合購；stage7＝第三十一～三十五章；stage8＝第三十六～四十章；s5to8＝第二十一～四十章合購'
         type: choice
         options: [full, stage5, stage6, stage7, stage8, s2to6, s5to8]
         default: full

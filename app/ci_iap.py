@@ -1,5 +1,9 @@
 # 雲端用：在 App Store Connect 建好 App 內購買項目（非消耗型、一次買斷）
 # 已經建過的不會重複建；會補上沒填的部分（名稱說明、價格、地區、家人共享、審查截圖）
+# App 2.0 起只賣「完整版」full；其他商品留在清單裡（已經上架，App 2.0 不再顯示，但已買的仍認得）。不新增 stage9。
+# 已經送審／上架的商品：只有 UPDATE_LOC 裡的（full）會更新 zh-Hant 名稱、說明；價格、地區、截圖和其他商品都不動。
+#   注意：Apple 說明「已送審的商品，有些修改要再經過審查」。改了名稱說明後，請到 App Store Connect 看 full 的 zh-Hant 狀態，
+#   是「準備提交」的話，在新版本（2.0）頁面「App 內購買項目」把 full 加進去，跟 App 一起送審。
 # 用法：python3 ci_iap.py <審查截圖.png>
 # 需要環境變數：ASC_KEY_ID、ASC_ISSUER_ID、ASC_KEY_P8
 import os, sys, json, time, hashlib, urllib.request, urllib.error
@@ -13,7 +17,8 @@ ITEMS = [
     ('stage2', 'Chapters 6-10', '第六～十章', '解鎖第六章到第十章的冒險，一次購買永久使用', 120),
     ('stage3', 'Chapters 11-15', '第十一～十五章', '解鎖第十一章到第十五章的冒險，一次購買永久使用', 120),
     ('stage4', 'Chapters 16-20', '第十六～二十章', '解鎖第十六章到第二十章的冒險，一次購買永久使用', 120),
-    ('full', 'Chapters 6-20 Bundle', '第六～二十章合購', '一次解鎖第六章到第二十章（三段合購）', 290),
+    # App 2.0：full 改成「完整版」＝第六章以後全部章節（之後新增的也包含）；價格不變。參考名稱（英文）只用在新建，已存在的不改
+    ('full', 'Full Version', '完整版', '解鎖第六章以後全部章節，之後新增的章節也包含，一次購買永久使用', 290),
     # App 1.3 新增：第三季（不包含在第六～二十章合購裡）
     ('stage5', 'Chapters 21-25', '第二十一～二十五章', '解鎖第二十一章到第二十五章的冒險，一次購買永久使用', 120),
     # App 1.6 新增：第四季「星光大探險」（不包含在第六～二十章合購裡）
@@ -27,6 +32,8 @@ ITEMS = [
     # App 1.9 新增：第六季「星光大自然」（不包含在任何合購裡；價格級距同 stage7）
     ('stage8', 'Chapters 36-40', '第三十六～四十章', '解鎖第三十六章到第四十章的冒險，一次購買永久使用', 120),
 ]
+# 已經送審／上架以後，仍要更新 zh-Hant 名稱、說明的商品
+UPDATE_LOC = {'full'}
 NOTE = ('Non-consumable unlock for story chapters. The purchase screen is only reachable from Parent Settings, '
         'which is behind a parental gate (multiplication question). Children tapping a locked chapter only hear '
         '"Ask mom or dad to open new adventures" and no store is shown.')
@@ -100,6 +107,30 @@ except (SystemExit, Exception):
 
 report = []
 
+
+def update_loc(iid, name, desc):
+    """只改 zh-Hant 的名稱、說明（一樣就不動）。回傳給報告看的一句話。"""
+    locs = call('GET', f'/v2/inAppPurchases/{iid}/inAppPurchaseLocalizations')['data']
+    zh = [l for l in locs if l['attributes']['locale'] == 'zh-Hant']
+    if not zh:
+        # 已上架的商品一定有 zh-Hant；真的沒有就不自己新增，請到 App Store Connect 看
+        print('::warning::已上架商品找不到 zh-Hant 名稱說明，沒有改')
+        return '找不到 zh-Hant 名稱說明（沒有改，請到 App Store Connect 看）'
+    za = zh[0]['attributes']
+    if (za.get('name'), za.get('description')) == (name, desc):
+        return f'名稱說明已經是新的（{za.get("state") or "?"}）'
+    if za.get('state') in ('WAITING_FOR_REVIEW', 'IN_REVIEW'):
+        return f'名稱說明正在審查（{za.get("state")}），這次不改'
+    try:
+        r = call('PATCH', f'/v1/inAppPurchaseLocalizations/{zh[0]["id"]}', {'data': {'type': 'inAppPurchaseLocalizations',
+                 'id': zh[0]['id'], 'attributes': {'name': name, 'description': desc}}})
+    except SystemExit:
+        # Apple 不讓改（例如 409）：不中斷，其他商品照常；請到 App Store Connect 手動改
+        return f'名稱說明沒改成（Apple 拒絕，錯誤見上面），請到 App Store Connect 手動改成「{name}」'
+    st = ((r or {}).get('data') or {}).get('attributes', {}).get('state') or '?'
+    return f'名稱說明改成「{name}」（{st}；要跟新版本一起送審）'
+
+
 for code, ref, name, desc, price in ITEMS:
     pid = P + code
     # 1. 商品本身
@@ -111,11 +142,15 @@ for code, ref, name, desc, price in ITEMS:
             'relationships': {'app': {'data': {'type': 'apps', 'id': app_id}}}}})['data']
     iid = iap['id']
     a = iap['attributes']
-    # 已經送審／審查中／上架的商品不能再改，只回報狀態（重跑不會失敗）
+    # 已經送審／審查中／上架的商品：價格、地區、截圖、其他設定都不動（重跑不會失敗）
     st0 = a.get('state')
     if st0 in ('WAITING_FOR_REVIEW', 'IN_REVIEW', 'APPROVED', 'PENDING_BINARY_APPROVAL', 'READY_FOR_SALE'):
-        report.append(f'{name}：狀態 {st0}（不用再改）')
-        print(pid, 'skip', st0)
+        if code in UPDATE_LOC:
+            report.append(f'{name}：狀態 {st0}，' + update_loc(iid, name, desc))
+            print(pid, 'loc', st0)
+        else:
+            report.append(f'{name}：狀態 {st0}（不用再改）')
+            print(pid, 'skip', st0)
         continue
     if not a.get('familySharable') or not a.get('reviewNote'):
         call('PATCH', f'/v2/inAppPurchases/{iid}', {'data': {'type': 'inAppPurchases', 'id': iid,

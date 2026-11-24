@@ -1,14 +1,14 @@
 # 雲端用：幫購買項目建立免費（或折扣）優惠代碼（給親友兌換）
-# 預設是「第六～二十章合購」(full)；第三季用 stage5（第二十一～二十五章）
+# 預設是「完整版」(full，App 2.0 起＝第六章以後全部章節，之後新增的也包含)；其他舊商品（App 2.0 不再顯示）也還能建
 # 已經建過的優惠、代碼不會重複建
-# 用法：python3 ci_offer.py <代碼> <可兌換次數> [價格] [商品 full／stage5／stage6／s2to6]
+# 用法：python3 ci_offer.py <代碼> <可兌換次數> [價格] [商品 full／stage2～stage8／s2to6／s5to8]
 # 需要環境變數：ASC_KEY_ID、ASC_ISSUER_ID、ASC_KEY_P8
 import os, sys, json, time, urllib.request, urllib.error
 import jwt
 
 BUNDLE = 'tw.starlight.adventure'
 ITEM = (sys.argv[4] if len(sys.argv) > 4 and sys.argv[4].strip() else 'full').strip()
-NAMES = {'full': ('第六～二十章合購', '第 6～20 章', 290), 'stage2': ('第六～十章', '第 6～10 章', 120),
+NAMES = {'full': ('完整版', '第六章以後全部章節', 290), 'stage2': ('第六～十章', '第 6～10 章', 120),
          'stage3': ('第十一～十五章', '第 11～15 章', 120), 'stage4': ('第十六～二十章', '第 16～20 章', 120),
          'stage5': ('第二十一～二十五章', '第 21～25 章', 120), 'stage6': ('第二十六～三十章', '第 26～30 章', 120), 'stage7': ('第三十一～三十五章', '第 31～35 章', 120), 'stage8': ('第三十六～四十章', '第 36～40 章', 120),
          's2to6': ('第六～三十章合購', '第 6～30 章', 390), 's5to8': ('第二十一～四十章合購', '第 21～40 章', 390)}
@@ -21,7 +21,7 @@ COUNT = int(sys.argv[2]) if len(sys.argv) > 2 else 500
 OK_N = [500, 1000, 1500, 2000, 2500, 5000, 7500, 10000, 15000, 20000, 25000]  # Apple 只接受這些次數
 COUNT = next((n for n in OK_N if n >= COUNT), OK_N[-1])
 PRICE = float(sys.argv[3]) if len(sys.argv) > 3 and sys.argv[3].strip() else 0
-# 合購沿用原本的優惠名稱（已經建過的 RAIN90、STAR160 等不受影響）
+# full 沿用原本的優惠名稱（已經建過的 RAIN90、STAR160 等不受影響）
 OFFER = ('Friends free bundle' if PRICE == 0 else 'Discount NT%g' % PRICE) if ITEM == 'full' else \
         (('Friends free ' if PRICE == 0 else 'Discount NT%g ' % PRICE) + ITEM)
 API = 'https://api.appstoreconnect.apple.com'
@@ -140,4 +140,6 @@ say(f'- 可以兌換 {COUNT} 次，不會過期；建好後最多要等 1 小時
 say(f'- 兌換網址：https://apps.apple.com/redeem?ctx=offercodes&id={app["id"]}&code={CODE}')
 say(f'- 兌換完回遊戲按「恢復購買」，{ICH}就會打開' if PRICE == 0 else f'- 兌換時用折扣價付款，付完{ICH}就會打開')
 if ITEM == 'full':
-    say('- 注意：合購只包含第 6～20 章；第 21～25 章、第 26～30 章要另外用 stage5、stage6 的兌換碼（或直接用 s2to6，第 6～30 章全開；第 21～40 章可用 s5to8）')
+    say('- 完整版：第六章以後全部章節都打開，之後新增的章節也包含（要更新到 App 2.0 以後；舊版 App 只會打開第 6～20 章）')
+else:
+    say('- 注意：App 2.0 起只賣「完整版」，這個舊商品只打開它名字裡的章節；給親友建議用 full（完整版）')
