@@ -1,0 +1,11 @@
+const L=require('../s7/lib');const OUT=process.argv[2];
+(async()=>{const b=await L.chromium.launch();const ctx=await b.newContext({viewport:{width:1400,height:900},deviceScaleFactor:2});const page=await ctx.newPage();
+ await page.goto(L.URL.web);await page.waitForFunction(()=>typeof window.__m7fig==='function',null,{timeout:90000});await page.waitForTimeout(1500);
+ const mk=(list,h,big)=>page.evaluate(([list,h,big])=>{document.querySelectorAll('#m7sheet').forEach(e=>e.remove());const d=document.createElement('div');d.id='m7sheet';
+  d.style.cssText='position:fixed;inset:0;z-index:999999;background:#F4F0FA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;font-family:inherit';
+  const col=n=>`<span class="b7col">${Array.from({length:n},(_,i)=>`<i class="b7b" style="--k:${i}"></i>`).join('')}</span>`;
+  d.innerHTML=`<div style="font-size:26px;color:#5A3A7A">${big?'量身高的朋友（全身）':'積木量身高：六位朋友都畫全身，身高＝積木數，腳底和積木柱底在同一條地面線'}</div><div class="b7wrap m7f m7fline" style="--u:${big?44:34}px;--mx:${Math.max(...h)};gap:36px;padding:26px 30px 12px">`+list.map((k,i)=>{const r=__m7fig(k);return `<span class="b7fig" style="--h:${h[i]};display:flex;flex-direction:column;align-items:center;gap:8px"><span style="display:flex;align-items:flex-end;gap:4px;position:relative" class="b7fig"> <span class="b7stack">${col(h[i])}</span><span class="b7an m7fan" style="--r:${r.r.toFixed(4)};--m7gap:4px">${r.s}</span></span><b style="font-size:20px;color:#5A3A7A;font-weight:400">${{bunny:'小兔子',kitten:'小貓',penguin:'小企鵝',duck:'小鴨',hedgehog:'刺蝟',dog:'小狗'}[k]}・${h[i]} 個積木</b></span>`}).join('')+`</div>`;
+  document.body.appendChild(d)},[list,h,big]);
+ await mk(['dog','bunny','hedgehog'],[3,5,4],1);await page.waitForTimeout(400);await page.locator('#m7sheet > div.b7wrap').screenshot({path:OUT+'朋友_三隻_全身.png'});
+ await mk(['bunny','kitten','penguin','duck','hedgehog','dog'],[4,4,4,4,4,4],0);await page.waitForTimeout(400);await page.locator('#m7sheet').screenshot({path:OUT+'朋友_六隻_同樣四個積木高.png',clip:undefined});
+ await b.close()})();

@@ -1,0 +1,11 @@
+const L=require('/home/claude/w/s7/qa/s7/lib.js');
+(async()=>{const b=await L.chromium.launch();const errs=[];
+const {page}=await L.open(b,{ver:'web',hero:'princess',errs,fake:false});
+await page.evaluate(()=>__ev(`(()=>{['dress43','beret43'].forEach(i=>{if(!S.owned.includes(i))S.owned.push(i)});S.look.dress='dress43';S.look.head='beret43';setCh(44);S.prog=1;startLevel(1)})()`));
+await page.waitForTimeout(2000);
+console.log(await page.evaluate(()=>{const t=document.querySelector('#team svg.pr')||document.querySelector('#team svg');return t?[t.outerHTML.slice(0,200),t.outerHTML.includes('s41hat'),t.outerHTML.includes('s41')]:'none'}));
+console.log(await page.evaluate(()=>__ev(`(()=>{const s=princess(S.look,'class="pr"');return [s.includes('s41hat'),s.length]})()`)));
+console.log(await page.evaluate(()=>__ev(`(()=>{const s=RIG.svgOf.g(S.look,'class="pr"');return [s.includes('s41hat'),s.length]})()`)));
+console.log(await page.evaluate(()=>__ev(`(()=>{const s=R99.heroSVG(S.look);return [s.includes('s41hat'),s.length]})()`)));
+console.log(await page.evaluate(()=>{const t=document.querySelector('#team .pr');return t.outerHTML.includes('B83440')||t.outerHTML.match(/E8505A/g)?.length}));
+await b.close()})();

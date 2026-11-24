@@ -1,0 +1,1 @@
+(()=>{let r={t:typeof profDel,src:String(profDel).slice(0,120)};try{const P=window.PROF;if(!P.kids.some(k=>k.id==='c9'))P.kids.push({id:'c9',hero:'princess'});profSave();profDel('c9').catch(e=>window.__pde=String(e));}catch(e){r.err=String(e)}return JSON.stringify(r)})()

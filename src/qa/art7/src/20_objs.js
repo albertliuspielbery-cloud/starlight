@@ -1,0 +1,50 @@
+
+/* ===================== 題目物件（64×64；沒有字、沒有品牌） ===================== */
+const OBJ41={
+ // 捷運列車（正面，白色車身＋薄荷綠、珊瑚粉，金色小星星）
+ train:`<rect x="12" y="8" width="40" height="44" rx="12" fill="#FFFFFF" stroke="#B8BCCC" stroke-width="2"/><rect x="17" y="14" width="30" height="18" rx="5" fill="#5A6E9E"/><path d="M20 14 L28 14 L22 32 L17 32Z" fill="#FFFFFF" opacity=".25"/><rect x="12" y="35" width="40" height="5" fill="#4FC4AE"/><rect x="12" y="40" width="40" height="2.4" fill="#FF8A80"/><circle cx="20" cy="46" r="3" fill="#FFE27A"/><circle cx="44" cy="46" r="3" fill="#FFE27A"/><path d="${star5(32,10.6,2.6)}" fill="#FFCB4D"/><path d="M18 52 L14 58 M46 52 L50 58" stroke="#8A8EA8" stroke-width="3" stroke-linecap="round"/><path d="M8 58 H56" stroke="#8A8EA8" stroke-width="2.4" stroke-linecap="round"/>`,
+ // 手扶梯（正面往上）
+ escalator:`<path d="M14 56 L24 12 H40 L50 56Z" fill="#9EA4B8"/>${[16,22,28,34,40,46,52].map((y,k)=>`<path d="M${n(24-(y-12)*10/44)} ${y} H${n(40+(y-12)*10/44)}" stroke="#F2C94A" stroke-width="${(1+k*.25).toFixed(1)}"/>`).join('')}<path d="M10 56 L21 10 M54 56 L43 10" stroke="#2A2A3A" stroke-width="4" stroke-linecap="round"/><rect x="22" y="4" width="20" height="6" rx="2" fill="#FFF1B0"/>`,
+ // 車票（圓圓的代幣）＋一張紙卡（沒有任何品牌）
+ ticket:`<rect x="8" y="18" width="34" height="24" rx="4" fill="#FFFFFF" stroke="#A99BE8" stroke-width="2"/><rect x="8" y="18" width="34" height="7" rx="3" fill="#A99BE8"/><path d="M14 32 H30 M14 37 H24" stroke="#D8D0F4" stroke-width="2.4" stroke-linecap="round"/><circle cx="44" cy="38" r="12" fill="#C9B8FF" stroke="#8A76E0" stroke-width="2"/><circle cx="44" cy="38" r="7.4" fill="none" stroke="#FFFFFF" stroke-width="1.6"/><path d="${star5(44,38,4)}" fill="#FFFFFF"/>`,
+ // 書
+ book:`<path d="M12 14 H44 Q50 14 50 20 V52 H18 Q12 52 12 46Z" fill="#FF8A80"/><path d="M18 46 H50 V54 H18 Q14 54 14 50 Q14 46 18 46Z" fill="#FFFFFF" stroke="#E2635C" stroke-width="1.6"/><rect x="12" y="14" width="6" height="34" fill="#E2635C"/><circle cx="33" cy="28" r="7" fill="#FFCB4D"/><path d="${star5(33,28,4)}" fill="#FFFFFF"/><path d="M42 14 V26 L45 23 L48 26 V16" fill="#4FC4AE"/>`,
+ // 書架
+ shelf:`<rect x="8" y="6" width="48" height="52" rx="3" fill="#C8925A"/><rect x="12" y="10" width="40" height="44" fill="#8A5A30"/><path d="M12 31 H52" stroke="#C8925A" stroke-width="3"/>${[[14,'#FF8A80',16],[19,'#4FC4AE',18],[24,'#FFCB4D',15],[29,'#A99BE8',18],[34,'#7EC6F0',17],[41,'#FFB27A',14]].map(([x,c,h])=>`<rect x="${x}" y="${30-h}" width="${x===34?6:4.4}" height="${h}" rx="1" fill="${c}"/>`).join('')}${[[14,'#8FD08A',18],[19,'#F48FB8',16],[24,'#6A8AD8',18],[29,'#FFCB4D',15],[38,'#FF8A80',17],[44,'#4FC4AE',18]].map(([x,c,h])=>`<rect x="${x}" y="${53-h}" width="4.4" height="${h}" rx="1" fill="${c}"/>`).join('')}<rect x="8" y="56" width="48" height="4" rx="1" fill="#A8743E"/>`,
+ // 藥袋（白色紙袋，上面只有太陽圖示）
+ medbag:`<path d="M14 18 H50 L48 56 H16Z" fill="#FFFFFF" stroke="#9ACCB8" stroke-width="2"/><path d="M14 18 H50 V26 H14Z" fill="#4FC4AE"/><path d="M14 18 L20 12 H44 L50 18" fill="#E6F6F0" stroke="#9ACCB8" stroke-width="1.6"/><circle cx="32" cy="40" r="7" fill="#FFCB4D"/>${[0,60,120,180,240,300].map(a=>`<path d="M32 30 V27" stroke="#FFCB4D" stroke-width="2" stroke-linecap="round" transform="rotate(${a} 32 40)"/>`).join('')}`,
+ // 牙刷
+ toothbrush:`<g transform="rotate(-35 32 32)"><rect x="29" y="18" width="6" height="40" rx="3" fill="#7EC6F0"/><rect x="29" y="18" width="2" height="40" rx="1" fill="#FFFFFF" opacity=".5"/><rect x="28" y="4" width="8" height="16" rx="2" fill="#4A9AD0"/>${[7,10,13,16].map(y=>`<path d="M28 ${y} H22" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>`).join('')}<path d="M22 5 Q16 2 18 -2 Q24 0 22 5Z" fill="#BFF0FF"/></g>`,
+ // 聽診器
+ stetho:`<path d="M18 8 V22 Q18 36 30 36 Q42 36 42 22 V8" stroke="#4A5A8A" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="18" cy="8" r="3" fill="#8A96B8"/><circle cx="42" cy="8" r="3" fill="#8A96B8"/><path d="M30 36 V44 Q30 54 42 54" stroke="#4A5A8A" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="46" cy="52" r="8" fill="#C8D2E8" stroke="#7A86A8" stroke-width="2.4"/><circle cx="46" cy="52" r="3.4" fill="#FFFFFF"/>`,
+ // 地圖（摺起來的動物園地圖）
+ map:`<path d="M8 14 L22 10 L36 14 L52 10 V50 L36 54 L22 50 L8 54Z" fill="#E6F4D4" stroke="#8FBF5A" stroke-width="2" stroke-linejoin="round"/><path d="M22 10 V50 M36 14 V54" stroke="#C8E0B0" stroke-width="1.6"/><ellipse cx="30" cy="30" rx="6" ry="4" fill="#9AD8F2"/><path d="M12 46 Q20 34 30 38 T48 18" stroke="#FF8A80" stroke-width="2" fill="none" stroke-dasharray="3 2.4"/><path d="M46 14 Q42 14 42 18 Q42 22 46 26 Q50 22 50 18 Q50 14 46 14Z" fill="#FF6F6F"/><circle cx="46" cy="18" r="1.6" fill="#FFFFFF"/>`,
+ // 相機
+ camera:`<rect x="8" y="20" width="48" height="32" rx="6" fill="#5A6E9E"/><rect x="8" y="20" width="48" height="8" rx="4" fill="#7A8EBE"/><path d="M20 20 L24 13 H36 L40 20Z" fill="#5A6E9E"/><circle cx="32" cy="37" r="11" fill="#3A4A70"/><circle cx="32" cy="37" r="7.4" fill="#8ACBE8"/><circle cx="29" cy="34" r="2.4" fill="#FFFFFF" opacity=".8"/><rect x="44" y="23" width="7" height="4" rx="1" fill="#FFE27A"/><circle cx="14" cy="24" r="1.6" fill="#FF8A80"/>`,
+ // 畫框（裡面一幅小朋友的畫）
+ frame:`<rect x="6" y="10" width="52" height="44" rx="2" fill="#E8B04A" stroke="#C8862A" stroke-width="2"/><rect x="12" y="16" width="40" height="32" fill="#FFF8EC"/><g transform="translate(12 16) scale(.4 .427)">${kidArt(0)()}</g><path d="M8 12 H56" stroke="#FFF2C0" stroke-width="1.4" opacity=".8"/>`,
+ // 畫筆
+ brush:`<g transform="rotate(40 32 32)"><rect x="29" y="22" width="6" height="36" rx="3" fill="#C8925A"/><rect x="29" y="22" width="2" height="36" rx="1" fill="#FFFFFF" opacity=".35"/><rect x="28" y="16" width="8" height="8" fill="#C8CCDA"/><path d="M28 16 Q32 0 36 16Z" fill="#FF6F6F"/></g><path d="M8 54 Q14 46 22 52" stroke="#FF6F6F" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+ // 調色盤
+ palette:`<path d="M32 8 Q56 8 56 30 Q56 40 46 40 Q40 40 40 46 Q40 56 32 56 Q8 56 8 32 Q8 8 32 8Z" fill="#F2D2A0" stroke="#C89A5A" stroke-width="2"/><ellipse cx="25" cy="44" rx="5" ry="4" fill="#FFFFFF" stroke="#C89A5A" stroke-width="1.4"/>${[[20,24,'#FF6F6F'],[30,17,'#FFCB4D'],[42,20,'#4FC4AE'],[47,30,'#5A9AF0'],[16,34,'#B89CFF']].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="4.6" fill="${c}"/>`).join('')}`,
+ // 面紙（咳嗽打噴嚏遮口鼻）
+ tissue:`<rect x="10" y="28" width="44" height="26" rx="5" fill="#BFE6F4" stroke="#7EC6F0" stroke-width="2"/><ellipse cx="32" cy="30" rx="10" ry="3" fill="#7EC6F0"/><path d="M24 30 Q22 16 32 12 Q42 16 40 30" fill="#FFFFFF" stroke="#D8E2F0" stroke-width="1.6"/><path d="M14 46 Q32 50 50 46" stroke="#FFFFFF" stroke-width="2" fill="none" opacity=".6"/>`,
+ // 藥水瓶（藥不是糖果）
+ syrup:`<path d="M24 10 H40 V18 Q46 22 46 30 V52 Q46 56 42 56 H22 Q18 56 18 52 V30 Q18 22 24 18Z" fill="#FFB8A8" stroke="#E2635C" stroke-width="2"/><rect x="22" y="6" width="20" height="7" rx="2" fill="#FFFFFF" stroke="#C8CCDA" stroke-width="1.4"/><rect x="18" y="32" width="28" height="14" fill="#FFFFFF" opacity=".9"/><path d="${heartP(32,39,5)}" fill="#4FC4AE"/><path d="M22 22 Q20 34 22 50" stroke="#FFFFFF" stroke-width="2.4" fill="none" opacity=".6" stroke-linecap="round"/>`,
+ // 糖果（跟藥水比一比）
+ candy:`<path d="M10 24 L20 30 L10 36Z M54 24 L44 30 L54 36Z" fill="#FF8FB8"/><circle cx="32" cy="30" r="13" fill="#FF8FB8"/><path d="M22 24 Q32 16 42 26 M22 34 Q32 26 42 36" stroke="#FFFFFF" stroke-width="2.4" fill="none"/>`,
+ // 號碼牌（只有一顆星星，沒有數字）
+ numtag:`<rect x="14" y="10" width="36" height="46" rx="5" fill="#FFFFFF" stroke="#4FC4AE" stroke-width="2.4"/><rect x="14" y="10" width="36" height="10" rx="4" fill="#4FC4AE"/><circle cx="32" cy="38" r="10" fill="#FFF1B0"/><path d="${star5(32,38,7)}" fill="#FFCB4D"/><circle cx="32" cy="15" r="2" fill="#FFFFFF"/>`,
+ // 圖書館的借書證（只有圖，沒有字）＋還書時間的小月曆
+ libcard:`<rect x="8" y="16" width="48" height="32" rx="4" fill="#7E8ED8"/><rect x="8" y="16" width="48" height="8" rx="3" fill="#5A6AB8"/><circle cx="20" cy="36" r="6" fill="#FFFFFF"/><circle cx="20" cy="34.4" r="2.4" fill="#7E8ED8"/><path d="M15.6 40.6 Q20 37 24.4 40.6" fill="#7E8ED8"/><path d="M30 32 H48 M30 38 H44" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" opacity=".85"/><path d="M42 18 Q38 14 34 18 Q30 14 26 18 V22 Q30 20 34 22 Q38 20 42 22Z" fill="#FFFFFF" opacity=".9"/>`,
+ // 長頸鹿、大象（題目小圖；動物園那章用）
+ get elephant(){try{if(G.ZOO8)return `<g transform="translate(-2 -6) scale(.68)">${G.ZOO8.draw('elephant','stand')}</g>`}catch(e){}return zooElephant(28,58,.34,{f:1})},
+ get giraffe(){try{if(G.ZOO8)return `<g transform="translate(-2 -6) scale(.68)">${G.ZOO8.draw('giraffe','stand')}</g>`}catch(e){}return zooGiraffe(26,62,.25,{f:1})},
+ // 服務台的集合點旗子
+ meetflag:`<path d="M20 58 V8" stroke="#8A92A8" stroke-width="3.4" stroke-linecap="round"/><path d="M21 10 L50 18 L21 28Z" fill="#FFCB4D" stroke="#E0A020" stroke-width="1.4"/><circle cx="20" cy="6" r="3" fill="#FF8A80"/><ellipse cx="20" cy="58" rx="12" ry="3" fill="#C8CCDA"/>`,
+ // 不開閃光燈、不摸畫（美術館的圖示）
+ noflash:`<circle cx="32" cy="32" r="26" fill="#FFFFFF" stroke="#FF6A5A" stroke-width="4"/><rect x="16" y="24" width="32" height="20" rx="3" fill="#5A6E9E"/><circle cx="32" cy="34" r="6" fill="#8ACBE8"/><path d="M40 16 L35 23 H40 L35 30" stroke="#FFCB4D" stroke-width="2.4" fill="none" stroke-linejoin="round"/><path d="M14 14 L50 50" stroke="#FF6A5A" stroke-width="4" stroke-linecap="round"/>`};
+const OBJ41_NAME={train:'捷運列車',escalator:'手扶梯',ticket:'車票',book:'書',shelf:'書架',medbag:'藥袋',toothbrush:'牙刷',stetho:'聽診器',map:'地圖',camera:'相機',frame:'畫框',brush:'畫筆',palette:'調色盤',tissue:'面紙',syrup:'藥水',candy:'糖果',numtag:'號碼牌',libcard:'借書證',elephant:'大象',giraffe:'長頸鹿',meetflag:'集合點旗子',noflash:'不開閃光燈'};
+G.OBJ41=OBJ41;G.OBJ41_NAME=OBJ41_NAME;
+// 登記成遊戲的圖示 ICONART['i:s41'+k]（LIVE 開了才做；預覽頁可以直接用 OBJ41）
+G.install41=function(force){try{if(!S41.LIVE&&!force)return;const IA=EV('ICONART');if(!IA)return;Object.keys(OBJ41).forEach(k=>{try{Object.defineProperty(IA,'i:s41'+k,{configurable:true,enumerable:true,get(){return `<svg viewBox="0 0 64 64" aria-hidden="true">${OBJ41[k]}</svg>`},set(v){}})}catch(e){}})}catch(e){console.log('install41',e)}};

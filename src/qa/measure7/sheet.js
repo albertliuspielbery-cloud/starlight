@@ -1,0 +1,11 @@
+const L=require('../s7/lib');
+(async()=>{const b=await L.chromium.launch();const {ctx,page}=await L.open(b,{});
+ await page.evaluate(()=>__ev(`(()=>{const ks=['bunny','kitten','penguin','duck','hedgehog','dog'];const d=document.createElement('div');d.id='sheet';d.style.cssText='position:fixed;left:0;top:0;z-index:99999;display:flex;background:#00FF00';
+  d.innerHTML=ks.map(k=>'<div style="width:360px;height:360px;flex:0 0 360px">'+(fullBodyHas(k)?fullBody(k,{pose:'down'}):animal(k))+'</div>').join('');document.body.appendChild(d);
+  d.querySelectorAll(':scope>div>svg').forEach(s=>{s.setAttribute('viewBox','-10 -10 120 120');s.setAttribute('width',360);s.setAttribute('height',360);[...s.querySelectorAll('ellipse')].forEach(e=>{const f=e.getAttribute('fill');if((f==='#2A2050'||f==='#3A2A7A')&&+e.getAttribute('cy')>=90)e.setAttribute('data-shd','1')})})})()`));
+ await page.evaluate(()=>{document.querySelectorAll('body > *:not(#sheet)').forEach(e=>e.style.visibility='hidden')});
+ await page.setViewportSize({width:2200,height:820});
+ await page.locator('#sheet').screenshot({path:'sheet_shadow.png'});
+ await page.evaluate(()=>document.querySelectorAll('[data-shd]').forEach(e=>e.remove()));
+ await page.locator('#sheet').screenshot({path:'sheet_noshd.png'});
+ await b.close()})();

@@ -1,0 +1,7 @@
+const {R,VP,open,ev}=require('./lib');const vps=(process.argv[2]||'se,padP').split(',');const chs=(process.argv[3]||'41,40').split(',').map(Number);const tag=process.argv[4]||'map';const ver=process.argv[5]||'web';
+(async()=>{const b=await R.chromium.launch();for(const vp of vps){const {page,ctx}=await open(b,vp,{ver,extra:{chDone:45,progs:Array(45).fill(10)}});
+ for(const ch of chs){await ev(page,`(()=>{hush();document.querySelectorAll('.overlay').forEach(o=>o.remove());setCh(${ch-1});going=false;go('map')})()`);await page.waitForTimeout(2200);
+  const r=await page.evaluate(()=>{const n=[...document.querySelectorAll('*')].filter(e=>e.children.length===0&&/^(進站囉|森林|.{2,6})$/.test(e.textContent.trim())&&e.offsetParent);const t=[...document.querySelectorAll('button,[data-lv],.lvnode,.node,.wnode')].filter(e=>e.offsetParent).slice(0,3);
+   return t.map(e=>{const r=e.getBoundingClientRect();const lab=e.querySelector('b,small,span,.nm,.lbl');const lr=lab&&lab.getBoundingClientRect();let p=e.parentElement,clip='';while(p&&p!==document.body){const s=getComputedStyle(p);if(s.overflow!=='visible'){const pr=p.getBoundingClientRect();if(lr&&lr.bottom>pr.bottom+1)clip+=' clippedBy '+p.className+'@'+(pr.bottom|0);}p=p.parentElement}return e.className+' '+e.textContent.trim().slice(0,10)+` [${r.left|0},${r.top|0},${r.right|0},${r.bottom|0}]`+(lr?` label[${lr.top|0}-${lr.bottom|0}]`:'')+clip}).join('\n')});
+  console.log(vp,ch,'\n'+r);await page.screenshot({path:`${__dirname}/shots/${tag}_${vp}_c${ch}.png`})}
+ await ctx.close()}await b.close()})();
