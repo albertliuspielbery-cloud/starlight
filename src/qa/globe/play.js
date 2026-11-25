@@ -40,15 +40,26 @@ const { chromium } = require('playwright');
   await ev("__gl8.panTo(30,27,0)"); await p.waitForTimeout(200); xy = await find('eg', "k=>k==='eg'"); await tapAt(xy); await p.waitForTimeout(500);
   ok(await ev("!document.querySelector('#gl8card').hidden&&/埃及/.test(document.querySelector('#gl8card').textContent)"), '點埃及跳小卡');
   ok(await ev("!!V2.gl8seen.eg"), '埃及進收集冊');
-  // 點沒選的國家（中國）只念洲名
+  // 2026-11-25 起中國也是介紹的國家：點中國念中國、跳小卡；沒介紹的地方（蒙古）只念洲名
   await ev("__gl8.panTo(105,35,0)"); await p.waitForTimeout(200); await tapAt([await ev("__gl8.VW.cx"), await ev("__gl8.VW.cy")]); await p.waitForTimeout(300);
-  ok((await ev("document.querySelector('#gl8bub').textContent")) === '亞洲', '點中國只念亞洲');
+  ok((await ev("document.querySelector('#gl8bub').textContent")) === '中國', '點中國念中國');
+  ok(await ev("!document.querySelector('#gl8card').hidden&&/長城/.test(document.querySelector('#gl8card').textContent)"), '中國小卡');
+  if (await ev("!document.querySelector('#gl8card').hidden")) await p.click('#gl8card .gl8x');
+  // 沒介紹的地方（哈薩克）只念洲名；2026-11-25 起蒙古也是介紹的國家
+  await ev("__gl8.panTo(67,48,0)"); await p.waitForTimeout(200); await tapAt([await ev("__gl8.VW.cx"), await ev("__gl8.VW.cy")]); await p.waitForTimeout(300);
+  ok((await ev("document.querySelector('#gl8bub').textContent")) === '亞洲', '點哈薩克（沒介紹）只念亞洲');
+  if (await ev("!document.querySelector('#gl8card').hidden")) await p.click('#gl8card .gl8x');
+  await ev("__gl8.panTo(103,46.8,0)"); await p.waitForTimeout(200); await tapAt([await ev("__gl8.VW.cx"), await ev("__gl8.VW.cy")]); await p.waitForTimeout(300);
+  ok((await ev("document.querySelector('#gl8bub').textContent")) === '蒙古' && /蒙古包/.test(await ev("document.querySelector('#gl8card').textContent")), '點蒙古念蒙古、跳小卡');
+  if (await ev("!document.querySelector('#gl8card').hidden")) await p.click('#gl8card .gl8x');
+  // 選單的國家數：介紹國家數－1（台灣在簡單題）
+  ok(await ev("document.querySelector('#gl8diffs [data-v=\"hard\"] small').textContent.includes('再加 '+(__G8.CT.length-1)+' 個國家')&&__G8.CT.length===38"), '選單寫再加 37 個國家');
   // 台灣點擊範圍（內容審查 M2）：鏡頭對準台灣，放大和原尺寸各測一次
   for (const z of [1, 2.6]) {
     await ev(`__gl8.setZoom(${z});__gl8.panTo(120.5,24.5,0)`); await p.waitForTimeout(200);
     const at = (lon, lat) => ev(`(()=>{const q=__gl8.proj(${lon},${lat});return __gl8.hitAt(q.X,q.Y)})()`);
     const xm = await at(118.1, 24.6), fz = await at(119.3, 26.1), mid = await at(119.9, 24.3), twc = await at(120.95, 23.7), sea = await at(121.75, 23.3), ph = await at(120.2, 23.0);
-    ok(xm === 'as', `zoom${z} 廈門念亞洲 ${xm}`); ok(fz === 'as', `zoom${z} 福州念亞洲 ${fz}`);
+    ok(xm === 'cn', `zoom${z} 廈門念中國 ${xm}`); ok(fz === 'cn', `zoom${z} 福州念中國 ${fz}`);
     ok(mid === 'tw' || mid === 'pa', `zoom${z} 台灣海峽中線 ${mid}`); ok(twc === 'tw', `zoom${z} 台灣本島 ${twc}`); ok(sea === 'tw', `zoom${z} 台灣東邊近海 ${sea}`); ok(ph === 'tw', `zoom${z} 台灣西南近海 ${ph}`);
   }
   await ev("__gl8.setZoom(1)");
@@ -68,7 +79,7 @@ const { chromium } = require('playwright');
     const want = await ev("__gl8.F().q[__gl8.F().i]");
     if (i === 0) {
       const misses = [];
-      for (let k = 0; k < 2; k++) { const w2 = await find('x', `k=>k&&k!==${JSON.stringify(want)}&&!(${JSON.stringify(want)}==='ar'&&k==='arc')&&!(k&&__G8.CT.some(c=>c[0]===k&&c[1]===${JSON.stringify(want)}))`); const m0 = await ev("__gl8.F().miss"); for (let t = 0; t < 3; t++) { await tapAt(w2); await p.waitForTimeout(900); if (await ev("__gl8.F().miss") > m0) break } /* 主機很忙時按下到放開會超過 700ms，遊戲當成長按不算點：重點一次 */ wrong++; misses.push(await ev("__gl8.F()&&__gl8.F().miss")) }
+      for (let k = 0; k < 2; k++) { const w2 = await find('x', `k=>k&&k!==${JSON.stringify(want)}&&!(${JSON.stringify(want)}==='ar'&&k==='arc')&&!(k&&__G8.CT.some(c=>c[0]===k&&c[1]===${JSON.stringify(want)}))&&k!=='ru'&&k!=='tr'`); const m0 = await ev("__gl8.F().miss"); for (let t = 0; t < 3; t++) { await tapAt(w2); await p.waitForTimeout(900); if (await ev("__gl8.F().miss") > m0) break } /* 主機很忙時按下到放開會超過 700ms，遊戲當成長按不算點：重點一次 */ wrong++; misses.push(await ev("__gl8.F()&&__gl8.F().miss")) }
       const hinted = await p.waitForFunction(() => __ev("!!__gl8.FX.hint||(__gl8.F()&&__gl8.F().busy)"), null, { timeout: 4000 }).then(() => true, () => false);
       ok(hinted, '第二次錯會發光提示 miss=' + misses.join(','));
       await p.waitForFunction(() => __ev("__gl8.F()&&!__gl8.F().busy"), null, { timeout: 8000 });
@@ -87,6 +98,27 @@ const { chromium } = require('playwright');
   await p.waitForFunction(() => __ev("!__gl8.F()"), null, { timeout: 30000 }).catch(() => {});
   ok(await ev("V2.globe8Day===today()"), '玩完拿到寶石（globe8Day）');
   ok(await ev("!__gl8.F()"), '回到自由轉');
+  // 2026-11-25 新加 7 國的語音（pack61）：名字、小卡句都從語音包播，不用裝置語音、不是只出字幕
+  {
+    await ev("S.sound=true;S.vo=true;S.voice=true;save()");
+    const loaded = await p.waitForFunction(() => __ev("!!(VO.idx&&VO.files&&VO.got>=VO.files.length)"), null, { timeout: 240000 }).then(() => true, () => false);
+    ok(loaded, '語音包都載好了');
+    await ev(`(()=>{window.__vk=[];window.__tts=[];try{SpeechSynthesis.prototype.speak=function(u){window.__tts.push(String(u.text))}}catch(e){}
+      const o=voPlay;voPlay=function(b){try{window.__vk.push(b&&b.__k||'?')}catch(e){}return o.apply(this,arguments)}})()`);
+    if (await ev("__gl8.F()")) await p.click('#gl8find');
+    for (const k of ['cn', 'ru', 'fi', 'tr', 'ae', 'tz', 'mn']) {
+      if (await ev("!document.querySelector('#gl8card').hidden")) await p.click('#gl8card .gl8x');
+      await ev(`(()=>{window.__vk=[];__gl8.setZoom(${k === 'ae' ? 2 : 1});const c=__gl8.ctr('${k}').c;__gl8.panTo(c[0],c[1],0)})()`); await p.waitForTimeout(200);
+      const q = await ev(`__gl8.ctr('${k}')`); await tapAt([q.X, q.Y]);
+      const nm = await ev(`__G8.T['n_${k}']`), sn = await ev(`__G8.T['s_${k}']`);
+      const got = await p.waitForFunction(([sn]) => (window.__vk || []).some(x => x === 'z|' + sn), [sn], { timeout: 12000 }).then(() => true, () => false);
+      const keys = await ev("window.__vk.slice()");
+      ok(got && (await ev("document.querySelector('#gl8bub').textContent")) === nm, `${nm}：小卡句從語音包播 ${got ? '' : JSON.stringify(keys)}`);
+      ok(await ev(`(()=>{const h=t=>voHas('z|'+t);return h(${JSON.stringify(nm)})&&h(${JSON.stringify(sn)})&&h(__G8.T['q_${k}'])})()`), `${nm}：名字、小卡句、題目都有錄音`);
+    }
+    ok((await ev("window.__tts.length")) === 0, '沒有用裝置語音 ' + JSON.stringify(await ev("window.__tts")));
+    await ev("__gl8.setZoom(1)");
+  }
   // 收集冊有地球儀頁
   ok(await ev("window.__book19&&__book19.secs().some(s=>s.id==='globe8')"), '收集冊有地球儀頁');
   // 返回

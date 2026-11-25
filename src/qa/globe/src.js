@@ -5,19 +5,24 @@
  * 地圖資料授權：
  *   陸地、國家輪廓取自 Natural Earth（https://www.naturalearthdata.com）1:110m（台灣、新加坡、荷蘭、瑞士用 1:50m），
  *   經 npm 套件 world-atlas@2.0.2（TopoJSON）轉出。Natural Earth 是 public domain（公有領域），可自由使用，不需標示。
- *   處理：同一洲的國家合併成洲的輪廓（俄羅斯以東經 60 度切成歐洲、亞洲兩塊），只留 31 國的國界；
+ *   處理：同一洲的國家合併成洲的輪廓（俄羅斯以東經 60 度切成歐洲、亞洲兩塊），只留介紹國家的輪廓；
  *   座標取到 0.1 度（台灣、新加坡 0.01 度）並簡化；五大洋分界用 1 度格子事先算好（qa/globe/mkgeo.js）。
  *   北極海冰是自己畫的示意形狀（不是即時資料）。
  *
  * 玩法：手指轉地球（放開有慣性），點一下念名字。
- *   點陸地念洲名；點到選定的 31 國念國名、跳出小卡（原創小圖＋一句話）；點海念洋名；點北極白色海冰念「北極」。
- *   南極洲、北極也有小卡。其他國家不標名字、不畫國界，點了只念洲名。不畫任何國界線；點到 31 國之一時，只有那一國的範圍淡淡亮起。
+ *   點陸地念洲名；點到選定的 38 國（含台灣）念國名、跳出小卡（原創小圖＋一句話）；點海念洋名；點北極白色海冰念「北極」。
+ *   中國、俄羅斯、芬蘭、土耳其、阿聯酋、坦尚尼亞、蒙古是 2026-11-25 Albert 加的（取代原本「不標中國、俄羅斯」）；中國的輪廓和點擊範圍不含台灣。
+ *   南極洲、北極也有小卡。其他國家不標名字、不畫國界，點了只念洲名。不畫任何國界線；點到介紹的國家時，只有那一國的範圍淡淡亮起。
+ *   國家輪廓（2026-11-25 Albert）：介紹的國家描細細的白色海岸線（約 1.1～1.5px）。
+ *     13:21 Albert 定案：全世界的陸地國界都畫白色細實線，相鄰國家底色亮暗交替一點點（同洲色系不變）；
+ *     有爭議的國界（印度–中國、印度–巴基斯坦、中國–巴基斯坦、摩洛哥–西撒哈拉）幾乎看不見，克里米亞那段不畫。點到／提示時那國國界變成金黃色、變粗。
+ *     邊的分類在 assemble.py 事先算好；window.__GL8_OUTLINE=false 可以關掉。
  *   台灣用 1:50m 的島形＋一顆小星星標示，不放國旗；點擊範圍只在海上放大（中心 1.2 度內、海岸 0.5 度內），點在其他陸地不算台灣。開場地球轉到台灣。
  *   「找找看」：寵物說「幫我找到太平洋！」，孩子轉地球去點。一輪 5 題，不扣分、不倒數。
  *     點錯念出那裡的名字＋「再找找看！」；同一題第二次錯：鏡頭自動轉到目標、目標發光（國家在畫面上太小時鏡頭一起拉近，下一題拉回）。
  *     小國家（2026-11-24 UX 審查）：找題時以題目為優先，點在題目國家中心約 22px（台灣海上 30px）內就算對；自由轉時小國用「離誰最近」分，見下面「點到哪裡」。
  *     題目是北極、南極洲、北極海、南極海時，地球會先自動上下轉，讓孩子看得到。
- *     簡單：七大洲、台灣、北極；中等：再加五大洋；高難度：再加 30 國（台灣以外）。
+ *     簡單：七大洲、台灣、北極；中等：再加五大洋；高難度：再加 37 國（台灣以外）。
  * 寶石：找找看玩完一輪，每天第一次 3 顆、之後 1 顆（V2.globe8Day；大門每日上限用 __gateExt.gemDay 接）。自由轉不給寶石。
  * 開放：完成第 41 章；App 版還要有完整版 full（或以前的 stage9；5.4.0 起不賣 stage9）；網頁版跟章節同一個季密碼（照雨林盪藤蔓）。
  * 收集冊：點過的國家、南極洲、北極記在 V2.gl8seen，收集冊多一頁「地球儀」（window.__book19.add）。
@@ -90,7 +95,16 @@ const T={
 "q_tw":"幫我找到台灣！","q_jp":"幫我找到日本！","q_kr":"幫我找到韓國！","q_th":"幫我找到泰國！","q_vn":"幫我找到越南！","q_sg":"幫我找到新加坡！","q_my":"幫我找到馬來西亞！","q_id":"幫我找到印尼！","q_ph":"幫我找到菲律賓！","q_in":"幫我找到印度！",
 "q_gb":"幫我找到英國！","q_fr":"幫我找到法國！","q_de":"幫我找到德國！","q_it":"幫我找到義大利！","q_es":"幫我找到西班牙！","q_nl":"幫我找到荷蘭！","q_ch":"幫我找到瑞士！","q_gr":"幫我找到希臘！","q_is":"幫我找到冰島！",
 "q_us":"幫我找到美國！","q_ca":"幫我找到加拿大！","q_mx":"幫我找到墨西哥！","q_br":"幫我找到巴西！","q_ar2":"幫我找到阿根廷！","q_pe":"幫我找到秘魯！",
-"q_eg":"幫我找到埃及！","q_ke":"幫我找到肯亞！","q_za":"幫我找到南非！","q_ma":"幫我找到摩洛哥！","q_au":"幫我找到澳洲！","q_nz":"幫我找到紐西蘭！"
+"q_eg":"幫我找到埃及！","q_ke":"幫我找到肯亞！","q_za":"幫我找到南非！","q_ma":"幫我找到摩洛哥！","q_au":"幫我找到澳洲！","q_nz":"幫我找到紐西蘭！",
+"n_cn":"中國","n_ru":"俄羅斯","n_fi":"芬蘭","n_tr":"土耳其","n_ae":"阿聯酋","n_tz":"坦尚尼亞","n_mn":"蒙古",
+"s_cn":"中國，有長長的長城，還有大貓熊！",
+"s_ru":"俄羅斯，是世界上最大的國家！",
+"s_fi":"芬蘭，有聖誕老人村，冬天看得到極光！",
+"s_tr":"土耳其，一邊在亞洲，一邊在歐洲！",
+"s_ae":"阿聯酋，這裡有杜拜，有世界最高的大樓，還有沙漠！",
+"s_tz":"坦尚尼亞，有非洲最高的吉力馬札羅山，草原上有好多動物！",
+"s_mn":"蒙古，有圓圓的蒙古包，還有好大的草原可以騎馬！",
+"q_cn":"幫我找到中國！","q_ru":"幫我找到俄羅斯！","q_fi":"幫我找到芬蘭！","q_tr":"幫我找到土耳其！","q_ae":"幫我找到阿聯酋！","q_tz":"幫我找到坦尚尼亞！","q_mn":"幫我找到蒙古！"
 };
 /*END*/
 /* ---------- 地點 ---------- */
@@ -98,14 +112,17 @@ const T={
 const CONT={as:['#F7C873',95,40],eu:['#B9A2F0',18,52],af:['#F5A66E',20,4],na:['#8FD68A',-100,45],sa:['#F49AC1',-60,-16],oc:['#FF9C8A',138,-25],an:['#F2F8FF',0,-82]};
 // 洋：格子代號 0～4 → 代號、中心
 const OCN=[['pa',-160,4],['at',-35,18],['io',78,-22],['ar',null,76],['so',null,-63]];
-// 31 國：代號（T 的 key 用 n_／s_／q_ 加代號；阿根廷 ar2，避免跟北極海 ar 撞名）、所屬洲
+// 介紹的 38 國（含台灣）：代號（T 的 key 用 n_／s_／q_ 加代號；阿根廷 ar2，避免跟北極海 ar 撞名）、所屬洲
 const CT=[['tw','as'],['jp','as'],['kr','as'],['th','as'],['vn','as'],['sg','as'],['my','as'],['id','as'],['ph','as'],['in','as'],
  ['gb','eu'],['fr','eu'],['de','eu'],['it','eu'],['es','eu'],['nl','eu'],['ch','eu'],['gr','eu'],['is','eu'],
- ['us','na'],['ca','na'],['mx','na'],['br','sa'],['ar2','sa'],['pe','sa'],['eg','af'],['ke','af'],['za','af'],['ma','af'],['au','oc'],['nz','oc']];
+ ['us','na'],['ca','na'],['mx','na'],['br','sa'],['ar2','sa'],['pe','sa'],['eg','af'],['ke','af'],['za','af'],['ma','af'],['au','oc'],['nz','oc'],
+ // 2026-11-25 Albert 加（取代原本「不標中國、俄羅斯」）：俄羅斯收集冊放歐洲、土耳其放亞洲；找洲的題目時，俄羅斯看點的位置在哪一洲，土耳其亞洲、歐洲都算
+ ['cn','as'],['ru','eu'],['fi','eu'],['tr','as'],['ae','as'],['tz','af'],
+ ['mn','as']];// 蒙古：2026-11-25 Albert 12:20 加
 const CTOF={};CT.forEach(([k,c])=>CTOF[k]=c);
 const NAME=k=>T['n_'+k]||'';
 const KIND=k=>CONT[k]?'cont':CTOF[k]?'ctry':k==='arc'?'arc':'ocean';
-// 有小卡的：31 國＋南極洲＋北極
+// 有小卡的：38 國＋南極洲＋北極
 const HASCARD=k=>!!CTOF[k]||k==='an'||k==='arc';
 const POLAR={an:-1,so:-1,arc:1,ar:1};
 
@@ -115,14 +132,16 @@ const POLAR={an:-1,so:-1,arc:1,ar:1};
 const GEO=/*GEO*/null/*GEOEND*/;
 const AL='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 const D2R=Math.PI/180;
-function decode(str,q){const out=[];if(!str)return out;str.split(' ').forEach(part=>{const v=[];let n=0,sh=0;
+// eb：每個環的邊分類字串（輪廓用：0 海岸、1 陸地相接、2 幾乎看不見），見 assemble.py
+function decode(str,q,eb){const out=[];if(!str)return out;eb=eb?eb.split(' '):null;str.split(' ').forEach((part,pi)=>{const v=[];let n=0,sh=0;
   for(let i=0;i<part.length;i++){const c=AL.indexOf(part[i]);n+=(c&31)*Math.pow(2,sh);sh+=5;if(!(c&32)){v.push(n%2?-(n+1)/2:n/2);n=0;sh=0}}
   const m=v.length>>1;const P=new Float32Array(m*4),NS=new Uint8Array(m),LL=new Float32Array(m*2);let x=0,y=0;
   for(let i=0;i<m;i++){x+=v[2*i];y+=v[2*i+1];const lon=x/q,lat=y/q;LL[2*i]=lon;LL[2*i+1]=lat;P[4*i]=Math.cos(lat*D2R);P[4*i+1]=Math.sin(lat*D2R);P[4*i+2]=Math.cos(lon*D2R);P[4*i+3]=Math.sin(lon*D2R)}
   // 不描邊的邊：沿著換日線切開的邊、南極點封口的邊
   const at180=l=>Math.abs(((l%360)+540)%360-180)>179.85;
   for(let i=0;i<m;i++){const j=(i+1)%m;if((at180(LL[2*i])&&at180(LL[2*j]))||(LL[2*i+1]<-89.5&&LL[2*j+1]<-89.5)||(LL[2*i+1]<-84&&LL[2*j+1]<-84&&at180(LL[2*i])!==at180(LL[2*j])&&Math.abs(LL[2*i]-LL[2*j])>90))NS[i]=1}
-  if(m>=3)out.push({n:m,P,NS,LL})});return out}
+  let EB=null;if(eb&&eb[pi]&&eb[pi].length===m){EB=new Uint8Array(m);for(let i=0;i<m;i++)EB[i]=eb[pi].charCodeAt(i)-48}
+  if(m>=3)out.push({n:m,P,NS,LL,EB})});return out}
 function ringFromLL(pts){const m=pts.length;const P=new Float32Array(m*4),NS=new Uint8Array(m),LL=new Float32Array(m*2);pts.forEach(([lon,lat],i)=>{LL[2*i]=lon;LL[2*i+1]=lat;P[4*i]=Math.cos(lat*D2R);P[4*i+1]=Math.sin(lat*D2R);P[4*i+2]=Math.cos(lon*D2R);P[4*i+3]=Math.sin(lon*D2R)});return {n:m,P,NS,LL}}
 // 國家的「等面積半徑」（度）：點擊判定用來比大小（小國才吸附）
 function radOf(rings,c){let A=0;const k=Math.cos(c[1]*D2R);rings.forEach(r=>{let a=0,x0=null;const L=r.LL;const xs=[];for(let i=0;i<r.n;i++){let x=L[2*i];if(x0!=null){while(x-x0>180)x-=360;while(x-x0<-180)x+=360}x0=x;xs.push(x)}
@@ -130,7 +149,9 @@ function radOf(rings,c){let A=0;const k=Math.cos(c[1]*D2R);rings.forEach(r=>{let
 let MAP=null;
 function loadMap(){if(MAP)return MAP;MAP={cont:{},ctry:{},grat:[],ice:null,ocean:null,maxN:0};
  for(const k in CONT)MAP.cont[k]=decode(GEO.cont[k],GEO.q);
- for(const [k] of CT){const g=GEO.ctry[k==='ar2'?'ar':k];MAP.ctry[k]={rings:decode(g.r,g.q),c:g.c};MAP.ctry[k].rad=radOf(MAP.ctry[k].rings,g.c)}
+ for(const [k] of CT){const g=GEO.ctry[k==='ar2'?'ar':k];MAP.ctry[k]={rings:decode(g.r,g.q,g.e),c:g.c};MAP.ctry[k].rad=radOf(MAP.ctry[k].rings,g.c);
+  // 離中心最遠的點（度）：畫輪廓時，整國都在地球背面就跳過
+  let far=0;MAP.ctry[k].rings.forEach(r=>{for(let i=0;i<r.n;i++){const d=angD([r.LL[2*i],r.LL[2*i+1]],g.c);if(d>far)far=d}});MAP.ctry[k].far=far}
  // 經緯線（淡淡的）
  for(let lon=-180;lon<180;lon+=30){const a=[];for(let lat=-80;lat<=80;lat+=5)a.push([lon,lat]);MAP.grat.push(ringFromLL(a))}
  for(const lat of [-60,-30,0,30,60]){const a=[];for(let lon=-180;lon<=180;lon+=5)a.push([lon,lat]);MAP.grat.push(ringFromLL(a))}
@@ -139,6 +160,8 @@ function loadMap(){if(MAP)return MAP;MAP={cont:{},ctry:{},grat:[],ice:null,ocean
  // 洋的格子
  const rows=GEO.ocean.split('|');const g=new Int8Array(360*180);rows.forEach((row,j)=>{let i=0;row.split(',').forEach(run=>{const [n,l]=run.split('.');const nn=parseInt(n,36),ll=+l;for(let k=0;k<nn;k++)g[j*360+i+k]=ll;i+=nn})});MAP.ocean=g;
  // 洲和洲相接的邊（例如東經 60 度切開的歐亞、蘇伊士、巴拿馬）：不描海岸；畫的時候用一條同色細線蓋住接縫
+ // 全世界的陸地國界（13:18 Albert）、E 樣式的國家深淺分組
+ MAP.bord=decode(GEO.bord,GEO.q);MAP.bordF=decode(GEO.bordF,GEO.q);MAP.shade=(GEO.shade||[]).map(st=>decode(st,GEO.q));
  MAP.seam={};{const E=new Map(),ks=Object.keys(MAP.cont);const q=(r,i)=>Math.round(r.LL[2*i]*100)+','+Math.round(r.LL[2*i+1]*100);
   ks.forEach((k,ki)=>MAP.cont[k].forEach(r=>{for(let i=0;i<r.n;i++){const j=(i+1)%r.n,a=q(r,i),b=q(r,j);if(a===b)continue;const key=a<b?a+'|'+b:b+'|'+a;const o=E.get(key);
    if(!o){E.set(key,{ki,r,i});continue}if(o.ki===ki)continue;r.NS[i]=1;o.r.NS[o.i]=1;(MAP.seam[k]=MAP.seam[k]||[]).push(ringFromLL([[r.LL[2*i],r.LL[2*i+1]],[r.LL[2*j],r.LL[2*j+1]]]))}}))}
@@ -174,6 +197,18 @@ function trace(r,fp,sp,tol){const st=projRing(r);if(!st)return;const n=r.n,cx=VW
    if(zj>0){fp&&fp.lineTo(hx,hy);if(sp&&!NS[j])sp.lineTo(hx,hy);ea=Math.atan2(-y,x);lx=hx;ly=hy}
    else{const a=Math.atan2(-y,x);let d=a-ea;while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;fp&&fp.arc(cx,cy,R,ea,ea+d,d<0);fp&&fp.lineTo(X(i),Y(i));lx=X(i);ly=Y(i);if(sp){sp.moveTo(hx,hy);if(NS[j])sp.moveTo(X(i),Y(i));else sp.lineTo(X(i),Y(i))}}}}
  fp&&fp.closePath()}
+// 國家輪廓（2026-11-25）：把一個環看得到的邊，照分類分別畫進 ps[0]（海岸）、ps[1]（陸地相接）、ps[2]（幾乎看不見）。
+// 跨過地平線的邊不畫；tol（像素）內太密的點略過（同一段最後一點一定畫到）
+function outlineRing(r,ps,tol){if(!projRing(r))return;const n=r.n,cx=VW.cx,cy=VW.cy,R=VW.R,NS=r.NS,EB=r.EB;tol=tol||0;
+ let cur=-1,lx=0,ly=0,px=0,py=0,pend=false;
+ const flush=()=>{if(pend){ps[cur].lineTo(px,py);pend=false}};
+ for(let i=0;i<n;i++){const j=i+1<n?i+1:0;const cls=EB?EB[i]:0;
+  if(NS[i]||SZ[i]<=0||SZ[j]<=0||!ps[cls]){if(cur>=0)flush();cur=-1;continue}
+  const x=cx+R*SX[j],y=cy-R*SY[j];
+  if(cls!==cur){if(cur>=0)flush();cur=cls;lx=cx+R*SX[i];ly=cy-R*SY[i];ps[cls].moveTo(lx,ly)}
+  if(tol&&Math.abs(x-lx)<tol&&Math.abs(y-ly)<tol){px=x;py=y;pend=true;continue}
+  ps[cls].lineTo(x,y);lx=x;ly=y;pend=false}
+ if(cur>=0)flush()}
 function polyline(r,p){projRing(r);const cx=VW.cx,cy=VW.cy,R=VW.R;let on=false;for(let i=0;i<r.n;i++){if(SZ[i]>0.02){const x=cx+R*SX[i],y=cy-R*SY[i];if(on)p.lineTo(x,y);else p.moveTo(x,y);on=true}else on=false}}
 const angD=(a,b)=>{const f1=a[1]*D2R,f2=b[1]*D2R,dl=(a[0]-b[0])*D2R;return Math.acos(Math.max(-1,Math.min(1,Math.sin(f1)*Math.sin(f2)+Math.cos(f1)*Math.cos(f2)*Math.cos(dl))))/D2R};
 function twNear(ll){if(angD(ll,[121,23.7])<=1.2)return true;const r=MAP.ctry.tw.rings;for(const g of r){for(let i=0;i<g.n;i++){if(angD(ll,[g.LL[2*i],g.LL[2*i+1]])<=0.5)return true}}return false}
@@ -264,7 +299,7 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
    <div class="gl8card" id="gl8card" hidden></div><div class="gl8tags" id="gl8tags"></div></div>
   <div class="gl8menu" id="gl8menu" hidden><div class="gl8mc">
    <div class="gl8mh"><span class="gl8mi">${art('i:globe8')}</span><div><b>找找看</b><small>聽一聽，在地球上找一找！</small></div></div>
-   <div class="gl8lab">難度</div><div class="gl8row" id="gl8diffs"><button class="gl8opt" data-v="easy"><b>簡單</b><small>七大洲、台灣</small></button><button class="gl8opt" data-v="mid"><b>中等</b><small>再加五大洋</small></button><button class="gl8opt" data-v="hard"><b>高難度</b><small>再加 30 個國家</small></button></div>
+   <div class="gl8lab">難度</div><div class="gl8row" id="gl8diffs"><button class="gl8opt" data-v="easy"><b>簡單</b><small>七大洲、台灣</small></button><button class="gl8opt" data-v="mid"><b>中等</b><small>再加五大洋</small></button><button class="gl8opt" data-v="hard"><b>高難度</b><small>再加 ${CT.length-1} 個國家</small></button></div>
    <div class="gl8mb"><button class="btn2" id="gl8cancel">自由轉</button><button class="btn" id="gl8go">出發！</button></div></div></div></div>`;
  const root=$('.gl8'),st=$('#gl8st'),cv=$('#gl8cv'),bub=$('#gl8bub'),petEl=$('#gl8pet'),dots=$('#gl8dots'),card=$('#gl8card'),tags=$('#gl8tags'),menu=$('#gl8menu'),findB=$('#gl8find');
  const ctx=cv.getContext('2d');
@@ -278,7 +313,7 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   land=w>h*1.15;root.classList.toggle('land',land);
   const base=land?Math.min(h*.43,w*.31):Math.min(w*.47,h*.36);
   VW.w=w;VW.h=h;VW.dpr=dpr;VW.base=base;VW.R=base*VW.zoom;VW.cx=w/2;VW.cy=land?h*.53:h*.47;
-  root.style.setProperty('--gm',Math.max(0,(w-2*base)/2)+'px');GRD=null;need()}
+  root.style.setProperty('--gm',Math.max(0,(w-2*base)/2)+'px');root.classList.remove('gl8shift');GRD=null;if(!card.hidden)fitCard(true);need()}
  const ro=typeof ResizeObserver!=='undefined'?new ResizeObserver(()=>{if(!live()){ro.disconnect();return}layout()}):null;if(ro)ro.observe(st);else addEventListener('resize',()=>{if(live())layout()});
  /* ---- 畫 ----
   * 效能（5.4.0 UX 審查「建議 1」，2026-11-24）：
@@ -288,6 +323,13 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   *  - 拿掉每一洲各描一次的細邊（改成只描洲和洲相接的那幾段，避免接縫）；大氣光暈只畫外圈；
   *  - 不用 shadowBlur：台灣星星做成小圖重用，發光改成寬的半透明線。 */
  const TOL=.8,TOLM=1.6,SMALL=16;
+
+ // 國家輪廓開關（預設開）：window.__GL8_OUTLINE=false 關掉
+ const OLON=()=>window.__GL8_OUTLINE!==false;
+ const OLW=()=>1.1+.25*(VW.zoom-1);// 線寬：原尺寸 1.1px，放大到 2.6 倍時 1.5px
+ // 只要海岸（國界改由全世界的國界線畫）
+ function outlines(tol){const ps=[new Path2D(),null,null,null];const vc=[VW.lam,VW.phi];
+  for(const [k] of CT){if(k==='tw')continue;const m=MAP.ctry[k];if(angD(vc,m.c)>90+m.far)continue;m.rings.forEach(r=>outlineRing(r,ps,tol))}return ps}
  let GRD=null,SPR=null,LY=null,prevLK='';const BC={cv:null,c:null,key:''};
  // 漸層（大氣光暈＋海、左上亮右下暗＋地球外框）先畫成圖，之後每幀只搬圖；大小只取地球跟畫面重疊的那塊。縮放中（大小一直變）就直接畫
  function lyKey(){return [VW.R.toFixed(3),VW.cx,VW.cy,VW.w,VW.h,VW.dpr].join()}
@@ -321,9 +363,19 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   const shore=new Path2D(),seam=new Path2D(),fills={};for(const k in MAP.cont){const fp=new Path2D();MAP.cont[k].forEach(r=>trace(r,fp,shore,tol));fills[k]=fp}
   c.lineJoin='round';c.strokeStyle='rgba(255,255,255,.55)';c.lineWidth=Math.max(1.2,R*.012-.8);c.stroke(shore);
   for(const k in fills){c.fillStyle=CONT[k][0];c.fill(fills[k],'evenodd')}
+  // 相鄰國家亮度差一點點（約 ±6%），洲的色系不變：國家分成 5 組（相鄰的一定不同組），一組用原色、其他 4 組各蓋一層淡淡的亮或暗
+  if(OLON()){const OV=['rgba(255,255,255,.12)','rgba(40,20,60,.06)','rgba(255,255,255,.06)','rgba(40,20,60,.10)'];MAP.shade.forEach((rs,i)=>{const p=new Path2D();rs.forEach(r=>trace(r,p,null,tol));c.fillStyle=OV[i];c.fill(p)})}
   // 洲和洲相接的地方：用後畫那一洲的顏色描一條細線蓋住接縫（不是國界）
   for(const k in MAP.seam){const p=new Path2D();MAP.seam[k].forEach(r=>polyline(r,p,0));c.strokeStyle=CONT[k][0];c.lineWidth=1;c.stroke(p)}
   c.strokeStyle='rgba(170,200,230,.9)';c.lineWidth=1;c.stroke(fills.an);
+  // 國家輪廓和國界（2026-11-25 Albert 13:21 定案「E」）：
+  //  - 全世界的陸地國界：白色細實線（0.6 透明、1px，放大時跟著變粗）；有爭議的（喀什米爾三段、摩洛哥–西撒哈拉）幾乎看不見；克里米亞那段不畫
+  //  - 介紹國家的海岸：白色實線（地球在轉的時候不另外描，海岸本來就有一圈白色岸邊）
+  //  - 相鄰國家的底色亮暗交替（上面填色那一段）
+  if(OLON()){const mv=tol>TOL,z=Math.sqrt(VW.zoom);c.lineJoin='round';c.lineWidth=OLW();
+   if(!mv){c.strokeStyle='rgba(255,255,255,.5)';c.stroke(outlines(tol)[0])}
+   const bp=new Path2D(),fp=new Path2D();MAP.bord.forEach(r=>polyline(r,bp));MAP.bordF.forEach(r=>polyline(r,fp));
+   c.strokeStyle='rgba(255,255,255,.07)';c.lineWidth=1;c.stroke(fp);c.strokeStyle='rgba(255,255,255,.6)';c.lineWidth=z;c.stroke(bp)}
   // 台灣：1:50m 島形＋光圈
   const tw=projLL(121,23.7);
   if(tw.z>0){const tp=pathOf(MAP.ctry.tw.rings);const hr=Math.max(9,R*.05);c.save();c.beginPath();c.arc(cx,cy,R,0,TAU);c.clip();c.fillStyle='rgba(255,255,255,.28)';c.beginPath();c.arc(tw.X,tw.Y,hr*tw.z,0,TAU);c.fill();c.restore();
@@ -337,7 +389,7 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   x.fillStyle='#FFD84A';x.shadowColor='rgba(255,230,120,.9)';x.shadowBlur=8*d;x.fill();x.shadowBlur=0;x.strokeStyle='#fff';x.lineWidth=1.6;x.stroke();
   if(lab){x.font=font;x.textBaseline='middle';x.lineWidth=4;x.lineJoin='miter';x.strokeStyle='rgba(40,30,100,.85)';x.strokeText('台灣',sx+s*1.1,sy);x.fillStyle='#FFF6D0';x.fillText('台灣',sx+s*1.1,sy)}
   return SPR={key,cv:c0,ox:sx,oy:sy,w:W,h:H}}
- function baseKey(){return [VW.lam.toFixed(4),VW.phi.toFixed(4),VW.R.toFixed(3),VW.cx,VW.cy,VW.w,VW.h,VW.dpr,S.lite?1:0].join()}
+ function baseKey(){return [VW.lam.toFixed(4),VW.phi.toFixed(4),VW.R.toFixed(3),VW.cx,VW.cy,VW.w,VW.h,VW.dpr,S.lite?1:0,OLON()?1:0].join()}
  function dropCache(){if(BC.cv){BC.cv.width=0;BC.cv.height=0}BC.cv=null;BC.c=null;BC.key='';dropLayers();SPR=null}
  function draw(now){const {cx,cy,R,dpr}=VW;setRot();const G=grads();const TAU=Math.PI*2;
   const moving=!!(FX.anim||FX.vel||drag||pinch),key=baseKey(),L=useLayers();let direct=false;
@@ -348,8 +400,12 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   ctx.setTransform(dpr,0,0,dpr,0,0);
   // 點到的、提示的：發光（不用 shadowBlur）
   const glow=(fx,a)=>{if(!fx)return;const k=fx.k,kind=KIND(k);ctx.save();ctx.globalAlpha=a;
-   if(kind==='ctry'||kind==='cont'||kind==='arc'){const rings=kind==='ctry'?MAP.ctry[k].rings:kind==='cont'?MAP.cont[k]:[MAP.ice];const p=new Path2D(),b=new Path2D();rings.forEach(r=>trace(r,p,b,TOL));
+   if(kind==='ctry'||kind==='cont'||kind==='arc'){const rings=kind==='ctry'?MAP.ctry[k].rings:kind==='cont'?MAP.cont[k]:[MAP.ice];const p=new Path2D();let b=new Path2D(),b1=null;
+    // 國家：輪廓變亮、變粗；陸地相接的國界也亮但淡一些；有爭議的國界不描（範圍看底色就好）
+    if(kind==='ctry'){rings.forEach(r=>trace(r,p,null,TOL));const ps=[b,b1=new Path2D(),null,b1];rings.forEach(r=>outlineRing(r,ps,TOL))}else rings.forEach(r=>trace(r,p,b,TOL));
     ctx.fillStyle='rgba(255,255,255,.42)';ctx.fill(p,'evenodd');ctx.lineJoin='round';ctx.strokeStyle='rgba(255,242,160,.5)';ctx.lineWidth=kind==='ctry'?7:8;ctx.stroke(b);ctx.strokeStyle='#FFFFFF';ctx.lineWidth=kind==='ctry'?2.2:2.6;ctx.stroke(b);
+    // 國界亮起：金黃色、比平常的虛線粗，一看就知道是這一國
+    if(b1){ctx.strokeStyle='rgba(255,242,160,.55)';ctx.lineWidth=7;ctx.stroke(b1);ctx.strokeStyle='#FFD84A';ctx.lineWidth=3;ctx.stroke(b1)}
     // 台灣、新加坡、在畫面上很小的國家：外面再畫一圈，才看得到
     if(kind==='ctry'){const I=ctrInfo(k);if(I.p.z>0&&(k==='tw'||k==='sg'||I.rad<SMALL)){ctx.strokeStyle='#FFF2A0';ctx.lineWidth=3;ctx.beginPath();ctx.arc(I.p.X,I.p.Y,Math.max(14,R*.06,I.rad+8),0,TAU);ctx.stroke()}}}
    else{const c=fx.at||oceanAt(k);const p=c&&projLL(c[0],c[1]);if(p&&p.z>0){const rr=R*.22;const g=ctx.createRadialGradient(p.X,p.Y,0,p.X,p.Y,rr);g.addColorStop(0,'rgba(255,255,255,.55)');g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.X,p.Y,rr,0,TAU);ctx.fill();
@@ -372,7 +428,7 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
  function loop(now){raf=0;if(!live()){dropCache();return}let more=false;
   // C2：只有提示在閃時，每秒畫 15 次就夠
   if(!dirty&&FX.hint&&!FX.anim&&!FX.vel&&!FX.sel&&!FX.ripple&&now-lastD<66){raf=requestAnimationFrame(loop);return}
-  const A=FX.anim;if(A){const t=Math.min(1,(now-A.t)/A.d);const e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;VW.lam=A.l0+A.dl*e;VW.phi=A.p0+(A.p1-A.p0)*e;if(A.z1!=null){VW.zoom=A.z0+(A.z1-A.z0)*e;VW.R=VW.base*VW.zoom;GRD=null}if(t>=1){FX.anim=null;A.done&&A.done()}else more=true}
+  const A=FX.anim;if(A){const t=Math.min(1,(now-A.t)/A.d);const e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;if(!A.cxOnly){VW.lam=A.l0+A.dl*e;VW.phi=A.p0+(A.p1-A.p0)*e}if(A.z1!=null){VW.zoom=A.z0+(A.z1-A.z0)*e;VW.R=VW.base*VW.zoom;GRD=null}if(A.cx1!=null){VW.cx=A.cx0+(A.cx1-A.cx0)*e;GRD=null}if(t>=1){FX.anim=null;A.done&&A.done()}else more=true}
   const V=FX.vel;if(V&&!drag){const dt=Math.min(50,now-V.t);V.t=now;VW.lam-=V.x*dt;VW.phi=clampP(VW.phi+V.y*dt);const k=Math.exp(-dt/420);V.x*=k;V.y*=k;if(Math.hypot(V.x,V.y)<.0025)FX.vel=null;else more=true}
   VW.lam=((VW.lam+540)%360)-180;
   if(dirty||more||FX.sel||FX.hint||FX.ripple){dirty=false;lastD=now;const g=draw(now);if(g)more=true}
@@ -381,7 +437,8 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
  const clampP=p=>Math.max(-82,Math.min(82,p));
  function panTo(lon,lat,ms,done,z){FX.vel=null;let dl=((lon-VW.lam+540)%360)-180;const p1=clampP(lat);const z1=z==null?null:Math.max(1,Math.min(2.6,z));
   if(calm||!ms){VW.lam+=dl;VW.phi=p1;if(z1!=null)setZoom(z1);need();done&&done();return}
-  FX.anim={t:performance.now(),d:ms,l0:VW.lam,dl,p0:VW.phi,p1,z0:VW.zoom,z1,done};need()}
+  const ca=FX.anim&&FX.anim.cx1!=null?FX.anim.cx1:null;// 小卡造成的地球平移還沒走完：一起帶著走
+  FX.anim={t:performance.now(),d:ms,l0:VW.lam,dl,p0:VW.phi,p1,z0:VW.zoom,z1,done,cx0:VW.cx,cx1:ca};need()}
  /* ---- 點到哪裡 ----
   * 2026-11-24（UX 審查 必修 3：小國家點不到）：
   *  - baseHit：照輪廓判定（台灣 M2 規則不變：點在其他陸地上不算台灣）。
@@ -419,7 +476,10 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   const sea=isSea(k0)||k0==='arc',land=!!CONT[k0];let best=null,bs=1e9;
   for(const [k] of CT){const I=ctrInfo(k);if(I.p.z<.1)continue;let s;
    if(k===k0)s=-1;
-   else{if(I.rad>=SMALL)continue;if(k==='tw'&&!sea)continue;const M=sea?MSEA:land?MLAND:0;if(Math.hypot(I.p.X-x,I.p.Y-y)-I.rad>M+40)continue;
+   else{if(k==='tw'&&!sea)continue;const M=sea?MSEA:land?MLAND:0;
+    // 大國不吸附（點海就念海），但要拿來比：離大國海岸比離小國近，就不吸附到小國（例如婆羅洲南邊的海不會變成馬來西亞）
+    if(I.rad>=SMALL){if(!(sea||land)||Math.hypot(I.p.X-x,I.p.Y-y)-MAP.ctry[k].far*D2R*VW.R>M)continue;const e=edgeDist(MAP.ctry[k].rings,x,y);if(e>M)continue;s=e+.5;if(s<bs){bs=s;best=null}continue}
+    if(Math.hypot(I.p.X-x,I.p.Y-y)-I.rad>M+40)continue;
     const e=Math.min(edgeDist(MAP.ctry[k].rings,x,y),Math.hypot(I.p.X-x,I.p.Y-y));if(e>M)continue;s=e-(I.rad<4?4:0)}
    if(s<bs){bs=s;best=k}}
   return best||k0}
@@ -428,7 +488,11 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
    for(let i=0;i<n;i++){const j=(i+1)%n;if(NS[i]||SZ[i]<=0||SZ[j]<=0)continue;const ax=cx+R*SX[i],ay=cy-R*SY[i],bx=cx+R*SX[j],by=cy-R*SY[j];
     const vx=bx-ax,vy=by-ay,l2=vx*vx+vy*vy;let t=l2?((x-ax)*vx+(y-ay)*vy)/l2:0;t=t<0?0:t>1?1:t;const d=Math.hypot(ax+vx*t-x,ay+vy*t-y);if(d<best)best=d}}return best}
  const EDGE=()=>Math.max(12,10*Math.sqrt(VW.zoom));
- function judge(x,y,want){const k=hitAt(x,y);if(!k)return {ok:false,k};if(!want||okHit(want,k))return {ok:okHit(want,k),k};
+ function judge(x,y,want){const k=hitAt(x,y);if(!k)return {ok:false,k};if(!want||okHit(want,k,x,y))return {ok:okHit(want,k,x,y),k};
+  // 點在另一個介紹的國家上：題目國家在畫面上夠大時不放寬；點在台灣島或台灣近海（M2 範圍）絕不算別的國家（例如中國題點台灣不算對）
+  // 但題目國家不大（半徑 24px 以下，例如被中國、俄羅斯包住的蒙古）時，點在國界外 6px 內還算對（手指點歪一點點）
+  if(CTOF[want]&&CTOF[k]&&k!==want&&(ctrInfo(want).rad>=SMALL||k==='tw'&&baseHit(x,y)==='tw')){
+   if(k!=='tw'&&ctrInfo(want).rad<24&&edgeDist(MAP.ctry[want].rings,x,y)<=6)return {ok:true,k};return {ok:false,k}}
   if(CTOF[want]){const k0=want==='tw'?baseHit(x,y):k;
    if(want!=='tw'||isSea(k0)||k0==='tw'){const I=ctrInfo(want);
     if(I.p.z>.1&&Math.hypot(I.p.X-x,I.p.Y-y)<=Math.max((want==='tw'?30:22)*Math.sqrt(VW.zoom),I.rad+12))return {ok:true,k};
@@ -437,7 +501,7 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   return {ok:false,k}}
  /* ---- 手指：轉、甩、捏合、點 ---- */
  const ptr=new Map();let drag=false,down=null,pinch=null,hist=[];
- cv.addEventListener('pointerdown',e=>{if(!live())return;try{cv.setPointerCapture(e.pointerId)}catch(_){}ptr.set(e.pointerId,{x:e.offsetX,y:e.offsetY});FX.vel=null;if(FX.anim&&!FX.anim.lock)FX.anim=null;
+ cv.addEventListener('pointerdown',e=>{if(!live())return;try{cv.setPointerCapture(e.pointerId)}catch(_){}ptr.set(e.pointerId,{x:e.offsetX,y:e.offsetY});FX.vel=null;if(FX.anim&&!FX.anim.lock){if(FX.anim.cx1!=null){VW.cx=FX.anim.cx1;GRD=null}FX.anim=null}
   if(ptr.size===1){down={x:e.offsetX,y:e.offsetY,t:performance.now(),lam:VW.lam,phi:VW.phi};drag=false;hist=[[performance.now(),e.offsetX,e.offsetY]]}
   else if(ptr.size===2){const [a,b]=[...ptr.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y)||1,z:VW.zoom};drag=true}});
  cv.addEventListener('pointermove',e=>{if(!ptr.has(e.pointerId)||!live())return;ptr.set(e.pointerId,{x:e.offsetX,y:e.offsetY});
@@ -458,10 +522,18 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   while(tags.children.length>3)tags.firstChild.remove();setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),500)},1800)}
  function showCard(k){const sents=[T['s_'+k]];if(k==='an'||k==='arc')sents.push(T.fact_pole);
   card.innerHTML=`<button class="gl8x" type="button" aria-label="關閉">✕</button><div class="gl8pic">${PICSVG(k)}</div><div class="gl8txt"><b>${NAME(k)}</b>${sents.map((s,i)=>`<p${i?' class="gl8fact"':''}>${s}</p>`).join('')}${has(sents[0])?'<button class="gl8hear" type="button">再聽一次</button>':''}</div>`;
-  card.hidden=false;root.classList.add('carded');card.classList.remove('in');void card.offsetWidth;card.classList.add('in');
+  card.hidden=false;root.classList.add('carded');card.classList.remove('in');void card.offsetWidth;card.classList.add('in');fitCard();
   card.querySelector('.gl8x').onclick=e=>{e.stopPropagation();closeCard()};const hb=card.querySelector('.gl8hear');if(hb)hb.onclick=()=>{hush();sayR(sents)};
   return sents}
- function closeCard(){card.hidden=true;root.classList.remove('carded')}
+ function closeCard(){card.hidden=true;root.classList.remove('carded');fitCard()}
+ // 橫放時小卡在右邊：放不下（例如 iPhone SE 橫放，小卡 300px 寬）就把地球往左平移（鏡頭平移，不是縮放），小卡不蓋住地球；關掉小卡再移回中間。
+ // 移的時候寵物先隱藏（不然會疊在地球上）
+ function fitCard(now){if(!VW.w)return;let to=VW.w/2;
+  if(root.classList.contains('land')&&!card.hidden){const left=card.offsetLeft;const R=VW.R;if(left>0&&VW.w/2+R+8>left)to=Math.max(R*.55,left-8-R)}
+  root.classList.toggle('gl8shift',to<VW.w/2-1);if(Math.abs(to-VW.cx)<.5)return;
+  if(now||calm){VW.cx=to;GRD=null;need();return}
+  const A0=FX.anim;if(A0&&!A0.cx1){A0.cx0=VW.cx;A0.cx1=to;return}
+  FX.anim={t:performance.now(),d:350,cxOnly:1,cx0:VW.cx,cx1:to};need()}
  /* ---- 點一下 ---- */
  function tap(x,y){if(!live())return;
   // 找找看：題目優先的寬鬆判定（judge）；點錯時念的是 hitAt 的結果
@@ -480,7 +552,9 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   else if(diff==='mid')q=sh(sh(POOL.oce).slice(0,2).concat(sh(POOL.easy).slice(0,3)));
   else q=sh(sh(POOL.ctry).slice(0,3).concat(sh(POOL.oce).slice(0,1),sh(POOL.easy).slice(0,1)));
   return q}
- const okHit=(want,k)=>want===k||(CONT[want]&&CTOF[k]===want)||(want==='ar'&&k==='arc');
+ // 俄羅斯橫跨歐亞：看點的地方在哪一洲；土耳其亞洲、歐洲都算
+ const contHas=(c,x,y)=>{if(x==null)return false;ctx.setTransform(VW.dpr,0,0,VW.dpr,0,0);return ctx.isPointInPath(pathOf(MAP.cont[c]),x*VW.dpr,y*VW.dpr,'evenodd')};
+ const okHit=(want,k,x,y)=>want===k||(want==='ar'&&k==='arc')||(!!CONT[want]&&!!CTOF[k]&&(k==='ru'?contHas(want,x,y):k==='tr'?(want==='as'||want==='eu'):CTOF[k]===want));
  function openMenu(){closeCard();menu.hidden=false;selD();hush();sayR([T.f_menu])}
  const selD=()=>$$('#gl8diffs .gl8opt').forEach(b=>b.classList.toggle('sel',b.dataset.v===GS.diff));
  $$('#gl8diffs .gl8opt').forEach(b=>b.onclick=()=>{GS.diff=b.dataset.v;selD();sfx('pop');hush();sayR([T['d_'+GS.diff]]);need()});
@@ -498,7 +572,7 @@ SCREENS.globe8=function(){const g0=gate();if(g0==='ch'||g0==='app'){setTimeout((
   if(zb!=null)panTo(VW.lam,VW.phi,700,null,zb);
   tell(q)}
  function findTap(k,x,y){if(!F||F.busy)return;const want=F.q[F.i];hush();
-  if(okHit(want,k)){F.busy=true;sfx('pop');try{tone(620+F.i*60,0,.16,'triangle',.08)}catch(_){}FX.hint=null;FX.sel={k:want,t:performance.now(),at:unproj(x,y)};need();
+  if(okHit(want,k,x,y)){F.busy=true;sfx('pop');try{tone(620+F.i*60,0,.16,'triangle',.08)}catch(_){}FX.hint=null;FX.sel={k:want,t:performance.now(),at:unproj(x,y)};need();
    if(HASCARD(want)){seen()[want]=1;sv()}
    const d=$$('#gl8dots i')[F.i];if(d){d.classList.add('on');try{burstEl(d,10)}catch(_){}}
    tag(x,y,NAME(want));const ok=[T.f_ok1,T.f_ok2,T.f_ok3][F.i%3];bub.textContent=ht(NAME(want)+'，'+ok);petHop();
@@ -566,12 +640,13 @@ const st=document.createElement('style');st.textContent=`
 .gl8.carded:not(.land) .gl8pet,.gl8.carded:not(.land) .gl8ctl{opacity:0;pointer-events:none}
 .gl8:not(.land) .gl8card{bottom:68px}
 .gl8.land .gl8find{left:auto;right:8px;margin:0;bottom:auto;top:8px}.gl8.land .gl8dots{bottom:10px}
-/* 橫放：小卡放右邊空白處，寵物在左邊 */
-.gl8.land .gl8card{left:auto;right:64px;bottom:auto;top:max(66px,calc(50% - 150px));max-height:calc(100% - 74px);overflow:auto;width:clamp(150px,calc(var(--gm) - 70px),300px);flex-direction:column;align-items:stretch;text-align:center;padding:12px}
+/* 橫放：小卡放右邊空白處，寵物在左邊（transform:none：2026-11-25 修正，原本沿用直式的 translateX(-50%)，小卡會往左偏半張、蓋到地球） */
+.gl8.land .gl8card{left:auto;transform:none;right:64px;bottom:auto;top:max(66px,calc(50% - 150px));max-height:calc(100% - 74px);overflow:auto;width:clamp(150px,calc(var(--gm) - 70px),300px);flex-direction:column;align-items:stretch;text-align:center;padding:12px}
 .gl8.land .gl8card.in{animation:gl8inr .35s ease-out}
 @keyframes gl8inr{from{opacity:0;margin-right:-14px}to{opacity:1;margin-right:0}}
 .gl8.land .gl8pic{width:100%;max-width:150px;margin:0 auto}
 .gl8.land .gl8bub{left:10px;transform:none;max-width:max(150px,calc(var(--gm) - 24px));text-align:left}
+.gl8.gl8shift .gl8pet{opacity:0}
 .gl8.land .gl8card{padding-top:40px}.gl8.land .gl8x{right:8px;top:6px}
 @media (orientation:landscape) and (max-height:500px){.gl8st{min-height:0}body[data-scr="globe8"] #btnMap{display:none}}
 @media (max-height:460px){.gl8.land .gl8card{top:auto;bottom:8px;right:62px;width:min(300px,calc(var(--gm) - 70px));min-width:200px;flex-direction:row;align-items:center;text-align:left;padding:8px 36px 8px 8px}.gl8.land .gl8pic{width:72px;max-width:72px;margin:0}.gl8.land .gl8txt p.gl8fact{display:none}.gl8ctl{gap:5px}.gl8ctl button{width:42px;height:42px}.gl8find{min-height:42px}}
@@ -585,7 +660,7 @@ const st=document.createElement('style');st.textContent=`
 .gl8opt b{font-weight:400;font-size:18px}.gl8opt small{font-size:12.5px}.gl8opt.sel{border-color:#7A5CE0;background:#F0EAFF}
 .gl8mb{display:flex;gap:10px;justify-content:center;margin-top:12px}.gl8mb .btn{min-width:8em;min-height:56px}.gl8mb .btn2{min-height:56px;white-space:nowrap;flex:none}
 .gl8opt b,.gl8opt small{white-space:nowrap}
-/* iPhone SE 這種窄的直式（QA 11/24）：「自由轉」「再加 30 個國家」不斷成兩行：選單邊距、按鈕內距縮小，小字跟著寬度縮 */
+/* iPhone SE 這種窄的直式（QA 11/24）：「自由轉」「再加 37 個國家」不斷成兩行：選單邊距、按鈕內距縮小，小字跟著寬度縮 */
 @media (max-width:420px){.gl8menu{padding:8px}.gl8mc{padding:12px 10px}.gl8row{gap:6px}.gl8opt{padding:4px 2px}.gl8opt small{font-size:min(12.5px,2.95vw);letter-spacing:-.02em}.gl8mb .btn{min-width:0;flex:1 1 auto}.gl8mb .btn2{padding-left:14px;padding-right:14px}}
 .gl8.calm .gl8pet.hop,.gl8.calm .gl8card.in{animation:none}
 @media (prefers-reduced-motion:reduce){.gl8pet.hop,.gl8card.in{animation:none}}`;document.head.appendChild(st);

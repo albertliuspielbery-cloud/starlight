@@ -49,16 +49,22 @@ for(const k in cont){const rings=cont[k].map(r=>simp(r,TOL[k])).filter(r=>r.leng
  const area=r=>{let a=0;for(let i=0;i<r.length;i++){const p=r[i],q=r[(i+1)%r.length];a+=p[0]*q[1]-q[0]*p[1]}return Math.abs(a/2)};
  const rr=rings.filter(r=>area(r)>(k==='oc'?.02:.08));
  rr.forEach(r=>npt+=r.length);out.cont[k]=enc(rr);out.stat[k]=rr.length}
-// ---- 31 國 ----
+// ---- 介紹的國家（31 國＋2026-11-25 加的 6 國）----
 const C=[
  ['tw','Taiwan',50],['jp','Japan'],['kr','South Korea'],['th','Thailand'],['vn','Vietnam'],['sg','Singapore',50],['my','Malaysia'],['id','Indonesia'],['ph','Philippines'],['in','India'],
  ['gb','United Kingdom'],['fr','France'],['de','Germany'],['it','Italy'],['es','Spain'],['nl','Netherlands',50],['ch','Switzerland',50],['gr','Greece'],['is','Iceland'],
  ['us','United States of America'],['ca','Canada'],['mx','Mexico'],['br','Brazil'],['ar','Argentina'],['pe','Peru'],
  ['eg','Egypt'],['ke','Kenya'],['za','South Africa'],['ma','Morocco'],
- ['au','Australia'],['nz','New Zealand']];
+ ['au','Australia'],['nz','New Zealand'],
+ // 2026-11-25 Albert 加：中國、俄羅斯、芬蘭、土耳其、阿聯酋、坦尚尼亞（中國不含台灣：Natural Earth 台灣本來就是另外一塊）
+ ['cn','China'],['ru','Russia'],['fi','Finland'],['tr','Turkey'],['ae','United Arab Emirates'],['tz','Tanzania'],
+ // 2026-11-25 Albert 12:20 加：蒙古
+ ['mn','Mongolia']];
 for(const [id,n,res] of C){const W=res===50?W50:W110;const g=W.objects.countries.geometries.find(x=>name(x)===n);if(!g)throw new Error('no '+n);
  let ps=polysOf(t.feature(W,g));if(id==='fr')ps=ps.filter(p=>!(p[0][0][0]<0&&p[0][0][1]<10));
  if(id==='ma')ps=ps; // 只用 110m 的摩洛哥本體
+ // 俄羅斯：克里米亞半島那一塊不算（有爭議；那裡點了只念「歐洲」，也不描成俄羅斯的輪廓）
+ if(id==='ru')ps=ps.filter(p=>{const r=p[0];return !r.every(([x,y])=>x>32&&x<37&&y>44&&y<46.5)});
  const tol=res===50?(id==='tw'?.03:.04):.1;
  let rings=ps.map(p=>simp(p[0],tol)).filter(r=>r.length>=3);
  // 主要的一塊算中心（面積加權）
@@ -66,8 +72,33 @@ for(const [id,n,res] of C){const W=res===50?W50:W110;const g=W.objects.countries
  if(id!=='tw'&&id!=='sg')rings=rings.filter(r=>Math.abs(area(r))>.03||rings.length===1);
  let big=rings.reduce((a,b)=>Math.abs(area(b))>Math.abs(area(a))?b:a);
  let cx=0,cy=0,A=0;for(let i=0;i<big.length;i++){const p=big[i],q=big[(i+1)%big.length];const c=p[0]*q[1]-q[0]*p[1];cx+=(p[0]+q[0])*c;cy+=(p[1]+q[1])*c;A+=c}A/=2;cx/=6*A;cy/=6*A;
+ if(id==='ru'){cx=97;cy=62} // 俄羅斯本體跨過換日線，重心算不準：用西伯利亞中部
  rings.forEach(r=>npt+=r.length);
  out.ctry[id]={r:enc(rings,id==='tw'||id==='sg'?100:10),q:id==='tw'||id==='sg'?100:10,c:[+cx.toFixed(1),+cy.toFixed(1)]}}
+// 國界判斷用（assemble.py 讀，不放進遊戲）：1:110m 全部國家的輪廓，判斷每一條邊的另一邊是哪一國
+{const nb=[];for(const g of geoms){const n=name(g);if(!n)continue;polysOf(t.feature(W110,g)).forEach(p=>{const r=p[0];if(r.length>=3)nb.push([n,r.map(([x,y])=>[+x.toFixed(3),+y.toFixed(3)])])})}
+ require('fs').writeFileSync(__dirname+'/nb110.json',JSON.stringify({names:Object.fromEntries(C.map(([id,n])=>[id,n])),polys:nb}))}
+// ---- 全世界的陸地國界（2026-11-25 13:18 Albert：所有國家的國界都畫）----
+// bord：一般國界（線，不是環）；bordF：有爭議、幾乎看不見的（喀什米爾三段、摩洛哥–西撒哈拉）；克里米亞那一段不畫
+// shade：全部國家分成 5 組（相鄰國家一定不同組），點最多的一組不放（用洲本來的顏色），其他 4 組各一串環
+{const FAINTP=new Set(['India|China','China|India','India|Pakistan','Pakistan|India','China|Pakistan','Pakistan|China','Morocco|W. Sahara','W. Sahara|Morocco']);
+ const isCrimea=(p,q)=>p[0]>32&&p[0]<37&&p[1]>44&&p[1]<46.4&&q[0]>32&&q[0]<37&&q[1]>44&&q[1]<46.4;
+ const lines=(filt)=>{const m=t.mesh(W110,W110.objects.countries,filt);const out=[];
+  for(const L of m.coordinates){let cur=[];for(let i=0;i<L.length;i++){if(i&&isCrimea(L[i-1],L[i])){if(cur.length>=2)out.push(cur);cur=[]}cur.push(L[i])}if(cur.length>=2)out.push(cur)}
+  return out.map(l=>{l=dp(l,.1);if(l.length===2)l=[l[0],[(l[0][0]+l[1][0])/2,(l[0][1]+l[1][1])/2],l[1]];return l})};
+ const nm=(a,b)=>name(a)+'|'+name(b);
+ out.bord=enc(lines((a,b)=>a!==b&&!FAINTP.has(nm(a,b))));
+ out.bordF=enc(lines((a,b)=>a!==b&&FAINTP.has(nm(a,b))));
+ // 上色分組（貪婪著色：相鄰國家不同組）
+ const nb=t.neighbors(geoms);const order=geoms.map((g,i)=>i).sort((i,j)=>nb[j].length-nb[i].length);const col=new Array(geoms.length).fill(-1);
+ for(const i of order){const used=new Set(nb[i].map(j=>col[j]));let c=0;while(used.has(c))c++;col[i]=c}
+ const NC=Math.max(...col)+1;if(NC>5)throw new Error('shade needs '+NC+' groups');
+ const groups=[...Array(NC)].map(()=>[]);geoms.forEach((g,i)=>{const n=name(g);if(!n||n==='Antarctica'||n==='Taiwan'||n==='Fr. S. Antarctic Lands')return;
+  let ps=polysOf(t.feature(W110,g));if(n==='Russia')ps=ps.filter(p=>!p[0].every(([x,y])=>x>32&&x<37&&y>44&&y<46.5));
+  ps.forEach(p=>{const r=simp(p[0],.1);if(r.length>=3)groups[col[i]].push(r)})});
+ // 點最多的那一組不加深淺（用洲本來的顏色），不用放進資料；其他組各一串
+ let big=0;groups.forEach((g,i)=>{if(g.reduce((a,r)=>a+r.length,0)>groups[big].reduce((a,r)=>a+r.length,0))big=i});
+ out.shade=groups.filter((g,i)=>i!==big).map(g=>enc(g));out.stat.shadeCols=NC}
 out.stat.npt=npt;
 // ---- 海洋格子（1 度）：陸地點陣 → 多起點擴散，牆擋住洋與洋的分界 ----
 const GW=360,GH=180;const land=new Uint8Array(GW*GH);

@@ -210,5 +210,74 @@ arc:()=>`${BG('#25306A')}<path d="M0 30 Q20 12 40 26 T80 20 T100 22 V40 Q80 30 6
 <circle cx="14" cy="12" r="1.2" fill="#fff"/><circle cx="84" cy="34" r="1" fill="#fff"/><circle cx="60" cy="8" r="1.2" fill="#fff"/>${SEA(70,'#3E74C8')}
 <path d="M6 74 L20 64 L84 62 L96 72 L88 82 H12Z" fill="#F4F9FF" stroke="#A8C8E8" stroke-width="1.8" stroke-linejoin="round"/>
 <path d="M30 66 Q28 50 44 48 H62 Q76 48 76 60 V66Z" fill="#F7F5EC" stroke="#B8C6D8" stroke-width="1.6"/><rect x="32" y="60" width="9" height="10" rx="4" fill="#F7F5EC" stroke="#B8C6D8" stroke-width="1.4"/><rect x="62" y="60" width="9" height="10" rx="4" fill="#F7F5EC" stroke="#B8C6D8" stroke-width="1.4"/>
-<path d="M72 52 Q80 44 88 50 Q92 56 86 60 Q80 62 74 60Z" fill="#F7F5EC" stroke="#B8C6D8" stroke-width="1.6"/><circle cx="76" cy="46" r="3" fill="#F7F5EC" stroke="#B8C6D8" stroke-width="1.4"/><circle cx="89.5" cy="54" r="1.8" fill="#2A2238"/>${EYE(82,51,1.4)}`
+<path d="M72 52 Q80 44 88 50 Q92 56 86 60 Q80 62 74 60Z" fill="#F7F5EC" stroke="#B8C6D8" stroke-width="1.6"/><circle cx="76" cy="46" r="3" fill="#F7F5EC" stroke="#B8C6D8" stroke-width="1.4"/><circle cx="89.5" cy="54" r="1.8" fill="#2A2238"/>${EYE(82,51,1.4)}`,
+// 中國：長城、大貓熊和竹子（2026-11-25 加）
+cn:()=>`${BG('#E2F2DA')}${CLOUD(80,16,.8)}<path d="M0 50 Q18 30 38 42 Q58 24 80 36 Q92 30 100 34 V82 Q100 100 82 100 H18 Q0 100 0 82Z" fill="#A9D896"/>
+<path d="M0 54 Q18 34 38 46 Q58 28 80 40 Q92 34 100 38" stroke="#D9C49A" stroke-width="7" fill="none" stroke-linejoin="round"/>
+<path d="M0 54 Q18 34 38 46 Q58 28 80 40 Q92 34 100 38" stroke="#B89A6A" stroke-width="1.6" fill="none" stroke-dasharray="3 3" transform="translate(0 -4.5)"/>
+<rect x="31" y="32" width="12" height="13" fill="#D9C49A" stroke="${OL}" stroke-width="1.5"/><path d="M29 33 L37 26 L45 33Z" fill="#C2564A" stroke="${OL}" stroke-width="1.5" stroke-linejoin="round"/><rect x="35" y="37" width="4" height="8" rx="2" fill="#8A6A4A"/>
+<rect x="73" y="26" width="11" height="12" fill="#D9C49A" stroke="${OL}" stroke-width="1.5"/><path d="M71 27 L78.5 20 L86 27Z" fill="#C2564A" stroke="${OL}" stroke-width="1.5" stroke-linejoin="round"/>
+${GROUND(80,'#8CCB7A')}
+<path d="M84 98 V40 M84 70 l7 -6 M84 56 l-6 -5" stroke="#5DA85A" stroke-width="3.4" stroke-linecap="round"/><path d="M84 52 h0 M84 66 h0 M84 82 h0" stroke="#3E8A42" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="92" cy="62" rx="6" ry="2.4" fill="#6FBF6A" transform="rotate(-30 92 62)"/><ellipse cx="76" cy="49" rx="6" ry="2.4" fill="#6FBF6A" transform="rotate(30 76 49)"/>
+<ellipse cx="46" cy="80" rx="20" ry="17" fill="#FBFAF6" stroke="${OL}" stroke-width="1.6"/>
+<ellipse cx="31" cy="92" rx="8" ry="5.5" fill="#2E2A33"/><ellipse cx="61" cy="92" rx="8" ry="5.5" fill="#2E2A33"/>
+<path d="M27 70 Q22 82 30 84 Q36 82 34 72Z M65 70 Q70 82 62 84 Q56 82 58 72Z" fill="#2E2A33"/>
+<path d="M28 66 Q46 74 64 66 L62 72 Q46 79 30 72Z" fill="#2E2A33"/>
+<circle cx="33" cy="40" r="6.5" fill="#2E2A33"/><circle cx="59" cy="40" r="6.5" fill="#2E2A33"/>
+<circle cx="46" cy="52" r="16" fill="#FBFAF6" stroke="${OL}" stroke-width="1.6"/>
+<ellipse cx="39.5" cy="51" rx="4.6" ry="5.8" fill="#2E2A33" transform="rotate(25 39.5 51)"/><ellipse cx="52.5" cy="51" rx="4.6" ry="5.8" fill="#2E2A33" transform="rotate(-25 52.5 51)"/>
+<circle cx="40" cy="50.5" r="1.9" fill="#fff"/><circle cx="52" cy="50.5" r="1.9" fill="#fff"/><circle cx="40.4" cy="50.9" r="1" fill="#1A1620"/><circle cx="51.6" cy="50.9" r="1" fill="#1A1620"/>
+<ellipse cx="46" cy="57.5" rx="3" ry="2" fill="#2E2A33"/><path d="M43.5 60.5 Q46 62.5 48.5 60.5" stroke="#2E2A33" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+<ellipse cx="36" cy="58" rx="2.6" ry="1.6" fill="#FF9DB5" opacity=".5"/><ellipse cx="56" cy="58" rx="2.6" ry="1.6" fill="#FF9DB5" opacity=".5"/>`,
+// 俄羅斯：一組大中小的木頭娃娃，後面是雪地和白樺樹（2026-11-25 加）
+ru:()=>{const doll=(cx,b,s,c,c2)=>`<g transform="translate(${cx} ${b}) scale(${s})">
+<path d="M-15 0 Q-18 -20 -11 -29 Q-14 -43 0 -45 Q14 -43 11 -29 Q18 -20 15 0Z" fill="${c}" stroke="${OL}" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M-11 -29 Q0 -24 11 -29" stroke="${OL}" stroke-width="1.2" fill="none"/>
+<ellipse cx="0" cy="-33" rx="7.5" ry="7" fill="#FBEBD8"/><path d="M-7.5 -35 Q0 -43 7.5 -35 Q4 -39 0 -39 Q-4 -39 -7.5 -35Z" fill="#7A4A2A"/>
+${EYE(-3,-33,1.3)}${EYE(3,-33,1.3)}<circle cx="-4.6" cy="-30" r="1.5" fill="#FF8AA8" opacity=".7"/><circle cx="4.6" cy="-30" r="1.5" fill="#FF8AA8" opacity=".7"/><path d="M-1.4 -29.2 Q0 -28 1.4 -29.2" stroke="#C2564A" stroke-width="1" fill="none" stroke-linecap="round"/>
+<ellipse cx="0" cy="-12" rx="9" ry="10" fill="#FFF6E6"/>${FLOWER(0,-13,3.2,c2)}<path d="M-4 -5 q4 3 8 0" stroke="#5DA85A" stroke-width="1.4" fill="none"/></g>`;
+ const birch=(x,h)=>`<rect x="${x-2.5}" y="${76-h}" width="5" height="${h}" fill="#FAFAFA" stroke="#C8CCD8" stroke-width=".8"/><path d="M${x-2.5} ${80-h*.7} h3 M${x} ${80-h*.45} h2.5 M${x-2.5} ${80-h*.25} h2" stroke="#3A3540" stroke-width="1.5"/><ellipse cx="${x}" cy="${78-h}" rx="9" ry="7" fill="#F2C85A" opacity=".85"/>`;
+ return `${BG('#E3ECFA')}${CLOUD(22,16,.8)}${birch(12,46)}${birch(88,52)}${birch(76,38)}<path d="M0 74 Q30 68 60 74 T100 72 V82 Q100 100 82 100 H18 Q0 100 0 82Z" fill="#FFFFFF"/><path d="M0 74 Q30 68 60 74 T100 72" stroke="#D8E2F2" stroke-width="2" fill="none"/>
+${doll(70,92,.62,'#4F7FD6','#FFD45A')}${doll(30,92,.78,'#F2B33A','#E2543B')}${doll(50,94,1,'#E2543B','#FFD45A')}`},
+// 芬蘭：雪地小木屋、樅樹、極光（聖誕老人村用小木屋表示，不畫人物）
+fi:()=>{const fir=(x,b,h)=>`<path d="M${x} ${b-h} L${x+h*.36} ${b-h*.45} H${x+h*.18} L${x+h*.44} ${b-h*.08} H${x-h*.44} L${x-h*.18} ${b-h*.45} H${x-h*.36}Z" fill="#3E8F6A" stroke="#2E6A50" stroke-width="1.2" stroke-linejoin="round"/><path d="M${x-h*.3} ${b-h*.5} Q${x} ${b-h*.6} ${x+h*.3} ${b-h*.5}" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="${x-2}" y="${b-h*.08}" width="4" height="${h*.1}" fill="#7A5A3A"/>`;
+ return `${BG('#22306A')}<circle cx="16" cy="12" r="1.2" fill="#fff"/><circle cx="88" cy="10" r="1" fill="#fff"/><circle cx="60" cy="6" r="1.2" fill="#fff"/><circle cx="34" cy="26" r=".9" fill="#fff"/>
+<path d="M0 34 Q18 14 38 28 T76 18 T100 20 V34 Q80 26 62 36 T24 38 T0 44Z" fill="#6FE8B4" opacity=".6"/><path d="M0 24 Q26 8 50 20 T100 10 V20 Q74 16 52 28 T0 32Z" fill="#9FF0C8" opacity=".35"/>
+<path d="M0 70 Q30 62 60 68 T100 66 V82 Q100 100 82 100 H18 Q0 100 0 82Z" fill="#F4F8FF"/>
+${fir(14,76,30)}${fir(88,74,26)}
+<rect x="34" y="54" width="34" height="24" fill="#B9773F" stroke="${OL}" stroke-width="1.6"/><path d="M34 60 H68 M34 66 H68 M34 72 H68" stroke="#9A5E2E" stroke-width="1"/>
+<path d="M29 56 L51 36 L73 56Z" fill="#D8584A" stroke="${OL}" stroke-width="1.6" stroke-linejoin="round"/><path d="M29 56 L51 36 L73 56 L70 58 L51 41 L32 58Z" fill="#fff"/>
+<rect x="38" y="60" width="10" height="9" rx="1.5" fill="#FFD86A" stroke="${OL}" stroke-width="1.2"/><path d="M43 60 V69 M38 64.5 H48" stroke="${OL}" stroke-width="1"/>
+<path d="M54 78 V64 Q59 60 64 64 V78Z" fill="#7A4A2A" stroke="${OL}" stroke-width="1.2"/><circle cx="62" cy="71" r="1" fill="#FFD86A"/>
+<rect x="58" y="38" width="6" height="10" fill="#8A6A5A" stroke="${OL}" stroke-width="1.2"/><circle cx="62" cy="33" r="3" fill="#fff" opacity=".7"/><circle cx="66" cy="27" r="2.4" fill="#fff" opacity=".5"/>`},
+// 土耳其：熱氣球飛在尖尖的石頭山上
+tr:()=>{const bal=(x,y,s,c,c2)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 -16 Q14 -16 14 -2 Q14 8 4 14 H-4 Q-14 8 -14 -2 Q-14 -16 0 -16Z" fill="${c}" stroke="${OL}" stroke-width="1.4"/><path d="M0 -16 Q6 -2 4 14 M0 -16 Q-6 -2 -4 14" stroke="${c2}" stroke-width="3" fill="none"/><path d="M-4 14 L-3 19 M4 14 L3 19" stroke="${OL}" stroke-width="1"/><rect x="-4" y="19" width="8" height="6" rx="1.5" fill="#A86F4A" stroke="${OL}" stroke-width="1.2"/></g>`;
+ const rock=(x,b,h,w)=>`<path d="M${x-w} ${b} Q${x-w*.6} ${b-h*.7} ${x-w*.25} ${b-h} Q${x} ${b-h*1.12} ${x+w*.25} ${b-h} Q${x+w*.6} ${b-h*.7} ${x+w} ${b}Z" fill="#F0C9A0" stroke="#C9976A" stroke-width="1.2"/><path d="M${x-w*.3} ${b-h} Q${x} ${b-h*1.3} ${x+w*.3} ${b-h}Z" fill="#B98A62"/>`;
+ return `${BG('#FFE7D2')}${SUN(84,16,7,'#FFC24A')}${bal(28,30,1,'#E2543B','#FFD45A')}${bal(66,22,.7,'#5B7FD6','#FFFFFF')}${bal(86,44,.5,'#6FBF6A','#FFD45A')}${bal(46,50,.45,'#B48CFF','#FFFFFF')}
+<path d="M0 82 Q30 74 60 80 T100 78 V82 Q100 100 82 100 H18 Q0 100 0 82Z" fill="#E8B886"/>${rock(18,86,26,9)}${rock(38,86,34,10)}${rock(62,86,22,8)}${rock(82,86,30,9)}
+<path d="M0 90 Q50 84 100 92 V82 Q100 100 82 100 H18 Q0 100 0 82Z" fill="#D9A26E"/>`},
+// 阿聯酋：沙漠、很高很高的大樓、駱駝（不是哪一棟真的大樓）
+ae:()=>`${BG('#DDEEFF')}${SUN(18,18,8,'#FFC24A')}${CLOUD(84,30,.6)}
+<path d="M58 84 L60 30 L62 30 L63 14 L64 30 L66 30 L68 84Z" fill="#C8D6EA" stroke="${OL}" stroke-width="1.4" stroke-linejoin="round"/><path d="M60.5 44 H67.5 M60 58 H68 M59.5 72 H68.5" stroke="#8FA8CC" stroke-width="1.2"/>
+<path d="M44 84 V56 H54 V84Z M72 84 V62 H82 V84Z" fill="#AFC0DA" stroke="${OL}" stroke-width="1.3"/><path d="M47 62 h4 M47 70 h4 M75 68 h4 M75 76 h4" stroke="#fff" stroke-width="2"/>
+<path d="M0 80 Q20 66 44 78 Q66 68 100 80 V82 Q100 100 82 100 H18 Q0 100 0 82Z" fill="#F2CF8A"/><path d="M0 90 Q34 80 62 90 T100 88 V82 Q100 100 82 100 H18 Q0 100 0 82Z" fill="#E8B866"/>
+<path d="M14 90 V80 M18 90 V80 M28 90 V80 M32 90 V80" stroke="#B9803F" stroke-width="2.6" stroke-linecap="round"/><path d="M12 82 Q12 72 20 72 Q22 66 26 72 Q34 72 34 82Z" fill="#D9A050" stroke="${OL}" stroke-width="1.3"/>
+<path d="M33 78 Q38 72 38 64 Q38 60 42 60 Q45 61 44 64 L40 65 Q40 74 35 80Z" fill="#D9A050" stroke="${OL}" stroke-width="1.3" stroke-linejoin="round"/>${EYE(41,62,1)}`,
+// 坦尚尼亞：山頂有雪的大山、草原的樹、小獅子
+tz:()=>`${BG('#FFF0D6')}${SUN(84,18,8,'#FFC24A')}<path d="M0 66 L24 40 Q34 30 50 30 Q66 30 76 40 L100 66Z" fill="#9C8CB8"/><path d="M33 33 Q40 29 50 29 Q60 29 67 33 L62 38 L56 34 L50 39 L44 34 L38 38Z" fill="#fff"/>
+${GROUND(70,'#D8CF7A')}<path d="M80 74 V56" stroke="#7A5A3A" stroke-width="3.2"/><ellipse cx="80" cy="54" rx="16" ry="5" fill="#6FA85A"/><ellipse cx="72" cy="52" rx="7" ry="3" fill="#7DB868"/>
+<ellipse cx="38" cy="86" rx="15" ry="8" fill="#E8A84A" stroke="${OL}" stroke-width="1.4"/><path d="M26 90 V96 M33 92 V97 M44 92 V97 M50 90 V96" stroke="${OL}" stroke-width="3" stroke-linecap="round"/><path d="M53 84 Q60 80 58 74" stroke="#E8A84A" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="58" cy="73" r="2.4" fill="#A8642A"/>
+<circle cx="26" cy="74" r="12" fill="#B8682E"/><circle cx="26" cy="75" r="8" fill="#F2BC5A" stroke="${OL}" stroke-width="1.2"/>${EYE(23,73,1.2)}${EYE(29,73,1.2)}<ellipse cx="26" cy="77.5" rx="2" ry="1.4" fill="#5A3A2A"/><path d="M24 79.5 Q26 81 28 79.5" stroke="#5A3A2A" stroke-width="1" fill="none"/>`,
+// 蒙古：圓圓的蒙古包、大草原、小馬（不放人物、不放真的地標）
+mn:()=>`${BG('#DDEFFF')}${SUN(82,18,8,'#FFC24A')}${CLOUD(26,20,.8)}<path d="M0 52 Q26 40 52 48 Q78 40 100 48 V100 H0Z" fill="#B9DE8E"/>
+${GROUND(64,'#9CD27A')}
+<path d="M12 74 V60 Q12 52 30 50 Q48 52 48 60 V74Z" fill="#FBF6EA" stroke="${OL}" stroke-width="1.6"/><path d="M8 61 Q30 36 52 61 Q30 54 8 61Z" fill="#F4EEDF" stroke="${OL}" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M12 64 H48" stroke="#E2543B" stroke-width="2.6"/><path d="M12 68 H48" stroke="#5B7FD6" stroke-width="1.4"/><circle cx="30" cy="44" r="2.4" fill="#E2543B" stroke="${OL}" stroke-width="1"/>
+<path d="M25 74 V63 Q30 59 35 63 V74Z" fill="#E2543B" stroke="${OL}" stroke-width="1.3"/><path d="M27.5 66 h5 M27.5 70 h5" stroke="#FFD45A" stroke-width="1.2"/>
+<path d="M60 86 V94 M66 87 V95 M78 87 V95 M84 86 V94" stroke="#7A4A2A" stroke-width="3.4" stroke-linecap="round"/>
+<ellipse cx="72" cy="82" rx="15" ry="8" fill="#B9773F" stroke="${OL}" stroke-width="1.4"/>
+<path d="M82 78 Q86 68 88 62 L95 64 Q93 72 88 82Z" fill="#B9773F" stroke="${OL}" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="M86 60 Q89 54 96 58 Q98 63 95 66 Q90 66 86 63Z" fill="#B9773F" stroke="${OL}" stroke-width="1.4"/><path d="M88 57 l1 -4 2 4Z" fill="#B9773F" stroke="${OL}" stroke-width="1"/>
+<path d="M85 61 Q81 66 82 74 M84 64 Q80 70 81 76" stroke="#5A3A2A" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M57 80 Q52 84 54 92" stroke="#5A3A2A" stroke-width="3" fill="none" stroke-linecap="round"/>${EYE(91,60,1.1)}`
 };
