@@ -1,0 +1,10 @@
+const fs=require('fs');const {chromium}=require('playwright');
+const MOCK=fs.readFileSync(__dirname+'/../iapmock.js','utf8');
+const [W,H]=(process.argv[2]||'820x1180').split('x').map(Number);
+(async()=>{const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:W,height:H},deviceScaleFactor:1,hasTouch:true,serviceWorkers:'block'});
+ const p=await ctx.newPage();await p.route(/promo\.json/,r=>r.fulfill({status:404,body:''}));
+ await p.addInitScript(MOCK);await p.goto('http://127.0.0.1:8982/index.html');
+ await p.waitForFunction(()=>typeof window.__ev==='function'&&document.querySelector('#screen'),null,{timeout:90000});await p.waitForTimeout(4000);
+ await p.screenshot({path:`s0_${W}.png`});
+ const t=await p.evaluate(()=>[...document.querySelectorAll('button,a,[role=button]')].filter(e=>e.offsetParent).map(e=>e.id+'|'+e.innerText.replace(/\s+/g,' ').slice(0,30)));
+ console.log(JSON.stringify(t));await b.close()})();

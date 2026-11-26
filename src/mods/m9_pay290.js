@@ -40,6 +40,15 @@ const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
   ul.innerHTML=L.map(t=>`<li>${t}</li>`).join('')}
  // promo 在購買列加的「建議」拿掉（只剩一列）
  card.querySelectorAll('.prm52rec').forEach(x=>x.remove());
+ // 5.4.1（Apple 2.1(b) 11/26：審查員找不到購買）：頁首就放購買鈕，不用捲到最底；shop() 在 hook 之後才綁 [data-buy]，所以這顆也走同一個購買流程
+ if(!all&&!card.querySelector('.pay290top')){const box=document.createElement('div');box.className='pay290top';
+  const anchor=lead||card.querySelector('h2');
+  if(p){box.innerHTML=`<button class="btn" data-buy="full">購買「完整版」 ${esc(p)}</button><small>第六章以後全部章節，一次購買永久使用；下面有內容介紹、恢復購買和兌換碼。</small>`}
+  else{box.innerHTML=`<small>現在連不上 App Store，暫時無法購買。</small><button class="btn2 small pay290retry">重新連接 App Store</button>`;
+   box.querySelector('.pay290retry').onclick=()=>{try{ov.remove();window.__iapShopRaw()}catch(e){}}}
+  if(anchor)anchor.after(box)}
+ // 頁底沒有價格時也給重試鍵
+ card.querySelectorAll('.iaprow .na').forEach(n=>{if(n.nextElementSibling&&n.nextElementSibling.classList.contains('pay290retry'))return;const b=document.createElement('button');b.className='btn2 small pay290retry';b.textContent='重新連接 App Store';b.onclick=()=>{try{ov.remove();window.__iapShopRaw()}catch(e){}};n.after(b)});
 }catch(e){console.log('pay290 shop',e)}return r}}
 /* ---------- 3. 遊戲設定的「購買」區塊 ---------- */
 if(typeof parentPanel==='function'){const _pp=parentPanel;parentPanel=function(){const r=_pp.apply(this,arguments);try{
@@ -53,6 +62,6 @@ if(typeof parentPanel==='function'){const _pp=parentPanel;parentPanel=function()
 try{if(typeof VLOG!=='undefined')VLOG.forEach(v=>{if(v&&typeof v[2]==='string'&&/合購/.test(v[2])){
  v[2]=v[2].replace('家長專區新增「第二十一～四十章合購」。','').replace('App 版購買畫面新增「第六～三十章合購」。','App 版購買畫面調整。')}})}catch(e){}
 /* ---------- 5. 樣式 ---------- */
-const st=document.createElement('style');st.textContent=`.iaprow.pay290{flex-wrap:wrap}.iaprow.pay290 span{flex:1 1 200px;min-width:0}.iaprow.pay290 small{opacity:.8;font-size:13px;line-height:1.5}.iaprow.pay290 i{font-weight:700}`;document.head.appendChild(st);
+const st=document.createElement('style');st.textContent=`.iaprow.pay290{flex-wrap:wrap}.iaprow.pay290 span{flex:1 1 200px;min-width:0}.iaprow.pay290 small{opacity:.8;font-size:13px;line-height:1.5}.iaprow.pay290 i{font-weight:700}.pay290top{display:flex;flex-direction:column;align-items:center;gap:6px;margin:10px 0 6px;padding:12px;border-radius:16px;background:rgba(255,217,138,.12);border:2px solid rgba(255,217,138,.55)}.pay290top .btn{min-width:240px;font-size:20px}.pay290top small{opacity:.85;font-size:13px;line-height:1.5;text-align:center}.iaprow .na{opacity:.9!important;font-size:15px!important}`;document.head.appendChild(st);
 window.__pay290={hasFull,allOpen,ver:'2026-11-24'};
 }catch(e){window.__pay290err=String(e&&e.stack||e);console.log('pay290',e)}}).toString()+')()')})();
