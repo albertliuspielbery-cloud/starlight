@@ -4,6 +4,6 @@
 - patches/*.py：依檔名順序對底做文字取代
 - mods/*.js：依檔名順序接在主程式最後（用 window.__ev 進主程式範圍）
 - cfg.json：版本號、版本紀錄、sw 快取名、語音索引
-- build.py：建置 → out/web、out/app/www（用 repo app/mkapp.py）
+- build.py：建置（字型若顯示「新字 N」會重做子集，雜湊不變屬正常） → out/web、out/app/app/www（用 repo app/mkapp.py）
 - qa/globe/src.js → qa/globe/assemble.py 組出 mods/m8_globe.js；qa/art7/src → mk.sh 組出 mods/m7b_s7art.js
 - 語音包在 repo voice/（新的 pack 由 tools/mkpack.py 產生）。錄音金鑰不在這裡，也不要放進來。

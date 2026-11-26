@@ -36,7 +36,7 @@ jobs:
             --screenshots_path appstore/screenshots \
             --skip_binary_upload true --skip_app_version_update false \
             --overwrite_screenshots true \
-            --submit_for_review false --automatic_release false \
+            --submit_for_review false --automatic_release true \
             --run_precheck_before_submit false \
             --force true 2>&1 | tee "$RUNNER_TEMP/deliver.log" || {
               sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/deliver.log" | grep -v "^\s*from " | sed -E 's#^\s*/[^ ]+\.rb:[0-9]+:in [^:]+: ##' | grep -v "Looking for related\|github.com/fastlane\|fastlane env\|Found no similar\|^\s*$" | tail -30 > "$RUNNER_TEMP/tail.txt"
