@@ -20,6 +20,5 @@ const unhl=p=>p.evaluate(()=>document.querySelectorAll('.__hl').forEach(x=>x.rem
  await p.getByText('完整版介紹').click();await p.waitForTimeout(4000);
  await p.screenshot({path:O+`4_shop_top_${W}.png`});
  const info=await p.evaluate(()=>{const c=document.querySelector('.iapcard');return c?[...c.querySelectorAll('.iaprow')].map(r=>r.innerText.replace(/\s+/g,' ')):document.body.innerText.slice(0,300)});console.log('shop rows',JSON.stringify(info));
- await p.evaluate(()=>{const c=document.querySelector('.iapcard');let el=c;while(el&&!(el.scrollHeight>el.clientHeight+2&&/(auto|scroll)/.test(getComputedStyle(el).overflowY)))el=el.parentElement;if(el)el.scrollTop=el.scrollHeight;else c&&c.scrollIntoView({block:'end'})});
- await p.waitForTimeout(800);await hl(p,'[data-buy="full"]');await p.screenshot({path:O+`A4_${W}.png`});
+ await p.waitForTimeout(800);await hl(p,'.pay290top [data-buy="full"]');await p.screenshot({path:O+`A4_${W}.png`});
  await b.close()})();
