@@ -1,0 +1,55 @@
+// UI/UX 總檢：量按鈕大小、字級、返回鍵位置（只讀，不改遊戲）。node measure_ui.js padL|ip|se|padP|landip [shots=0|1]
+// 輸出 extra/measure_<尺寸>.json；shots=1 時另存截圖到 shots/extra/<尺寸>_<畫面>.png
+const L=require('../s7/lib');const fs=require('fs');
+const VPS={padL:{width:1180,height:820},ip:{width:390,height:844},se:{width:375,height:667},padP:{width:820,height:1180},landip:{width:844,height:390}};
+const vn=process.argv[2]||'padL';const doShot=process.argv[3]==='1';const vp=VPS[vn];
+const OUT=__dirname+'/shots/extra/';const JOUT=__dirname+'/extra/';fs.mkdirSync(OUT,{recursive:true});fs.mkdirSync(JOUT,{recursive:true});
+const MEASURE=()=>{const W=innerWidth,H=innerHeight;
+ const vis=e=>{const r=e.getBoundingClientRect();const s=getComputedStyle(e);return r.width>2&&r.height>2&&s.visibility!=='hidden'&&s.display!=='none'&&+s.opacity>0.05&&r.bottom>0&&r.right>0&&r.top<H&&r.left<W};
+ const txt=e=>(e.textContent||e.getAttribute('aria-label')||e.title||'').trim().replace(/\s+/g,' ').slice(0,16);
+ const top=e=>{const r=e.getBoundingClientRect();const x=Math.min(W-1,Math.max(0,r.left+r.width/2)),y=Math.min(H-1,Math.max(0,r.top+r.height/2));const t=document.elementFromPoint(x,y);return !!t&&(t===e||e.contains(t))};
+ const cand=[...document.querySelectorAll('button,[role=button],.btn,.btn2,a,[onclick],[data-v],*')].filter(e=>{if(!vis(e))return false;const s=getComputedStyle(e);const pc=e.parentElement?getComputedStyle(e.parentElement).cursor:'';return (e.tagName==='BUTTON'||s.cursor==='pointer')&&!(pc==='pointer'&&e.tagName!=='BUTTON'&&e.parentElement.tagName!=='BODY')});
+ const seen=new Set();const taps=[];
+ cand.forEach(e=>{if(seen.has(e))return;seen.add(e);if(e.tagName!=='BUTTON'&&e.closest('button')&&e.closest('button')!==e)return;const r=e.getBoundingClientRect();const s=getComputedStyle(e);
+  taps.push({t:txt(e),id:e.id||'',c:(typeof e.className==='string'?e.className:'').trim().split(/\s+/).slice(0,3).join('.'),tag:e.tagName.toLowerCase(),x:Math.round(r.left),y:Math.round(r.top),w:Math.round(r.width),h:Math.round(r.height),
+   fs:parseFloat(s.fontSize),rad:s.borderRadius.split(' ')[0],bg:(s.backgroundImage!=='none'?s.backgroundImage.slice(0,60):s.backgroundColor),bd:s.borderTopWidth+' '+s.borderTopColor,top:top(e)})});
+ const tn=[...document.querySelectorAll('body *')].filter(e=>vis(e)&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim().length>0));
+ const texts=tn.map(e=>{const s=getComputedStyle(e);const t=[...e.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim();return {t:t.slice(0,24),n:t.replace(/\s/g,'').length,fs:parseFloat(s.fontSize),ff:s.fontFamily.split(',')[0].replace(/["']/g,''),col:s.color,fw:s.fontWeight,top:top(e)}});
+ const backs=taps.filter(b=>/回|返回|←|離開|關閉|^✕$|^×$/.test(b.t)||/back|home|close|x$/i.test(b.id));
+ const ov=[...document.querySelectorAll('.overlay')].filter(vis).length;
+ return {W,H,taps,texts,backs,ov,screen:(window.__ev?__ev('S.screen'):'?')}};
+(async()=>{const b=await L.chromium.launch();const errs=[];
+ const sv=L.save40('princess',{chDone:45,ch:44,progs:Array(45).fill(10),wallet:500,tutWard:1,name:'小美'});
+ const {page}=await L.open(b,{ver:'app',owned:['full'],errs,vp,save:sv,v2:{s3pw:1,gateTour:1}});
+ const ev=c=>page.evaluate(x=>__ev(x),c);
+ await ev(`(()=>{S.rest=0;TM.since=0;TM.restUntil=0;V2.dayLimit=0})()`).catch(()=>{});
+ const RES={};
+ const grab=async(n,w=700)=>{await page.waitForTimeout(w);if(doShot)await page.screenshot({path:OUT+vn+'_'+n+'.png'});try{RES[n]=await page.evaluate(MEASURE)}catch(e){RES[n]={err:String(e).slice(0,120)}}console.log('m',n,RES[n].screen,(RES[n].taps||[]).length)};
+ const clean=()=>ev(`(()=>{hush();document.querySelectorAll('.overlay').forEach(o=>o.remove());going=false;S.pmode=null})()`).catch(()=>{});
+ const ovClick=()=>page.evaluate(()=>{const o=document.querySelector('.stage .overlay');if(o){const x=o.querySelector('button');if(x)x.click()}});
+ const T=async(n,f)=>{try{await f()}catch(e){console.log('FAIL',n,String(e).slice(0,160))}};
+ const full=vn==='padL'||vn==='ip';
+ await T('title',async()=>{await clean();await ev(`go('title')`);await grab('title',1800)});
+ await T('world',async()=>{await clean();await ev(`go('world')`);await grab('world',1500)});
+ for(const ch of [5,41])await T('map'+ch,async()=>{await clean();await ev(`(()=>{setCh(${ch-1});S.prog=6;go('map')})()`);await grab('map_ch'+ch,1800)});
+ for(const ch of (full?[1,5,8,19,31,41,42,43]:[1,31,41,42]))await T('q'+ch,async()=>{await clean();await ev(`(()=>{setCh(${ch-1});S.prog=10;S.diff='mid';startLevel(2)})()`);await page.waitForTimeout(1300);
+  if(ch===41)await grab('intro_ch41',200);await ovClick();await grab('q_ch'+ch,1600)});
+ await T('lvdone',async()=>{await clean();await ev(`(()=>{setCh(4);S.prog=3;S.diff='mid';startLevel(3)})()`);await page.waitForTimeout(1300);await ovClick();await page.waitForTimeout(800);
+  await ev(`(()=>{S.q=S.qs.length-1;S.lock=false;right(document.querySelector('.stage .play')||document.body,[])})()`);await grab('lvdone_ch5',6000)});
+ await T('seg',async()=>{await clean();await ev(`(()=>{setCh(40);go('story19',{mode:'seg',c:40,k:0})})()`);await grab('storyseg_ch41',1800)});
+ await T('story5',async()=>{await clean();await ev(`(()=>{setCh(4);go('story')})()`);await grab('story_ch5',2000)});
+ await T('chend10',async()=>{await clean();await ev(`(()=>{setCh(9);S.prog=10;go('chend')})()`);
+   for(let i=0;i<30&&await ev('S.screen')!=='chend';i++){await page.evaluate(()=>{const s=[...document.querySelectorAll('button')].find(b=>/跳過/.test(b.textContent)&&b.offsetParent);if(s)s.click()});await page.waitForTimeout(400)}
+   await grab('chend_ch10',2500)});
+ await T('chend41',async()=>{await clean();await ev(`(()=>{setCh(40);S.prog=10;go('chend')})()`);await grab('chend_ch41_movie',2500)});
+ const go1=async(n,code,w=2200)=>T(n,async()=>{await clean();await ev(`(()=>{S.from='park';${code}})()`);await grab(n,w)});
+ await go1('park',`go('park')`);
+ await T('park_clean',async()=>{await page.evaluate(()=>{document.querySelectorAll('.overlay').forEach(o=>o.remove())});await grab('park_clean',500)});
+ const games=full?['cashier','floatsink','farm','recyclesort','dance','idolstage','eact','rocket26','fossil26','chef5','piggy5','vine6','photo8','globe8','storyhouse','coloring','album','dex','pethouse','room','wardrobe','practice']:['cashier','chef5','rocket26','photo8','globe8','storyhouse','coloring','dex','pethouse','room','wardrobe','practice'];
+ for(const g of games)await go1(g,`go('${g}')`,3500);
+ await T('room_clean',async()=>{await clean();await ev(`(()=>{S.from='park';go('room')})()`);await page.waitForTimeout(3000);await page.evaluate(()=>{document.querySelectorAll('.overlay').forEach(o=>o.remove())});await grab('room_clean',400)});
+ await T('book',async()=>{await clean();await ev(`(()=>{S.from='park';go('storyhouse')})()`);await page.waitForTimeout(1500);await page.evaluate(()=>{const c=document.querySelector('#screen .scover[data-i]');c&&c.click()});await page.waitForTimeout(1200);await page.evaluate(()=>{const c=document.querySelector('#screen .scover[data-i]');c&&c.click()});await grab('book_open',2500)});
+ await T('color1',async()=>{await clean();await ev(`(()=>{S.from='park';go('coloring')})()`);await page.waitForTimeout(1500);await page.evaluate(()=>{const c=document.querySelector('#screen .cpick, #screen [data-pic], #screen .ccard');c&&c.click()});await grab('coloring_open',2000)});
+ await T('parent',async()=>{await clean();await ev(`(()=>{go('title');setTimeout(()=>{try{parentPanel()}catch(e){}},500)})()`);await grab('parent',2500)});
+ fs.writeFileSync(JOUT+'measure_'+vn+'.json',JSON.stringify(RES));
+ console.log('errs',JSON.stringify(errs.filter(e=>!/promo\.json|Failed to load/.test(e)).slice(0,8)));await b.close()})();
