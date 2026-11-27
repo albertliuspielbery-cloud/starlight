@@ -16,7 +16,7 @@ async function clickThrough(page,until,max=60){
    // 獎勵小遊戲（魔法氣球要戳三顆）：點過的不要一直點同一個（以前會卡在第一顆已戳破的氣球上）
    const CK=window.__ctClicked=window.__ctClicked||new WeakSet();const fresh=e=>vis(e)&&!CK.has(e)&&!e.classList.contains('popd')&&!(e.dataset&&e.dataset.p);
    const pick=(list)=>list.find(fresh)||list.find(vis);
-   if(ov){b=pick([...ov.querySelectorAll('#next,#cont,#ok,#certok,#ck,.btn')])||pick([...ov.querySelectorAll('button,[role=button]')])||[...ov.querySelectorAll('.rbody *')].find(e=>fresh(e)&&typeof e.onclick==='function')||[...ov.querySelectorAll('.rbody *')].find(e=>fresh(e)&&getComputedStyle(e).cursor==='pointer')}
+   if(ov){b=pick([...ov.querySelectorAll('.g22cont')])||pick([...ov.querySelectorAll('#next,#cont,#ok,#certok,#ck,.btn')])||pick([...ov.querySelectorAll('button,[role=button]')])||[...ov.querySelectorAll('.rbody *')].find(e=>fresh(e)&&typeof e.onclick==='function')||[...ov.querySelectorAll('.rbody *')].find(e=>fresh(e)&&getComputedStyle(e).cursor==='pointer')}
    if(b)CK.add(b);
    if(!b){b=[...document.querySelectorAll('#st19skip,#next,#go,.st19next,.btn')].find(vis)}
    if(b){if(typeof b.click==='function')b.click();else b.dispatchEvent(new MouseEvent('click',{bubbles:true}));b.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}))}else document.body.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}))});
@@ -58,6 +58,7 @@ async function playLevel(page,ch,lv){
    // 過關、獎勵、拆段故事 → 回到地圖（第 10 關是章末）
    let seg=0;const okEnd=await clickThrough(page,async st=>{if(st.scr==='story19')seg++;return lv===9?st.scr==='chend'||(st.scr==='map'&&!st.ov&&ch!==45):(st.scr==='map'&&!st.ov)});if(seg)segN++;
    const st=await ev(page,`({scr:S.screen,prog:S.prog,done:S.chDone,seg:!!document.querySelector('.st19.m-seg')})`);
+   if([2,5,8].includes(lv)){const g=await ev(page,`(()=>{try{const g=(V2.g22&&V2.g22.got)||{};return ['${ch}-${lv+1}','${ch-1}-${lv+1}'].map(k=>g[k]).find(Boolean)||''}catch(e){return ''}})()`);ok(`第${ch}章第${lv+1}關 遊樂園禮物`,!!g,g)}
    if(!okEnd){const dd=await ev(page,`({q:S.q,n:S.qs.length,code:String(S.qs[S.q]),lock:S.lock,ov:[...document.querySelectorAll('.overlay')].map(o=>o.textContent.replace(/\\s+/g,' ').slice(0,80)),wr:(()=>{try{return __WR.state()&&{live:__WR.state().live,phase:__WR.state().phase}}catch(e){return null}})()})`);ok(`第${ch}章第${lv+1}關 過關流程`,false,JSON.stringify(st)+' '+JSON.stringify(dd))}}
   ok(`第${ch}章 拆段故事有出現`,segN>0,'段數 '+segN);segN=0;
   const d=await ev(page,`({done:S.chDone,owned:S.owned.slice(-4)})`);ok(`第${ch}章完成`,d.done>=ch,JSON.stringify(d));

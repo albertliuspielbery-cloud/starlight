@@ -21,7 +21,7 @@ s=s[:j]+body+s[j:]
 ver=cfg.get('version');vlog=cfg.get('vlog')
 if ver:
     assert s.count("const APP_VERSION='")>=1
-    s=re.sub(r"const APP_VERSION='[^']*';\nconst VLOG=\[",lambda m:f"const APP_VERSION='{ver}';\nconst VLOG=["+(json.dumps([ver,cfg.get('date',''),vlog],ensure_ascii=False)+',' if vlog else ''),s,count=1)
+    s=re.sub(r"const APP_VERSION='[^']*';\nconst VLOG=\[",lambda m:f"const APP_VERSION='{ver}';\nconst VLOG=["+''.join(json.dumps(e,ensure_ascii=False)+',' for e in ([[ver,cfg.get('date',''),vlog]] if vlog else [])+cfg.get('vlog_prev',[])),s,count=1)
 vi=os.environ.get('VI') or cfg.get('voice_index')
 if vi:
     n0=s.count("VOICE_INDEX='index-");s=re.sub(r"VOICE_INDEX='index-[0-9a-f]+\.json'",f"VOICE_INDEX='{vi}'",s);assert n0>=1

@@ -1,7 +1,7 @@
 #!/bin/bash
 # 把 App 原始碼（建置來源）存進 repo 的 src/：base、mods、patches、lines、tools、font、dev、ref、cfg、build.py、美術與地球儀原始檔、測試腳本（不含截圖、輸出、語音包）
 set -e
-S=/home/claude/w/s7; D=/home/claude/w/repo/src
+S=${SRC:-/home/claude/w/s7}; D=/home/claude/w/repo/src
 mkdir -p $D
 rm -rf $D/*; cd $S
 for x in base mods patches lines tools font dev ref cfg.json build.py qa/art7/src; do mkdir -p $D/$(dirname $x); cp -a $x $D/$x; done
