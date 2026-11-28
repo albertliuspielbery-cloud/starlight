@@ -87,5 +87,5 @@ SC.home50b={nm:'廚房',
    bad:K=>PL('M580 326 q10 -10 20 0 q10 10 20 0 M584 344 q10 -10 20 0 q10 10 20 0','#9AD07A',3,'opacity=".9"')+person(K,630,470,{s:.8,pose:'cover',shirt:'#FFB0D0',flip:true}),
    good:K=>person(K,630,470,{s:.8,pose:'wave',shirt:'#FFB0D0',flip:true})+G(600,362,R(-40,-18,80,26,'#FFFFFF',10)+TX(0,0,'告訴大人！','13','#C8506A'))},
   {id:'sos',k:'ok',x:730,y:170,r:44,why:'冰箱上貼著緊急電話，這樣很好喔！',art:K=>G(730,168,R(-30,-34,60,64,'#FFFBE0',4)+C(0,-36,5,'#FF6A8A')+TX(0,-10,'119','17','#E04A4A','font-family="var(--latin,sans-serif)"')+TX(0,16,'110','17','#3A5AB8','font-family="var(--latin,sans-serif)"'))},
-  {id:'sink',k:'ok',x:240,y:256,r:40,why:'用完的水龍頭關好了，這樣很好喔！',art:K=>''}
+  {id:'sink',k:'ok',x:240,y:256,r:40,why:'用完水，水龍頭關好了，這樣很好喔！',art:K=>''}
  ]};

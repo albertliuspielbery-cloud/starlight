@@ -7,7 +7,7 @@ rm -rf $D/*; cd $S
 for x in base mods patches lines tools font dev ref cfg.json build.py qa/art7/src; do mkdir -p $D/$(dirname $x); cp -a $x $D/$x; done
 find qa -maxdepth 2 \( -name '*.js' -o -name '*.py' -o -name '*.sh' \) -size -300k | while read f; do mkdir -p $D/$(dirname $f); cp -a $f $D/$f; done
 cp -a qa/globe/geo.json $D/qa/globe/
-rm -f $D/font/hun.woff2
+rm -f $D/font/hun.woff2 $D/font/tw-*.woff2
 cat > $D/README.md <<'R'
 # 星光小冒險 App 原始碼（星光工作室 Starlight Studio）
 只出 App 版（2026-11-24 起網頁版不再更新）。

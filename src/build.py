@@ -28,7 +28,7 @@ if vi:
 # 4. 字型：出現新字才重做
 dep=set(open(H/'font/deployed.txt',encoding='utf-8').read())
 ch=set(c for c in s if ord(c)>=0x2000 and not (0x1F000<=ord(c)<=0x1FFFF) and ord(c) not in range(0x2600,0x27C0) and ord(c)!=0xFE0F)
-ch|=set(chr(c) for c in range(0x20,0x7F))|set(chr(c) for c in range(0x3100,0x3130))|set('ˊˇˋ˙，。！？、：；「」『』（）～…—．·')
+ch|=set(chr(c) for c in range(0x20,0x7F))|set(chr(c) for c in range(0x3100,0x3130))|set('ˊˇˋ˙，。！？、：；「」『』（）～…—．·×°©')
 old=re.search(r'font-hun-([0-9a-f]{8})\.woff2',s).group(0)
 W=H/'out/web';W.mkdir(parents=True,exist_ok=True)
 if ch<=dep:
@@ -39,6 +39,16 @@ else:
     hh=hashlib.md5(open(H/'font/hun.woff2','rb').read()).hexdigest()[:8];hun=f'font-hun-{hh}.woff2'
     shutil.copy(H/'font/hun.woff2',W/hun);print('新字',len(ch-dep),'→',hun)
 s=s.replace(old,hun)
+# 4b. 台灣標準字形：漢字另做「源泉圓體 TW M」子集（注音、英文、標點仍用粉圓）
+if 'font-tw-PLACEHOLDER.woff2' in s:
+    han=''.join(sorted(c for c in (ch|dep) if 0x3400<=ord(c)<=0x4DBF or 0x4E00<=ord(c)<=0x9FFF or 0xF900<=ord(c)<=0xFAFF or ord(c)>=0x20000))
+    hk=hashlib.md5(han.encode()).hexdigest()[:10];cache=H/f'font/tw-{hk}.woff2'
+    if not cache.exists():
+        for f in (H/'font').glob('tw-*.woff2'):f.unlink()
+        open(H/'font/chars_tw.txt','w',encoding='utf-8').write(han)
+        subprocess.run(['pyftsubset',str(H/'font/GenSenRounded2TW-M.otf'),f'--text-file={H}/font/chars_tw.txt','--flavor=woff2',f'--output-file={cache}','--layout-features=*','--desubroutinize'],check=True)
+    th=hashlib.md5(open(cache,'rb').read()).hexdigest()[:8];tw=f'font-tw-{th}.woff2'
+    shutil.copy(cache,W/tw);s=s.replace('font-tw-PLACEHOLDER.woff2',tw);print('台灣字形',len(han),'字 →',tw,cache.stat().st_size//1024,'KB')
 # 5. 網頁版輸出
 for f in os.listdir(REPO):
     if f.endswith(('.png','.webmanifest','.html')) and f!='index.html':shutil.copy(REPO/f,W/f)

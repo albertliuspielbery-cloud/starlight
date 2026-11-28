@@ -10,7 +10,7 @@ for f in sorted(glob.glob(H+'/lines/*ssml*.json')):
   try:SS.update(json.load(open(f,encoding='utf-8')))
   except Exception as e:print('ssml 讀不到',f,e)
 VO={'z':'zh-TW-HsiaoChenNeural','dz':'zh-TW-HsiaoYuNeural','pz':'zh-TW-YunJheNeural','e1':'en-US-JennyNeural','e0':'en-US-JennyNeural','z1':'zh-TW-HsiaoChenNeural'}
-FILES=['v22_misc','v22_giftcore','v22_giftitems','v22_hands','s8_content_keys','s8_prince','s8_learn','s8_safe','p23','h23','b23','g23']
+FILES=['v22_misc','v22_giftcore','v22_giftitems','v22_hands','s8_content_keys','s8_prince','s8_learn','s8_safe','p23','h23','b23','g23','v23_chend']
 out=[];ids={};seen=set();skip=0;nid=set()
 def jiao(t):return t.replace('主角','主腳').replace('角色','腳色')
 for b in FILES:
